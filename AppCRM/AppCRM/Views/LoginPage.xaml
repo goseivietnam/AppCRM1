@@ -20,27 +20,29 @@
     </ContentPage.Resources>
 
     <ContentPage.Content>
-        <StackLayout Padding="22, 20, 22, 17">
-            <Image Source="logo_vectorized.png" 
+        <Grid>
+            <Grid>
+                <StackLayout Padding="22, 20, 22, 17">
+                    <Image Source="logo_vectorized.png" 
                    VerticalOptions="CenterAndExpand" 
                    HorizontalOptions="CenterAndExpand" 
                    Margin="0, 0, 0, 100"/>
 
-            <material:MaterialEntry x:Name="loginEmail" Placeholder="Email" Style="{DynamicResource PrimaryMaterialEntry}" Text="{Binding UserName}">
-                <material:MaterialEntry.Behaviors>
-                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required, Email" RuleMessages="Email is not filled yet, Email is not valid" ValidationLabelName="lblValidateUserName"/>
-                </material:MaterialEntry.Behaviors>
-            </material:MaterialEntry>
-            <Label x:Name="lblValidateUserName"/>
+                    <material:MaterialEntry x:Name="loginEmail" Placeholder="Email" Style="{DynamicResource PrimaryMaterialEntry}" Text="{Binding UserName}">
+                        <material:MaterialEntry.Behaviors>
+                            <behaviors:MaterialEntryValidationBehavior RuleNames="Required, Email" RuleMessages="Email is not filled yet, Email is not valid" ValidationLabelName="lblValidateUserName"/>
+                        </material:MaterialEntry.Behaviors>
+                    </material:MaterialEntry>
+                    <Label x:Name="lblValidateUserName"/>
 
-            <material:MaterialEntry x:Name="loginPassword" Placeholder="Password" IsPassword="True" Style="{DynamicResource PrimaryMaterialEntry}" Text="{Binding Password}">
-                <material:MaterialEntry.Behaviors>
-                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Password is not filled yet" ValidationLabelName="lblValidatePassword"/>
-                </material:MaterialEntry.Behaviors>
-            </material:MaterialEntry>
-            <Label x:Name="lblValidatePassword"/>
+                    <material:MaterialEntry x:Name="loginPassword" Placeholder="Password" IsPassword="True" Style="{DynamicResource PrimaryMaterialEntry}" Text="{Binding Password}">
+                        <material:MaterialEntry.Behaviors>
+                            <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Password is not filled yet" ValidationLabelName="lblValidatePassword"/>
+                        </material:MaterialEntry.Behaviors>
+                    </material:MaterialEntry>
+                    <Label x:Name="lblValidatePassword"/>
 
-            <Label x:Name="forgotPasswordBtn" Text="Forgot password ?" 
+                    <Label x:Name="forgotPasswordBtn" Text="Forgot password ?" 
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    BackgroundColor="Transparent"
@@ -49,7 +51,7 @@
                    Margin="0, 10, 0, 30"
                    Opacity="0.6"/>
 
-            <Button x:Name="loginBtn" Text="LOGIN" 
+                    <Button x:Name="loginBtn" Text="LOGIN" 
                     HorizontalOptions="Fill"
                     VerticalOptions="Center"
                     BorderWidth="0"
@@ -59,15 +61,24 @@
                     Command="{Binding SignInCommand}"
                   />
 
-            <Button x:Name="createAccountBtn" Text="Create account" 
+                    <Button Text="Create account" 
                     HorizontalOptions="Center"
                     VerticalOptions="Center"
                     BackgroundColor="Transparent"
                     TextColor="White"
                     FontSize="10"
                     BorderWidth="0"
+                    Command="{Binding RegisterCommand}"
                    />
-        </StackLayout>
+                </StackLayout>
+            </Grid>
+            <ActivityIndicator
+                Color="White"
+                IsRunning="{Binding IsBusy}"
+                IsEnabled="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>             
+        </Grid>
     </ContentPage.Content>
 
 </ContentPage>

@@ -28,6 +28,8 @@ namespace AppCRM.Services.Authentication
                 BaseAddress = new Uri(RequestService.HOST_NAME),
                 Timeout = TimeSpan.FromMilliseconds(180000)
             };
+            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
+            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
             var item = new { UserName = username, Password = password };
             var jsonRequest = JsonConvert.SerializeObject(item);
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");

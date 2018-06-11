@@ -25,7 +25,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        public static readonly string HOST_NAME = "http://8bc838a1.ngrok.io/";
+        public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
 
         private readonly JsonSerializerSettings _serializerSettings;
 
@@ -44,6 +44,8 @@ namespace AppCRM.Services.Request
         public async Task<TResult> GetAsync<TResult>(string uri, string token = "")
         {
             HttpClient httpClient = CreateHttpClient(token);
+            httpClient.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
+            httpClient.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
             HttpResponseMessage response = await httpClient.GetAsync(uri);
 
             await HandleResponse(response);
@@ -62,6 +64,8 @@ namespace AppCRM.Services.Request
         public async Task<TResult> PostAsync<TRequest, TResult>(string uri, TRequest data, string token = "")
         {
             HttpClient httpClient = CreateHttpClient(token);
+            httpClient.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
+            httpClient.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
             string serialized = await Task.Run(() => JsonConvert.SerializeObject(data, _serializerSettings));
             HttpResponseMessage response = await httpClient.PostAsync(uri, new StringContent(serialized, Encoding.UTF8, "application/json"));
 
@@ -80,6 +84,8 @@ namespace AppCRM.Services.Request
         public async Task<TResult> PutAsync<TRequest, TResult>(string uri, TRequest data, string token = "")
         {
             HttpClient httpClient = CreateHttpClient(token);
+            httpClient.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
+            httpClient.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
             string serialized = await Task.Run(() => JsonConvert.SerializeObject(data, _serializerSettings));
             HttpResponseMessage response = await httpClient.PutAsync(uri, new StringContent(serialized, Encoding.UTF8, "application/json"));
 
@@ -97,7 +103,8 @@ namespace AppCRM.Services.Request
                 BaseAddress = new Uri(HOST_NAME),
                 Timeout = TimeSpan.FromMilliseconds(180000)
             };
-
+            httpClient.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
+            httpClient.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             if (!string.IsNullOrEmpty(token))

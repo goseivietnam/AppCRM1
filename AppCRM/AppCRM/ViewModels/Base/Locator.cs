@@ -3,6 +3,7 @@ using Autofac;
 using AppCRM.Services.Navigation;
 using AppCRM.Services.Authentication;
 using AppCRM.Services.Request;
+using AppCRM.Services.Dialog;
 
 namespace AppCRM.ViewModels.Base
 {
@@ -30,9 +31,11 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<NavigationService>().As<INavigationService>();
             _containerBuilder.RegisterType<AuthenticationService>().As<IAuthenticationService>();
             _containerBuilder.RegisterType<RequestService>().As<IRequestService >();
-            //ViewModel
+            _containerBuilder.RegisterType<DialogService>().As<IDialogService>();
+            //ViewMode
             _containerBuilder.RegisterType<LoginViewModel>();
             _containerBuilder.RegisterType<MainViewModel>();
+            _containerBuilder.RegisterType<MessagePopupViewModel>();
         }
         #endregion
 

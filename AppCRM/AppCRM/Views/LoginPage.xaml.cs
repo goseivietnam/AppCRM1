@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AppCRM.Views.Shared;
+using Rg.Plugins.Popup.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,8 @@ namespace AppCRM.Views
 		public LoginPage ()
 		{
 			InitializeComponent ();
-		}
-	}
+          
+        }
+       
+    }
 }

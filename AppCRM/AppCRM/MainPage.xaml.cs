@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AppCRM.Views.Shared;
+using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms;
 
 namespace AppCRM
@@ -12,6 +9,12 @@ namespace AppCRM
 		public MainPage()
 		{
 			InitializeComponent();
-		}
-	}
+         //   DialogInit();
+        }
+
+        protected async void DialogInit()
+        {
+            await App.Current.MainPage.Navigation.PushPopupAsync(new MessagePopupPage() { Message = "hello", LayoutColor = "#52CD9F", MessageColor = "#FFFFFF" });
+        }
+    }
 }
