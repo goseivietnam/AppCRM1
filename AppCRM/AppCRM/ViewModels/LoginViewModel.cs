@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using AppCRM.Services.Dialog;
 using AppCRM.Views;
-using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Services;
-
+using AppCRM.ViewModels;
 namespace AppCRM.ViewModels
 {
     public class LoginViewModel:ViewModelBase
@@ -64,6 +63,7 @@ namespace AppCRM.ViewModels
             }
             else
             {
+                await _dialogService.PopupMessage("Login fail, please try again!", "#CF6069", "#FFFFFF");
                 await NavigationService.NavigateToAsync<LoginViewModel>();
             }
             IsBusy = false;
@@ -71,8 +71,10 @@ namespace AppCRM.ViewModels
 
         private async Task RegisterPopupAsync()
         {
-            //await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
-            await PopupNavigation.Instance.PushAsync( new RegisterPopupPage());
+            var popup = new RegisterPopupPage();
+            var viewModel = new RegisterPopupViewModel(_dialogService);
+            popup.BindingContext = viewModel;
+            await PopupNavigation.Instance.PushAsync(popup);
         }
 
     }

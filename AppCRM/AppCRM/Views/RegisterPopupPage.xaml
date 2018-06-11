@@ -23,7 +23,7 @@
                             <Image HorizontalOptions="Center" x:Name="candidateImage" Source="candidate_vectorized.png" Margin="0, 25" />
                             <Label HorizontalOptions="Center" FontSize="14" TextColor="#231F20" Text="I'm looking for work" />
                             <Label HorizontalOptions="Center" FontSize="12" TextColor="#7F8890" Text="Candidate" />
-                            <Button x:Name="candidateRegisterBtn" HorizontalOptions="Fill" BackgroundColor="#2A76FD" 
+                            <Button Command="{Binding CandidateRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD" 
                                     BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" Margin="0, 20" 
                                     />
                         </StackLayout>
@@ -34,7 +34,7 @@
                             <Image HorizontalOptions="Center" x:Name="employerImage" Source="employer_vectorized.png" Margin="0, 25" />
                             <Label HorizontalOptions="Center" FontSize="14" TextColor="#231F20" Text="I'm wanting to hire" />
                             <Label HorizontalOptions="Center" FontSize="12" TextColor="#7F8890" Text="Employer" />
-                            <Button x:Name="employerRegisterBtn" HorizontalOptions="Fill" BackgroundColor="#2A76FD" 
+                            <Button Command="{Binding EmployerRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD" 
                                     BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" Margin="0, 20" 
                                     />
                         </StackLayout>

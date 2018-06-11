@@ -4,6 +4,7 @@ using AppCRM.Services.Navigation;
 using AppCRM.Services.Authentication;
 using AppCRM.Services.Request;
 using AppCRM.Services.Dialog;
+using AppCRM.ViewModels.Account;
 
 namespace AppCRM.ViewModels.Base
 {
@@ -35,7 +36,7 @@ namespace AppCRM.ViewModels.Base
             //ViewMode
             _containerBuilder.RegisterType<LoginViewModel>();
             _containerBuilder.RegisterType<MainViewModel>();
-            _containerBuilder.RegisterType<MessagePopupViewModel>();
+            _containerBuilder.RegisterType<CandidateRegisterViewModel>();
         }
         #endregion
 

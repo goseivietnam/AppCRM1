@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:animations="clr-namespace:AppCRM.Effects"
+                 xmlns:local="clr-namespace:AppCRM.Controls"
+                 x:Class="AppCRM.Views.Account.CandidateRegisterPage">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+
+    <ScrollView>
+        <StackLayout VerticalOptions="End" HorizontalOptions="Fill" BackgroundColor="White" Spacing="0">
+            <StackLayout Padding="10" Spacing="0">
+                <Image Source="logo_black.png" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 100"/>
+                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">First name</Label>
+                <local:CustomEntry Text="{Binding FieldFirstName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
+                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Last name</Label>
+                <local:CustomEntry Text="{Binding FieldLastName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
+                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Email address</Label>
+                <local:CustomEntry Text="{Binding FieldEmail}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
+                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Password</Label>
+                <local:CustomEntry Text="{Binding FieldPassword}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" IsPassword="True" />
+                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Password confirm</Label>
+                <local:CustomEntry Text="{Binding FieldPasswordConfirm}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" IsPassword="True" />
+            </StackLayout>
+            <StackLayout Spacing="0" BackgroundColor="#F9F9F9" Padding="10">
+                <Label FontSize="12" TextColor="#959DA3" Text="MY INTEREST" FontAttributes="Bold"/>
+            </StackLayout>
+            <StackLayout Spacing="0" Padding="10">
+                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Job interest</Label>
+                <local:CustomEntry Text="{Binding FieldJobInterest}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12"/>
+            </StackLayout>
+            <StackLayout Spacing="0" BackgroundColor="#F9F9F9" Padding="13, 10">
+                <Label FontSize="10" TextColor="#959DA3" BackgroundColor="#F9F9F9" Text="Email notification if there any jobs that match with your interested"/>
+            </StackLayout>
+            <StackLayout Spacing="0" Padding="10">
+                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">My Location</Label>
+                <local:CustomEntry Text="{Binding FieldJobLocation}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12"/>
+            </StackLayout>
+            <StackLayout Spacing="0" BackgroundColor="#F9F9F9" Padding="13, 10">
+                <Label FontSize="10" TextColor="#959DA3" BackgroundColor="#F9F9F9" Text="Email notification if there any jobs that match with your location"/>
+            </StackLayout>
+            <StackLayout Padding="10" Orientation="Horizontal" Margin="0, 20">
+                <local:Checkbox VerticalOptions="Center" OutlineColor="#C4CBD3" CheckedOutlineColor="#C4CBD3" CheckColor="#2A76FD" WidthRequest="25" HeightRequest="17"/>
+                <Label Text="Terms and Condition Accepted" VerticalOptions="Center" FontSize="12"/>
+            </StackLayout>
+            <StackLayout Padding="15" Spacing="0">
+                <Button Command="{Binding SubmitRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD" 
+                    BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" FontSize="12"
+                   />
+                <Button x:Name="btnCancelRegister" HorizontalOptions="Fill" BackgroundColor="Transparent"
+                    BorderWidth="0" TextColor="#3B4455" Text="Cancel" FontSize="12"
+                    />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</pages:PopupPage>

@@ -1,4 +1,5 @@
-﻿using Rg.Plugins.Popup.Extensions;
+﻿using AppCRM.Views.Account;
+using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms.Xaml;
 
@@ -28,5 +29,6 @@ namespace AppCRM.Views
         {
             await Navigation.PopAllPopupAsync();
         }
+      
     }
 }

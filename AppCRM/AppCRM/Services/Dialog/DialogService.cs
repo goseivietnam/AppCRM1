@@ -1,8 +1,8 @@
-﻿using AppCRM.Views.Shared;
-using Rg.Plugins.Popup.Extensions;
+﻿using AppCRM.ViewModels;
+using AppCRM.ViewModels.Base;
+using AppCRM.Views.Shared;
 using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
 namespace AppCRM.Services.Dialog
 {

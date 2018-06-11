@@ -1,6 +1,8 @@
 ﻿using AppCRM.ViewModels;
+using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
 using AppCRM.Views;
+using AppCRM.Views.Account;
 using AppCRM.Views.Shared;
 using System;
 using System.Collections.Generic;
@@ -110,7 +112,6 @@ namespace AppCRM.Services.Navigation
         {
             _mappings.Add(typeof(LoginViewModel), typeof(LoginPage));
             _mappings.Add(typeof(MainViewModel), typeof(MainPage));
-            _mappings.Add(typeof(MessagePopupViewModel),typeof(MessagePopupPage));
         }
         #endregion
     }
