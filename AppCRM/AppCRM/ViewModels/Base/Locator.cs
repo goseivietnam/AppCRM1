@@ -5,6 +5,7 @@ using AppCRM.Services.Authentication;
 using AppCRM.Services.Request;
 using AppCRM.Services.Dialog;
 using AppCRM.ViewModels.Account;
+using AppCRM.Services.CandidateDetail;
 
 namespace AppCRM.ViewModels.Base
 {
@@ -33,6 +34,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<AuthenticationService>().As<IAuthenticationService>();
             _containerBuilder.RegisterType<RequestService>().As<IRequestService >();
             _containerBuilder.RegisterType<DialogService>().As<IDialogService>();
+            _containerBuilder.RegisterType<CandidateDetailsService>().As<ICandidateDetailsService>();
             //ViewMode
             _containerBuilder.RegisterType<LoginViewModel>();
             _containerBuilder.RegisterType<MainViewModel>();

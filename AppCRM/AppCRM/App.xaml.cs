@@ -1,3 +1,4 @@
+﻿using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Navigation;
 using AppCRM.ViewModels;
 using AppCRM.ViewModels.Base;
@@ -11,6 +12,7 @@ namespace AppCRM
 {
 	public partial class App : Application
 	{
+        public static string UserID { get; set; }
         static App()
         {
             BuildDependencies();
@@ -18,7 +20,6 @@ namespace AppCRM
         public App ()
 		{
 			InitializeComponent();
-
             InitNavigation();
 
         }
