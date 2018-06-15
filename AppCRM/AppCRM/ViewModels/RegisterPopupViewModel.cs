@@ -1,4 +1,5 @@
-﻿using AppCRM.Services.Dialog;
+﻿using AppCRM.Services.CandidateDetail;
+using AppCRM.Services.Dialog;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 
 namespace AppCRM.ViewModels
 {
-    public class RegisterPopupViewModel
+    public class RegisterPopupViewModel:ViewModelBase
     {
         private readonly IDialogService _dialogService;
 
@@ -23,7 +24,7 @@ namespace AppCRM.ViewModels
         private async Task CandidateRegisterAsync()
         {
             var popup = new CandidateRegisterPage();
-            var viewModel = new CandidateRegisterViewModel(_dialogService);
+            var viewModel = Locator.Instance.Resolve<CandidateRegisterViewModel>() as ViewModelBase;
             popup.BindingContext = viewModel;
             await PopupNavigation.Instance.PushAsync(popup);
         }
@@ -34,5 +35,6 @@ namespace AppCRM.ViewModels
         {
             await _dialogService.PopupMessage("Bạn đã nhấn nút đăng kí2", "#52CD9F", "#FFFFFF");
         }
+       
     }
 }

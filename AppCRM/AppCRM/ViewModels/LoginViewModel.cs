@@ -7,19 +7,26 @@ using AppCRM.Services.Dialog;
 using AppCRM.Views;
 using Rg.Plugins.Popup.Services;
 using AppCRM.ViewModels;
+using AppCRM.Services.Request;
+using AppCRM.ViewModels.Main.Candidate;
+using AppCRM.Services.Navigation;
+
 namespace AppCRM.ViewModels
 {
     public class LoginViewModel:ViewModelBase
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IDialogService _dialogService;
-        private string _userName;
-        private string _password;
+        private readonly INavigationService _navigationService;
 
-        public LoginViewModel(IAuthenticationService authenticationService, IDialogService dialogService)
+        private string _userName = "thuleduy01@gmail.com";
+        private string _password = "12345";
+
+        public LoginViewModel(IAuthenticationService authenticationService, IDialogService dialogService,INavigationService navigationService)
         {
             _authenticationService = authenticationService;
             _dialogService = dialogService;
+            _navigationService = navigationService;
         }
 
         public string UserName
@@ -55,11 +62,36 @@ namespace AppCRM.ViewModels
         {
             IsBusy = true;
             var y = await _authenticationService.LoginAsync(UserName, Password);
-            if (y["Success"] == "true")
+            if (y != null)
             {
+                if (y["Success"] == "true")
+                {
                 await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
-                await NavigationService.NavigateToAsync<MainViewModel>();
+                    IsBusy = false;
+                    if (y["Roles"] == "Employer")
+                    {
+                    }
+                    else if (y["Roles"] == "Candidate")
+                    {
+                    App.UserID = y["ContactID"];
+                    RequestService.ACCESS_TOKEN = y["access_token"];
+                    await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                    }
+              
                
+                }
+                else if (y["Message"] == "IsActive") //success //fail
+                {
+                    await _dialogService.PopupMessage("This account yet active!", "#CF6069", "#FFFFFF");
+                }
+                else if (y["Message"] == "IsRequireReset") //success //fail
+                {
+                    await _dialogService.PopupMessage("This account need reset!", "#CF6069", "#FFFFFF");
+                }
+                else if (y["Message"] == "LoginFail") //success //fail
+                {
+                    await _dialogService.PopupMessage("Login fail, please try again!", "#CF6069", "#FFFFFF");
+                }
             }
             else
             {
@@ -72,7 +104,7 @@ namespace AppCRM.ViewModels
         private async Task RegisterPopupAsync()
         {
             var popup = new RegisterPopupPage();
-            var viewModel = new RegisterPopupViewModel(_dialogService);
+            var viewModel = Locator.Instance.Resolve<RegisterPopupViewModel>() as ViewModelBase;
             popup.BindingContext = viewModel;
             await PopupNavigation.Instance.PushAsync(popup);
         }

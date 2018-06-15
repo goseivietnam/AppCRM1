@@ -6,6 +6,8 @@ using AppCRM.Services.Request;
 using AppCRM.Services.Dialog;
 using AppCRM.ViewModels.Account;
 using AppCRM.Services.CandidateDetail;
+using AppCRM.ViewModels.Main.Candidate;
+using AppCRM.Services.Employer;
 
 namespace AppCRM.ViewModels.Base
 {
@@ -35,10 +37,14 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<RequestService>().As<IRequestService >();
             _containerBuilder.RegisterType<DialogService>().As<IDialogService>();
             _containerBuilder.RegisterType<CandidateDetailsService>().As<ICandidateDetailsService>();
+            _containerBuilder.RegisterType<EmployerDetailService>().As< IEmployerDetailService >();
             //ViewMode
             _containerBuilder.RegisterType<LoginViewModel>();
             _containerBuilder.RegisterType<MainViewModel>();
             _containerBuilder.RegisterType<CandidateRegisterViewModel>();
+            _containerBuilder.RegisterType<CandidateProfileViewModel>();
+            _containerBuilder.RegisterType<CandidateMainViewModel>();
+            _containerBuilder.RegisterType<RegisterPopupViewModel>();
         }
         #endregion
 

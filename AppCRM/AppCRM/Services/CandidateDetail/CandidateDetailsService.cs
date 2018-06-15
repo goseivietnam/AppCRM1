@@ -20,6 +20,7 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddReference(ContactReference reference);
         Task<dynamic> EditCandidateDetails(CandidateProfile profile);
         Task<dynamic> GetCandidateExperience();
+        Task<dynamic> CandidateRegister(Register reg);
     }
     public class CandidateDetailsService:ICandidateDetailsService
     {
@@ -91,6 +92,12 @@ namespace AppCRM.Services.CandidateDetail
         public async Task<dynamic> GetCandidateExperience()
         {
             var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetCandidateExperienceDDL");
+            return result;
+        }
+
+        public async Task<dynamic> CandidateRegister(Register reg)
+        {
+            var result = await _requestService.postDataFromService("api/Account/CandidateRegister", reg);
             return result;
         }
     }

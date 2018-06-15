@@ -1,12 +1,11 @@
 ﻿using AppCRM.ViewModels;
-using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate;
 using AppCRM.Views;
-using AppCRM.Views.Account;
-using AppCRM.Views.Shared;
+using AppCRM.Views.Main.Candidate;
+using AppCRM.Views.Main.Candidate.ProfilePage;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -73,7 +72,47 @@ namespace AppCRM.Services.Navigation
         protected virtual async Task InternalNavigateToAsync(Type viewModelType, object parameter)
         {
             Page page = CreateAndBindPage(viewModelType, parameter);
-            CurrentApplication.MainPage = page;
+            if(page is CandidateMainPage)
+            {
+                CurrentApplication.MainPage=page;
+            }
+            else if (page is LoginPage)
+            {
+                CurrentApplication.MainPage = page;
+            }
+            else if(CurrentApplication.MainPage is CandidateMainPage)
+            {
+                var candidateMainPage = CurrentApplication.MainPage as CandidateMainPage;
+                var navigationPage = candidateMainPage.Detail as NavigationPage;
+                if (navigationPage != null)
+                {
+                    var currentPage = navigationPage.CurrentPage;
+                    if (currentPage.GetType() != page.GetType())
+                    {
+                        navigationPage = new NavigationPage(page);
+                        candidateMainPage.Detail = navigationPage;
+                    }
+                }
+                else
+                {
+                    navigationPage = new NavigationPage(page);
+                    candidateMainPage.Detail = navigationPage;
+                }
+                candidateMainPage.IsPresented = false;
+            }
+            else
+            {
+                var navigationPage = CurrentApplication.MainPage as NavigationPage;
+
+                if (navigationPage != null)
+                {
+                    await navigationPage.PushAsync(page);
+                }
+                else
+                {
+                    CurrentApplication.MainPage = new NavigationPage(page);
+                }
+            }
             await (page.BindingContext as ViewModelBase).InitializeAsync(parameter);
         }
 
@@ -85,10 +124,9 @@ namespace AppCRM.Services.Navigation
             {
                 throw new Exception($"Mapping type for {viewModelType} is not a page");
             }
-
-            Page page = Activator.CreateInstance(pageType) as Page;
             try
             {
+                Page page = Activator.CreateInstance(pageType) as Page;
                 ViewModelBase viewModel = Locator.Instance.Resolve(viewModelType) as ViewModelBase;
                 page.BindingContext = viewModel;
 
@@ -112,6 +150,8 @@ namespace AppCRM.Services.Navigation
         {
             _mappings.Add(typeof(LoginViewModel), typeof(LoginPage));
             _mappings.Add(typeof(MainViewModel), typeof(MainPage));
+            _mappings.Add(typeof(CandidateProfileViewModel), typeof(CandidateProfilePage));
+            _mappings.Add(typeof(CandidateMainViewModel), typeof(CandidateMainPage));
         }
         #endregion
     }

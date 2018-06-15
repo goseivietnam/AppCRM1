@@ -1,10 +1,10 @@
 ﻿using AppCRM.Models;
+using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
+using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -13,6 +13,7 @@ namespace AppCRM.ViewModels.Account
     public class CandidateRegisterViewModel:ViewModelBase
     {
         private readonly IDialogService _dialogService; 
+        private readonly ICandidateDetailsService _candidateDetailsService;
 
         private string _fieldFirstName;
         private string _fieldLastName;
@@ -22,9 +23,10 @@ namespace AppCRM.ViewModels.Account
         private string _fieldJobInterest;
         private string _fieldJobLocation;
          
-        public CandidateRegisterViewModel(IDialogService dialogService)
+        public CandidateRegisterViewModel(IDialogService dialogService,ICandidateDetailsService candidateDetailsService)
         {
             _dialogService = dialogService;
+            _candidateDetailsService = candidateDetailsService;
         }
 
         public string FieldFirstName
@@ -114,10 +116,11 @@ namespace AppCRM.ViewModels.Account
 
 
         public ICommand SubmitRegisterCommand => new AsyncCommand(SubmitRegisterAsync);
-      //  public ICommand SignInCommand => new AsyncCommand(SignInAsync);
+        public ICommand BtnCancelCommand => new AsyncCommand(BtnCancelAsync);
 
         private async Task SubmitRegisterAsync()
         {
+            IsBusy = true;
             Register reg = new Register
             {
                 FirstName = _fieldFirstName,
@@ -128,7 +131,39 @@ namespace AppCRM.ViewModels.Account
                 JobInterest = _fieldJobInterest,
                 JobLocation = _fieldJobLocation
             };
-            await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
+
+            var obj = await _candidateDetailsService.CandidateRegister(reg);
+
+            if (obj != null)
+            {
+                try
+                {
+                    if (obj["Success"] == "true") //success
+                    {
+                        await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
+                        App.UserID = obj["ContactID"];
+                        RequestService.ACCESS_TOKEN = obj["access_token"];
+                    }
+                    else if (obj["Message"] == "IsExists") //is exists
+                    {
+                        await _dialogService.PopupMessage("This account is exists!", "#CF6069", "#FFFFFF");
+                    }
+                    else if (obj["Message"] == "TryAgaint") //fail
+                    {
+                        await _dialogService.PopupMessage("An error has occurred, please try again!", "#CF6069", "#FFFFFF");
+                    }
+                }
+                catch
+                {
+                    await _dialogService.PopupMessage("An error has occurred, please try again!", "#CF6069", "#FFFFFF");
+                }
+            }
+
+            IsBusy = false;
+        }
+        private async Task BtnCancelAsync()
+        {
+            await PopupNavigation.Instance.PopAllAsync();
         }
     }
 }

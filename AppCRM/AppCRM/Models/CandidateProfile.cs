@@ -25,7 +25,7 @@ namespace AppCRM.Models
         public string Greeting { get; set; }
         public string Introduction { get; set; }
 
-        public List<ContactLink> ContactLinks { get; set; } = new List<ContactLink>();
+        public List<ContactLink> ContactLinks { get; set; }
         public List<ContactEducation> Educations { get; set; }
         public List<ContactWorkExprience> WorkExpriences { get; set; }
         public List<ContactSkill> Skills { get; set; }

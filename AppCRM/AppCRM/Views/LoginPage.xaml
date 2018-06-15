@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppCRM.Views.LoginPage"
-             xmlns:material="clr-namespace:SuaveControls.MaterialForms;assembly=SuaveControls.MaterialForms"
+             xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
              xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
              BackgroundImage="login_background.jpg">
     <ContentPage.Resources>
