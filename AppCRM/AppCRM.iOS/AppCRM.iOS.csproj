@@ -91,6 +91,10 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Renderer\BorderlessDatePickerRenderer.cs" />
+    <Compile Include="Renderer\BorderlessEntryRenderer.cs" />
+    <Compile Include="Renderer\BorderlessPickerRenderer.cs" />
+    <Compile Include="Renderer\CheckboxRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,6 +159,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="SaturdayMP.XPlugins.iOS.BEMCheckBox">
+      <Version>1.4.3</Version>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>4.5.0</Version>

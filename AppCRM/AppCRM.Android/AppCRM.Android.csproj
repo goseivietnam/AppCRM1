@@ -69,6 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Renderer\BorderlessDatePickerRenderer.cs" />
+    <Compile Include="Renderer\BorderlessEntryRenderer.cs" />
+    <Compile Include="Renderer\BorderlessPickerRenderer.cs" />
+    <Compile Include="Renderer\CheckboxRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
