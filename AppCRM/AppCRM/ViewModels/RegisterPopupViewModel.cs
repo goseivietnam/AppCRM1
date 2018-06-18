@@ -1,5 +1,6 @@
 ﻿using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
+using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
@@ -13,10 +14,12 @@ namespace AppCRM.ViewModels
     public class RegisterPopupViewModel:ViewModelBase
     {
         private readonly IDialogService _dialogService;
+        private readonly INavigationService _navigationService;
 
-        public RegisterPopupViewModel(IDialogService dialogService)
+        public RegisterPopupViewModel(IDialogService dialogService, INavigationService navigationService)
         {
             _dialogService = dialogService;
+            _navigationService = navigationService;
         }
 
         public ICommand CandidateRegisterCommand => new AsyncCommand(CandidateRegisterAsync);
@@ -25,19 +28,13 @@ namespace AppCRM.ViewModels
 
         private async Task CandidateRegisterAsync()
         {
-            var popup = new CandidateRegisterPage();
-            var viewModel = Locator.Instance.Resolve<CandidateRegisterViewModel>() as ViewModelBase;
-            popup.BindingContext = viewModel;
-            await PopupNavigation.Instance.PushAsync(popup);
+            await _navigationService.NavigateToPopupAsync<CandidateRegisterViewModel>(true);
         }
 
 
         private async Task EmployerRegisterrAsync()
         {
-            var popup = new EmployerRegisterPage();
-            var viewModel = Locator.Instance.Resolve<EmployerRegisterViewModel>() as ViewModelBase;
-            popup.BindingContext = viewModel;
-            await PopupNavigation.Instance.PushAsync(popup);
+            await _navigationService.NavigateToPopupAsync<EmployerRegisterViewModel>(true);
         }
        
     }

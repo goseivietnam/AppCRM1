@@ -1,9 +1,13 @@
 ﻿using AppCRM.ViewModels;
+using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate;
 using AppCRM.Views;
+using AppCRM.Views.Account;
 using AppCRM.Views.Main.Candidate;
 using AppCRM.Views.Main.Candidate.ProfilePage;
+using Rg.Plugins.Popup.Pages;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,6 +26,10 @@ namespace AppCRM.Services.Navigation
         Task NavigateToAsync(Type viewModelType);
 
         Task NavigateToAsync(Type viewModelType, object parameter);
+
+        Task NavigateToPopupAsync<TViewModel>(bool animate) where TViewModel : ViewModelBase;
+
+        Task NavigateToPopupAsync<TViewModel>(object parameter, bool animate) where TViewModel : ViewModelBase;
     }
     public partial class NavigationService : INavigationService
     {
@@ -65,6 +73,26 @@ namespace AppCRM.Services.Navigation
         public Task NavigateToAsync(Type viewModelType, object parameter)
         {
             return InternalNavigateToAsync(viewModelType, parameter);
+        }
+
+        public Task NavigateToPopupAsync<TViewModel>(bool animate) where TViewModel : ViewModelBase
+        {
+            return NavigateToPopupAsync<TViewModel>(null, animate);
+        }
+
+        public async Task NavigateToPopupAsync<TViewModel>(object parameter, bool animate) where TViewModel : ViewModelBase
+        {
+            var page = CreateAndBindPage(typeof(TViewModel), parameter);
+            await (page.BindingContext as ViewModelBase).InitializeAsync(parameter);
+
+            if (page is PopupPage)
+            {
+                await PopupNavigation.Instance.PushAsync(page as PopupPage, animate);
+            }
+            else
+            {
+                throw new ArgumentException($"The type ${typeof(TViewModel)} its not a PopupPage type");
+            }
         }
         #endregion
 
@@ -152,6 +180,9 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(MainViewModel), typeof(MainPage));
             _mappings.Add(typeof(CandidateProfileViewModel), typeof(CandidateProfilePage));
             _mappings.Add(typeof(CandidateMainViewModel), typeof(CandidateMainPage));
+            _mappings.Add(typeof(CandidateRegisterViewModel),typeof(CandidateRegisterPage));
+            _mappings.Add(typeof(EmployerRegisterViewModel),typeof(EmployerRegisterPage));
+            _mappings.Add(typeof(RegisterPopupViewModel),typeof(RegisterPopupPage));
         }
         #endregion
     }

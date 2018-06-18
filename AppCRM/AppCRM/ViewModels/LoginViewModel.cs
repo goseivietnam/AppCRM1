@@ -103,10 +103,7 @@ namespace AppCRM.ViewModels
 
         private async Task RegisterPopupAsync()
         {
-            var popup = new RegisterPopupPage();
-            var viewModel = Locator.Instance.Resolve<RegisterPopupViewModel>() as ViewModelBase;
-            popup.BindingContext = viewModel;
-            await PopupNavigation.Instance.PushAsync(popup);
+            await _navigationService.NavigateToPopupAsync<RegisterPopupViewModel>(true);
         }
 
     }
