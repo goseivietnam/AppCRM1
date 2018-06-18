@@ -131,6 +131,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
             set
             {
+                _documentListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
@@ -142,6 +143,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
             set
             {
+                _referenceListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }

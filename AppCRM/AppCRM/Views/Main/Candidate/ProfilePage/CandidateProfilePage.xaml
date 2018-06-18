@@ -236,10 +236,15 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
-                                            <StackLayout Padding="10, 10, 10, 0">
+                                            <StackLayout Padding="10, 10, 10, 0" Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <Image x:Name="ReferenceCover" Source="icon_user.png" AbsoluteLayout.LayoutBounds="0,0,1,150" AbsoluteLayout.LayoutFlags="WidthProportional"></Image>
+                                                </StackLayout>
+                                                <StackLayout>
                                                 <Label Text="{Binding ReferenceName}" TextColor="#231F20"/>
                                                 <Label Text="{Binding Relationship}"/>
                                                 <Label Text="{Binding EmployerName}"/>
+                                                </StackLayout>
                                             </StackLayout>
                                         </ViewCell>
                                     </DataTemplate>
