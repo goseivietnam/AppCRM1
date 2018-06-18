@@ -33,7 +33,10 @@ namespace AppCRM.ViewModels
 
         private async Task EmployerRegisterrAsync()
         {
-            await _dialogService.PopupMessage("Bạn đã nhấn nút đăng kí2", "#52CD9F", "#FFFFFF");
+            var popup = new EmployerRegisterPage();
+            var viewModel = Locator.Instance.Resolve<EmployerRegisterViewModel>() as ViewModelBase;
+            popup.BindingContext = viewModel;
+            await PopupNavigation.Instance.PushAsync(popup);
         }
        
     }

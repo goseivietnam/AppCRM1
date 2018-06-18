@@ -1,12 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<pages:PopupPage
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:animations="clr-namespace:AppCRM.Effects"
+             xmlns:local="clr-namespace:AppCRM.Controls"
              x:Class="AppCRM.Views.Account.EmployerRegisterPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+
+    <ScrollView>
+        <StackLayout Padding="15" VerticalOptions="End" HorizontalOptions="Fill" BackgroundColor="White" Spacing="0">
+            <Image Source="logo_black.png" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 100"/>
+            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">First name</Label>
+            <local:CustomEntry Text="{Binding FieldFirstName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
+            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Last name</Label>
+            <local:CustomEntry Text="{Binding FieldLastName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
+            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Email address</Label>
+            <local:CustomEntry Text="{Binding FieldEmail}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
+            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Company name</Label>
+            <local:CustomEntry Text="{Binding FieldCompanyName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12"/>
+            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Industry</Label>
+            <local:CustomEntry Text="{Binding FieldIndustry}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12"/>
+            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Password</Label>
+            <local:CustomEntry Text="{Binding FieldPassword}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" IsPassword="True" />
+            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Password confirm</Label>
+            <local:CustomEntry Text="{Binding FieldPasswordConfirm}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" IsPassword="True" />
+            <Button Command="{Binding SubmitRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD" Margin="2, 30, 2, 0"
+                    BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" FontSize="12"
+                    />
+            <Button Command="{Binding BtnCancelCommand}" HorizontalOptions="Fill" BackgroundColor="Transparent" Margin="2, 0"
+                    BorderWidth="0" TextColor="#3B4455" Text="Cancel" FontSize="12"
+                    />
         </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+    </ScrollView>
+</pages:PopupPage>

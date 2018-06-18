@@ -42,6 +42,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<LoginViewModel>();
             _containerBuilder.RegisterType<MainViewModel>();
             _containerBuilder.RegisterType<CandidateRegisterViewModel>();
+            _containerBuilder.RegisterType<EmployerRegisterViewModel>();
             _containerBuilder.RegisterType<CandidateProfileViewModel>();
             _containerBuilder.RegisterType<CandidateMainViewModel>();
             _containerBuilder.RegisterType<RegisterPopupViewModel>();
