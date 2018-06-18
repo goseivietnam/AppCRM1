@@ -148,6 +148,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         public ICommand masterPageBtnCommand => new Command(masterPageBtnAsync);
         public ICommand btnAddEducationCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand ListViewCommand => new Command(ListView_ItemTapped);
 
         private void masterPageBtnAsync()
         {
@@ -159,6 +160,10 @@ namespace AppCRM.ViewModels.Main.Candidate
             await _navigationService.NavigateToPopupAsync<AddEducationViewModel>(true);
         }
 
+        private void ListView_ItemTapped()
+        {
+           
+        }
         #region Initdata
 
         public override async Task InitializeAsync(object navigationData)

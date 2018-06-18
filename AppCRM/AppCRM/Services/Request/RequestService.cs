@@ -1,13 +1,9 @@
-﻿using Android.Webkit;
-using AppCRM.Controls;
+﻿using AppCRM.Controls;
+using Android.Webkit;
 using AppCRM.Tools;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
