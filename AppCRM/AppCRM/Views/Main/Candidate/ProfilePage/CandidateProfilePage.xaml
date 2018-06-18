@@ -32,7 +32,7 @@
                 <AbsoluteLayout>
                     <Image Source="{Binding Profile.CoverUrl}" AbsoluteLayout.LayoutBounds="0,0,1,150" AbsoluteLayout.LayoutFlags="WidthProportional"
                        Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-                    <Button BackgroundColor="Transparent" Image="three_dots.png" AbsoluteLayout.LayoutBounds="0,0,40,40"/>
+                    <Button Command="{Binding masterPageBtnCommand}" BackgroundColor="Transparent" Image="three_dots.png" AbsoluteLayout.LayoutBounds="0,0,40,40"/>
                     <Frame CornerRadius="55" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3"
                            AbsoluteLayout.LayoutBounds=".5,95,110,110" AbsoluteLayout.LayoutFlags="XProportional">
                         <Image Aspect="AspectFill" Source="{Binding Profile.AvatarUrl}" />

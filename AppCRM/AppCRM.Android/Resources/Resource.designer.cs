@@ -4604,26 +4604,26 @@ namespace AppCRM.Droid
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f020145
-			public const int avd_hide_password_1 = 2130837829;
-			
-			// aapt resource value: 0x7f020146
-			public const int avd_hide_password_2 = 2130837830;
-			
 			// aapt resource value: 0x7f020147
-			public const int avd_hide_password_3 = 2130837831;
+			public const int avd_hide_password_1 = 2130837831;
+			
+			// aapt resource value: 0x7f020148
+			public const int avd_hide_password_2 = 2130837832;
+			
+			// aapt resource value: 0x7f020149
+			public const int avd_hide_password_3 = 2130837833;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020148
-			public const int avd_show_password_1 = 2130837832;
-			
-			// aapt resource value: 0x7f020149
-			public const int avd_show_password_2 = 2130837833;
-			
 			// aapt resource value: 0x7f02014a
-			public const int avd_show_password_3 = 2130837834;
+			public const int avd_show_password_1 = 2130837834;
+			
+			// aapt resource value: 0x7f02014b
+			public const int avd_show_password_2 = 2130837835;
+			
+			// aapt resource value: 0x7f02014c
+			public const int avd_show_password_3 = 2130837836;
 			
 			// aapt resource value: 0x7f020055
 			public const int btn_add = 2130837589;
@@ -5312,11 +5312,11 @@ namespace AppCRM.Droid
 			// aapt resource value: 0x7f020139
 			public const int notification_icon_background = 2130837817;
 			
-			// aapt resource value: 0x7f020143
-			public const int notification_template_icon_bg = 2130837827;
+			// aapt resource value: 0x7f020145
+			public const int notification_template_icon_bg = 2130837829;
 			
-			// aapt resource value: 0x7f020144
-			public const int notification_template_icon_low_bg = 2130837828;
+			// aapt resource value: 0x7f020146
+			public const int notification_template_icon_low_bg = 2130837830;
 			
 			// aapt resource value: 0x7f02013a
 			public const int notification_tile_bg = 2130837818;
@@ -5328,22 +5328,28 @@ namespace AppCRM.Droid
 			public const int Prev = 2130837820;
 			
 			// aapt resource value: 0x7f02013d
-			public const int three_dots = 2130837821;
+			public const int splash_drawable = 2130837821;
 			
 			// aapt resource value: 0x7f02013e
-			public const int tooltip_frame_dark = 2130837822;
+			public const int Splash_Screen = 2130837822;
 			
 			// aapt resource value: 0x7f02013f
-			public const int tooltip_frame_light = 2130837823;
+			public const int three_dots = 2130837823;
 			
 			// aapt resource value: 0x7f020140
-			public const int triple_lines = 2130837824;
+			public const int tooltip_frame_dark = 2130837824;
 			
 			// aapt resource value: 0x7f020141
-			public const int Up = 2130837825;
+			public const int tooltip_frame_light = 2130837825;
 			
 			// aapt resource value: 0x7f020142
-			public const int xamarin_logo = 2130837826;
+			public const int triple_lines = 2130837826;
+			
+			// aapt resource value: 0x7f020143
+			public const int Up = 2130837827;
+			
+			// aapt resource value: 0x7f020144
+			public const int xamarin_logo = 2130837828;
 			
 			static Drawable()
 			{

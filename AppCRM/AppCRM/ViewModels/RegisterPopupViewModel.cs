@@ -20,6 +20,8 @@ namespace AppCRM.ViewModels
         }
 
         public ICommand CandidateRegisterCommand => new AsyncCommand(CandidateRegisterAsync);
+        public ICommand EmployerRegisterCommand => new AsyncCommand(EmployerRegisterrAsync);
+
 
         private async Task CandidateRegisterAsync()
         {
@@ -29,7 +31,6 @@ namespace AppCRM.ViewModels
             await PopupNavigation.Instance.PushAsync(popup);
         }
 
-        public ICommand EmployerRegisterCommand => new AsyncCommand(EmployerRegisterrAsync);
 
         private async Task EmployerRegisterrAsync()
         {

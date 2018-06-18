@@ -1,11 +1,14 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Request;
+using AppCRM.Utils;
 using AppCRM.Validations;
 using AppCRM.ViewModels.Base;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate
 {
@@ -30,6 +33,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             _candidateDetailService = candidateDetailService;
 
         }
+
 
         public CandidateProfile Profile
         {
@@ -137,6 +141,13 @@ namespace AppCRM.ViewModels.Main.Candidate
             {
                 OnPropertyChanged();
             }
+        }
+
+        public ICommand masterPageBtnCommand => new Command(masterPageBtnAsync);
+
+        private void masterPageBtnAsync()
+        {
+            (Application.Current.MainPage as MasterDetailPage).IsPresented = true;
         }
 
         #region Initdata
