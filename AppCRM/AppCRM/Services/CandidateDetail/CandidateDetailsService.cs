@@ -1,5 +1,7 @@
-﻿using AppCRM.Models;
+﻿using AppCRM.Controls;
+using AppCRM.Models;
 using AppCRM.Services.Request;
+using AppCRM.Tools;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +23,7 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> EditCandidateDetails(CandidateProfile profile);
         Task<dynamic> GetCandidateExperience();
         Task<dynamic> CandidateRegister(Register reg);
+        Task<dynamic> SaveEducationAttachment(string ContactEducationID, SJFileStream stream);
     }
     public class CandidateDetailsService:ICandidateDetailsService
     {
@@ -98,6 +101,14 @@ namespace AppCRM.Services.CandidateDetail
         public async Task<dynamic> CandidateRegister(Register reg)
         {
             var result = await _requestService.postDataFromService("api/Account/CandidateRegister", reg);
+            return result;
+        }
+
+        public async Task<dynamic> SaveEducationAttachment(string ContactEducationID, SJFileStream stream)
+        {
+            List<HeaderParameters> parameters = new List<HeaderParameters>();
+            parameters.Add(new HeaderParameters("ContactEducationID", ContactEducationID));
+            var result = await _requestService.UploadFileWithParameters("api/CandidateDetails/SaveEducationAttachment", stream, stream.FileName, parameters);
             return result;
         }
     }

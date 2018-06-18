@@ -56,7 +56,7 @@ namespace AppCRM.ViewModels
         }
         public ICommand SignInCommand => new AsyncCommand(SignInAsync);
 
-        public ICommand RegisterCommand => new AsyncCommand(RegisterPopupAsync);
+       
 
         private async Task SignInAsync()
         {
@@ -100,6 +100,8 @@ namespace AppCRM.ViewModels
             }
             IsBusy = false;
         }
+
+        public ICommand RegisterCommand => new AsyncCommand(RegisterPopupAsync);
 
         private async Task RegisterPopupAsync()
         {

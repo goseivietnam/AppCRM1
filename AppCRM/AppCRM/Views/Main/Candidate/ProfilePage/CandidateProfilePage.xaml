@@ -74,7 +74,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="EDUCATION" Style="{DynamicResource FrameHeader}"/>
-                            <Button  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding btnAddEducationCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" >
                             <ListView  ItemsSource="{Binding Profile.Educations}" RowHeight="90" HeightRequest="{Binding EducationListViewHeightRequest}">

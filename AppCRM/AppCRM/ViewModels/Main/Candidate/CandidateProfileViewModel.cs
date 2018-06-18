@@ -1,9 +1,11 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
+using AppCRM.Services.Navigation;
 using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.Validations;
 using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate.Profile;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,6 +18,7 @@ namespace AppCRM.ViewModels.Main.Candidate
     {
 
         private readonly ICandidateDetailsService _candidateDetailService;
+        private readonly INavigationService _navigationService;
         private CandidateProfile _profile;
 
         // height listview 
@@ -28,10 +31,10 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _documentListViewHeightRequest;
         private int _referenceListViewHeightRequest;
         //private string _avatarUrl;
-        public CandidateProfileViewModel(ICandidateDetailsService candidateDetailService)
+        public CandidateProfileViewModel(ICandidateDetailsService candidateDetailService,INavigationService navigationService)
         {
             _candidateDetailService = candidateDetailService;
-
+            _navigationService = navigationService;
         }
 
 
@@ -144,10 +147,16 @@ namespace AppCRM.ViewModels.Main.Candidate
         }
 
         public ICommand masterPageBtnCommand => new Command(masterPageBtnAsync);
+        public ICommand btnAddEducationCommand => new AsyncCommand(btnAddEducationAsync);
 
         private void masterPageBtnAsync()
         {
             (Application.Current.MainPage as MasterDetailPage).IsPresented = true;
+        }
+
+        private async Task btnAddEducationAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<AddEducationViewModel>(true);
         }
 
         #region Initdata

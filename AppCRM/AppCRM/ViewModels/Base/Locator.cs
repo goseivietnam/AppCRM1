@@ -8,6 +8,7 @@ using AppCRM.ViewModels.Account;
 using AppCRM.Services.CandidateDetail;
 using AppCRM.ViewModels.Main.Candidate;
 using AppCRM.Services.Employer;
+using AppCRM.ViewModels.Main.Candidate.Profile;
 
 namespace AppCRM.ViewModels.Base
 {
@@ -46,6 +47,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<CandidateProfileViewModel>();
             _containerBuilder.RegisterType<CandidateMainViewModel>();
             _containerBuilder.RegisterType<RegisterPopupViewModel>();
+            _containerBuilder.RegisterType<AddEducationViewModel>();
         }
         #endregion
 

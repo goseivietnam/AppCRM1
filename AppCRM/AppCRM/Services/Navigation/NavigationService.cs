@@ -2,6 +2,7 @@
 using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate;
+using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Views;
 using AppCRM.Views.Account;
 using AppCRM.Views.Main.Candidate;
@@ -183,6 +184,8 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(CandidateRegisterViewModel),typeof(CandidateRegisterPage));
             _mappings.Add(typeof(EmployerRegisterViewModel),typeof(EmployerRegisterPage));
             _mappings.Add(typeof(RegisterPopupViewModel),typeof(RegisterPopupPage));
+            _mappings.Add(typeof(AddEducationViewModel), typeof(AddEducationPage));
+
         }
         #endregion
     }
