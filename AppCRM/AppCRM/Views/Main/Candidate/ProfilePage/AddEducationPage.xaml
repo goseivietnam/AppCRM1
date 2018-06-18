@@ -98,7 +98,7 @@
                     </Grid>
                     <StackLayout Orientation="Horizontal" Margin="15,0" >
                                 <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>
-                                <Label Text="{Binding FileName}" IsVisible="False" TextColor="Blue"></Label>
+                                <Label Text="{Binding FileName}" IsVisible="{Binding FileNameIsVisible}" TextColor="Blue"></Label>
                     </StackLayout>
                     <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
                     <Label Text="Upload your document or image as attachment. Support file .doc, .docx" FontSize="12" Margin="15,10,15,5"/>
