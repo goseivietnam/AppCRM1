@@ -6,7 +6,6 @@
     xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
     xmlns:animations="clr-namespace:AppCRM.Effects"
     xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
-    xmlns:behaviors1="clr-namespace:AppCRM.Controls.Validators"
     x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddEducationPage">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>

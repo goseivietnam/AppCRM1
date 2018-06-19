@@ -13,7 +13,7 @@ using AppCRM.Services.Navigation;
 
 namespace AppCRM.ViewModels
 {
-    public class LoginViewModel:ViewModelBase
+    public class LoginViewModel : ViewModelBase
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IDialogService _dialogService;
@@ -22,7 +22,7 @@ namespace AppCRM.ViewModels
         private string _userName = "thuleduy01@gmail.com";
         private string _password = "12345";
 
-        public LoginViewModel(IAuthenticationService authenticationService, IDialogService dialogService,INavigationService navigationService)
+        public LoginViewModel(IAuthenticationService authenticationService, IDialogService dialogService, INavigationService navigationService)
         {
             _authenticationService = authenticationService;
             _dialogService = dialogService;
@@ -56,7 +56,7 @@ namespace AppCRM.ViewModels
         }
         public ICommand SignInCommand => new AsyncCommand(SignInAsync);
 
-       
+
 
         private async Task SignInAsync()
         {
@@ -66,19 +66,17 @@ namespace AppCRM.ViewModels
             {
                 if (y["Success"] == "true")
                 {
-                await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
+                    await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
                     IsBusy = false;
                     if (y["Roles"] == "Employer")
                     {
                     }
                     else if (y["Roles"] == "Candidate")
                     {
-                    App.UserID = y["ContactID"];
-                    RequestService.ACCESS_TOKEN = y["access_token"];
-                    await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                        App.UserID = y["ContactID"];
+                        RequestService.ACCESS_TOKEN = y["access_token"];
+                        await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
-              
-               
                 }
                 else if (y["Message"] == "IsActive") //success //fail
                 {

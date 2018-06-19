@@ -39,7 +39,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<DialogService>().As<IDialogService>();
             _containerBuilder.RegisterType<CandidateDetailsService>().As<ICandidateDetailsService>();
             _containerBuilder.RegisterType<EmployerDetailService>().As< IEmployerDetailService >();
-            //ViewMode
+            //ViewModel
             _containerBuilder.RegisterType<LoginViewModel>();
             _containerBuilder.RegisterType<MainViewModel>();
             _containerBuilder.RegisterType<CandidateRegisterViewModel>();

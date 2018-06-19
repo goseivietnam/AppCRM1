@@ -2,7 +2,7 @@
 using AppCRM.Validations;
 using Xamarin.Forms;
 
-namespace AppCRM.Controls.Validators
+namespace AppCRM.Behaviors
 {
     class MaterialDatePickerValidationBehavior : Behavior<MaterialDatePicker>
     {

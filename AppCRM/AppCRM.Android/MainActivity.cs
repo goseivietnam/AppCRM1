@@ -6,13 +6,12 @@ using Android.OS;
 using Android.Provider;
 using AppCRM.Controls;
 using CarouselView.FormsPlugin.Android;
-using Naxam.Controls.Platform.Droid;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace AppCRM.Droid
 {
-    [Activity(Label = "AppCRM", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "AppCRM", Icon = "@mipmap/logo", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         internal static MainActivity Instance { get; private set; }
@@ -23,8 +22,6 @@ namespace AppCRM.Droid
             Instance = this;
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-
-            SetupBottomTabs();
             base.OnCreate(bundle);
 
             Rg.Plugins.Popup.Popup.Init(this, bundle);
@@ -59,29 +56,6 @@ namespace AppCRM.Droid
         public override void OnBackPressed()
         {
             Rg.Plugins.Popup.Popup.SendBackPressed(base.OnBackPressed);
-        }
-
-        void SetupBottomTabs()
-        {
-            var stateList = new Android.Content.Res.ColorStateList(
-                new int[][] {
-                    new int[] { Android.Resource.Attribute.StateChecked
-                },
-                new int[] { Android.Resource.Attribute.StateEnabled
-                }
-                },
-                new int[] {
-                    new Color(42, 117, 253), //Selected
-                    new Color(229, 229, 229) //Normal
-                });
-            BottomTabbedRenderer.BackgroundColor = new Color(250, 250, 250);
-            BottomTabbedRenderer.FontSize = 10f;
-            BottomTabbedRenderer.IconSize = 24;
-            BottomTabbedRenderer.ItemTextColor = stateList;
-            BottomTabbedRenderer.ItemIconTintList = stateList;
-            BottomTabbedRenderer.ItemSpacing = 6;
-            BottomTabbedRenderer.BottomBarHeight = 50;
-            BottomTabbedRenderer.ItemAlign = ItemAlignFlags.Center;
         }
 
         private string GetFileName(Android.Net.Uri uri)

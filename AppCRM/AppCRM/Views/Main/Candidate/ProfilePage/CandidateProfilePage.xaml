@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppCRM.Views.Main.Candidate.ProfilePage.CandidateProfilePage"
              xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
-             Title="Profile"
-             BackgroundColor="#F0F7FD"
-             Icon="icon_profile.png">
+             BackgroundColor="#F0F7FD">
 
-    <ContentPage.Resources>
+    <ContentView.Resources>
         <ResourceDictionary>
             <Style x:Key="FrameHeader" TargetType="Label">
                 <Setter Property="TextColor" Value="#2A76FD"/>
@@ -25,9 +23,9 @@
                 <!--<Setter Property="Margin" Value="10,0,0,0"/>-->
             </Style>
         </ResourceDictionary>
-    </ContentPage.Resources>
+    </ContentView.Resources>
 
-    <ContentPage.Content>
+    <ContentView.Content>
         <ScrollView>
             <StackLayout Spacing="10">
                 <AbsoluteLayout>
@@ -255,5 +253,5 @@
                 </Frame>
             </StackLayout>
         </ScrollView>
-    </ContentPage.Content>
-</ContentPage>
+    </ContentView.Content>
+</ContentView>
