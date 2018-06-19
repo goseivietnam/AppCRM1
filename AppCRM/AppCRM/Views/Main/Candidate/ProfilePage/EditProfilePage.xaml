@@ -94,7 +94,7 @@
                             <Label x:Name="lblValidateNationality" FontSize="12" Margin="15,-2"/>
                             <material:MaterialDatePicker Text="{Binding BirthDay}" Placeholder="Day of birth" Style="{DynamicResource PrimaryMaterialEntry}">
                                 <material:MaterialDatePicker.Behaviors>
-                                    <behaviors1:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="Day of birth is not filled yet" ValidationLabelName="lblValidateBirthDay"/>
+                                    <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="Day of birth is not filled yet" ValidationLabelName="lblValidateBirthDay"/>
                                 </material:MaterialDatePicker.Behaviors>
                             </material:MaterialDatePicker>
                             <Label x:Name="lblValidateBirthDay" FontSize="12" Margin="15,-2"/>

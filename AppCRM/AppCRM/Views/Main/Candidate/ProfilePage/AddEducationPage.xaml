@@ -6,6 +6,7 @@
     xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
     xmlns:animations="clr-namespace:AppCRM.Effects"
     xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+    xmlns:behaviors1="clr-namespace:AppCRM.Controls.Validators"
     x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddEducationPage">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>
@@ -81,7 +82,7 @@
                                 <StackLayout Grid.Column="0">
                                     <material:MaterialDatePicker Text="{Binding FromDate}" Placeholder="From" Style="{DynamicResource PrimaryMaterialDatePicker}">
                                         <material:MaterialDatePicker.Behaviors>
-                                            <behaviors1:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="From is not filled yet" ValidationLabelName="lblValidateFrom"/>
+                                            <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="From is not filled yet" ValidationLabelName="lblValidateFrom"/>
                                         </material:MaterialDatePicker.Behaviors>
                                     </material:MaterialDatePicker>
                                     <Label x:Name="lblValidateFrom" FontSize="12" Margin="15,-2"/>
@@ -89,7 +90,7 @@
                                 <StackLayout Grid.Column="1">
                                     <material:MaterialDatePicker Text="{Binding ToDate}" Placeholder="To" Style="{DynamicResource PrimaryMaterialDatePicker}">
                                         <material:MaterialDatePicker.Behaviors>
-                                            <behaviors1:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="To is not filled yet" ValidationLabelName="lblValidateTo"/>
+                                            <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="To is not filled yet" ValidationLabelName="lblValidateTo"/>
                                         </material:MaterialDatePicker.Behaviors>
                                     </material:MaterialDatePicker>
                                     <Label x:Name="lblValidateTo" FontSize="12" Margin="15,-2"/>

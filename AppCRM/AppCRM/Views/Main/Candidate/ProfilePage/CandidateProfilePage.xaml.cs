@@ -4,10 +4,9 @@ using Xamarin.Forms.Xaml;
 namespace AppCRM.Views.Main.Candidate.ProfilePage
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class CandidateProfilePage : ContentPage
 	public partial class CandidateProfilePage : ContentView
-	{
-		public CandidateProfilePage ()
+    {
+		public CandidateProfilePage()
 		{
 			InitializeComponent ();
 		}
