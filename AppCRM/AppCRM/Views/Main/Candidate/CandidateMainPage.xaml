@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:pages="clr-namespace:AppCRM.Views.Main.Candidate"
+                  xmlns:pages="clr-namespace:AppCRM.Views.Main.Candidate.ProfilePage"
                   xmlns:local="clr-namespace:AppCRM.Views.Main"
                   xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
                   xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
@@ -56,17 +56,28 @@
                     <tabbedPage:SfTabView.SelectionIndicatorSettings>
                         <tabbedPage:SelectionIndicatorSettings Color="#FAFAFA" Position="Top"  StrokeThickness="0"/>
                     </tabbedPage:SfTabView.SelectionIndicatorSettings>
+
+                    <tabbedPage:SfTabItem Title="Profile" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                        <tabbedPage:SfTabItem.Content>
+                            <pages:CandidateProfilePage BindingContext="{Binding ProfilePage}"/>
+                        </tabbedPage:SfTabItem.Content>
+                    </tabbedPage:SfTabItem>
                     
-                    <tabbedPage:SfTabItem Title="Profile" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
-                                          Content="{Binding ProfilePage}"/>
-                    <tabbedPage:SfTabItem Title="Job" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
-                                          Content="{Binding JobPage}"/>
-                    <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
-                                          Content="{Binding ExplorePage}"/>
-                    <tabbedPage:SfTabItem Title="Notify" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
-                                          Content="{Binding NotifyPage}"/>
-                    <tabbedPage:SfTabItem Title="Message" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
-                                          Content="{Binding MessagePage}"/>
+                    <tabbedPage:SfTabItem Title="Job" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+
+                    </tabbedPage:SfTabItem>
+                    
+                    <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+
+                    </tabbedPage:SfTabItem>
+                    
+                    <tabbedPage:SfTabItem Title="Notify" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                        
+                    </tabbedPage:SfTabItem>
+                    
+                    <tabbedPage:SfTabItem Title="Message" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                        
+                    </tabbedPage:SfTabItem>
                 </tabbedPage:SfTabView>
             </ContentPage.Content>
         </ContentPage>

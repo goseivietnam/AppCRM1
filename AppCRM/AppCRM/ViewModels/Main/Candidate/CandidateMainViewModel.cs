@@ -16,13 +16,13 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        private CandidateProfilePage _profilePage;
-        private ContentPage _jobPage;
-        private ContentPage _explorePage;
-        private ContentPage _notifyPage;
-        private ContentPage _messagePage;
+        private ViewModelBase _profilePage;
+        private ViewModelBase _jobPage;
+        private ViewModelBase _explorePage;
+        private ViewModelBase _notifyPage;
+        private ViewModelBase _messagePage;
 
-        public CandidateProfilePage ProfilePage
+        public ViewModelBase ProfilePage
         {
             get
             {
@@ -34,7 +34,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public ContentPage JobPage
+        public ViewModelBase JobPage
         {
             get
             {
@@ -46,7 +46,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public ContentPage ExplorePage
+        public ViewModelBase ExplorePage
         {
             get
             {
@@ -58,7 +58,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public ContentPage NotifyPage
+        public ViewModelBase NotifyPage
         {
             get
             {
@@ -70,7 +70,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public ContentPage MessagePage
+        public ViewModelBase MessagePage
         {
             get
             {
@@ -91,19 +91,17 @@ namespace AppCRM.ViewModels.Main.Candidate
             _dialogService = Locator.Instance.Resolve<IDialogService>();
             _navigationService = Locator.Instance.Resolve<INavigationService>();
 
-            InitCandidateProfilePage();
+            ProfilePage = Locator.Instance.Resolve<CandidateProfileViewModel>() as ViewModelBase;
+
+            ProfilePage.InitializeAsync(null);
 
             //Initializing JobPage
-            JobPage = new ContentPage();
 
             //Initializing ExplorePage
-            ExplorePage = new ContentPage();
 
             //Initializing NotifyPage
-            NotifyPage = new ContentPage();
 
             //Initializing MessagePage
-            MessagePage = new ContentPage();
 
         }
 
@@ -123,15 +121,8 @@ namespace AppCRM.ViewModels.Main.Candidate
                         OpenSignoutPage();
                         break;
                 }
+                (Application.Current.MainPage as MasterDetailPage).IsPresented = false;
             }
-        }
-
-        private void InitCandidateProfilePage()
-        {
-            var profilePage = new CandidateProfilePage();
-            profilePage.BindingContext = Locator.Instance.Resolve<CandidateProfileViewModel>() as ViewModelBase;
-            (profilePage.BindingContext as ViewModelBase).InitializeAsync(profilePage);
-            ProfilePage = profilePage;
         }
 
         private async Task OpenChangePasswordPage()
@@ -179,9 +170,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         private void OpenMainPage()
         {
-            //CandidateMainPage candidateMainPage = new CandidateMainPage();
-            //NavigationPage.SetHasNavigationBar(candidateMainPage, false);
-            //Application.Current.MainPage = new NavigationPage(candidateMainPage);
+            ProfilePage.InitializeAsync(null);
         }
     }
 }
