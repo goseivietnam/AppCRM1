@@ -2,7 +2,7 @@
 
 namespace AppCRM.ViewModels
 {
-    public class MainViewModel:ViewModelBase
+    public class MainViewModel : ViewModelBase
     {
     }
 }

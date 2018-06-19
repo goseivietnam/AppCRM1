@@ -1,9 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:AppCRM.Views.Main.Candidate"
-             x:Class="AppCRM.Views.Main.Candidate.CandidateMainPage">
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:pages="clr-namespace:AppCRM.Views.Main.Candidate"
+                  xmlns:local="clr-namespace:AppCRM.Views.Main"
+                  xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
+                  xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+                  x:Class="AppCRM.Views.Main.Candidate.CandidateMainPage">
     <MasterDetailPage.Master>
-        <pages:CandidateMaster x:Name="MasterPage" />
+        <ContentPage Padding="0,40,0,0" Title="Master" BackgroundColor="White">
+            <ContentPage.Content>
+                <StackLayout>
+                    <Frame CornerRadius="55" Margin="0" WidthRequest="110" HeightRequest="110" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" HorizontalOptions="Center">
+                        <Image Aspect="AspectFill" WidthRequest="110" HeightRequest="110"/>
+                    </Frame>
+                    <Label HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
+                    <ListView HorizontalOptions="Center" SeparatorVisibility="None" Margin="0,20" 
+                              behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding MasterMenuItemTappedCommand}">
+                        <ListView.ItemsSource>
+                            <x:Array Type="{x:Type local:MenuItem}">
+                                <local:MenuItem Title="Profile" IconSource="icon_menu_profile.png"/>
+                                <local:MenuItem Title="Mail" IconSource="icon_menu_mail.png"/>
+                                <local:MenuItem Title="Account Setting" IconSource="icon_menu_setting.png"/>
+                                <local:MenuItem Title="Help" IconSource="icon_menu_help.png"/>
+                                <local:MenuItem Title="Sign out" IconSource="icon_menu_logout.png"/>
+                            </x:Array>
+                        </ListView.ItemsSource>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid Padding="5,10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="{Binding IconSource}" WidthRequest="30" HeightRequest="30" HorizontalOptions="EndAndExpand"/>
+                                        <StackLayout Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label Text="{Binding Title}" VerticalOptions="Center"/>
+                                        </StackLayout>
+                                        <StackLayout WidthRequest="50"></StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Button Text="Change role" BackgroundColor="Transparent" HorizontalOptions="FillAndExpand"/>
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
     </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <ContentPage>
+            <ContentPage.Content>
+                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5">
+                    <tabbedPage:SfTabView.SelectionIndicatorSettings>
+                        <tabbedPage:SelectionIndicatorSettings Color="#FAFAFA" Position="Top"  StrokeThickness="0"/>
+                    </tabbedPage:SfTabView.SelectionIndicatorSettings>
+                    
+                    <tabbedPage:SfTabItem Title="Profile" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
+                                          Content="{Binding ProfilePage}"/>
+                    <tabbedPage:SfTabItem Title="Job" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
+                                          Content="{Binding JobPage}"/>
+                    <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
+                                          Content="{Binding ExplorePage}"/>
+                    <tabbedPage:SfTabItem Title="Notify" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
+                                          Content="{Binding NotifyPage}"/>
+                    <tabbedPage:SfTabItem Title="Message" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10"
+                                          Content="{Binding MessagePage}"/>
+                </tabbedPage:SfTabView>
+            </ContentPage.Content>
+        </ContentPage>
+    </MasterDetailPage.Detail>
 </MasterDetailPage>

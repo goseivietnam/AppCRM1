@@ -21,7 +21,6 @@ namespace AppCRM
 		{
 			InitializeComponent();
             InitNavigation();
-
         }
 
         private Task InitNavigation()

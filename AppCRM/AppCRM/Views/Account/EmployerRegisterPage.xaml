@@ -4,35 +4,95 @@
              xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:animations="clr-namespace:AppCRM.Effects"
-             xmlns:local="clr-namespace:AppCRM.Controls"
+             xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+             xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial;assembly=AppCRM"
              x:Class="AppCRM.Views.Account.EmployerRegisterPage">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>
     </pages:PopupPage.Animation>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="PrimaryMaterialEntry" TargetType="material:MaterialEntry">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="AccentColor" Value="#828B93"/>
+                <Setter Property="PlaceholderColor" Value="#828B93"/>
+                <Setter Property="InvalidColor" Value="#DD4C40"/>
+                <Setter Property="HiddenLabelTextSize" Value="11"/>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ScrollView>
-        <StackLayout Padding="15" VerticalOptions="End" HorizontalOptions="Fill" BackgroundColor="White" Spacing="0">
-            <Image Source="logo_black.png" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 100"/>
-            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">First name</Label>
-            <local:CustomEntry Text="{Binding FieldFirstName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
-            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Last name</Label>
-            <local:CustomEntry Text="{Binding FieldLastName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
-            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Email address</Label>
-            <local:CustomEntry Text="{Binding FieldEmail}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" />
-            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Company name</Label>
-            <local:CustomEntry Text="{Binding FieldCompanyName}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12"/>
-            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Industry</Label>
-            <local:CustomEntry Text="{Binding FieldIndustry}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12"/>
-            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Password</Label>
-            <local:CustomEntry Text="{Binding FieldPassword}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" IsPassword="True" />
-            <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Password confirm</Label>
-            <local:CustomEntry Text="{Binding FieldPasswordConfirm}" VerticalOptions="Center" BackgroundColor="Transparent" TextColor="#3B4455" FontSize="12" IsPassword="True" />
-            <Button Command="{Binding SubmitRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD" Margin="2, 30, 2, 0"
-                    BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" FontSize="12"
-                    />
-            <Button Command="{Binding BtnCancelCommand}" HorizontalOptions="Fill" BackgroundColor="Transparent" Margin="2, 0"
-                    BorderWidth="0" TextColor="#3B4455" Text="Cancel" FontSize="12"
-                    />
+        <StackLayout VerticalOptions="FillAndExpand" BackgroundColor="White" Padding="0" Spacing="2">
+            <Image Source="logo_black.png" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" Margin="0"/>
+            <AbsoluteLayout Margin="20" WidthRequest="110" HeightRequest="110" HorizontalOptions="Center">
+                <Frame CornerRadius="55" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#F9F9F9" HasShadow="False" BorderColor="#E7E7E7"
+                           AbsoluteLayout.LayoutBounds=".5,0,110,110" AbsoluteLayout.LayoutFlags="XProportional">
+                    <Image Aspect="AspectFill" Source="{Binding ProfileAvatarSource}" />
+                </Frame>
+                <Frame CornerRadius="15" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="White" AbsoluteLayout.LayoutBounds="80,80,30,30" HasShadow="True">
+                    <Button Image="icon_pencil.png" BackgroundColor="White" WidthRequest="30" HeightRequest="30" BorderRadius="15" Command="{Binding PickAvatarBtnCommand}"/>
+                </Frame>
+            </AbsoluteLayout>
+
+            <material:MaterialEntry Text="{Binding FieldFirstName}" Placeholder="First name" Style="{DynamicResource PrimaryMaterialEntry}">
+                <material:MaterialEntry.Behaviors>
+                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="First name is not filled yet" ValidationLabelName="lblValidateFirstName"/>
+                </material:MaterialEntry.Behaviors>
+            </material:MaterialEntry>
+            <Label x:Name="lblValidateFirstName" FontSize="12" Margin="15,-2"/>
+
+            <material:MaterialEntry Text="{Binding FieldLastName}" Placeholder="Last name" Style="{DynamicResource PrimaryMaterialEntry}">
+                <material:MaterialEntry.Behaviors>
+                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Last name is not filled yet" ValidationLabelName="lblValidateLastName"/>
+                </material:MaterialEntry.Behaviors>
+            </material:MaterialEntry>
+            <Label x:Name="lblValidateLastName" FontSize="12" Margin="15,-2"/>
+
+            <material:MaterialEntry Text="{Binding FieldEmail}" Placeholder="Email" Style="{DynamicResource PrimaryMaterialEntry}">
+                <material:MaterialEntry.Behaviors>
+                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required,Email" RuleMessages="Email is not filled yet,Email is not valid" ValidationLabelName="lblValidateEmail"/>
+                </material:MaterialEntry.Behaviors>
+            </material:MaterialEntry>
+            <Label x:Name="lblValidateEmail" FontSize="12" Margin="15,-2"/>
+
+            <material:MaterialEntry Text="{Binding FieldCompanyName}" Placeholder="Company name" Style="{DynamicResource PrimaryMaterialEntry}">
+                <material:MaterialEntry.Behaviors>
+                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Company name is not filled yet" ValidationLabelName="lblValidateCompanyName"/>
+                </material:MaterialEntry.Behaviors>
+            </material:MaterialEntry>
+            <Label x:Name="lblValidateCompanyName" FontSize="12" Margin="15,-2"/>
+
+            <material:MaterialEntry Text="{Binding FieldIndustry}" Placeholder="Industry" Style="{DynamicResource PrimaryMaterialEntry}">
+                <material:MaterialEntry.Behaviors>
+                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Industry is not filled yet" ValidationLabelName="lblValidateIndustry"/>
+                </material:MaterialEntry.Behaviors>
+            </material:MaterialEntry>
+            <Label x:Name="lblValidateIndustry" FontSize="12" Margin="15,-2"/>
+
+            <material:MaterialEntry Text="{Binding FieldPassword}" Placeholder="Password" Style="{DynamicResource PrimaryMaterialEntry}" IsPassword="True">
+                <material:MaterialEntry.Behaviors>
+                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Password is not filled yet" ValidationLabelName="lblValidatePassword"/>
+                </material:MaterialEntry.Behaviors>
+            </material:MaterialEntry>
+            <Label x:Name="lblValidatePassword" FontSize="12" Margin="15,-2"/>
+
+            <material:MaterialEntry Text="{Binding FieldPasswordConfirm}" Placeholder="Password confirm" Style="{DynamicResource PrimaryMaterialEntry}" IsPassword="True">
+                <material:MaterialEntry.Behaviors>
+                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Confirm Password is not filled yet" ValidationLabelName="lblValidateConfirmPassword"/>
+                </material:MaterialEntry.Behaviors>
+            </material:MaterialEntry>
+            <Label x:Name="lblValidateConfirmPassword" FontSize="12" Margin="15,-2"/>
+
+            <StackLayout Padding="15" Spacing="0">
+                <Button Command="{Binding SubmitRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD"
+                        BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" FontSize="12"/>
+                <Button Command="{Binding BtnCancelCommand}" HorizontalOptions="Fill" BackgroundColor="Transparent"
+                        BorderWidth="0" TextColor="#3B4455" Text="Cancel" FontSize="12"/>
+            </StackLayout>
         </StackLayout>
     </ScrollView>
 </pages:PopupPage>
