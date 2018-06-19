@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rg.Plugins.Popup.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +11,9 @@ using Xamarin.Forms.Xaml;
 namespace AppCRM.Views.Main.Candidate.ProfilePage
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddLicencePage : ContentPage
-	{
-		public AddLicencePage ()
+	public partial class AddLicencePage : PopupPage
+    {
+		public AddLicencePage()
 		{
 			InitializeComponent ();
 		}

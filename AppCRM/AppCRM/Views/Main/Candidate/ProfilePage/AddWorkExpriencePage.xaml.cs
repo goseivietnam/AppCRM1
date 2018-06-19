@@ -4,11 +4,11 @@ using Xamarin.Forms.Xaml;
 namespace AppCRM.Views.Main.Candidate.ProfilePage
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddQualificationPage : PopupPage
+	public partial class AddWorkExpriencePage : PopupPage
     {
-		public AddQualificationPage ()
+		public AddWorkExpriencePage()
 		{
-			InitializeComponent ();
-		}
-	}
+            InitializeComponent();
+        }
+    }
 }

@@ -17,8 +17,14 @@
 
   <ItemGroup>
     <Reference Include="Mono.Android">
-      <HintPath>..\..\..\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio\2017\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v8.1\Mono.Android.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Main\Candidate\ProfilePage\AddWorkExpriencePage.xaml.cs">
+      <DependentUpon>AddWorkExpriencePage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -64,7 +70,7 @@
     <EmbeddedResource Update="Views\Main\Candidate\ProfilePage\AddSkillPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Main\Candidate\ProfilePage\AddWorkExprience.xaml">
+    <EmbeddedResource Update="Views\Main\Candidate\ProfilePage\AddWorkExpriencePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Main\Candidate\ProfilePage\CandidateProfilePage.xaml">

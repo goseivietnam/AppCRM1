@@ -150,6 +150,12 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         public ICommand masterPageBtnCommand => new Command(masterPageBtnAsync);
         public ICommand btnAddEducationCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand btnAddWorkExperienceCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand btnAddSkillCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand btnAddQualificationCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand btnAddLicenceCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand btnAddDocumentCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand btnAddReferenceCommand => new AsyncCommand(btnAddEducationAsync);
         public ICommand ListViewCommand => new Command(ListView_ItemTapped);
 
         private void masterPageBtnAsync()
