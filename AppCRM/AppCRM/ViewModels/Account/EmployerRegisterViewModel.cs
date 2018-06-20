@@ -1,4 +1,5 @@
-﻿using AppCRM.Models;
+﻿using AppCRM.Controls;
+using AppCRM.Models;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Employer;
 using AppCRM.Services.Request;
@@ -7,6 +8,7 @@ using AppCRM.ViewModels.Base;
 using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Account
 {
@@ -22,6 +24,9 @@ namespace AppCRM.ViewModels.Account
         private string _fieldIndustry;
         private string _fieldPassword;
         private string _fieldPasswordConfirm;
+        private ImageSource _profileAvatarSource;
+
+        private SJFileStream _avatarStream = null;
 
         public EmployerRegisterViewModel(IDialogService dialogService, IEmployerDetailService EmployerDetailService)
         {
@@ -41,7 +46,6 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-
         public string FieldLastName
         {
             get
@@ -54,7 +58,6 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-
         public string FileEmail
         {
             get
@@ -67,7 +70,6 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-
         public string FieldCompanyName
         {
             get
@@ -80,7 +82,6 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-
         public string FieldIndustry
         {
             get
@@ -93,7 +94,6 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-
         public string FieldPassword
         {
             get
@@ -106,7 +106,6 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-
         public string FieldPasswordConfirm
         {
             get
@@ -119,9 +118,22 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
+        public ImageSource ProfileAvatarSource
+        {
+            get
+            {
+                return _profileAvatarSource;
+            }
+            set
+            {
+                _profileAvatarSource = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand SubmitRegisterCommand => new AsyncCommand(SubmitRegisterAsync);
         public ICommand BtnCancelCommand => new AsyncCommand(BtnCancelAsync);
+        public ICommand PickAvatarBtnCommand => new AsyncCommand(PickAvatar);
 
         private async Task SubmitRegisterAsync()
         {
@@ -146,7 +158,8 @@ namespace AppCRM.ViewModels.Account
                     if (obj["Success"] == "true") //success
                     {
                         await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                        App.UserID = obj["ContactID"];
+                        App.ContactID = obj["ContactID"];
+                        App.UserName = obj["UserName"];
                         RequestService.ACCESS_TOKEN = obj["access_token"];
                     }
                     else if (obj["Message"] == "IsExists") //is exists
@@ -169,6 +182,16 @@ namespace AppCRM.ViewModels.Account
         private async Task BtnCancelAsync()
         {
             await PopupNavigation.Instance.PopAllAsync();
+        }
+        private async Task PickAvatar()
+        {
+            IsBusy = true;
+            _avatarStream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
+            if (_avatarStream != null && _avatarStream.Stream != null)
+            {
+                ProfileAvatarSource = ImageSource.FromStream(() => _avatarStream.Stream);
+            }
+            IsBusy = false;
         }
     }
 }

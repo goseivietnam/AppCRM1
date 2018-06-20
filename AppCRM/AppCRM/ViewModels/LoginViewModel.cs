@@ -13,7 +13,7 @@ using AppCRM.Services.Navigation;
 
 namespace AppCRM.ViewModels
 {
-    public class LoginViewModel:ViewModelBase
+    public class LoginViewModel : ViewModelBase
     {
         private readonly IAuthenticationService _authenticationService;
         private readonly IDialogService _dialogService;
@@ -22,7 +22,7 @@ namespace AppCRM.ViewModels
         private string _userName = "thuleduy01@gmail.com";
         private string _password = "12345";
 
-        public LoginViewModel(IAuthenticationService authenticationService, IDialogService dialogService,INavigationService navigationService)
+        public LoginViewModel(IAuthenticationService authenticationService, IDialogService dialogService, INavigationService navigationService)
         {
             _authenticationService = authenticationService;
             _dialogService = dialogService;
@@ -56,41 +56,39 @@ namespace AppCRM.ViewModels
         }
         public ICommand SignInCommand => new AsyncCommand(SignInAsync);
 
-       
+
 
         private async Task SignInAsync()
         {
             var pop = await _dialogService.OpenLoadingPopup();
-            var y = await _authenticationService.LoginAsync(UserName, Password);
-            if (y != null)
+            var obj = await _authenticationService.LoginAsync(UserName, Password);
+            if (obj != null)
             {
-                if (y["Success"] == "true")
+                if (obj["Success"] == "true")
                 {
                     await _dialogService.CloseLoadingPopup(pop);
                     await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
                    
-                    if (y["Roles"] == "Employer")
+                    if (obj["Roles"] == "Employer")
                     {
                     }
-                    else if (y["Roles"] == "Candidate")
+                    else if (obj["Roles"] == "Candidate")
                     {
                     App.ContactID = y["ContactID"];
                     App.UserName = y["UserName"];
                     RequestService.ACCESS_TOKEN = y["access_token"];
                     await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
-              
-               
                 }
-                else if (y["Message"] == "IsActive") //success //fail
+                else if (obj["Message"] == "IsActive") //success //fail
                 {
                     await _dialogService.PopupMessage("This account yet active!", "#CF6069", "#FFFFFF");
                 }
-                else if (y["Message"] == "IsRequireReset") //success //fail
+                else if (obj["Message"] == "IsRequireReset") //success //fail
                 {
                     await _dialogService.PopupMessage("This account need reset!", "#CF6069", "#FFFFFF");
                 }
-                else if (y["Message"] == "LoginFail") //success //fail
+                else if (obj["Message"] == "LoginFail") //success //fail
                 {
                     await _dialogService.PopupMessage("Login fail, please try again!", "#CF6069", "#FFFFFF");
                 }

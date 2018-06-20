@@ -2,9 +2,7 @@
 using AppCRM.Models;
 using AppCRM.Services.Request;
 using AppCRM.Tools;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AppCRM.Services.CandidateDetail
@@ -18,29 +16,37 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddSkill(ContactSkill skill);
         Task<dynamic> AddQualification(ContactQualification qualification);
         Task<dynamic> AddLicence(ContactLicence licence);
-        Task<dynamic> AddDocument(Document document);
+        Task<dynamic> AddDocument(SJFileStream stream, string fileName);
         Task<dynamic> AddReference(ContactReference reference);
         Task<dynamic> EditCandidateDetails(CandidateProfile profile);
         Task<dynamic> GetCandidateExperience();
         Task<dynamic> CandidateRegister(Register reg);
         Task<dynamic> SaveEducationAttachment(string ContactEducationID, SJFileStream stream);
+        Task<dynamic> SaveWorkExperienceAttachment(string WorkExperienceID, SJFileStream stream);
+        Task<dynamic> SaveContactQualificationAttachment(string ContactQualificationID, SJFileStream stream);
+        Task<dynamic> SaveContactLicenceAttachment(string ContactLicenceID, SJFileStream stream);
+        Task<dynamic> AddEditContactCoverImage(SJFileStream stream);
+        Task<dynamic> AddEditContactAvatarImage(SJFileStream stream);
+        Task<dynamic> UploadResume(SJFileStream stream);
     }
-    public class CandidateDetailsService:ICandidateDetailsService
+    public class CandidateDetailsService : ICandidateDetailsService
     {
         private readonly IRequestService _requestService;
+
         public CandidateDetailsService(IRequestService requestService)
         {
             _requestService = requestService;
         }
+
         public async Task<dynamic> GetEmployerCandidateDetail()
         {
-            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateDetail?ContactID=" + App.UserID.ToString());
+            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateDetail?ContactID=" + App.ContactID.ToString());
             return result;
         }
 
         public async Task<dynamic> GetEmployerCandidateProfile()
         {
-            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateProfile?ContactID=" + App.UserID.ToString());
+            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateProfile?ContactID=" + App.ContactID.ToString());
             return result;
         }
 
@@ -74,9 +80,9 @@ namespace AppCRM.Services.CandidateDetail
             return result;
         }
 
-        public async Task<dynamic> AddDocument(Document document)
+        public async Task<dynamic> AddDocument(SJFileStream stream, string fileName)
         {
-            var result = await _requestService.postDataFromServiceAuthority("api/CandidateDetails/AddEditContactDocuments", document);
+            var result = await _requestService.UploadFile("api/CandidateDetails/AddEditContactDocuments", stream, fileName);
             return result;
         }
 
@@ -109,6 +115,48 @@ namespace AppCRM.Services.CandidateDetail
             List<HeaderParameters> parameters = new List<HeaderParameters>();
             parameters.Add(new HeaderParameters("ContactEducationID", ContactEducationID));
             var result = await _requestService.UploadFileWithParameters("api/CandidateDetails/SaveEducationAttachment", stream, stream.FileName, parameters);
+            return result;
+        }
+
+        public async Task<dynamic> SaveWorkExperienceAttachment(string ContactWorkExperienceID, SJFileStream stream)
+        {
+            List<HeaderParameters> parameters = new List<HeaderParameters>();
+            parameters.Add(new HeaderParameters("ContactWorkExperienceID", ContactWorkExperienceID));
+            var result = await _requestService.UploadFileWithParameters("api/CandidateDetails/SaveWorkExperienceAttachment", stream, stream.FileName, parameters);
+            return result;
+        }
+
+        public async Task<dynamic> SaveContactQualificationAttachment(string ContactQualificationID, SJFileStream stream)
+        {
+            List<HeaderParameters> parameters = new List<HeaderParameters>();
+            parameters.Add(new HeaderParameters("ContactQualificationID", ContactQualificationID));
+            var result = await _requestService.UploadFileWithParameters("api/CandidateDetails/SaveContactQualificationAttachment", stream, stream.FileName, parameters);
+            return result;
+        }
+
+        public async Task<dynamic> SaveContactLicenceAttachment(string ContactLicenceID, SJFileStream stream)
+        {
+            List<HeaderParameters> parameters = new List<HeaderParameters>();
+            parameters.Add(new HeaderParameters("ContactLicenceID", ContactLicenceID));
+            var result = await _requestService.UploadFileWithParameters("api/CandidateDetails/SaveContactLicenceAttachment", stream, stream.FileName, parameters);
+            return result;
+        }
+
+        public async Task<dynamic> AddEditContactCoverImage(SJFileStream stream)
+        {
+            var result = await _requestService.UploadFile("api/CandidateDetails/AddEditContactCoverImage", stream, stream.FileName);
+            return result;
+        }
+
+        public async Task<dynamic> AddEditContactAvatarImage(SJFileStream stream)
+        {
+            var result = await _requestService.UploadFile("api/CandidateDetails/AddEditContactAvatarImage", stream, stream.FileName);
+            return result;
+        }
+
+        public async Task<dynamic> UploadResume(SJFileStream stream)
+        {
+            var result = await _requestService.UploadFile("api/Document/UploadResume", stream, stream.FileName);
             return result;
         }
     }

@@ -1,12 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddLicencePage">
+<pages:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+    xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
+    xmlns:animations="clr-namespace:AppCRM.Effects"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddLicencePage">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="PrimaryMaterialEntry" TargetType="material:MaterialEntry">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="AccentColor" Value="#3C4455"/>
+                <Setter Property="PlaceholderColor" Value="#3C4455"/>
+                <Setter Property="InvalidColor" Value="#DD4C40"/>
+                <Setter Property="HiddenLabelTextSize" Value="11"/>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
+            <Style x:Key="PrimaryMaterialDatePicker" TargetType="material:MaterialDatePicker">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="AccentColor" Value="#3C4455"/>
+                <Setter Property="PlaceholderColor" Value="#3C4455"/>
+                <Setter Property="InvalidColor" Value="#DD4C40"/>
+                <Setter Property="HiddenLabelTextSize" Value="11"/>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid>
+                <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+                    <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
+                        <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
+                        <Label Text="Add License" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveLicenceCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
+                    </StackLayout>
+                    <ScrollView>
+                        <StackLayout Padding="0" Spacing="2">
+                            <material:MaterialEntry Text="{Binding Type}" Placeholder="Type" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Type is not filled yet" ValidationLabelName="lblValidateType"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateType" FontSize="12" Margin="15,-2"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50*" />
+                                    <ColumnDefinition Width="50*" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="0">
+                                    <material:MaterialDatePicker Text="{Binding FromDate}" Placeholder="From" Style="{DynamicResource PrimaryMaterialDatePicker}">
+                                        <material:MaterialDatePicker.Behaviors>
+                                            <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="From is not filled yet" ValidationLabelName="lblValidateFrom"/>
+                                        </material:MaterialDatePicker.Behaviors>
+                                    </material:MaterialDatePicker>
+                                    <Label x:Name="lblValidateFrom" FontSize="12" Margin="15,-2"/>
+                                </StackLayout>
+                                <StackLayout Grid.Column="1">
+                                    <material:MaterialDatePicker Text="{Binding ToDate}" Placeholder="To" Style="{DynamicResource PrimaryMaterialDatePicker}">
+                                        <material:MaterialDatePicker.Behaviors>
+                                            <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="To is not filled yet" ValidationLabelName="lblValidateTo"/>
+                                        </material:MaterialDatePicker.Behaviors>
+                                    </material:MaterialDatePicker>
+                                    <Label x:Name="lblValidateTo" FontSize="12" Margin="15,-2"/>
+                                </StackLayout>
+                            </Grid>
+                            <material:MaterialEntry Text="{Binding Number}" Placeholder="Number" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Number is not filled yet" ValidationLabelName="lblValidateNumber"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateNumber" FontSize="12" Margin="15,-2"/>
+                            <material:MaterialEntry Text="{Binding Comment}" Placeholder="Comment" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Comment is not filled yet" ValidationLabelName="lblValidateComment"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateComment" FontSize="12" Margin="15,-2"/>
+                            <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
+                            <StackLayout Orientation="Horizontal" Margin="15,0" >
+                                <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>
+                                <Label Text="{Binding FileName}" IsVisible="{Binding FileNameIsVisible}" TextColor="Blue"></Label>
+                            </StackLayout>
+                            <Label Text="Upload your document or image as attachment. Support file .doc, .docx" FontSize="12" Margin="15,10,15,5"/>
+                            <Button Text="Attachment" BackgroundColor="#2A76FD" TextColor="WhiteSmoke" Margin="15,0" Command="{Binding BtnAttachmentCommand}" IsEnabled="{Binding BtnAttachmentIsEnable}"/>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+            </Grid>
+            <ActivityIndicator
+                Color="White"
+                IsRunning="{Binding IsBusy}"
+                IsEnabled="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+        </Grid>
     </ContentPage.Content>
-</ContentPage>
+</pages:PopupPage>

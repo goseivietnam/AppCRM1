@@ -1,18 +1,23 @@
-﻿using AppCRM.Models;
+﻿using AppCRM.Controls;
+using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using Rg.Plugins.Popup.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Account
 {
-    public class CandidateRegisterViewModel:ViewModelBase
+    public class CandidateRegisterViewModel : ViewModelBase
     {
-        private readonly IDialogService _dialogService; 
+        private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
 
         private string _fieldFirstName;
@@ -20,13 +25,22 @@ namespace AppCRM.ViewModels.Account
         private string _fieldEmail;
         private string _fieldPassword;
         private string _fieldPasswordConfirm;
-        private string _fieldJobInterest;
-        private string _fieldJobLocation;
-         
-        public CandidateRegisterViewModel(IDialogService dialogService,ICandidateDetailsService candidateDetailsService)
+        private string[] _fieldJobInterest;
+        private string[] _fieldJobLocation;
+        private ImageSource _profileAvatarSource;
+        private ObservableCollection<PickerItem> _jobInterestCollection;
+        private ObservableCollection<PickerItem> _jobLocationCollection;
+
+        private SJFileStream _avatarStream = null;
+
+        public CandidateRegisterViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService)
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
+
+            //Initializing Collection Data
+            InitJobInterestCollection();
+            InitJobLocationCollection();
         }
 
         public string FieldFirstName
@@ -89,7 +103,7 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public string FieldJobInterest
+        public string[] FieldJobInterest
         {
             get
             {
@@ -101,7 +115,7 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public string FieldJobLocation
+        public string[] FieldJobLocation
         {
             get
             {
@@ -113,11 +127,35 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-
+        public ImageSource ProfileAvatarSource
+        {
+            get
+            {
+                return _profileAvatarSource;
+            }
+            set
+            {
+                _profileAvatarSource = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<PickerItem> JobInterestCollection
+        {
+            get { return _jobInterestCollection; }
+            set { _jobInterestCollection = value; OnPropertyChanged(); }
+        }
+        public ObservableCollection<PickerItem> JobLocationCollection
+        {
+            get { return _jobLocationCollection; }
+            set { _jobLocationCollection = value; OnPropertyChanged(); }
+        }
 
         public ICommand SubmitRegisterCommand => new AsyncCommand(SubmitRegisterAsync);
         public ICommand BtnCancelCommand => new AsyncCommand(BtnCancelAsync);
-
+        public ICommand PickAvatarBtnCommand => new AsyncCommand(PickAvatar);
+        public ICommand JobInterestChangeCommand => new Command(UpdateJobInterest);
+        public ICommand JobLocationChangeCommand => new Command(UpdateJobLocation);
+        
         private async Task SubmitRegisterAsync()
         {
             IsBusy = true;
@@ -141,7 +179,8 @@ namespace AppCRM.ViewModels.Account
                     if (obj["Success"] == "true") //success
                     {
                         await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                        App.UserID = obj["ContactID"];
+                        App.ContactID = obj["ContactID"];
+                        App.UserName = obj["UserName"];
                         RequestService.ACCESS_TOKEN = obj["access_token"];
                     }
                     else if (obj["Message"] == "IsExists") //is exists
@@ -164,6 +203,43 @@ namespace AppCRM.ViewModels.Account
         private async Task BtnCancelAsync()
         {
             await PopupNavigation.Instance.PopAllAsync();
+        }
+        private async Task PickAvatar()
+        {
+            IsBusy = true;
+            _avatarStream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
+            if (_avatarStream != null && _avatarStream.Stream != null)
+            {
+                ProfileAvatarSource = ImageSource.FromStream(() => _avatarStream.Stream);
+            }
+            IsBusy = false;
+        }
+        private void UpdateJobInterest(object selectedValues)
+        {
+            _fieldJobInterest = selectedValues == null ? new string[0] : (selectedValues as List<String>).ToArray();
+        }
+        private void UpdateJobLocation(object selectedValues)
+        {
+            _fieldJobLocation = selectedValues == null ? new string[0] : (selectedValues as List<String>).ToArray();
+        }
+
+        private void InitJobInterestCollection()
+        {
+            JobInterestCollection = new ObservableCollection<PickerItem>() {
+                new PickerItem { ID = Guid.NewGuid(), Name = "Technical Support Engineer" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Quality Assurance" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Team Manager" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Operations Manager" }
+            };
+        }
+        private void InitJobLocationCollection()
+        {
+            JobLocationCollection = new ObservableCollection<PickerItem>() {
+                new PickerItem { ID = Guid.NewGuid(), Name = "Vietnam" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Australia" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Japan" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Korea" }
+            };
         }
     }
 }

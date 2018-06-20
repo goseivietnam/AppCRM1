@@ -12,7 +12,9 @@ namespace AppCRM
 {
 	public partial class App : Application
 	{
-        public static string UserID { get; set; }
+        public static string ContactID { get; set; }
+        public static string UserName { get; set; }
+
         static App()
         {
             BuildDependencies();
@@ -21,7 +23,6 @@ namespace AppCRM
 		{
 			InitializeComponent();
             InitNavigation();
-
         }
 
         private Task InitNavigation()

@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace AppCRM.Controls.Validators
 {
-    class MaterialDatePickerValidationBehavior : Behavior<MaterialDatePicker>
+    class MaterialEntryValidationBehavior : Behavior<MaterialEntry>
     {
         public string RuleNames { get; set; }
         public string RuleMessages { get; set; }
@@ -16,7 +16,7 @@ namespace AppCRM.Controls.Validators
         /// Attach events on attachment to view
         /// </summary>
         /// <param name="bindable">Bindable.</param>
-        protected override void OnAttachedTo(MaterialDatePicker bindable)
+        protected override void OnAttachedTo(MaterialEntry bindable)
         {
             base.OnAttachedTo(bindable);
             bindable.EntryUnfocused += Bindable_EntryUnfocused;
@@ -26,7 +26,7 @@ namespace AppCRM.Controls.Validators
         /// Detach events on detaching from view
         /// </summary>
         /// <param name="bindable">Bindable.</param>
-        protected override void OnDetachingFrom(MaterialDatePicker bindable)
+        protected override void OnDetachingFrom(MaterialEntry bindable)
         {
             base.OnDetachingFrom(bindable);
             bindable.EntryUnfocused -= Bindable_EntryUnfocused;
@@ -39,7 +39,7 @@ namespace AppCRM.Controls.Validators
         /// <param name="e">E.</param>
         void Bindable_EntryUnfocused(object sender, FocusEventArgs e)
         {
-            var entry = (MaterialDatePicker)sender;
+            var entry = (MaterialEntry)sender;
             var validationLabel = entry.Parent.FindByName<Label>(ValidationLabelName);
 
             var message = this.ValidMessage;
@@ -53,8 +53,12 @@ namespace AppCRM.Controls.Validators
                 switch (rule.Trim())
                 {
                     case ValidationRule.Required:
-                        entry.IsValid = !Validator.IsEmpty(entry.Date.ToString());
+                        entry.IsValid = !Validator.IsEmpty(entry.Text);
                         break;
+                    case ValidationRule.Email:
+                        entry.IsValid = Validator.IsEmail(entry.Text);
+                        break;
+                    //add more rule if needed
                     default: break;
                 }
                 if (!entry.IsValid)

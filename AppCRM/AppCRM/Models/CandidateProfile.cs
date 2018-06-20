@@ -24,6 +24,7 @@ namespace AppCRM.Models
         public string RoleAndAddress { get; set; }
         public string Greeting { get; set; }
         public string Introduction { get; set; }
+        public string Password { get; set; }
 
         public List<ContactLink> ContactLinks { get; set; }
         public List<ContactEducation> Educations { get; set; }

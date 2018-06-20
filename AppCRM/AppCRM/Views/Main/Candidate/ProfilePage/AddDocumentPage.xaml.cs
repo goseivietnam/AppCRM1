@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Xamarin.Forms;
+﻿using Rg.Plugins.Popup.Pages;
 using Xamarin.Forms.Xaml;
 
-namespace AppCRM.Views.Main.Candidate
+namespace AppCRM.Views.Main.Candidate.ProfilePage
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AddDocumentPage : ContentPage
-	{
-		public AddDocumentPage ()
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+	public partial class AddDocumentPage : PopupPage
+    {
+		public AddDocumentPage()
 		{
 			InitializeComponent ();
 		}

@@ -30,3 +30,7 @@
 /.vs/AppCRM/v15/Server/sqlite3/storage.ide-wal
 /.vs/AppCRM/v15/.suo
 /.vs/AppCRM/DesignTimeBuild/.dtbcache
+/UpgradeLog.htm
+/UpgradeLog2.htm
+/AppCRM/AppCRM.Android/AppCRM.Android.csproj.user
+/AppCRM/AppCRM.iOS/AppCRM.iOS.csproj.user

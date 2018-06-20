@@ -1,12 +1,96 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddReferencePage">
+<pages:PopupPage
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
+    xmlns:animations="clr-namespace:AppCRM.Effects"
+    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+    xmlns:behaviors1="clr-namespace:AppCRM.Controls.Validators"
+    xmlns:components="clr-namespace:AppCRM.Controls"
+    x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddReferencePage">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="PrimaryMaterialEntry" TargetType="material:MaterialEntry">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="AccentColor" Value="#3C4455"/>
+                <Setter Property="PlaceholderColor" Value="#3C4455"/>
+                <Setter Property="InvalidColor" Value="#DD4C40"/>
+                <Setter Property="HiddenLabelTextSize" Value="11"/>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid>
+            <Grid>
+                <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+                    <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
+                        <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
+                        <Label Text="Add Reference" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveReferenceCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
+                    </StackLayout>
+                    <ScrollView>
+                        <StackLayout Padding="0" Spacing="2">
+                            <material:MaterialEntry Text="{Binding Employer}" Placeholder="Employer" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Employer is not filled yet" ValidationLabelName="lblValidateEmployer"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateEmployer" FontSize="12" Margin="15,-2"/>
+                            <material:MaterialEntry Text="{Binding Position}" Placeholder="Position" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Position is not filled yet" ValidationLabelName="lblValidatePosition"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidatePosition" FontSize="12" Margin="15,-2"/>
+                            <material:MaterialEntry Text="{Binding ReferenceName}" Placeholder="Position" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="ReferenceName is not filled yet" ValidationLabelName="lblValidateReferenceName"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateReferenceName" FontSize="12" Margin="15,-2"/>
+                            <material:MaterialEntry Text="{Binding Relationship}" Placeholder="Relationship" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Relationship is not filled yet" ValidationLabelName="lblValidateRelationship"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateRelationship" FontSize="12" Margin="15,-2"/>
+                            <material:MaterialEntry Text="{Binding Phone}" Placeholder="Phone" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Phone is not filled yet" ValidationLabelName="lblValidatePhone"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidatePhone" FontSize="12" Margin="15,-2"/>
+                            <Grid Margin="15,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50*" />
+                                    <ColumnDefinition Width="50*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Text="Can be contacted"></Label>
+                                <components:Checkbox Grid.Column="1" IsChecked="{Binding IsContacted}" VerticalOptions="Center" OutlineColor="#C4CBD3" CheckedOutlineColor="#C4CBD3" CheckColor="#2A76FD" WidthRequest="25" HeightRequest="17"/>
+                            </Grid>
+                            <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
+                            <StackLayout Orientation="Horizontal" Margin="15,0" >
+                                <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>
+                                <Label Text="{Binding FileName}" IsVisible="{Binding FileNameIsVisible}" TextColor="Blue"></Label>
+                            </StackLayout>
+                            <Label Text="Upload your document or image as attachment. Support file .doc, .docx" FontSize="12" Margin="15,10,15,5"/>
+                            <Button Text="Attachment" BackgroundColor="#2A76FD" TextColor="WhiteSmoke" Margin="15,0" Command="{Binding BtnAttachmentCommand}" IsEnabled="{Binding BtnAttachmentIsEnable}"/>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+            </Grid>
+            <ActivityIndicator
+                Color="White"
+                IsRunning="{Binding IsBusy}"
+                IsEnabled="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+        </Grid>
     </ContentPage.Content>
-</ContentPage>
+</pages:PopupPage>
