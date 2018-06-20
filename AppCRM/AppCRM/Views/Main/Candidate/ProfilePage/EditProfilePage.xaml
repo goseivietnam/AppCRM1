@@ -31,6 +31,15 @@
                 <Setter Property="FontSize" Value="13"></Setter>
                 <Setter Property="Margin" Value="15,-5"></Setter>
             </Style>
+            <Style x:Key="PrimaryMaterialPicker" TargetType="material:MaterialPicker">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="AccentColor" Value="#828B93"/>
+                <!--<Setter Property="PlaceholderColor" Value="#828B93"/>-->
+                <Setter Property="InvalidColor" Value="#DD4C40"/>
+                <Setter Property="HiddenLabelTextSize" Value="11"/>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -39,7 +48,7 @@
                 <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
                     <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                         <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                        <Label Text="Add Education" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Label Text="Edit Profile" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                         <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveProfileCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
                     </StackLayout>
                     <ScrollView>
@@ -86,13 +95,13 @@
                                 </material:MaterialEntry.Behaviors>
                             </material:MaterialEntry>
                             <Label x:Name="lblValidateCity" FontSize="12" Margin="15,-2"/>
-                            <material:MaterialEntry Text="{Binding Nationality}" Placeholder="Nationality" Style="{DynamicResource PrimaryMaterialEntry}">
-                                <material:MaterialEntry.Behaviors>
+                            <material:MaterialPicker Items="{Binding NationalityDDL}" SelectedItem="{Binding NationalitySelected}" Placeholder="Nationality" Style="{DynamicResource PrimaryMaterialPicker}">
+                                <material:MaterialPicker.Behaviors>
                                     <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Nationality is not filled yet" ValidationLabelName="lblValidateNationality"/>
-                                </material:MaterialEntry.Behaviors>
-                            </material:MaterialEntry>
+                                </material:MaterialPicker.Behaviors>
+                            </material:MaterialPicker>
                             <Label x:Name="lblValidateNationality" FontSize="12" Margin="15,-2"/>
-                            <material:MaterialDatePicker Text="{Binding BirthDay}" Placeholder="Day of birth" Style="{DynamicResource PrimaryMaterialEntry}">
+                            <material:MaterialDatePicker Date="{Binding BirthDay}" Placeholder="Day of birth" Style="{DynamicResource PrimaryMaterialEntry}">
                                 <material:MaterialDatePicker.Behaviors>
                                     <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="Day of birth is not filled yet" ValidationLabelName="lblValidateBirthDay"/>
                                 </material:MaterialDatePicker.Behaviors>

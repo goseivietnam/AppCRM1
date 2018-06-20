@@ -185,7 +185,13 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(EmployerRegisterViewModel),typeof(EmployerRegisterPage));
             _mappings.Add(typeof(RegisterPopupViewModel),typeof(RegisterPopupPage));
             _mappings.Add(typeof(AddEducationViewModel), typeof(AddEducationPage));
-
+            _mappings.Add(typeof(AddDocumentViewModel), typeof(AddDocumentPage));
+            _mappings.Add(typeof(AddLicenceViewModel), typeof(AddLicencePage));
+            _mappings.Add(typeof(AddQualificationViewModel), typeof(AddQualificationPage));
+            _mappings.Add(typeof(AddReferenceViewModel), typeof(AddReferencePage));
+            _mappings.Add(typeof(AddSkillPageViewModel), typeof(AddSkillPage));
+            _mappings.Add(typeof(AddWorkExprienceViewModel), typeof(AddWorkExpriencePage));
+            _mappings.Add(typeof(EditProfileViewModel), typeof(EditProfilePage));
         }
         #endregion
     }

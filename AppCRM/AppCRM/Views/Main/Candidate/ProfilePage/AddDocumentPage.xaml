@@ -29,7 +29,7 @@
                 <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
                     <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                         <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                        <Label Text="Add Education" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Label Text="Add Document" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                         <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveDocumentCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
                     </StackLayout>
                     <ScrollView>

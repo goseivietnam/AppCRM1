@@ -156,6 +156,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand BtnAddLicenceCommand => new AsyncCommand(BtnAddLicenceCommandAsync);
         public ICommand BtnAddDocumentCommand => new AsyncCommand(BtnAddDocumentCommandAsync);
         public ICommand BtnAddReferenceCommand => new AsyncCommand(BtnAddReferenceCommandAsync);
+        public ICommand BtnEditProfileCommand => new AsyncCommand(BtnEditProfileCommandAsync);
         public ICommand ListViewCommand => new Command(ListView_ItemTapped);
 
         private void masterPageBtnAsync()
@@ -197,7 +198,12 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             await _navigationService.NavigateToPopupAsync<AddReferenceViewModel>(true);
         }
-       
+
+        private async Task BtnEditProfileCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<EditProfileViewModel>(true);
+        }
+
         private void ListView_ItemTapped()
         {
            

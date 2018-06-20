@@ -23,6 +23,15 @@
                 <Setter Property="FontSize" Value="13"></Setter>
                 <Setter Property="Margin" Value="15,-5"></Setter>
             </Style>
+            <Style x:Key="PrimaryMaterialPicker" TargetType="material:MaterialPicker">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="AccentColor" Value="#3C4455"/>
+                <!--<Setter Property="PlaceholderColor" Value="#3C4455"/>-->
+                <Setter Property="InvalidColor" Value="#DD4C40"/>
+                <Setter Property="HiddenLabelTextSize" Value="11"/>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -31,7 +40,7 @@
                 <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
                     <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                         <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                        <Label Text="Add Education" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Label Text="Add Skill" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                         <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveSkillCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
                     </StackLayout>
                     <ScrollView>
@@ -48,13 +57,6 @@
                                 </material:MaterialPicker.Behaviors>
                             </material:MaterialPicker>
                             <Label x:Name="lblValidateExperience" FontSize="13"/>
-                            <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
-                            <StackLayout Orientation="Horizontal" Margin="15,0" >
-                                <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>
-                                <Label Text="{Binding FileName}" IsVisible="{Binding FileNameIsVisible}" TextColor="Blue"></Label>
-                            </StackLayout>
-                            <Label Text="Upload your document or image as attachment. Support file .doc, .docx" FontSize="12" Margin="15,10,15,5"/>
-                            <Button Text="Attachment" BackgroundColor="#2A76FD" TextColor="WhiteSmoke" Margin="15,0" Command="{Binding BtnAttachmentCommand}" IsEnabled="{Binding BtnAttachmentIsEnable}"/>
                         </StackLayout>
                     </ScrollView>
                 </StackLayout>

@@ -8,6 +8,7 @@ using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -19,7 +20,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
         private readonly INavigationService _navigationService;
-        private readonly IRequestService _requestService;
 
         private string _avatarUrl;
         private string _firstName;
@@ -27,7 +27,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private string _email;
         private string _address;
         private string _cityName;
-        private string _nationalityDDL;
+        private ObservableCollection<PickerItem> _nationalityDDL;
+        private PickerItem _nationalitySelected;
         private DateTime? _birthDay;
         private string _aboutMe;
         private string _coverUrl;
@@ -39,12 +40,11 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private bool _fileAttachImageIsVisible = false;
         private SJFileStream stream;
 
-        public EditProfileViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService, IRequestService requestService)
+        public EditProfileViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
             _navigationService = navigationService;
-            _requestService = requestService;
         }
 
         public string AvatarUrl
@@ -116,6 +116,31 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             set
             {
                 _cityName = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<PickerItem> NationalityDDL
+        {
+            get
+            {
+                return _nationalityDDL;
+            }
+            set
+            {
+                _nationalityDDL = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public PickerItem NationalitySelected
+        {
+            get
+            {
+                return _nationalitySelected;
+            }
+            set
+            {
+                _nationalitySelected = value;
                 OnPropertyChanged();
             }
         }
@@ -264,8 +289,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 Email = _email,
                 Address = _address,
                 CityName = _cityName,
-                //Nationality = selecteditem.Name,
-                //NationalityID = selecteditem.Id,
+                Nationality = _nationalitySelected.Name,
+                NationalityID = _nationalitySelected.ID,
                 DateOfBirth = _birthDay,
                 AboutMe = _aboutMe,
             };
