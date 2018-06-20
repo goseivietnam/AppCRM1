@@ -158,7 +158,8 @@ namespace AppCRM.ViewModels.Account
                     if (obj["Success"] == "true") //success
                     {
                         await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                        App.UserID = obj["ContactID"];
+                        App.ContactID = obj["ContactID"];
+                        App.UserName = obj["UserName"];
                         RequestService.ACCESS_TOKEN = obj["access_token"];
                     }
                     else if (obj["Message"] == "IsExists") //is exists

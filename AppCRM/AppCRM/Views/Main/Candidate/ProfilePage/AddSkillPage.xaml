@@ -23,15 +23,6 @@
                 <Setter Property="FontSize" Value="13"></Setter>
                 <Setter Property="Margin" Value="15,-5"></Setter>
             </Style>
-            <Style x:Key="PrimaryMaterialDatePicker" TargetType="material:MaterialDatePicker">
-                <Setter Property="TextColor" Value="#3C4455"/>
-                <Setter Property="AccentColor" Value="#3C4455"/>
-                <Setter Property="PlaceholderColor" Value="#3C4455"/>
-                <Setter Property="InvalidColor" Value="#DD4C40"/>
-                <Setter Property="HiddenLabelTextSize" Value="11"/>
-                <Setter Property="FontSize" Value="13"></Setter>
-                <Setter Property="Margin" Value="15,-5"></Setter>
-            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -51,12 +42,12 @@
                                 </material:MaterialEntry.Behaviors>
                             </material:MaterialEntry>
                             <Label x:Name="lblValidateSkill" FontSize="12" Margin="15,-2"/>
-                            <material:MaterialPicker Items="{Binding ExperienceDDL}" Placeholder="Experience" Style="{DynamicResource PrimaryMaterialPicker}">
+                            <material:MaterialPicker Items="{Binding ExperienceDDL}" SelectedItem="{Binding ExperienceSelected}" Placeholder="Experience" Style="{DynamicResource PrimaryMaterialPicker}">
                                 <material:MaterialPicker.Behaviors>
                                     <behaviors1:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="Experience is not filled yet" ValidationLabelName="lblValidateExperience"/>
                                 </material:MaterialPicker.Behaviors>
                             </material:MaterialPicker>
-                            <Label x:Name="lblValidateExperience" FontSize="13"/>                           
+                            <Label x:Name="lblValidateExperience" FontSize="13"/>
                             <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
                             <StackLayout Orientation="Horizontal" Margin="15,0" >
                                 <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>

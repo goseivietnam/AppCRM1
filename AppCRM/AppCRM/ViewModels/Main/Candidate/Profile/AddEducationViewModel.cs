@@ -14,7 +14,7 @@ using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate.Profile
 {
-    public class AddEducationViewModel:ViewModelBase
+    public class AddEducationViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
@@ -27,13 +27,13 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private string _city;
         private DateTime? _fromDate;
         private DateTime? _toDate;
-        private bool _btnAttachmentIsEnable=true;
+        private bool _btnAttachmentIsEnable = true;
         private string _fileName;
         private bool _fileNameIsVisible = false;
         private bool _fileAttachImageIsVisible = false;
         private SJFileStream stream;
 
-        public AddEducationViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService,INavigationService navigationService)
+        public AddEducationViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
@@ -189,7 +189,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private async Task BtnBackAsync()
         {
-           var result = await _dialogService.Alert("You have unsaved change", "Do you want discard your changes?", "Discard", "Cancel");
+            var result = await _dialogService.Alert("You have unsaved change", "Do you want discard your changes?", "Discard", "Cancel");
             if (result)
             {
                 await PopupNavigation.Instance.PopAllAsync();
@@ -198,25 +198,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private async Task BtnSaveEducationAsync()
         {
-            IsBusy = true;
-            DateTime? dateFrom = null;
-            DateTime? dateTo = null;
-            try
-            {
-                dateFrom = _fromDate;
-            }
-            catch
-            {
-                dateFrom = null;
-            }
-            try
-            {
-                dateTo = _toDate;
-            }
-            catch
-            {
-                dateTo = null;
-            }
             ContactEducation edu = new ContactEducation
             {
                 University = _institution,
@@ -224,12 +205,12 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 Classification = _fieldofStudy,
                 SubClassification = _course,
                 City = _city,
-                From = dateFrom,
-                TimeFromString = dateFrom.HasValue ? dateFrom.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                To = dateTo,
-                TimeToString = dateTo.HasValue ? dateTo.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                From = _fromDate,
+                TimeFromString = _fromDate.HasValue ? _fromDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                To = _toDate,
+                TimeToString = _toDate.HasValue ? _toDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
             };
-
+            IsBusy = true;
             var obj = await _candidateDetailsService.AddEducation(edu);
             IsBusy = false;
 
@@ -240,35 +221,39 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     if (obj["Success"] == "true") //success
                     {
                         await _dialogService.PopupMessage("Add new Education Successefully", "#52CD9F", "#FFFFFF");
-                        IsBusy=true;
-                        var objupload = await _candidateDetailsService.SaveEducationAttachment(obj["Result"], stream);
-                        IsBusy=false;
-
-                        if (objupload != null)
+                        if (stream != null)
                         {
-                            try
+                            IsBusy = true;
+                            var objupload = await _candidateDetailsService.SaveEducationAttachment(obj["Result"], stream);
+                            IsBusy = false;
+
+                            if (objupload != null)
                             {
-                                if (objupload["Success"] == "true") //success
+                                try
                                 {
-                                    await _dialogService.PopupMessage("Attach file Successefully", "#52CD9F", "#FFFFFF");
-                                    await PopupNavigation.Instance.PopAllAsync();
-                                    await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                                    if (objupload["Success"] == "true") //success
+                                    {
+                                        await _dialogService.PopupMessage("Attach file Successefully", "#52CD9F", "#FFFFFF");
+                                        await PopupNavigation.Instance.PopAllAsync();
+                                        await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                                    }
+                                    else if (objupload["Success"] == "false")
+                                    {
+                                        if (objupload["Message"] == "Fail")
+                                        {
+                                            await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                        }
+                                        else if (objupload["Message"] == "NodocumentFile")
+                                        {
+                                            await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
+                                        }
+                                    }
                                 }
-                                else if (objupload["Success"] == "false")
+                                catch
                                 {
-                                    if (objupload["Message"] == "Fail")
-                                    {
-                                        await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                                    }
-                                    else if (objupload["Message"] == "NodocumentFile")
-                                    {
-                                        await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
-                                    }
+                                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                    IsBusy = false;
                                 }
-                            }
-                            catch
-                            {
-                                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                             }
                         }
                     }
@@ -277,6 +262,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                    IsBusy = false;
                 }
             }
         }

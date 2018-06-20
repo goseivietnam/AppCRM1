@@ -14,39 +14,51 @@ using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate.Profile
 {
-    class AddLicenceViewModel : ViewModelBase
+    public class AddQualificationViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
         private readonly INavigationService _navigationService;
 
-        private string _type;
+        private string _qualification;
+        private string _institution;
         private DateTime? _fromDate;
         private DateTime? _toDate;
-        private int _number;
-        private string _comment;
         private bool _btnAttachmentIsEnable = true;
         private string _fileName;
         private bool _fileNameIsVisible = false;
         private bool _fileAttachImageIsVisible = false;
         private SJFileStream stream;
 
-        public AddLicenceViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
+        public AddQualificationViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
             _navigationService = navigationService;
         }
 
-        public string Type
+        public string Qualification
         {
             get
             {
-                return _type;
+                return _qualification;
             }
             set
             {
-                _type = value;
+                _qualification = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Institution
+        {
+            get
+            {
+                return _institution;
+            }
+            set
+            {
+                _institution = value;
                 OnPropertyChanged();
             }
         }
@@ -73,32 +85,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             set
             {
                 _toDate = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int Number
-        {
-            get
-            {
-                return _number;
-            }
-            set
-            {
-                _number = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Comment
-        {
-            get
-            {
-                return _comment;
-            }
-            set
-            {
-                _comment = value;
                 OnPropertyChanged();
             }
         }
@@ -156,7 +142,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         }
 
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
-        public ICommand BtnSaveLicenceCommand => new AsyncCommand(BtnSaveLicenceCommandAsync);
+        public ICommand BtnSaveQualificationCommand => new AsyncCommand(BtnSaveQualificationCommandAsync);
         public ICommand BtnAttachmentCommand => new AsyncCommand(BtnAttachmentAsync);
 
         private async Task BtnBackAsync()
@@ -168,20 +154,37 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             }
         }
 
-        private async Task BtnSaveLicenceCommandAsync()
+        private async Task BtnSaveQualificationCommandAsync()
         {
-            ContactLicence licence = new ContactLicence
-            {
-                MeasurementName = _type,
-                MeasurementNumber = _number.ToString(),
-                Description = _comment,
-                From = _fromDate,
-                DateFromString = _fromDate.HasValue ? _fromDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-                To = _toDate,
-                DateToString = _toDate.HasValue ? _toDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
-            };
             IsBusy = true;
-            var obj = await _candidateDetailsService.AddLicence(licence);
+            DateTime? dateFrom = null;
+            DateTime? dateTo = null;
+            try
+            {
+                dateFrom = _fromDate;
+            }
+            catch
+            {
+                dateFrom = null;
+            }
+            try
+            {
+                dateTo = _toDate;
+            }
+            catch
+            {
+                dateTo = null;
+            }
+            ContactQualification qualification = new ContactQualification
+            {
+                MeasurementName = _qualification,
+                Institute = _institution,
+                From = dateFrom,
+                DateFromString = dateFrom.HasValue ? dateFrom.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+                To = dateTo,
+                DateToString = dateTo.HasValue ? dateTo.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
+            };
+            var obj = await _candidateDetailsService.AddQualification(qualification);
             IsBusy = false;
 
             if (obj != null)
@@ -190,9 +193,9 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 {
                     if (obj["Success"] == "true") //success
                     {
-                        await _dialogService.PopupMessage("Add new Licence Successefully", "#52CD9F", "#FFFFFF");
+                        await _dialogService.PopupMessage("Add new Qualification Successefully", "#52CD9F", "#FFFFFF");
                         IsBusy = true;
-                        var objupload = await _candidateDetailsService.SaveContactLicenceAttachment(obj["Result"], stream);
+                        var objupload = await _candidateDetailsService.SaveContactQualificationAttachment(obj["Result"], stream);
                         IsBusy = false;
 
                         if (objupload != null)

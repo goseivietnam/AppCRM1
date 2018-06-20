@@ -50,7 +50,7 @@
                                     <Image Aspect="AspectFill" Source="{Binding AvatarUrl}"/>
                                 </Frame>
                                 <Frame CornerRadius="15" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="White" AbsoluteLayout.LayoutBounds="80,80,30,30">
-                                    <Button Image="icon_pencil.png" BackgroundColor="White" WidthRequest="30" HeightRequest="30" BorderRadius="15" Command="{Binding BtnPickAvatarCommand}"/>
+                                    <Button Image="icon_pencil.png" BackgroundColor="White" WidthRequest="30" HeightRequest="30" BorderRadius="15" IsEnabled="{Binding BtnPickAvatarIsEnable}" Command="{Binding BtnPickAvatarCommand}"/>
                                 </Frame>
                             </AbsoluteLayout>
                             <StackLayout Spacing="0" BackgroundColor="#F9F9F9" Padding="10">
@@ -107,12 +107,19 @@
                             <StackLayout Spacing="0" BackgroundColor="#F9F9F9" Padding="10" HeightRequest="20">
                                 <!--<Label FontSize="12" TextColor="#959DA3" Text="MY PROFILE" FontAttributes="Bold"/>-->
                             </StackLayout>
+                            <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
+                            <StackLayout Orientation="Horizontal" Margin="15,0" >
+                                <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>
+                                <Label Text="{Binding FileName}" IsVisible="{Binding FileNameIsVisible}" TextColor="Blue"></Label>
+                            </StackLayout>
+                            <Label Text="Upload your document or image as attachment. Support file .doc, .docx" FontSize="12" Margin="15,10,15,5"/>
+                            <Button Text="Attachment" BackgroundColor="#2A76FD" TextColor="WhiteSmoke" Margin="15,0" Command="{Binding BtnAttachmentCommand}" IsEnabled="{Binding BtnAttachmentIsEnable}"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50*" />
                                     <ColumnDefinition Width="50*" />
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" Command="{Binding BtnUploadResumCommand}" Text="Upload" TextColor="WhiteSmoke" BackgroundColor="#0076FF" BorderWidth="1" BorderColor="#006CEB" Margin="15"/>
+                                <Button Grid.Column="0" IsEnabled="{Binding BtnUploadResumIsEnable}" Command="{Binding BtnUploadResumCommand}" Text="Upload" TextColor="WhiteSmoke" BackgroundColor="#0076FF" BorderWidth="1" BorderColor="#006CEB" Margin="15"/>
                                 <Button Grid.Column="1" Command="{Binding BtnYoutubeLinkCommand}" Text="Youtube Link" TextColor="#0076FF" BackgroundColor="White" BorderWidth="1" BorderColor="#0076FF" Margin="15"/>
                             </Grid>
                             <StackLayout Spacing="0" BackgroundColor="#F9F9F9" Padding="10" HeightRequest="20">
@@ -120,7 +127,7 @@
                             </StackLayout>
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Cover" TextColor="#2C2829" HorizontalOptions="Start" VerticalOptions="Center" Margin="15,0"/>
-                                <Button Command="{Binding BtnEditCoverCommand}" BackgroundColor="Transparent" TextColor="#0076FF" 
+                                <Button IsEnabled="{Binding BtnEditCoverIsEnable}" Command="{Binding BtnEditCoverCommand}" BackgroundColor="Transparent" TextColor="#0076FF" 
                                 HorizontalOptions="EndAndExpand" Text="Edit cover"/>
                             </StackLayout>
                             <Image x:Name="profileCover" Source="{Binding CoverUrl}" Aspect="AspectFill" 
