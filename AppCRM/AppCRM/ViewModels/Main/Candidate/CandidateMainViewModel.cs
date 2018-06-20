@@ -16,12 +16,25 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
+        private int _selectedIndex;
         private ViewModelBase _profilePage;
         private ViewModelBase _jobPage;
         private ViewModelBase _explorePage;
         private ViewModelBase _notifyPage;
         private ViewModelBase _messagePage;
 
+        public int SelectedIndex
+        {
+            get
+            {
+                return _selectedIndex;
+            }
+            set
+            {
+                _selectedIndex = value;
+                OnPropertyChanged();
+            }
+        }
         public ViewModelBase ProfilePage
         {
             get
@@ -91,6 +104,8 @@ namespace AppCRM.ViewModels.Main.Candidate
             _dialogService = Locator.Instance.Resolve<IDialogService>();
             _navigationService = Locator.Instance.Resolve<INavigationService>();
 
+            SelectedIndex = 0;
+
             ProfilePage = Locator.Instance.Resolve<CandidateProfileViewModel>() as ViewModelBase;
             JobPage = Locator.Instance.Resolve<CandidateJobViewModel>() as ViewModelBase;
 
@@ -113,7 +128,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 switch ((item as Views.Main.MenuItem).Title)
                 {
                     case "Profile":
-                        OpenMainPage();
+                        await OpenMainPageAsync();
                         break;
                     case "Account Setting":
                         await OpenChangePasswordPage();
@@ -169,9 +184,10 @@ namespace AppCRM.ViewModels.Main.Candidate
             //}
         }
 
-        private void OpenMainPage()
+        private async Task OpenMainPageAsync()
         {
-            ProfilePage.InitializeAsync(null);
+            await ProfilePage.InitializeAsync(null);
+            SelectedIndex = 0;
         }
     }
 }

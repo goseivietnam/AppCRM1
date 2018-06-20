@@ -8,7 +8,7 @@
     <ContentView.Content>
         <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
             <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
-                <Button BackgroundColor="Transparent" Image="three_dots.png" WidthRequest="40" HeightRequest="40" HorizontalOptions="StartAndExpand"/>
+                <Button BackgroundColor="Transparent" Image="three_dots.png" WidthRequest="40" HeightRequest="40" HorizontalOptions="StartAndExpand" Command="{Binding MasterPageBtnCommand}" />
                 <Label Text="Job" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                 <Button Text="Option" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="70"/>
             </StackLayout>

@@ -91,9 +91,13 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
         }
 
+        public ICommand MasterPageBtnCommand => new Command(MasterPageBtnAsync);
         public ICommand ListViewCommand => new Command(ListView_ItemTapped);
 
-
+        private void MasterPageBtnAsync()
+        {
+            (Application.Current.MainPage as MasterDetailPage).IsPresented = true;
+        }
         private void ListView_ItemTapped()
         {
 

@@ -52,7 +52,7 @@
     <MasterDetailPage.Detail>
         <ContentPage>
             <ContentPage.Content>
-                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA">
+                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA" SelectedIndex="{Binding SelectedIndex}">
                     <tabbedPage:SfTabView.SelectionIndicatorSettings>
                         <tabbedPage:SelectionIndicatorSettings Color="#FAFAFA" Position="Top"  StrokeThickness="0"/>
                     </tabbedPage:SfTabView.SelectionIndicatorSettings>
