@@ -60,20 +60,22 @@ namespace AppCRM.ViewModels
 
         private async Task SignInAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             var y = await _authenticationService.LoginAsync(UserName, Password);
             if (y != null)
             {
                 if (y["Success"] == "true")
                 {
-                await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
-                    IsBusy = false;
+                    await _dialogService.CloseLoadingPopup(pop);
+                    await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
+                   
                     if (y["Roles"] == "Employer")
                     {
                     }
                     else if (y["Roles"] == "Candidate")
                     {
-                    App.UserID = y["ContactID"];
+                    App.ContactID = y["ContactID"];
+                    App.UserName = y["UserName"];
                     RequestService.ACCESS_TOKEN = y["access_token"];
                     await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
@@ -98,7 +100,7 @@ namespace AppCRM.ViewModels
                 await _dialogService.PopupMessage("Login fail, please try again!", "#CF6069", "#FFFFFF");
                 await NavigationService.NavigateToAsync<LoginViewModel>();
             }
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         public ICommand RegisterCommand => new AsyncCommand(RegisterPopupAsync);

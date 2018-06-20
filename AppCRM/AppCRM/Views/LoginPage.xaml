@@ -72,12 +72,7 @@
                    />
                 </StackLayout>
             </Grid>
-            <ActivityIndicator
-                Color="White"
-                IsRunning="{Binding IsBusy}"
-                IsEnabled="{Binding IsBusy}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>             
+            
         </Grid>
     </ContentPage.Content>
 
