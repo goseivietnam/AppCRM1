@@ -74,9 +74,9 @@ namespace AppCRM.ViewModels
                     }
                     else if (obj["Roles"] == "Candidate")
                     {
-                    App.ContactID = y["ContactID"];
-                    App.UserName = y["UserName"];
-                    RequestService.ACCESS_TOKEN = y["access_token"];
+                    App.ContactID = obj["ContactID"];
+                    App.UserName = obj["UserName"];
+                    RequestService.ACCESS_TOKEN = obj["access_token"];
                     await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
                 }

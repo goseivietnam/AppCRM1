@@ -1,5 +1,6 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
+using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Services.Request;
 using AppCRM.Utils;
@@ -19,6 +20,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         private readonly ICandidateDetailsService _candidateDetailService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
         private CandidateProfile _profile;
 
         // height listview 
@@ -31,10 +33,11 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _documentListViewHeightRequest;
         private int _referenceListViewHeightRequest;
         //private string _avatarUrl;
-        public CandidateProfileViewModel(ICandidateDetailsService candidateDetailService,INavigationService navigationService)
+        public CandidateProfileViewModel(ICandidateDetailsService candidateDetailService,INavigationService navigationService, IDialogService dialogService)
         {
             _candidateDetailService = candidateDetailService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
 
@@ -212,7 +215,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         public override async Task InitializeAsync(object navigationData)
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             var contactID = App.ContactID;
             dynamic obj = await _candidateDetailService.GetEmployerCandidateDetail();
             //Get all list
@@ -275,7 +278,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             LicenceListViewHeightRequest = (licenceList.Count * 61 - 1 * (licenceList.Count > 1 ? 1 : 0));
             DocumentListViewHeightRequest = (documentList.Count * 31 - 1 * (documentList.Count > 1 ? 1 : 0));
             ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         #endregion
