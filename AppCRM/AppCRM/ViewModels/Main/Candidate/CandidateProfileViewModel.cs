@@ -172,8 +172,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
            
         }
-        #region Initdata
 
+        #region Initdata
         public override async Task InitializeAsync(object navigationData)
         {
             IsBusy = true;
@@ -241,7 +241,6 @@ namespace AppCRM.ViewModels.Main.Candidate
             ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
             IsBusy = false;
         }
-
         #endregion
     }
 }

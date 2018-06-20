@@ -11,6 +11,7 @@ namespace AppCRM.Services.Candidate
 {
     public interface ICandidateJobService
     {
+        Task<dynamic> GetCandidateJobApplied();
         //Task<dynamic> GetEmployerCandidateDetail();
         //Task<dynamic> GetEmployerCandidateProfile();
         //Task<dynamic> AddEducation(ContactEducation eduction);

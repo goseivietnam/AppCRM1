@@ -92,10 +92,11 @@ namespace AppCRM.ViewModels.Main.Candidate
             _navigationService = Locator.Instance.Resolve<INavigationService>();
 
             ProfilePage = Locator.Instance.Resolve<CandidateProfileViewModel>() as ViewModelBase;
+            JobPage = Locator.Instance.Resolve<CandidateJobViewModel>() as ViewModelBase;
+
 
             ProfilePage.InitializeAsync(null);
-
-            //Initializing JobPage
+            JobPage.InitializeAsync(null);
 
             //Initializing ExplorePage
 

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:pages="clr-namespace:AppCRM.Views.Main.Candidate.ProfilePage"
+                  xmlns:pages="clr-namespace:AppCRM.Views.Main.Candidate"
                   xmlns:local="clr-namespace:AppCRM.Views.Main"
                   xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
                   xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
@@ -52,7 +52,7 @@
     <MasterDetailPage.Detail>
         <ContentPage>
             <ContentPage.Content>
-                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5">
+                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA">
                     <tabbedPage:SfTabView.SelectionIndicatorSettings>
                         <tabbedPage:SelectionIndicatorSettings Color="#FAFAFA" Position="Top"  StrokeThickness="0"/>
                     </tabbedPage:SfTabView.SelectionIndicatorSettings>
@@ -62,9 +62,11 @@
                             <pages:CandidateProfilePage BindingContext="{Binding ProfilePage}"/>
                         </tabbedPage:SfTabItem.Content>
                     </tabbedPage:SfTabItem>
-                    
-                    <tabbedPage:SfTabItem Title="Job" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
 
+                    <tabbedPage:SfTabItem Title="Job" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                        <tabbedPage:SfTabItem.Content>
+                            <pages:CandidateJobPage BindingContext="{Binding JobPage}"/>
+                        </tabbedPage:SfTabItem.Content>
                     </tabbedPage:SfTabItem>
                     
                     <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
