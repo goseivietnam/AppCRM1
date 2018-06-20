@@ -23,15 +23,6 @@
                 <Setter Property="FontSize" Value="13"></Setter>
                 <Setter Property="Margin" Value="15,-5"></Setter>
             </Style>
-            <Style x:Key="PrimaryMaterialDatePicker" TargetType="material:MaterialDatePicker">
-                <Setter Property="TextColor" Value="#3C4455"/>
-                <Setter Property="AccentColor" Value="#3C4455"/>
-                <Setter Property="PlaceholderColor" Value="#3C4455"/>
-                <Setter Property="InvalidColor" Value="#DD4C40"/>
-                <Setter Property="HiddenLabelTextSize" Value="11"/>
-                <Setter Property="FontSize" Value="13"></Setter>
-                <Setter Property="Margin" Value="15,-5"></Setter>
-            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
@@ -40,7 +31,7 @@
                 <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
                     <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                         <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                        <Label Text="Add Education" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Label Text="Add Reference" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                         <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveReferenceCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
                     </StackLayout>
                     <ScrollView>
@@ -57,6 +48,12 @@
                                 </material:MaterialEntry.Behaviors>
                             </material:MaterialEntry>
                             <Label x:Name="lblValidatePosition" FontSize="12" Margin="15,-2"/>
+                            <material:MaterialEntry Text="{Binding ReferenceName}" Placeholder="Position" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="ReferenceName is not filled yet" ValidationLabelName="lblValidateReferenceName"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateReferenceName" FontSize="12" Margin="15,-2"/>
                             <material:MaterialEntry Text="{Binding Relationship}" Placeholder="Relationship" Style="{DynamicResource PrimaryMaterialEntry}">
                                 <material:MaterialEntry.Behaviors>
                                     <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Relationship is not filled yet" ValidationLabelName="lblValidateRelationship"/>

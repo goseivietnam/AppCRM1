@@ -1,5 +1,6 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
+using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Services.Request;
 using AppCRM.Utils;
@@ -19,6 +20,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         private readonly ICandidateDetailsService _candidateDetailService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
         private CandidateProfile _profile;
 
         // height listview 
@@ -31,10 +33,11 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _documentListViewHeightRequest;
         private int _referenceListViewHeightRequest;
         //private string _avatarUrl;
-        public CandidateProfileViewModel(ICandidateDetailsService candidateDetailService,INavigationService navigationService)
+        public CandidateProfileViewModel(ICandidateDetailsService candidateDetailService,INavigationService navigationService, IDialogService dialogService)
         {
             _candidateDetailService = candidateDetailService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
 
@@ -149,13 +152,14 @@ namespace AppCRM.ViewModels.Main.Candidate
         }
 
         public ICommand masterPageBtnCommand => new Command(masterPageBtnAsync);
-        public ICommand btnAddEducationCommand => new AsyncCommand(btnAddEducationAsync);
-        public ICommand btnAddWorkExperienceCommand => new AsyncCommand(btnAddEducationAsync);
-        public ICommand btnAddSkillCommand => new AsyncCommand(btnAddEducationAsync);
-        public ICommand btnAddQualificationCommand => new AsyncCommand(btnAddEducationAsync);
-        public ICommand btnAddLicenceCommand => new AsyncCommand(btnAddEducationAsync);
-        public ICommand btnAddDocumentCommand => new AsyncCommand(btnAddEducationAsync);
-        public ICommand btnAddReferenceCommand => new AsyncCommand(btnAddEducationAsync);
+        public ICommand BtnAddEducationCommand => new AsyncCommand(BtnAddEducationCommandAsync);
+        public ICommand BtnAddWorkExperienceCommand => new AsyncCommand(BtnAddWorkExperienceCommandAsync);
+        public ICommand BtnAddSkillCommand => new AsyncCommand(BtnAddSkillCommandAsync);
+        public ICommand BtnAddQualificationCommand => new AsyncCommand(BtnAddQualificationCommandAsync);
+        public ICommand BtnAddLicenceCommand => new AsyncCommand(BtnAddLicenceCommandAsync);
+        public ICommand BtnAddDocumentCommand => new AsyncCommand(BtnAddDocumentCommandAsync);
+        public ICommand BtnAddReferenceCommand => new AsyncCommand(BtnAddReferenceCommandAsync);
+        public ICommand BtnEditProfileCommand => new AsyncCommand(BtnEditProfileCommandAsync);
         public ICommand ListViewCommand => new Command(ListView_ItemTapped);
 
         private void masterPageBtnAsync()
@@ -163,9 +167,44 @@ namespace AppCRM.ViewModels.Main.Candidate
             (Application.Current.MainPage as MasterDetailPage).IsPresented = true;
         }
 
-        private async Task btnAddEducationAsync()
+        private async Task BtnAddEducationCommandAsync()
         {
             await _navigationService.NavigateToPopupAsync<AddEducationViewModel>(true);
+        }
+
+        private async Task BtnAddWorkExperienceCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<AddWorkExprienceViewModel>(true);
+        }
+
+        private async Task BtnAddSkillCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<AddSkillPageViewModel>(true);
+        }
+
+        private async Task BtnAddQualificationCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<AddQualificationViewModel>(true);
+        }
+
+        private async Task BtnAddLicenceCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<AddLicenceViewModel>(true);
+        }
+
+        private async Task BtnAddDocumentCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<AddDocumentViewModel>(true);
+        }
+
+        private async Task BtnAddReferenceCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<AddReferenceViewModel>(true);
+        }
+
+        private async Task BtnEditProfileCommandAsync()
+        {
+            await _navigationService.NavigateToPopupAsync<EditProfileViewModel>(true);
         }
 
         private void ListView_ItemTapped()
@@ -176,8 +215,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         #region Initdata
         public override async Task InitializeAsync(object navigationData)
         {
-            IsBusy = true;
-            var userId = App.UserID;
+            var pop = await _dialogService.OpenLoadingPopup();
+            var contactID = App.ContactID;
             dynamic obj = await _candidateDetailService.GetEmployerCandidateDetail();
             //Get all list
             List<ContactEducation> educationList = JsonConvert.DeserializeObject<List<ContactEducation>>(obj["Educations"].ToString());
@@ -214,7 +253,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
             Profile = new CandidateProfile()
             {
-                UserID = userId,
+                UserID = contactID,
                 AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["ProfileImage"],
                 CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["CoverImage"],
                 FullName = obj["CandidateDetails"]["FullName"],
@@ -239,7 +278,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             LicenceListViewHeightRequest = (licenceList.Count * 61 - 1 * (licenceList.Count > 1 ? 1 : 0));
             DocumentListViewHeightRequest = (documentList.Count * 31 - 1 * (documentList.Count > 1 ? 1 : 0));
             ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
         #endregion
     }

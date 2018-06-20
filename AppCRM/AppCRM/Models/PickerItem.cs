@@ -6,7 +6,7 @@ namespace AppCRM.Models
 {
     public class PickerItem
     {
-        public Guid Id { get; set; }
+        public Guid ID { get; set; }
         public string Name { get; set; }
 
         public override string ToString() => Name;

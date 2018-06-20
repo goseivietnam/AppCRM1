@@ -179,7 +179,8 @@ namespace AppCRM.ViewModels.Account
                     if (obj["Success"] == "true") //success
                     {
                         await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                        App.UserID = obj["ContactID"];
+                        App.ContactID = obj["ContactID"];
+                        App.UserName = obj["UserName"];
                         RequestService.ACCESS_TOKEN = obj["access_token"];
                     }
                     else if (obj["Message"] == "IsExists") //is exists
@@ -225,19 +226,19 @@ namespace AppCRM.ViewModels.Account
         private void InitJobInterestCollection()
         {
             JobInterestCollection = new ObservableCollection<PickerItem>() {
-                new PickerItem { Id = Guid.NewGuid(), Name = "Technical Support Engineer" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Quality Assurance" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Team Manager" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Operations Manager" }
+                new PickerItem { ID = Guid.NewGuid(), Name = "Technical Support Engineer" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Quality Assurance" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Team Manager" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Operations Manager" }
             };
         }
         private void InitJobLocationCollection()
         {
             JobLocationCollection = new ObservableCollection<PickerItem>() {
-                new PickerItem { Id = Guid.NewGuid(), Name = "Vietnam" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Australia" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Japan" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Korea" }
+                new PickerItem { ID = Guid.NewGuid(), Name = "Vietnam" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Australia" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Japan" },
+                new PickerItem { ID = Guid.NewGuid(), Name = "Korea" }
             };
         }
     }

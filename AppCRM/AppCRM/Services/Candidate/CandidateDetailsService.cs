@@ -16,7 +16,7 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddSkill(ContactSkill skill);
         Task<dynamic> AddQualification(ContactQualification qualification);
         Task<dynamic> AddLicence(ContactLicence licence);
-        Task<dynamic> AddDocument(Document document);
+        Task<dynamic> AddDocument(SJFileStream stream, string fileName);
         Task<dynamic> AddReference(ContactReference reference);
         Task<dynamic> EditCandidateDetails(CandidateProfile profile);
         Task<dynamic> GetCandidateExperience();
@@ -40,13 +40,13 @@ namespace AppCRM.Services.CandidateDetail
 
         public async Task<dynamic> GetEmployerCandidateDetail()
         {
-            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateDetail?ContactID=" + App.UserID.ToString());
+            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateDetail?ContactID=" + App.ContactID.ToString());
             return result;
         }
 
         public async Task<dynamic> GetEmployerCandidateProfile()
         {
-            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateProfile?ContactID=" + App.UserID.ToString());
+            var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateProfile?ContactID=" + App.ContactID.ToString());
             return result;
         }
 
@@ -80,9 +80,9 @@ namespace AppCRM.Services.CandidateDetail
             return result;
         }
 
-        public async Task<dynamic> AddDocument(Document document)
+        public async Task<dynamic> AddDocument(SJFileStream stream, string fileName)
         {
-            var result = await _requestService.postDataFromServiceAuthority("api/CandidateDetails/AddEditContactDocuments", document);
+            var result = await _requestService.UploadFile("api/CandidateDetails/AddEditContactDocuments", stream, fileName);
             return result;
         }
 

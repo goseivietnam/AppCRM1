@@ -4,74 +4,112 @@ using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
-using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace AppCRM.ViewModels.Main.Candidate.Profile
 {
-    class AddSkillPageViewModel : ViewModelBase
+    class AddReferenceViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
         private readonly INavigationService _navigationService;
 
-        private string _skill;
-        private ObservableCollection<PickerItem> _experienceDDL;
-        private PickerItem _experienceSelected;
+        private string _employer;
+        private string _position;
+        private string _referenceName;
+        private string _relationship;
+        private string _phone;
+        private bool _isContacted;
 
-        public AddSkillPageViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
+        public AddReferenceViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
             _navigationService = navigationService;
         }
 
-        public string Skill
+        public string Employer
         {
             get
             {
-                return _skill;
+                return _employer;
             }
             set
             {
-                _skill = value;
+                _employer = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<PickerItem> ExperienceDDL
+        public string Position
         {
             get
             {
-                return _experienceDDL;
+                return _position;
             }
             set
             {
-                _experienceDDL = value;
+                _position = value;
                 OnPropertyChanged();
             }
         }
 
-        public PickerItem ExperienceSelected
+        public string ReferenceName
         {
             get
             {
-                return _experienceSelected;
+                return _referenceName;
             }
             set
             {
-                _experienceSelected = value;
+                _referenceName = value;
                 OnPropertyChanged();
             }
         }
 
+        public string Relationship
+        {
+            get
+            {
+                return _relationship;
+            }
+            set
+            {
+                _relationship = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Phone
+        {
+            get
+            {
+                return _phone;
+            }
+            set
+            {
+                _phone = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsContacted
+        {
+            get
+            {
+                return _isContacted;
+            }
+            set
+            {
+                _isContacted = value;
+                OnPropertyChanged();
+            }
+        }
+       
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
-        public ICommand BtnSaveSkillCommand => new AsyncCommand(BtnSaveSkillCommandAsync);
+        public ICommand BtnSaveReferenceCommand => new AsyncCommand(BtnSaveReferenceCommandAsync);
 
         private async Task BtnBackAsync()
         {
@@ -82,24 +120,28 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             }
         }
 
-        private async Task BtnSaveSkillCommandAsync()
+        private async Task BtnSaveReferenceCommandAsync()
         {
             IsBusy = true;
-            ContactSkill skill = new ContactSkill
+            ContactReference reference = new ContactReference
             {
-                MeasurementName = _skill,
-                ExperienceName = ExperienceSelected.Name,
-                ExperienceID = ExperienceSelected.ID,
+                EmployerName = _employer,
+                Position = _position,
+                ReferenceName = _referenceName,
+                Relationship = _relationship,
+                Phone = _phone,
+                Contacted = _isContacted,
             };
-            var obj = await _candidateDetailsService.AddSkill(skill);
+            var obj = await _candidateDetailsService.AddReference(reference);
             IsBusy = false;
+
             if (obj != null)
             {
                 try
                 {
                     if (obj["Success"] == "true") //success
                     {
-                        await _dialogService.PopupMessage("Add new Education Successefully", "#52CD9F", "#FFFFFF");
+                        await _dialogService.PopupMessage("Add new Reference Successefully", "#52CD9F", "#FFFFFF");
                         await PopupNavigation.Instance.PopAllAsync();
                         await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
@@ -121,17 +163,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     IsBusy = false;
                 }
             }
-        }
-
-        public override async Task InitializeAsync(object navigationData)
-        {
-            IsBusy = true;
-            var userId = App.ContactID;
-            //load profile data from DataService
-            var obj = await _candidateDetailsService.GetCandidateExperience();
-
-            ExperienceDDL = JsonConvert.DeserializeObject<ObservableCollection<PickerItem>>(obj["ExperienceDDL"].ToString());
-            IsBusy = false;
         }
     }
 }

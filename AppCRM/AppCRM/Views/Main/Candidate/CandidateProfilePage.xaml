@@ -65,7 +65,7 @@
                         </ListView.ItemTemplate>
                     </ListView>
                 </StackLayout>
-                <Button BackgroundColor="#2A76FD" TextColor="WhiteSmoke" Text="Edit profile" BorderRadius="24" HorizontalOptions="Center" WidthRequest="200"/>
+                <Button BackgroundColor="#2A76FD" Command="{Binding BtnEditProfileCommand}" TextColor="WhiteSmoke" Text="Edit profile" BorderRadius="24" HorizontalOptions="Center" WidthRequest="200"/>
                 <Label Text="{Binding Profile.Greeting}" HorizontalOptions="CenterAndExpand" Margin="0,10,0,0" TextColor="#231F20" FontAttributes="Bold"/>
                 <Label Text="{Binding Profile.Introduction}" HorizontalOptions="CenterAndExpand" Margin="20,10" TextColor="#585759"/>
 
@@ -74,7 +74,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="EDUCATION" Style="{DynamicResource FrameHeader}"/>
-                            <Button Command="{Binding btnAddEducationCommand}"  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding BtnAddEducationCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" >
                             <ListView ItemsSource="{Binding Profile.Educations}" RowHeight="90" HeightRequest="{Binding EducationListViewHeightRequest}"
@@ -101,7 +101,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="WORK EXPERIENCE" Style="{DynamicResource FrameHeader}"/>
-                            <Button Command="{Binding btnAddWorkExperienceCommand}"  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding BtnAddWorkExperienceCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
                             <ListView ItemsSource="{Binding Profile.WorkExpriences}" RowHeight="90" HeightRequest="{Binding WorkExperienceListViewHeightRequest}"
@@ -127,7 +127,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="SKILL" Style="{DynamicResource FrameHeader}"/>
-                            <Button Command="{Binding btnAddSkillCommand}"  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding BtnAddSkillCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
                             <ListView  ItemsSource="{Binding Profile.Skills}" RowHeight="30" HeightRequest="{Binding SkillListViewHeightRequest}"
@@ -151,7 +151,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="QUALIFICANTION" Style="{DynamicResource FrameHeader}"/>
-                            <Button Command="{Binding btnAddQualificationCommand}"  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding BtnAddQualificationCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
                             <ListView   ItemsSource="{Binding Profile.Qualifications}" RowHeight="90" HeightRequest="{Binding QualificationListViewHeightRequest}"
@@ -177,7 +177,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="TICKET/LICENCE" Style="{DynamicResource FrameHeader}"/>
-                            <Button Command="{Binding btnAddLicenceCommand}"  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding BtnAddLicenceCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
                             <ListView  ItemsSource="{Binding Profile.Licences}" RowHeight="60" HeightRequest="{Binding LicenceListViewHeightRequest}"
@@ -202,7 +202,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="DOCUMENT" Style="{DynamicResource FrameHeader}"/>
-                            <Button Command="{Binding btnAddDocumentCommand}"  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding BtnAddDocumentCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
                             <ListView ItemsSource="{Binding Profile.Documents}" RowHeight="30" HeightRequest="{Binding DocumentListViewHeightRequest}"
@@ -226,7 +226,7 @@
                     <StackLayout>
                         <StackLayout Orientation="Horizontal">
                             <Label Text="REFERENCE" Style="{DynamicResource FrameHeader}"/>
-                            <Button Command="{Binding btnAddReferenceCommand}"  Style="{DynamicResource ButtonAdd}"/>
+                            <Button Command="{Binding BtnAddReferenceCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
                             <ListView ItemsSource="{Binding Profile.References}" RowHeight="90" HeightRequest="{Binding ReferenceListViewHeightRequest}"

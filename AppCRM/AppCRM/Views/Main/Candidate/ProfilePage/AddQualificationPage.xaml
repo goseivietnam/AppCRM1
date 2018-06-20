@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage
-    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
     xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
     xmlns:animations="clr-namespace:AppCRM.Effects"
-    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
-    xmlns:behaviors1="clr-namespace:AppCRM.Controls.Validators"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddQualificationPage">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>
@@ -39,7 +38,7 @@
                 <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
                     <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                         <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                        <Label Text="Add Education" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Label Text="Add Qualification" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                         <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveQualificationCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
                     </StackLayout>
                     <ScrollView>
@@ -62,7 +61,7 @@
                                     <ColumnDefinition Width="50*" />
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Grid.Column="0">
-                                    <material:MaterialDatePicker Text="{Binding FromDate}" Placeholder="Valid From" Style="{DynamicResource PrimaryMaterialDatePicker}">
+                                    <material:MaterialDatePicker Date="{Binding FromDate}" Placeholder="Valid From" Style="{DynamicResource PrimaryMaterialDatePicker}">
                                         <material:MaterialDatePicker.Behaviors>
                                             <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="Valid From is not filled yet" ValidationLabelName="lblValidateFrom"/>
                                         </material:MaterialDatePicker.Behaviors>
@@ -70,7 +69,7 @@
                                     <Label x:Name="lblValidateFrom" FontSize="12" Margin="15,-2"/>
                                 </StackLayout>
                                 <StackLayout Grid.Column="1">
-                                    <material:MaterialDatePicker Text="{Binding ToDate}" Placeholder="Valid To" Style="{DynamicResource PrimaryMaterialDatePicker}">
+                                    <material:MaterialDatePicker Date="{Binding ToDate}" Placeholder="Valid To" Style="{DynamicResource PrimaryMaterialDatePicker}">
                                         <material:MaterialDatePicker.Behaviors>
                                             <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="Valid To is not filled yet" ValidationLabelName="lblValidateTo"/>
                                         </material:MaterialDatePicker.Behaviors>

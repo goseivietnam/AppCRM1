@@ -51,6 +51,13 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<CandidateMainViewModel>();
             _containerBuilder.RegisterType<RegisterPopupViewModel>();
             _containerBuilder.RegisterType<AddEducationViewModel>();
+            _containerBuilder.RegisterType<AddDocumentViewModel>();
+            _containerBuilder.RegisterType<AddLicenceViewModel>();
+            _containerBuilder.RegisterType<AddQualificationViewModel>();
+            _containerBuilder.RegisterType<AddReferenceViewModel>();
+            _containerBuilder.RegisterType<AddSkillPageViewModel>();
+            _containerBuilder.RegisterType<AddWorkExprienceViewModel>();
+            _containerBuilder.RegisterType<EditProfileViewModel>();
         }
         #endregion
 
