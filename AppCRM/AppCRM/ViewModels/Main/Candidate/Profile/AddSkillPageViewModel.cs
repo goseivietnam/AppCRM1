@@ -85,13 +85,11 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private async Task BtnSaveSkillCommandAsync()
         {
             IsBusy = true;
-            //PickerItem selecteditem = (PickerItem)Experience.SelectedItem;
-
             ContactSkill skill = new ContactSkill
             {
                 MeasurementName = _skill,
-                ExperienceName = _experienceSelected.Name,
-                ExperienceID = _experienceSelected.ID,
+                ExperienceName = ExperienceSelected.Name,
+                ExperienceID = ExperienceSelected.ID,
             };
             var obj = await _candidateDetailsService.AddSkill(skill);
             IsBusy = false;
