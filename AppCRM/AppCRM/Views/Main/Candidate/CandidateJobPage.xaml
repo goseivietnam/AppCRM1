@@ -26,9 +26,56 @@
                                         <controls:BorderlessEntry HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
                                     </StackLayout>
                                 </StackLayout>
-
-                                <ListView ItemsSource="{Binding Job.AppliedJobs}" RowHeight="120" HeightRequest="{Binding AppliedJobListViewHeightRequest}"
+                                <ListView ItemsSource="{Binding JobGroups}" IsGroupingEnabled="true" GroupDisplayBinding="{Binding StatusName}"
+                                          HasUnevenRows="True" HeightRequest="{Binding JobListViewHeightRequest}" SeparatorColor="#E6E6E6"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding JobListViewCommand}" VerticalOptions="Start">
+                                    <ListView.GroupHeaderTemplate>
+                                        <DataTemplate>
+                                            <ViewCell Height="38">
+                                                <Frame BackgroundColor="#F9F9F9" Padding="15,10" BorderColor="#DEE2E6">
+                                                    <Label TextColor="#7F8890" Text="{Binding DisplayHeader}" FontSize="12"/>
+                                                </Frame>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.GroupHeaderTemplate>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell Height="120">
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="70"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding PoisitionName}"/>
+                                                        <Label Text="{Binding WorksiteName}"/>
+                                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                            <Image IsVisible="{Binding IsPromoted}" Source="img_favorite_job.png" WidthRequest="12" HeightRequest="12"/>
+                                                            <Label Text="{Binding JobTypeName}" FontSize="11"/>
+                                                            <Label Text="{Binding MaxSalary, StringFormat='${0}'}" FontSize="11"/>
+                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                        </StackLayout>
+                                                        <Frame HeightRequest="30" CornerRadius="15" Margin="0" Padding="20,0" BackgroundColor="#E6F2FF" IsClippedToBounds="True" HorizontalOptions="Start">
+                                                            <Label Text="{Binding StatusName}" TextColor="#2F7CFD" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
+                                                        <Label Text="{Binding AppliedDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                
+                                <!--<ListView ItemsSource="{Binding Job.AppliedJobs}" RowHeight="120" HeightRequest="{Binding AppliedJobListViewHeightRequest}"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding JobListViewCommand}" VerticalOptions="Start">
+                                    
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
                                             <Label TextColor="#7F8890" Text="{Binding Job.AppliedJobs.Count, StringFormat='APPLIED ({0})'}" FontSize="12"/>
@@ -193,7 +240,7 @@
                                             </ViewCell>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
-                                </ListView>
+                                </ListView>-->
 
                             </StackLayout>
                         </ScrollView>

@@ -14,7 +14,7 @@
         <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
             <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                 <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                <Label Text="{Binding Job.JobName}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                <Label Text="{Binding Job.PoisitionName}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                 <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
             </StackLayout>
             <tabbedPage:SfTabView TabHeaderBackgroundColor="#FFFFFF" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="3" VerticalOptions="FillAndExpand">
@@ -26,24 +26,24 @@
                     <tabbedPage:SfTabItem.Content>
                         <ScrollView>
                             <StackLayout BackgroundColor="White" Spacing="20" VerticalOptions="FillAndExpand" Padding="20,10">
-                                <Label Text="{Binding Job.JobName}" FontSize="30" FontAttributes="Bold" Margin="0,20,0,0"/>
+                                <Label Text="{Binding Job.PoisitionName}" FontSize="30" FontAttributes="Bold" Margin="0,20,0,0"/>
                                 <StackLayout Orientation="Horizontal">
                                     <Frame HeightRequest="30" CornerRadius="15" Margin="0" Padding="20,0" BackgroundColor="#E6F2FF" IsClippedToBounds="True" HorizontalOptions="StartAndExpand">
-                                        <Label Text="{Binding Job.Status}" TextColor="#2F7CFD" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                        <Label Text="{Binding Job.StatusName}" TextColor="#2F7CFD" HorizontalOptions="Center" VerticalOptions="Center"/>
                                     </Frame>
-                                    <Label Text="{Binding Job.DayRemain, StringFormat=' {0}d'}" TextColor="#9A9FA7" VerticalOptions="Center" HorizontalOptions="EndAndExpand"/>
+                                    <Label Text="{Binding Job.AppliedDay, StringFormat=' {0}d'}" TextColor="#9A9FA7" VerticalOptions="Center" HorizontalOptions="EndAndExpand"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal">
                                     <Frame HeightRequest="30" WidthRequest="30" CornerRadius="15" Margin="0" Padding="0" BackgroundColor="#E6F2FF" 
                                            IsClippedToBounds="True" HorizontalOptions="Start" HasShadow="True">
                                         <Image Source="{Binding Job.ImageSource}" WidthRequest="30" HeightRequest="30"/>
                                     </Frame>
-                                    <Label Text="{Binding Job.CompanyName}" FontAttributes="Bold" TextColor="Black" FontSize="20"/>
+                                    <Label Text="{Binding Job.WorksiteName}" FontAttributes="Bold" TextColor="Black" FontSize="20"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal">
-                                    <Image IsVisible="{Binding IsFavorite}" Source="img_favorite_job.png" WidthRequest="18" HeightRequest="18"/>
-                                    <Label Text="{Binding Job.JobType}" FontSize="12"/>
-                                    <Label Text="{Binding Job.Salary, StringFormat='${0}'}" FontSize="12"/>
+                                    <Image IsVisible="{Binding Job.IsPromoted}" Source="img_favorite_job.png" WidthRequest="18" HeightRequest="18"/>
+                                    <Label Text="{Binding Job.JobTypeName}" FontSize="12"/>
+                                    <Label Text="{Binding Job.MaxSalary, StringFormat='${0}'}" FontSize="12"/>
                                     <Label Text="{Binding Job.Location}" FontSize="12"/>
                                 </StackLayout>
                                 <StackLayout Spacing="10">

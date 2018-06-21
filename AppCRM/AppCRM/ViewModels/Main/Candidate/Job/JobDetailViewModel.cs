@@ -17,7 +17,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
     {
         private readonly ICandidateJobService _candidateJobService;
         private readonly INavigationService _navigationService;
-        private JobDetail _job;
+        private ContactVacancy _job;
 
         private int _todoTaskListViewHeightRequest;
         private int _completeTaskListViewHeightRequest;
@@ -29,7 +29,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             _navigationService = navigationService;
         }
 
-        public JobDetail Job
+        public ContactVacancy Job
         {
             get
             {
@@ -94,19 +94,19 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         public override async Task InitializeAsync(object navigationData)
         {
             IsBusy = true;
-            var id = (string)navigationData;
-            Job = new JobDetail
+            var id = (Guid)navigationData;
+            Job = new ContactVacancy
             {
-                JobDetailId = id,
+                ContactVacancyID = id,
                 ImageSource = "https://i.imgur.com/fSZz5Ta.png",
-                JobName = "Mechanical Design",
-                CompanyName = "DBS Bank",
-                IsFavorite = true,
-                JobType = "Temporary",
-                Salary = 80205,
+                PoisitionName = "Mechanical Design",
+                WorksiteName = "DBS Bank",
+                IsPromoted = true,
+                JobTypeName = "Temporary",
+                MaxSalary = 80205,
                 Location = "Townsville",
-                DayRemain = 15,
-                Status = JobStatus.APPLIED,
+                AppliedDate = DateTime.Now.AddDays(-15),
+                StatusName = JobStatus.APPLIED,
                 Description = "The Power Delivery Services Business Group is seeking an Electrical Designer with physical substation design experience to join their team in its Chattanooga, Tennessee ofﬁce. This position will allow you the opportunity to work with some of the best in the power industry and with a ﬁrm that has been an industry leader over the past 125 years!\n\nThis position will offer you the opportunity to utilize and expand your drafting and design skills, while working in a multi-disciplined team environment with other designers and/or engineers in the preparation of design drawings based on design input.",
                 Requires = new List<JobRequire>
                 {
