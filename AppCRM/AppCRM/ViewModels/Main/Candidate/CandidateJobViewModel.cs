@@ -5,7 +5,9 @@ using System.Windows.Input;
 using AppCRM.Models;
 using AppCRM.Services.Candidate;
 using AppCRM.Services.Navigation;
+using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate.Job;
 using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate
@@ -21,6 +23,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _referenceCheckJobListViewHeightRequest;
         private int _assessmentJobListViewHeightRequest;
         private int _shortlistJobListViewHeightRequest;
+        private int _needActionListViewHeightRequest;
+        private int _completetListViewHeightRequest;
 
 
         public CandidateJobViewModel(ICandidateJobService candidateJobService, INavigationService navigationService)
@@ -90,15 +94,47 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
+        public int NeedActionListViewHeightRequest
+        {
+            get
+            {
+                return _needActionListViewHeightRequest;
+            }
+            set
+            {
+                _needActionListViewHeightRequest = value;
+                OnPropertyChanged();
+            }
+        }
+        public int CompleteListViewHeightRequest
+        {
+            get
+            {
+                return _completetListViewHeightRequest;
+            }
+            set
+            {
+                _completetListViewHeightRequest = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand MasterPageBtnCommand => new Command(MasterPageBtnAsync);
-        public ICommand ListViewCommand => new Command(ListView_ItemTapped);
+        public ICommand JobListViewCommand => new AsyncCommand(JobListView_ItemTappedAsync);
+        public ICommand AssessmentListViewCommand => new Command(AssessmentListView_ItemTapped);
 
         private void MasterPageBtnAsync()
         {
             (Application.Current.MainPage as MasterDetailPage).IsPresented = true;
         }
-        private void ListView_ItemTapped()
+        private async Task JobListView_ItemTappedAsync(object jobDetail)
+        {
+            if(jobDetail != null)
+            {
+                await _navigationService.NavigateToPopupAsync<JobDetailViewModel>((jobDetail as JobDetail).JobDetailId, true);
+            }
+        }
+        private void AssessmentListView_ItemTapped(object assessmentDetail)
         {
 
         }
@@ -139,10 +175,13 @@ namespace AppCRM.ViewModels.Main.Candidate
                 }
             };
 
-            AppliedJobListViewHeightRequest = Job.AppliedJobs.Count * 120 + 39;
-            ReferenceCheckJobListViewHeightRequest = Job.ReferenceCheckJobs.Count * 120 + 39;
-            AssessmentJobListViewHeightRequest = Job.AssessmentJobs.Count * 120 + 39;
-            ShortlistJobListViewHeightRequest = Job.ShortlistJobs.Count * 120 + 39;
+            AppliedJobListViewHeightRequest = Job.AppliedJobs.Count * 120 + 38;
+            ReferenceCheckJobListViewHeightRequest = Job.ReferenceCheckJobs.Count * 120 + 38;
+            AssessmentJobListViewHeightRequest = Job.AssessmentJobs.Count * 120 + 38;
+            ShortlistJobListViewHeightRequest = Job.ShortlistJobs.Count * 120 + 38;
+            NeedActionListViewHeightRequest = Job.NeedActionAssessments.Count * 90 + 38;
+            CompleteListViewHeightRequest = Job.CompleteAssessments.Count * 90 + 38;
+
             IsBusy = false;
         }
     }

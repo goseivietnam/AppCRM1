@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using System.Collections.Generic;
 
 namespace AppCRM.Models
 {
@@ -28,6 +25,12 @@ namespace AppCRM.Models
         public int DayRemain { get; set; }
         public string Status { get; set; }
         public bool IsFavorite { get; set; }
+
+        public string Description { get; set; }
+        public List<JobRequire> Requires { get; set; }
+        public List<JobTask> ToDoTasks { get; set; }
+        public List<JobTask> CompleteTasks { get; set; }
+        public List<JobAttachment> Attachments { get; set; }
     }
 
     public class AssessmentDetail
@@ -39,6 +42,27 @@ namespace AppCRM.Models
         public string CompanyName { get; set; }
         public string Location { get; set; }
         public string Status { get; set; }
+    }
+
+    public class JobRequire
+    {
+        public string JobRequireId { get; set; }
+        public string RequireName { get; set; }
+    }
+
+    public class JobTask
+    {
+        public string JobTaskId { get; set; }
+        public string TaskName { get; set; }
+        public string CreatedBy { get; set; }
+        public bool IsComplete { get; set; }
+    }
+
+    public class JobAttachment
+    {
+        public string JobAttachmentId { get; set; }
+        public string AttachmentName { get; set; }
+        public string CreatedBy { get; set; }
     }
 
     public class JobStatus

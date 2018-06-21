@@ -53,6 +53,9 @@
     <EmbeddedResource Update="Views\Main\Candidate\CandidateJobPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Main\Candidate\JobPage\JobDetailPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Main\Candidate\ProfilePage\AddDocumentPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -86,10 +89,5 @@
     <EmbeddedResource Update="Views\Shared\MessagePopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\Main\Candidate\Job\" />
-    <Folder Include="Views\Main\Candidate\JobPage\" />
   </ItemGroup>
 </Project>

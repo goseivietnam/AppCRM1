@@ -28,7 +28,7 @@
                                 </StackLayout>
 
                                 <ListView ItemsSource="{Binding Job.AppliedJobs}" RowHeight="120" HeightRequest="{Binding AppliedJobListViewHeightRequest}"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding JobListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
                                             <Label TextColor="#7F8890" Text="{Binding Job.AppliedJobs.Count, StringFormat='APPLIED ({0})'}" FontSize="12"/>
@@ -70,7 +70,7 @@
                                 </ListView>
 
                                 <ListView ItemsSource="{Binding Job.ReferenceCheckJobs}" RowHeight="120" HeightRequest="{Binding ReferenceCheckJobListViewHeightRequest}"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding JobListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
                                             <Label TextColor="#7F8890" Text="{Binding Job.ReferenceCheckJobs.Count, StringFormat='REFERENCE CHECK ({0})'}" FontSize="12"/>
@@ -112,7 +112,7 @@
                                 </ListView>
 
                                 <ListView ItemsSource="{Binding Job.AssessmentJobs}" RowHeight="120" HeightRequest="{Binding AssessmentJobListViewHeightRequest}"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding JobListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
                                             <Label TextColor="#7F8890" Text="{Binding Job.AssessmentJobs.Count, StringFormat='ASSESSMENT ({0})'}" FontSize="12"/>
@@ -154,7 +154,7 @@
                                 </ListView>
 
                                 <ListView ItemsSource="{Binding Job.ShortlistJobs}" RowHeight="120" HeightRequest="{Binding ShortlistJobListViewHeightRequest}"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding JobListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
                                             <Label TextColor="#7F8890" Text="{Binding Job.ShortlistJobs.Count, StringFormat='SHORTLIST ({0})'}" FontSize="12"/>
@@ -201,7 +201,87 @@
                 </tabbedPage:SfTabItem>
 
                 <tabbedPage:SfTabItem Title="Assessment" TitleFontColor="WhiteSmoke" SelectionColor="White" TitleFontAttributes="Bold" TitleFontSize="14">
-
+                    <tabbedPage:SfTabItem.Content>
+                        <ScrollView>
+                            <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
+                                <StackLayout Padding="10,5" BackgroundColor="#F2F2F2">
+                                    <StackLayout Padding="0,8" BackgroundColor="White">
+                                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+                                    </StackLayout>
+                                </StackLayout>
+                                <ListView ItemsSource="{Binding Job.NeedActionAssessments}" RowHeight="90" HeightRequest="{Binding NeedActionListViewHeightRequest}"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding AssessmentListViewCommand}" VerticalOptions="Start">
+                                    <ListView.Header>
+                                        <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
+                                            <Label TextColor="#7F8890" Text="{Binding Job.NeedActionAssessments.Count, StringFormat='NEED ACTION ({0})'}" FontSize="12"/>
+                                        </Frame>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="70"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding AssessmentName}"/>
+                                                        <Label Text="{Binding JobName}"/>
+                                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                            <Label Text="{Binding CompanyName}" FontSize="11"/>
+                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <ListView ItemsSource="{Binding Job.CompleteAssessments}" RowHeight="90" HeightRequest="{Binding CompleteListViewHeightRequest}"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding AssessmentListViewCommand}" VerticalOptions="Start">
+                                    <ListView.Header>
+                                        <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
+                                            <Label TextColor="#7F8890" Text="{Binding Job.CompleteAssessments.Count, StringFormat='COMPLETE ({0})'}" FontSize="12"/>
+                                        </Frame>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="70"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding AssessmentName}"/>
+                                                        <Label Text="{Binding JobName}"/>
+                                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                            <Label Text="{Binding CompanyName}" FontSize="11"/>
+                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </ScrollView>
+                    </tabbedPage:SfTabItem.Content>
                 </tabbedPage:SfTabItem>
 
             </tabbedPage:SfTabView>
