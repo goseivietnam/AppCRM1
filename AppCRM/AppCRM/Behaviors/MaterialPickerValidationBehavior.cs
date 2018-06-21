@@ -58,7 +58,7 @@ namespace AppCRM.Behaviors
                 {
                     case ValidationRule.Required:
                         var pickerItem = entry.SelectedItem as PickerItem;
-                        entry.IsValid = pickerItem != null && !Validator.IsEmpty(pickerItem.ID.ToString());
+                        entry.IsValid = pickerItem != null && !Validator.IsEmpty(pickerItem.Id.ToString());
                         break;
                     //add more rule if needed
                     default: break;

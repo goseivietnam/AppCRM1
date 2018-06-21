@@ -1,6 +1,7 @@
 ﻿using AppCRM.Services.Authentication;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
+using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using AppCRM.Views.Main.Candidate.ProfilePage;
@@ -22,6 +23,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         private ViewModelBase _explorePage;
         private ViewModelBase _notifyPage;
         private ViewModelBase _messagePage;
+        private string _avartarUrl;
+        private string _userName;
 
         public int SelectedIndex
         {
@@ -92,6 +95,30 @@ namespace AppCRM.ViewModels.Main.Candidate
             set
             {
                 _messagePage = value;
+                OnPropertyChanged();
+            }
+        }
+        public string AvartarUrl
+        {
+            get
+            {
+                return _avartarUrl;
+            }
+            set
+            {
+                _avartarUrl = value;
+                OnPropertyChanged();
+            }
+        }
+        public string UserName
+        {
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                _userName = value;
                 OnPropertyChanged();
             }
         }
@@ -188,6 +215,12 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             SelectedIndex = 0;
             await ProfilePage.InitializeAsync(null);
+        }
+
+        public override async Task InitializeAsync(object navigationData)
+        {
+            AvartarUrl = RequestService.HOST_NAME + "api/Document/GetContactImageByContactID?id=" + App.ContactID.ToString();
+            UserName = App.UserName;
         }
     }
 }

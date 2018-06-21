@@ -11,9 +11,9 @@
             <ContentPage.Content>
                 <StackLayout>
                     <Frame CornerRadius="55" Margin="0" WidthRequest="110" HeightRequest="110" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" HorizontalOptions="Center">
-                        <Image Aspect="AspectFill" WidthRequest="110" HeightRequest="110"/>
+                        <Image Source="{Binding AvartarUrl}" Aspect="AspectFill" WidthRequest="110" HeightRequest="110"/>
                     </Frame>
-                    <Label HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
+                    <Label Text="{Binding UserName}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
                     <ListView HorizontalOptions="Center" SeparatorVisibility="None" Margin="0,20" 
                               behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding MasterMenuItemTappedCommand}">
                         <ListView.ItemsSource>

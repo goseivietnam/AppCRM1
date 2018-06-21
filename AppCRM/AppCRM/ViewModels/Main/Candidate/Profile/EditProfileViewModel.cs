@@ -290,7 +290,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 Address = _address,
                 CityName = _cityName,
                 Nationality = _nationalitySelected.Name,
-                NationalityID = _nationalitySelected.ID,
+                NationalityID = _nationalitySelected.Id,
                 DateOfBirth = _birthDay,
                 AboutMe = _aboutMe,
             };

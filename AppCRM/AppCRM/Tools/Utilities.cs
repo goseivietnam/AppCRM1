@@ -1,7 +1,5 @@
-﻿using Android.Webkit;
+﻿using MimeTypes.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AppCRM.Tools
 {
@@ -61,8 +59,8 @@ namespace AppCRM.Tools
 
         public static String getExtension(String filename)
         {
-            String extension = MimeTypeMap.GetFileExtensionFromUrl(filename);
-            if (string.IsNullOrEmpty(extension))
+            String extension = "";
+            if (!string.IsNullOrEmpty(filename))
             {
                 /*
                  * getFileExtensionFromUrl doesn't work for files with

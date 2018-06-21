@@ -88,8 +88,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             ContactSkill skill = new ContactSkill
             {
                 MeasurementName = _skill,
-                ExperienceName = ExperienceSelected.Name,
-                ExperienceID = ExperienceSelected.ID,
+                ExperienceName = _experienceSelected.Name,
+                ExperienceID = _experienceSelected.Id,
             };
             var obj = await _candidateDetailsService.AddSkill(skill);
             IsBusy = false;
