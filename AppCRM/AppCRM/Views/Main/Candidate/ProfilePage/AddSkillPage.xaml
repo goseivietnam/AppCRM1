@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pages:PopupPage 
-    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+<pages:PopupPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
     xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
     xmlns:animations="clr-namespace:AppCRM.Effects"
-    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
-    xmlns:behaviors1="clr-namespace:AppCRM.Controls.Validators"
-    xmlns:components="clr-namespace:AppCRM.Controls"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddSkillPage">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>
@@ -53,7 +51,7 @@
                             <Label x:Name="lblValidateSkill" FontSize="12" Margin="15,-2"/>
                             <material:MaterialPicker Items="{Binding ExperienceDDL}" SelectedItem="{Binding ExperienceSelected}" Placeholder="Experience" Style="{DynamicResource PrimaryMaterialPicker}">
                                 <material:MaterialPicker.Behaviors>
-                                    <behaviors1:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="Experience is not filled yet" ValidationLabelName="lblValidateExperience"/>
+                                    <!--<behaviors:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="Experience is not filled yet" ValidationLabelName="lblValidateExperience"/>-->
                                 </material:MaterialPicker.Behaviors>
                             </material:MaterialPicker>
                             <Label x:Name="lblValidateExperience" FontSize="13"/>

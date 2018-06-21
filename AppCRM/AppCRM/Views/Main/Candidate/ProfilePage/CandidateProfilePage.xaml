@@ -92,7 +92,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackLayout>
-                        <Button Text="View More" IsVisible="False"/>
+                        <Button x:Name="EducationViewMore" IsVisible="{Binding EducationViewMoreIsVisible}" Text="{Binding EducationViewMoreText}" Command="{Binding EducationViewMoreCommand}" TextColor="#2A76FD" BackgroundColor="White"/>
                     </StackLayout>
                 </Frame>
 
@@ -119,6 +119,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackLayout>
+                        <Button x:Name="WorkExperienceViewMore" IsVisible="{Binding WorkExperienceViewMoreIsVisible}" Text="{Binding WorkExperienceViewMoreText}" Command="{Binding WorkExperienceViewMoreCommand}" TextColor="#2A76FD" BackgroundColor="White"/>
                     </StackLayout>
                 </Frame>
 
@@ -143,6 +144,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackLayout>
+                        <Button x:Name="SkillViewMore" IsVisible="{Binding SkillViewMoreIsVisible}" Text="{Binding SkillViewMoreText}" Command="{Binding SkillViewMoreCommand}" TextColor="#2A76FD" BackgroundColor="White"/>
                     </StackLayout>
                 </Frame>
 
@@ -169,6 +171,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackLayout>
+                        <Button x:Name="QualificationViewMore" IsVisible="{Binding QualificationViewMoreIsVisible}" Text="{Binding QualificationViewMoreText}" Command="{Binding QualificationViewMoreCommand}" TextColor="#2A76FD" BackgroundColor="White"/>
                     </StackLayout>
                 </Frame>
 
@@ -194,6 +197,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackLayout>
+                        <Button x:Name="LicenceViewMore" IsVisible="{Binding LicenceViewMoreIsVisible}" Text="{Binding LicenceViewMoreText}" Command="{Binding LicenceViewMoreCommand}" TextColor="#2A76FD" BackgroundColor="White"/>
                     </StackLayout>
                 </Frame>
 
@@ -218,6 +222,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackLayout>
+                        <Button x:Name="DocumentViewMore" IsVisible="{Binding DocumentViewMoreIsVisible}" Text="{Binding DocumentViewMoreText}" Command="{Binding DocumentViewMoreCommand}"  TextColor="#2A76FD" BackgroundColor="White"/>
                     </StackLayout>
                 </Frame>
 
@@ -249,6 +254,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                         </StackLayout>
+                        <Button x:Name="ReferenceViewMore" IsVisible="{Binding ReferenceViewMoreIsVisible}" Text="{Binding ReferenceViewMoreText}" Command="{Binding ReferenceViewMoreCommand}" TextColor="#2A76FD" BackgroundColor="White"/>
                     </StackLayout>
                 </Frame>
             </StackLayout>

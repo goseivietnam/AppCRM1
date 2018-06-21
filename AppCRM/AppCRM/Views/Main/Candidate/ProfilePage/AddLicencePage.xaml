@@ -55,7 +55,7 @@
                                     <ColumnDefinition Width="50*" />
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Grid.Column="0">
-                                    <material:MaterialDatePicker Text="{Binding FromDate}" Placeholder="From" Style="{DynamicResource PrimaryMaterialDatePicker}">
+                                    <material:MaterialDatePicker Date="{Binding FromDate}" Placeholder="From" Style="{DynamicResource PrimaryMaterialDatePicker}">
                                         <material:MaterialDatePicker.Behaviors>
                                             <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="From is not filled yet" ValidationLabelName="lblValidateFrom"/>
                                         </material:MaterialDatePicker.Behaviors>
@@ -63,7 +63,7 @@
                                     <Label x:Name="lblValidateFrom" FontSize="12" Margin="15,-2"/>
                                 </StackLayout>
                                 <StackLayout Grid.Column="1">
-                                    <material:MaterialDatePicker Text="{Binding ToDate}" Placeholder="To" Style="{DynamicResource PrimaryMaterialDatePicker}">
+                                    <material:MaterialDatePicker Date="{Binding ToDate}" Placeholder="To" Style="{DynamicResource PrimaryMaterialDatePicker}">
                                         <material:MaterialDatePicker.Behaviors>
                                             <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="To is not filled yet" ValidationLabelName="lblValidateTo"/>
                                         </material:MaterialDatePicker.Behaviors>

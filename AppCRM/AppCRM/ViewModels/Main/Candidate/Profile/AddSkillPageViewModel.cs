@@ -91,7 +91,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             {
                 MeasurementName = _skill,
                 ExperienceName = _experienceSelected.Name,
-                ExperienceID = _experienceSelected.ID,
+                ExperienceID = _experienceSelected.Id,
             };
             var obj = await _candidateDetailsService.AddSkill(skill);
             IsBusy = false;
