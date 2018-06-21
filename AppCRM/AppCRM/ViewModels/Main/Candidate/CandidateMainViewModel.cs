@@ -125,6 +125,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             if (item != null)
             {
+                (Application.Current.MainPage as MasterDetailPage).IsPresented = false;
                 switch ((item as Views.Main.MenuItem).Title)
                 {
                     case "Profile":
@@ -137,7 +138,6 @@ namespace AppCRM.ViewModels.Main.Candidate
                         OpenSignoutPage();
                         break;
                 }
-                (Application.Current.MainPage as MasterDetailPage).IsPresented = false;
             }
         }
 
@@ -186,8 +186,8 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         private async Task OpenMainPageAsync()
         {
-            await ProfilePage.InitializeAsync(null);
             SelectedIndex = 0;
+            await ProfilePage.InitializeAsync(null);
         }
     }
 }

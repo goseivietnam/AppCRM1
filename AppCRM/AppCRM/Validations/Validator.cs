@@ -13,7 +13,7 @@ namespace AppCRM.Validations
 
     public static class Validator
     {
-        public static bool IsEmpty(string value)
+        public static bool IsEmpty(object value)
         {
             if (value == null)
             {
@@ -24,7 +24,7 @@ namespace AppCRM.Validations
             return string.IsNullOrWhiteSpace(str);
         }
 
-        public static bool IsEmail(string value)
+        public static bool IsEmail(object value)
         {
             if (value == null)
             {
