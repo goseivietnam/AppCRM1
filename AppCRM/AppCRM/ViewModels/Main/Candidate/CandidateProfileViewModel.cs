@@ -454,8 +454,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
 
         }
-        #region Initdata
 
+        #region Initdata
         public override async Task InitializeAsync(object navigationData)
         {
             var pop = await _dialogService.OpenLoadingPopup();
@@ -523,7 +523,6 @@ namespace AppCRM.ViewModels.Main.Candidate
             ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
             await _dialogService.CloseLoadingPopup(pop);
         }
-
         #endregion
 
         private void GetBindingEducation()

@@ -5,7 +5,8 @@
     xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
     xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
     xmlns:animations="clr-namespace:AppCRM.Effects"
-    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+    xmlns:components="clr-namespace:AppCRM.Controls"
     x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddSkillPage">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>
@@ -51,10 +52,10 @@
                             <Label x:Name="lblValidateSkill" FontSize="12" Margin="15,-2"/>
                             <material:MaterialPicker Items="{Binding ExperienceDDL}" SelectedItem="{Binding ExperienceSelected}" Placeholder="Experience" Style="{DynamicResource PrimaryMaterialPicker}">
                                 <material:MaterialPicker.Behaviors>
-                                    <!--<behaviors:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="Experience is not filled yet" ValidationLabelName="lblValidateExperience"/>-->
+                                    <behaviors:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="Experience is not filled yet" ValidationLabelName="lblValidateExperience"/>
                                 </material:MaterialPicker.Behaviors>
                             </material:MaterialPicker>
-                            <Label x:Name="lblValidateExperience" FontSize="13"/>
+                            <Label x:Name="lblValidateExperience" FontSize="12"  Margin="15,-2"/>
                         </StackLayout>
                     </ScrollView>
                 </StackLayout>

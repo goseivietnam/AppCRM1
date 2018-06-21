@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppCRM.Views.Main.Candidate.ProfilePage.CandidateProfilePage"
+             x:Class="AppCRM.Views.Main.Candidate.CandidateProfilePage"
              xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
              BackgroundColor="#F0F7FD">
 
@@ -37,17 +37,17 @@
                         <Image Aspect="AspectFill" Source="{Binding Profile.AvatarUrl}" />
                     </Frame>
                 </AbsoluteLayout>
-                <Label  Text="{Binding Profile.FullName}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
+                <Label Text="{Binding Profile.FullName}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
                 <Label Text="{Binding Profile.RoleAndAddress}" HorizontalOptions="CenterAndExpand" FontSize="13" Margin="30,0,30,15" HorizontalTextAlignment="Center"/>
-                <StackLayout  Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                     <Button Image="icon_facebook.png" HeightRequest="16" WidthRequest="24" BackgroundColor="Transparent"/>
                     <Button Image="icon_twitter.png" HeightRequest="16" WidthRequest="24" BackgroundColor="Transparent"/>
                     <Button Image="icon_linkedin.png" HeightRequest="16" WidthRequest="24" BackgroundColor="Transparent"/>
                     <Button Image="icon_googleplus.png" HeightRequest="16" WidthRequest="24" BackgroundColor="Transparent"/>
                 </StackLayout>
-                <StackLayout  HorizontalOptions="CenterAndExpand">
-                    <ListView  ItemsSource="{Binding Profile.ContactLinks}" RowHeight="27" HeightRequest="{Binding ContactLinksListViewHeightRequest}"
-                               behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}"
+                <StackLayout HorizontalOptions="CenterAndExpand">
+                    <ListView ItemsSource="{Binding Profile.ContactLinks}" RowHeight="27" HeightRequest="{Binding ContactLinksListViewHeightRequest}"
+                              behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}"
                               SeparatorVisibility="None" HorizontalOptions="CenterAndExpand" WidthRequest="180" Margin="0, 30">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -77,7 +77,7 @@
                             <Button Command="{Binding BtnAddEducationCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" >
-                            <ListView  ItemsSource="{Binding Profile.Educations}" RowHeight="90" HeightRequest="{Binding EducationListViewHeightRequest}"
+                            <ListView ItemsSource="{Binding Profile.Educations}" RowHeight="90" HeightRequest="{Binding EducationListViewHeightRequest}"
                                        behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>

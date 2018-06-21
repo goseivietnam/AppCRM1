@@ -85,8 +85,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private async Task BtnSaveSkillCommandAsync()
         {
             IsBusy = true;
-            //PickerItem selecteditem = (PickerItem)Experience.SelectedItem;
-
             ContactSkill skill = new ContactSkill
             {
                 MeasurementName = _skill,

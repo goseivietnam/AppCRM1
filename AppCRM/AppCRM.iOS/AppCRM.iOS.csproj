@@ -280,4 +280,10 @@
   <ItemGroup>
     <BundleResource Include="Resources\xamarin_logo%403x.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\three_dots_vertical.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_favorite_job.png" />
+  </ItemGroup>
 </Project>
