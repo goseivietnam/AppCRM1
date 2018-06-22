@@ -4,18 +4,21 @@ using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Services.Request;
+using AppCRM.Tools;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate.Profile
 {
-   public class EditProfileViewModel : ViewModelBase
+    public class EditProfileViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
@@ -411,6 +414,39 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                 }
             }
+        }
+
+        public override async Task InitializeAsync(object navigationData)
+        {
+            IsBusy = true;
+            //load profile data from DataService
+            var obj = await _candidateDetailsService.GetEmployerCandidateProfile();
+            DateTime? datebirth;
+            try
+            {
+                datebirth = DateTime.Parse(obj["CandidateDetails"]["DateOfBirth"].ToString());
+            }
+            catch
+            {
+                datebirth = null;
+            }
+            ObservableCollection<PickerItem> nationalityDDL = JsonConvert.DeserializeObject<ObservableCollection<PickerItem>>(obj["NationalityDLL"].ToString());
+            Guid? CurrentNationalityID = obj["CandidateDetails"]["NationalityID"] != null ? (Guid?)new Guid(obj["CandidateDetails"]["NationalityID"].ToString()) : null;
+            PickerItem CurrentNationality = nationalityDDL.Where(x => x.Id == CurrentNationalityID).FirstOrDefault();
+
+            FirstName = obj["CandidateDetails"]["FirstName"];
+            LastName = obj["CandidateDetails"]["LastName"];
+            Email = obj["CandidateDetails"]["Email"];
+            Address = obj["CandidateDetails"]["Address"];
+            CityName = obj["CandidateDetails"]["CityName"];
+            NationalityDDL = nationalityDDL;
+            NationalitySelected = CurrentNationality;
+            BirthDay = datebirth;
+            AboutMe = Utilities.HtmlToPlainText(obj["CandidateDetails"]["AboutMe"].ToString());
+            AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["ProfileImage"];
+            CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["CoverImage"];
+
+            IsBusy = false;
         }
     }
 }

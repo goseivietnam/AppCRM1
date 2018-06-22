@@ -23,7 +23,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        public static readonly string HOST_NAME = "https://1f4d7408.ngrok.io/";
+        public static readonly string HOST_NAME = "http://3e080134.ngrok.io/";
         public static string ACCESS_TOKEN;
 
         public async Task<dynamic> getDataFromService(string queryString)

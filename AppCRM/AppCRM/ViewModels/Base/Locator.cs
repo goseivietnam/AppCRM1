@@ -58,6 +58,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<AddSkillPageViewModel>();
             _containerBuilder.RegisterType<AddWorkExprienceViewModel>();
             _containerBuilder.RegisterType<EditProfileViewModel>();
+            _containerBuilder.RegisterType<AccountSettingViewModel>();
         }
         #endregion
 

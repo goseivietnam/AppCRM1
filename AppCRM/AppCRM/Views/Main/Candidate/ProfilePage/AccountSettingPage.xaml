@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+    xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
+    xmlns:animations="clr-namespace:AppCRM.Effects"
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AccountSettingPage">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="PrimaryMaterialEntry" TargetType="material:MaterialEntry">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="AccentColor" Value="#3C4455"/>
+                <Setter Property="PlaceholderColor" Value="#3C4455"/>
+                <Setter Property="InvalidColor" Value="#DD4C40"/>
+                <Setter Property="HiddenLabelTextSize" Value="11"/>
+                <Setter Property="FontSize" Value="13"></Setter>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Grid>
+                <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+                    <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
+                        <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
+                        <Label Text="Account Setting" TextColor="WhiteSmoke" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                        <Button Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveAccountSettingCommand}" BackgroundColor="#2A76FD" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
+                    </StackLayout>
+                    <ScrollView>
+                        <StackLayout Padding="0" Spacing="2">
+                            <material:MaterialEntry Text="{Binding Email}" Placeholder="Title" Style="{DynamicResource PrimaryMaterialEntry}">
+                                <material:MaterialEntry.Behaviors>
+                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required,Email" RuleMessages="Email is not filled yet" ValidationLabelName="lblValidateEmail"/>
+                                </material:MaterialEntry.Behaviors>
+                            </material:MaterialEntry>
+                            <Label x:Name="lblValidateEmail" FontSize="12" Margin="15,-2"/>
+                            <AbsoluteLayout>
+                                <material:MaterialEntry Text="{Binding Password}" IsEnabled="{Binding PasswordIsEnabled}" IsPassword="True" 
+                                                Placeholder="Password" Style="{DynamicResource PrimaryMaterialEntry}"
+                                                AbsoluteLayout.LayoutBounds="0,0,1,60" AbsoluteLayout.LayoutFlags="WidthProportional"
+                                               >
+                                    <material:MaterialEntry.Behaviors>
+                                        <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Password is not filled yet" ValidationLabelName="lblValidatePassword"/>
+                                    </material:MaterialEntry.Behaviors>
+                                </material:MaterialEntry>
+                                <Button Text="Change" Command="{Binding ChangePassCommand}" AbsoluteLayout.LayoutBounds="1,0,80,60" AbsoluteLayout.LayoutFlags="XProportional" BackgroundColor="Transparent" TextColor="#2A76FD" />
+                            </AbsoluteLayout>
+                            <Label x:Name="lblValidatePassword" FontSize="12" Margin="10,-2"/>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+            </Grid>
+            <ActivityIndicator
+                Color="White"
+                IsRunning="{Binding IsBusy}"
+                IsEnabled="{Binding IsBusy}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"/>
+        </Grid>
+    </ContentPage.Content>
+</pages:PopupPage>
