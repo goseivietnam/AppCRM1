@@ -158,7 +158,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 switch ((item as Views.Main.MenuItem).Title)
                 {
                     case "Profile":
-                        await OpenMainPageAsync();
+                        await _navigationService.NavigateToAsync<CandidateProfileViewModel>();
                         break;
                     case "Account Setting":
                         await OpenChangePasswordPage();

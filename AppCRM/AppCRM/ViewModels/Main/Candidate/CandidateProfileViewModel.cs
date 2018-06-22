@@ -534,6 +534,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         }
         #endregion
 
+        #region Method
         private void GetBindingEducation()
         {
             if (educationList.Count > educationCount + 3)
@@ -546,8 +547,8 @@ namespace AppCRM.ViewModels.Main.Candidate
                 educationCount = educationList.Count;
                 EducationViewMoreIsVisible = false;
             }
-
             Profile.Educations = educationList.Take(educationCount).ToList();
+            Profile = Profile;
             EducationListViewHeightRequest = (educationCount * 91 - 1 * (educationCount > 1 ? 1 : 0));
         }
 
@@ -565,6 +566,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
 
             Profile.WorkExpriences = workExprienceList.Take(workExprienceCount).ToList();
+            Profile = Profile;
             WorkExperienceListViewHeightRequest = (workExprienceCount * 91 - 1 * (workExprienceCount > 1 ? 1 : 0));
         }
 
@@ -582,6 +584,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
 
             Profile.Skills = skillList.Take(skillCount).ToList();
+            Profile = Profile;
             SkillListViewHeightRequest = (skillCount * 91 - 1 * (skillCount > 1 ? 1 : 0));
         }
 
@@ -599,6 +602,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
 
             Profile.Qualifications = qualificationList.Take(qualificationCount).ToList();
+            Profile = Profile;
             QualificationListViewHeightRequest = (qualificationCount * 91 - 1 * (qualificationCount > 1 ? 1 : 0));
         }
 
@@ -616,6 +620,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
 
             Profile.Licences = licenceList.Take(licenceCount).ToList();
+            Profile = Profile;
             LicenceListViewHeightRequest = (licenceCount * 61 - 1 * (licenceCount > 1 ? 1 : 0));
         }
 
@@ -633,6 +638,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
 
             Profile.Documents = documentList.Take(documentCount).ToList();
+            Profile = Profile;
             DocumentListViewHeightRequest = (documentCount * 91 - 1 * (documentCount > 1 ? 1 : 0));
         }
 
@@ -650,7 +656,10 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
 
             Profile.References = referenceList.Take(referenceCount).ToList();
+            Profile = Profile;
             ReferenceListViewHeightRequest = (referenceCount * 91 - 1 * (referenceCount > 1 ? 1 : 0));
         }
+
+        #endregion
     }
 }
