@@ -22,7 +22,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly ICandidateDetailsService _candidateDetailService;
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
-        private CandidateProfile _profile;
+        private Contact _profile;
         private int educationCount = 0;
         private int workExprienceCount = 0;
         private int skillCount = 0;
@@ -73,7 +73,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             _dialogService = dialogService;
         }
 
-        public CandidateProfile Profile
+        public Contact Profile
         {
             get
             {
@@ -495,7 +495,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
             interestedRoles = interestedRoles.Substring(0, interestedRoles.Length - 2);
 
-            Profile = new CandidateProfile()
+            Profile = new Contact()
             {
                 UserID = contactID,
                 AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["ProfileImage"],

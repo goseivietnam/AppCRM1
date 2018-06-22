@@ -98,7 +98,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             Job = new ContactVacancy
             {
                 ContactVacancyID = id,
-                ImageSource = "https://i.imgur.com/fSZz5Ta.png",
+                //ImageSource = "https://i.imgur.com/fSZz5Ta.png",
                 PoisitionName = "Mechanical Design",
                 WorksiteName = "DBS Bank",
                 IsPromoted = true,

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AppCRM.Services.Request;
+using AppCRM.Tools;
+using System;
 using System.Collections.Generic;
 
 namespace AppCRM.Models
@@ -7,8 +9,8 @@ namespace AppCRM.Models
     {
         public string UserID { get; set; }
         public List<ContactVacancy> ContactVacancies { get; set; }
-        public List<AssessmentDetail> NeedActionAssessments { get; set; }
-        public List<AssessmentDetail> CompleteAssessments { get; set; }
+        public List<ContactTemplate> NeedActionAssessments { get; set; }
+        public List<ContactTemplate> CompleteAssessments { get; set; }
     }
 
     public class ContactVacancy
@@ -53,24 +55,104 @@ namespace AppCRM.Models
         //public String Assessment { get; set; }
         //public String AssessmentLabel { get; set; }
         public int AppliedDay { get { return (int)Math.Round((DateTime.Now - this.AppliedDate).TotalDays); } }
-        public string ImageSource { get; set; }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + AccountID.ToString(); }
         public List<JobRequire> Requires { get; set; }
         public List<JobTask> ToDoTasks { get; set; }
         public List<JobTask> CompleteTasks { get; set; }
         public List<JobAttachment> Attachments { get; set; }
     }
 
-    public class AssessmentDetail
+    public class ContactTemplateFilter
     {
-        public string AssessmentDetailId { get; set; }
-        public string ImageSource { get; set; }
-        public string AssessmentName { get; set; }
-        public string JobName { get; set; }
-        public string CompanyName { get; set; }
-        public string Location { get; set; }
-        public string Status { get; set; }
+        public Guid? ContactId { get; set; }
+        public string AssessmentKeyWord { get; set; }
+
+        //public string WorksiteId { get; set; }
+
+        public string TemplateId { get; set; }
+
+        public string PositionId { get; set; }
+
+        public int PageSize { get; set; } = 10;
+
+        public int CurrentPage { get; set; } = 1;
+        public bool IsOpen { get; set; }
+
+        public string Mode { get; set; } = "GET";
+        public Guid? Assister { get; set; }
+
+        public string AssessmentType { get; set; }
     }
 
+    public class ContactTemplate
+    {
+        public Guid ContactTemplateID { get; set; }
+        public Guid? CandidateContactTemplateID { get; set; }//this use when current instance hold employer, if candidate will be null or equals ContactTemplateID
+
+        public Guid? ContactID { get; set; }
+
+        public Guid? TemplateID { get; set; }
+
+        public Guid? StatusID { get; set; }
+
+        public Guid? ContactReferenceID { get; set; }
+
+        public Guid? WhoIsFor { get; set; }
+
+        public Guid? VacancyID { get; set; }
+
+        public string TemplateName { get; set; }
+
+        public string CandidateName { get; set; }
+
+        public string StateName { get; set; }
+
+        public string CompleteStatus { get; set; }
+
+        public Guid? CreatedTemplateId { get; set; }
+
+        //public string Author
+        //{
+        //    get
+        //    {
+        //        if (this.CreatedTemplateId.HasValue)
+        //        {
+        //            Contact AuthorInfo = new Contact().GetContactDetails(this.CreatedTemplateId);
+        //            return AuthorInfo.FullName;
+        //        }
+        //        return String.Empty;
+        //    }
+        //}
+
+        public DateTime? CreatedDate { get; set; }
+
+        //public AssessmentType TypeOfAssessment { get; set; }
+
+        public DateTime? ModifiedDate { get; set; }
+
+        public DateTime? AssignDate { get; set; }
+
+        public bool IsCompleted { get; set; }
+
+        public int NumberQuestion { get; set; }
+
+        public List<Contact> ContactsForAssessmentView { get; set; }
+
+        public Contact Contact { get; set; }
+
+        public AccountJobs Vacancy { get; set; }
+
+        public Status Status { get; set; }
+
+        public string Assessor { get; set; }
+
+        public string ContactTemplateViewDetailsUrl { get; set; }
+
+        public bool? IsFinished { get; set; }
+
+        public string Roles { get; set; }
+    }
+   
     public class JobRequire
     {
         public string JobRequireId { get; set; }

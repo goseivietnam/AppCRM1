@@ -273,14 +273,14 @@
                                                         <ColumnDefinition Width="40"/>
                                                     </Grid.ColumnDefinitions>
                                                     <StackLayout Grid.Column="0">
-                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding Vacancy.ImageSource}" WidthRequest="40" HeightRequest="40"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding AssessmentName}"/>
-                                                        <Label Text="{Binding JobName}"/>
+                                                        <Label Text="{Binding TemplateName}"/>
+                                                        <Label Text="{Binding Vacancy.Position}"/>
                                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                            <Label Text="{Binding CompanyName}" FontSize="11"/>
-                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                            <Label Text="{Binding Vacancy.Company}" FontSize="11"/>
+                                                            <Label Text="{Binding Vacancy.Worksite}" FontSize="11"/>
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">

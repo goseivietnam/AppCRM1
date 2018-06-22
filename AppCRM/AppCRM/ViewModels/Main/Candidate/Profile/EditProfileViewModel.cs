@@ -285,7 +285,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             }
 
 
-            CandidateProfile profile = new CandidateProfile
+            Contact profile = new Contact
             {
                 FirstName = _fileName,
                 LastName = _lastName,

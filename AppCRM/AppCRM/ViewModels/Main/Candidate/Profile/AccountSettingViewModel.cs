@@ -88,7 +88,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private async Task BtnSaveAccountSettingCommandAsync()
         {
             IsBusy = true;
-            CandidateProfile profile = new CandidateProfile
+            Contact profile = new Contact
             {
                 Password = _password,
             };

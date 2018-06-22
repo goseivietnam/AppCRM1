@@ -18,7 +18,7 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddLicence(ContactLicence licence);
         Task<dynamic> AddDocument(SJFileStream stream, string fileName);
         Task<dynamic> AddReference(ContactReference reference);
-        Task<dynamic> EditCandidateDetails(CandidateProfile profile);
+        Task<dynamic> EditCandidateDetails(Contact profile);
         Task<dynamic> GetCandidateExperience();
         Task<dynamic> CandidateRegister(Register reg);
         Task<dynamic> SaveEducationAttachment(string ContactEducationID, SJFileStream stream);
@@ -92,7 +92,7 @@ namespace AppCRM.Services.CandidateDetail
             return result;
         }
 
-        public async Task<dynamic> EditCandidateDetails(CandidateProfile profile)
+        public async Task<dynamic> EditCandidateDetails(Contact profile)
         {
             var result = await _requestService.postDataFromServiceAuthority("api/CandidateDetails/AddEditContactDetails", profile);
             return result;
