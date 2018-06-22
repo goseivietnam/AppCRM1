@@ -181,6 +181,7 @@ namespace AppCRM.ViewModels.Account
                         await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
                         App.ContactID = obj["ContactID"];
                         App.UserName = obj["UserName"];
+                        App.PassWord = FieldPassword;
                         RequestService.ACCESS_TOKEN = obj["access_token"];
                     }
                     else if (obj["Message"] == "IsExists") //is exists

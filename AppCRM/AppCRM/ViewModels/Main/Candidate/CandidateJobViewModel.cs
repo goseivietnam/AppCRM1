@@ -45,6 +45,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
+
         public List<ContactVacancyGroup> JobGroups
         {
             get
@@ -103,13 +104,15 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             (Application.Current.MainPage as MasterDetailPage).IsPresented = true;
         }
+
         private async Task JobListView_ItemTappedAsync(object jobDetail)
         {
             if (jobDetail != null)
             {
-                await _navigationService.NavigateToPopupAsync<JobDetailViewModel>((jobDetail as ContactVacancy).ContactVacancyID, true);
+                await _navigationService.NavigateToPopupAsync<JobDetailViewModel>((jobDetail as ContactVacancy).VacancyID, true);
             }
         }
+
         private void AssessmentListView_ItemTapped(object assessmentDetail)
         {
 
@@ -152,30 +155,6 @@ namespace AppCRM.ViewModels.Main.Candidate
                     }
                 }
             }
-
-            //Job = new CandidateJob
-            //{
-            //    ContactVacancies = new List<ContactVacancy>
-            //    {
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "Mechanical Design", WorksiteName = "DBS Bank", IsPromoted = true, JobTypeName = "Temporary", MaxSalary = 80205, Location = "Townsville", AppliedDate = (DateTime.Now.AddDays(-15)), StatusName = JobStatus.APPLIED },
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "Case Manager", WorksiteName = "NCS", IsPromoted = false, JobTypeName = "Apprenticeship", MaxSalary = 92509, Location = "Indiana", AppliedDate = (DateTime.Now.AddDays(-31)), StatusName = JobStatus.APPLIED },
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "Social Media Coordinator", WorksiteName = "Barclays", IsPromoted = false, JobTypeName = "Casual", MaxSalary = 70247, Location = "Virginia", AppliedDate = (DateTime.Now.AddDays(-22)), StatusName = JobStatus.APPLIED },
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "Project Manager", WorksiteName = "Nanyang Technological University", IsPromoted = false, JobTypeName = "Subcontract", MaxSalary = 68513, Location = "Pennsylvania", AppliedDate = (DateTime.Now.AddDays(-5)), StatusName = JobStatus.APPLIED },
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "Case Manager", WorksiteName = "DBS", IsPromoted = true, JobTypeName = "Subcontract", MaxSalary = 98277, Location = "South Carolina", AppliedDate = (DateTime.Now.AddDays(-3)), StatusName = JobStatus.REFERENCE_CHECK },
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "System Engineer", WorksiteName = "Citibank", IsPromoted = false, JobTypeName = "Subcontract", MaxSalary = 3729, Location = "Hawaii", AppliedDate = (DateTime.Now.AddDays(-16)), StatusName = JobStatus.ASSESSMENT },
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "Manager", WorksiteName = "Accenture", IsPromoted = false, JobTypeName = "Subcontract", MaxSalary = 60119, Location = "New Hampshire", AppliedDate = (DateTime.Now.AddDays(-10)), StatusName = JobStatus.SHORTLIST },
-            //        new ContactVacancy { ContactVacancyID = Guid.NewGuid(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", PoisitionName = "Commercial Sales Executive", WorksiteName = "DBS Bank", IsPromoted = false, JobTypeName = "Apprenticeship", MaxSalary = 47396, Location = "Wisconsin", AppliedDate = (DateTime.Now.AddDays(-19)), StatusName = JobStatus.SHORTLIST }
-            //    },
-            //    NeedActionAssessments = new List<AssessmentDetail>
-            //    {
-            //        new AssessmentDetail { AssessmentDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", AssessmentName = "Assessment", JobName = "Job", CompanyName = "Company", Location = "City", Status = AssessmentStatus.NEED_ACTION }
-            //    },
-            //    CompleteAssessments = new List<AssessmentDetail>
-            //    {
-            //        new AssessmentDetail { AssessmentDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", AssessmentName = "Assessment", JobName = "Job", CompanyName = "Company", Location = "City", Status = AssessmentStatus.COMPLETE },
-            //        new AssessmentDetail { AssessmentDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", AssessmentName = "Assessment", JobName = "Job", CompanyName = "Company", Location = "City", Status = AssessmentStatus.COMPLETE }
-            //    }
-            //};
 
             //Populate JobGroup
             List<ContactVacancyGroup> groups = new List<ContactVacancyGroup>();
