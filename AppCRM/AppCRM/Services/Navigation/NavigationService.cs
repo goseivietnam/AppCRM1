@@ -2,10 +2,12 @@
 using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate;
+using AppCRM.ViewModels.Main.Candidate.Job;
 using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Views;
 using AppCRM.Views.Account;
 using AppCRM.Views.Main.Candidate;
+using AppCRM.Views.Main.Candidate.JobPage;
 using AppCRM.Views.Main.Candidate.ProfilePage;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -180,6 +182,7 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(LoginViewModel), typeof(LoginPage));
             _mappings.Add(typeof(MainViewModel), typeof(MainPage));
             _mappings.Add(typeof(CandidateProfileViewModel), typeof(CandidateProfilePage));
+            _mappings.Add(typeof(CandidateJobViewModel), typeof(CandidateJobPage));
             _mappings.Add(typeof(CandidateMainViewModel), typeof(CandidateMainPage));
             _mappings.Add(typeof(CandidateRegisterViewModel),typeof(CandidateRegisterPage));
             _mappings.Add(typeof(EmployerRegisterViewModel),typeof(EmployerRegisterPage));

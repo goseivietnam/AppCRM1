@@ -10,6 +10,7 @@ using AppCRM.ViewModels.Main.Candidate;
 using AppCRM.Services.Employer;
 using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Services.Candidate;
+using AppCRM.ViewModels.Main.Candidate.Job;
 
 namespace AppCRM.ViewModels.Base
 {

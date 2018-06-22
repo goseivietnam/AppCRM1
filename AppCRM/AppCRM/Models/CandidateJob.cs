@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
 
 namespace AppCRM.Models
 {
     public class CandidateJob
     {
         public string UserID { get; set; }
-        public List<ContactVacancy> AppliedJobs { get; set; }
-        public List<ContactVacancy> ReferenceCheckJobs { get; set; }
-        public List<ContactVacancy> AssessmentJobs { get; set; }
-        public List<ContactVacancy> ShortlistJobs { get; set; }
+        public List<ContactVacancy> ContactVacancies { get; set; }
         public List<AssessmentDetail> NeedActionAssessments { get; set; }
         public List<AssessmentDetail> CompleteAssessments { get; set; }
     }
 
-    public class ContactVacancy 
+    public class ContactVacancy
     {
         public Guid ContactVacancyID { get; set; }
         public Guid? ContactID { get; set; }
@@ -57,6 +52,12 @@ namespace AppCRM.Models
 
         //public String Assessment { get; set; }
         //public String AssessmentLabel { get; set; }
+        public int AppliedDay { get { return (int)Math.Round((DateTime.Now - this.AppliedDate).TotalDays); } }
+        public string ImageSource { get; set; }
+        public List<JobRequire> Requires { get; set; }
+        public List<JobTask> ToDoTasks { get; set; }
+        public List<JobTask> CompleteTasks { get; set; }
+        public List<JobAttachment> Attachments { get; set; }
     }
 
     public class AssessmentDetail
@@ -68,6 +69,27 @@ namespace AppCRM.Models
         public string CompanyName { get; set; }
         public string Location { get; set; }
         public string Status { get; set; }
+    }
+
+    public class JobRequire
+    {
+        public string JobRequireId { get; set; }
+        public string RequireName { get; set; }
+    }
+
+    public class JobTask
+    {
+        public string JobTaskId { get; set; }
+        public string TaskName { get; set; }
+        public string CreatedBy { get; set; }
+        public bool IsComplete { get; set; }
+    }
+
+    public class JobAttachment
+    {
+        public string JobAttachmentId { get; set; }
+        public string AttachmentName { get; set; }
+        public string CreatedBy { get; set; }
     }
 
     public class JobStatus
