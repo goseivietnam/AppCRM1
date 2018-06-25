@@ -1,4 +1,5 @@
 ﻿using AppCRM.Controls;
+using AppCRM.Extensions;
 using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
@@ -25,8 +26,8 @@ namespace AppCRM.ViewModels.Account
         private string _fieldEmail;
         private string _fieldPassword;
         private string _fieldPasswordConfirm;
-        private string[] _fieldJobInterest;
-        private string[] _fieldJobLocation;
+        private string _fieldJobInterest;
+        private string _fieldJobLocation;
         private ImageSource _profileAvatarSource;
         private ObservableCollection<PickerItem> _jobInterestCollection;
         private ObservableCollection<PickerItem> _jobLocationCollection;
@@ -37,10 +38,6 @@ namespace AppCRM.ViewModels.Account
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
-
-            //Initializing Collection Data
-            InitJobInterestCollection();
-            InitJobLocationCollection();
         }
 
         public string FieldFirstName
@@ -103,7 +100,7 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public string[] FieldJobInterest
+        public string FieldJobInterest
         {
             get
             {
@@ -115,7 +112,7 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public string[] FieldJobLocation
+        public string FieldJobLocation
         {
             get
             {
@@ -166,8 +163,8 @@ namespace AppCRM.ViewModels.Account
                 Email = _fieldEmail,
                 Password = _fieldPassword,
                 ConfirmPassword = _fieldPasswordConfirm,
-                JobInterest = _fieldJobInterest,
-                JobLocation = _fieldJobLocation
+                InterestedRoleIds = _fieldJobInterest,
+                InterestedLocationIds = _fieldJobLocation
             };
 
             var obj = await _candidateDetailsService.CandidateRegister(reg);
@@ -216,30 +213,20 @@ namespace AppCRM.ViewModels.Account
         }
         private void UpdateJobInterest(object selectedValues)
         {
-            _fieldJobInterest = selectedValues == null ? new string[0] : (selectedValues as List<String>).ToArray();
+            _fieldJobInterest = String.Join(",", (selectedValues as List<string>).ToArray());
         }
         private void UpdateJobLocation(object selectedValues)
         {
-            _fieldJobLocation = selectedValues == null ? new string[0] : (selectedValues as List<String>).ToArray();
+            _fieldJobLocation = String.Join(",", (selectedValues as List<string>).ToArray());
         }
 
-        private void InitJobInterestCollection()
+        public override async Task InitializeAsync(object navigationData)
         {
-            JobInterestCollection = new ObservableCollection<PickerItem>() {
-                new PickerItem { Id = Guid.NewGuid(), Name = "Technical Support Engineer" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Quality Assurance" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Team Manager" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Operations Manager" }
-            };
+            var InterestedRolesDDL = await _candidateDetailsService.GetInterestedRolesDDL();
+            JobInterestCollection = InterestedRolesDDL.ToObservableCollection();
+            var InterestedLocationsDDL = await _candidateDetailsService.GetInterestedLocationsDDL();
+            JobLocationCollection = InterestedLocationsDDL.ToObservableCollection();
         }
-        private void InitJobLocationCollection()
-        {
-            JobLocationCollection = new ObservableCollection<PickerItem>() {
-                new PickerItem { Id = Guid.NewGuid(), Name = "Vietnam" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Australia" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Japan" },
-                new PickerItem { Id = Guid.NewGuid(), Name = "Korea" }
-            };
-        }
+
     }
 }
