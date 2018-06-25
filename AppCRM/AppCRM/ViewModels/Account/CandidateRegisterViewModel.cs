@@ -203,13 +203,13 @@ namespace AppCRM.ViewModels.Account
         }
         private async Task PickAvatar()
         {
-            IsBusy = true;
+            var pop =await _dialogService.OpenLoadingPopup();
             _avatarStream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             if (_avatarStream != null && _avatarStream.Stream != null)
             {
                 ProfileAvatarSource = ImageSource.FromStream(() => _avatarStream.Stream);
             }
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
         private void UpdateJobInterest(object selectedValues)
         {
