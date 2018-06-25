@@ -3,9 +3,11 @@ using AppCRM.Extensions;
 using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
+using AppCRM.Services.Navigation;
 using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace AppCRM.ViewModels.Account
     {
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
+        private readonly INavigationService _navigationService;
 
         private string _fieldFirstName;
         private string _fieldLastName;
@@ -34,10 +37,11 @@ namespace AppCRM.ViewModels.Account
 
         private SJFileStream _avatarStream = null;
 
-        public CandidateRegisterViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService)
+        public CandidateRegisterViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
+            _navigationService = navigationService;
         }
 
         public string FieldFirstName
@@ -155,7 +159,7 @@ namespace AppCRM.ViewModels.Account
         
         private async Task SubmitRegisterAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             Register reg = new Register
             {
                 FirstName = _fieldFirstName,
@@ -175,11 +179,21 @@ namespace AppCRM.ViewModels.Account
                 {
                     if (obj["Success"] == "true") //success
                     {
-                        await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                        App.ContactID = obj["ContactID"];
-                        App.UserName = obj["UserName"];
-                        App.PassWord = FieldPassword;
-                        RequestService.ACCESS_TOKEN = obj["access_token"];
+                        await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
+                        if (obj["Roles"] == "Employer")
+                        {
+                        }
+                        else if (obj["Roles"] == "Candidate")
+                        {
+                            await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
+                            App.ContactID = obj["ContactID"];
+                            App.UserName = obj["UserName"];
+                            App.PassWord = FieldPassword;
+                            RequestService.ACCESS_TOKEN = obj["access_token"];
+                            await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                            await PopupNavigation.Instance.PopAllAsync();
+                        }
+                       
                     }
                     else if (obj["Message"] == "IsExists") //is exists
                     {
@@ -196,7 +210,7 @@ namespace AppCRM.ViewModels.Account
                 }
             }
 
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
         private async Task BtnCancelAsync()
         {
