@@ -53,7 +53,7 @@ namespace AppCRM.Services.Candidate
 
         public async Task<dynamic> GetVacancyDetails(Guid? vacancyID)
         {
-            var result = await _requestService.getDataFromServiceAuthority("api/CandidateJob/GetVacancyDetails?Id=" + vacancyID.ToString());
+            var result = await _requestService.getDataFromServiceAuthority("api/CandidateJob/GetVacancyDetails?vacancyID=" + vacancyID.ToString());
             return result;
         }
     }

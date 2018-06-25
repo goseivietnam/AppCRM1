@@ -1,8 +1,10 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.Candidate;
 using AppCRM.Services.Navigation;
+using AppCRM.Tools;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -97,30 +99,55 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             var id = (Guid)navigationData;
             IsBusy = true;
             dynamic obj = await _candidateJobService.GetVacancyDetails(id);
+            DateTime opendate;
+            try
+            {
+                opendate = DateTime.Parse(obj["jobDetail"]["OpenDate"].ToString());
+            }
+            catch
+            {
+                opendate = DateTime.MinValue;
+            }
+            TimeSpan opendateInt = DateTime.Now - opendate;
 
             if (obj["jobDetail"] != null)
             {
+                string Title = obj["jobDetail"]["Title"];
+                string worksiteName = obj["jobDetail"]["WorksiteName"];
+                bool isPromoted = obj["jobDetail"]["IsPromoted"];
+                string jobType = obj["jobDetail"]["JobType"];
+                string salary = obj["jobDetail"]["Salary"];
+                string status = obj["jobDetail"]["Status"];
+                string description = "";
+                if (obj["jobDetail"]["Description"] != null)
+                {
+                    description = Utilities.HtmlToPlainText(obj["jobDetail"]["Description"].ToString());
+                }
+                Models.Account account = new Models.Account();
+                if (obj["jobDetail"]["Account"] != null)
+                {
+                    account = JsonConvert.DeserializeObject<Models.Account>(obj["jobDetail"]["Account"].ToString());
+                }
+                List<JobRequire> requires = new List<JobRequire>();
+                if (obj["requiredList"] != null)
+                {
+                    requires = JsonConvert.DeserializeObject<List<JobRequire>>(obj["requiredList"].ToString());
+                }
                 Job = new Vacancy
                 {
                     VacancyID = id,
                     //ImageSource = "https://i.imgur.com/fSZz5Ta.png",
-                    Title = obj["jobDetail"]["Position"](0).Name,
-                    WorksiteName = obj["jobDetail"]["WorksiteName"],
-                    IsPromoted = obj["jobDetail"]["IsPromoted"],
-                    JobType = obj["jobDetail"]["JobType"],
-                    Salary = obj["jobDetail"]["Salary"],
-                    Status = obj["jobDetail"]["Status"],
-                    OpenDate = obj["jobDetail"]["OpenDate"],
-                    Description = obj["jobDetail"]["Description"]
-                    //    Requires = new List<JobRequire>
-                    //{
-                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Adaptability" },
-                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Attention To Detail" },
-                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Awareness" },
-                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Collaboration" },
-                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Composure Under Pressure" },
-                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Creativity & Innovation" }
-                    //},
+                    Title = Title,
+                    WorksiteName = worksiteName,
+                    IsPromoted = isPromoted,
+                    JobType = jobType,
+                    Salary = salary,
+                    Status = status,
+                    OpenDate = opendate,
+                    OpenDateInt = (int)opendateInt.TotalDays,
+                    Description = description,
+                    Account = account,
+                    Requires = requires,
                     //    ToDoTasks = new List<JobTask>
                     //{
                     //    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Prepare for implementation", CreatedBy = "Hedge Fund Principal", IsComplete = false }

@@ -166,6 +166,7 @@ namespace AppCRM.ViewModels.Account
                 LastName = _fieldLastName,
                 Email = _fieldEmail,
                 Password = _fieldPassword,
+                UserName=_fieldEmail,
                 ConfirmPassword = _fieldPasswordConfirm,
                 InterestedRoleIds = _fieldJobInterest,
                 InterestedLocationIds = _fieldJobLocation
