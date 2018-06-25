@@ -17,7 +17,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
     {
         private readonly ICandidateJobService _candidateJobService;
         private readonly INavigationService _navigationService;
-        private ContactVacancy _job;
+        private Vacancy _job;
 
         private int _todoTaskListViewHeightRequest;
         private int _completeTaskListViewHeightRequest;
@@ -29,7 +29,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             _navigationService = navigationService;
         }
 
-        public ContactVacancy Job
+        public Vacancy Job
         {
             get
             {
@@ -95,51 +95,55 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         {
             IsBusy = true;
             var id = (Guid)navigationData;
-            Job = new ContactVacancy
+            IsBusy = true;
+            dynamic obj = await _candidateJobService.GetVacancyDetails(id);
+
+            if (obj["jobDetail"] != null)
             {
-                ContactVacancyID = id,
-                //ImageSource = "https://i.imgur.com/fSZz5Ta.png",
-                PoisitionName = "Mechanical Design",
-                WorksiteName = "DBS Bank",
-                IsPromoted = true,
-                JobTypeName = "Temporary",
-                MaxSalary = 80205,
-                Location = "Townsville",
-                AppliedDate = DateTime.Now.AddDays(-15),
-                StatusName = JobStatus.APPLIED,
-                Description = "The Power Delivery Services Business Group is seeking an Electrical Designer with physical substation design experience to join their team in its Chattanooga, Tennessee ofﬁce. This position will allow you the opportunity to work with some of the best in the power industry and with a ﬁrm that has been an industry leader over the past 125 years!\n\nThis position will offer you the opportunity to utilize and expand your drafting and design skills, while working in a multi-disciplined team environment with other designers and/or engineers in the preparation of design drawings based on design input.",
-                Requires = new List<JobRequire>
+                Job = new Vacancy
                 {
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Adaptability" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Attention To Detail" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Awareness" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Collaboration" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Composure Under Pressure" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Creativity & Innovation" }
-                },
-                ToDoTasks = new List<JobTask>
-                {
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Prepare for implementation", CreatedBy = "Hedge Fund Principal", IsComplete = false }
-                },
-                CompleteTasks = new List<JobTask>
-                {
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Deﬁne users and workﬂow", CreatedBy = "Compensation Analyst", IsComplete = true },
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Deﬁne the server conﬁguration.", CreatedBy = "Investment Advisor", IsComplete = true },
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Conﬁgure ﬁltering, if appropriate.", CreatedBy = "Actuary", IsComplete = true }
-                },
-                Attachments = new List<JobAttachment>
-                {
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Prepare for implementation", CreatedBy = "Hedge Fund Principal" },
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Deﬁne users and workﬂow", CreatedBy = "Compensation Analyst" },
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Deﬁne the server conﬁguration.", CreatedBy = "Investment Advisor" },
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Conﬁgure ﬁltering, if appropriate.", CreatedBy = "Actuary" }
-                }
-            };
+                    VacancyID = id,
+                    //ImageSource = "https://i.imgur.com/fSZz5Ta.png",
+                    Title = obj["jobDetail"]["Position"](0).Name,
+                    WorksiteName = obj["jobDetail"]["WorksiteName"],
+                    IsPromoted = obj["jobDetail"]["IsPromoted"],
+                    JobType = obj["jobDetail"]["JobType"],
+                    Salary = obj["jobDetail"]["Salary"],
+                    Status = obj["jobDetail"]["Status"],
+                    OpenDate = obj["jobDetail"]["OpenDate"],
+                    Description = obj["jobDetail"]["Description"]
+                    //    Requires = new List<JobRequire>
+                    //{
+                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Adaptability" },
+                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Attention To Detail" },
+                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Awareness" },
+                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Collaboration" },
+                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Composure Under Pressure" },
+                    //    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Creativity & Innovation" }
+                    //},
+                    //    ToDoTasks = new List<JobTask>
+                    //{
+                    //    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Prepare for implementation", CreatedBy = "Hedge Fund Principal", IsComplete = false }
+                    //},
+                    //    CompleteTasks = new List<JobTask>
+                    //{
+                    //    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Deﬁne users and workﬂow", CreatedBy = "Compensation Analyst", IsComplete = true },
+                    //    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Deﬁne the server conﬁguration.", CreatedBy = "Investment Advisor", IsComplete = true },
+                    //    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Conﬁgure ﬁltering, if appropriate.", CreatedBy = "Actuary", IsComplete = true }
+                    //},
+                    //    Attachments = new List<JobAttachment>
+                    //{
+                    //    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Prepare for implementation", CreatedBy = "Hedge Fund Principal" },
+                    //    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Deﬁne users and workﬂow", CreatedBy = "Compensation Analyst" },
+                    //    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Deﬁne the server conﬁguration.", CreatedBy = "Investment Advisor" },
+                    //    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Conﬁgure ﬁltering, if appropriate.", CreatedBy = "Actuary" }
+                    //}
+                };
 
-            TodoTaskListViewHeightRequest = Job.ToDoTasks.Count * 60 + 38;
-            CompleteTaskListViewHeightRequest = Job.CompleteTasks.Count * 60 + 40;
-            AttachmentListViewHeightRequest = Job.Attachments.Count * 60 + 38;
-
+                //TodoTaskListViewHeightRequest = Job.ToDoTasks.Count * 60 + 38;
+                //CompleteTaskListViewHeightRequest = Job.CompleteTasks.Count * 60 + 40;
+                //AttachmentListViewHeightRequest = Job.Attachments.Count * 60 + 38;
+            }
             IsBusy = false;
         }
     }

@@ -62,6 +62,59 @@ namespace AppCRM.Models
         public List<JobAttachment> Attachments { get; set; }
     }
 
+    public class Vacancy
+    {
+        public Guid? VacancyID { get; set; }
+        public Guid? OwnerID { get; set; }
+        public Guid? ManagerID { get; set; }
+        public Guid? OneupManagerID { get; set; }
+        public Guid? ObjectID { get; set; }
+        public Guid? ContactID { get; set; }
+        public string Title { get; set; }
+        public Guid? SalaryRangeUnitID { get; set; }
+        public string Salary { get; set; }
+        public decimal MinSalary { get; set; }
+
+        public decimal MaxSalary { get; set; }
+        public Guid? CountryID { get; set; }
+        public string Country { get; set; }
+        public Guid? StatusID { get; set; }
+        public string Status { get; set; }
+        public int PipelineOrder { get; set; }
+        public bool? IsCoverLetterRequired { get; set; }
+        public Guid? JobTypeID { get; set; }
+        public string JobType { get; set; }
+        public Guid? ClassificationID { get; set; }
+        public string ClassificationName { get; set; }
+        public DateTime? OpenDate { get; set; }
+        //public DateTime? AppliedDate { get; set; }        
+
+        public Guid PipelineGroupID { get; set; }
+
+        public DateTime? CloseDate { get; set; }
+
+        public string Description
+        {
+            get; set;
+        }
+        public Guid? ModifiedBy { get; set; }
+
+        //public Account Account { get; set; }
+
+        //public Position Position { get; set; }
+
+        public string WorksiteName { get; set; }
+
+        public IEnumerable<string> ListJobRequired { get; set; }
+        public string VideoLink { get; set; }
+        public IEnumerable<Document> Documents { get; set; }
+        public bool IsPromoted { get; set; }
+        public string ThirdPartyURL { get; set; }
+
+        public bool IsClosed { get; set; }
+        public bool IsShowSalary { get; set; }
+    }
+
     public class ContactTemplateFilter
     {
         public Guid? ContactId { get; set; }

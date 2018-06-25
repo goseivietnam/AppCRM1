@@ -127,6 +127,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         {
             var pop = await _dialogService.OpenLoadingPopup();
             Email = App.UserName;
+            Password = App.PassWord;
             await _dialogService.CloseLoadingPopup(pop);
         }
     }

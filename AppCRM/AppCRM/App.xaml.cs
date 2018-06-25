@@ -7,47 +7,49 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-[assembly: XamlCompilation (XamlCompilationOptions.Compile)]
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace AppCRM
 {
-	public partial class App : Application
-	{
+    public partial class App : Application
+    {
         public static string ContactID { get; set; }
         public static string UserName { get; set; }
 
-        static App()
-        {
-            BuildDependencies();
-        }
-        public App ()
-		{
-			InitializeComponent();
-            InitNavigation();
-        }
+        public static string PassWord { get; set; }
 
-        private Task InitNavigation()
-        {
-            var navigationService = Locator.Instance.Resolve<INavigationService>();
-            return navigationService.NavigateToAsync<LoginViewModel>();
-        }
-        public static void BuildDependencies()
-        {
-            Locator.Instance.Build();
-        }
+    static App()
+    {
+        BuildDependencies();
+    }
+    public App()
+    {
+        InitializeComponent();
+        InitNavigation();
+    }
 
-        protected override void OnStart ()
-		{
-			// Handle when your app starts
-		}
+    private Task InitNavigation()
+    {
+        var navigationService = Locator.Instance.Resolve<INavigationService>();
+        return navigationService.NavigateToAsync<LoginViewModel>();
+    }
+    public static void BuildDependencies()
+    {
+        Locator.Instance.Build();
+    }
 
-		protected override void OnSleep ()
-		{
-			// Handle when your app sleeps
-		}
+    protected override void OnStart()
+    {
+        // Handle when your app starts
+    }
 
-		protected override void OnResume ()
-		{
-			// Handle when your app resumes
-		}
-	}
+    protected override void OnSleep()
+    {
+        // Handle when your app sleeps
+    }
+
+    protected override void OnResume()
+    {
+        // Handle when your app resumes
+    }
+}
 }

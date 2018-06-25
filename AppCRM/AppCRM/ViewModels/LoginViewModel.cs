@@ -68,16 +68,17 @@ namespace AppCRM.ViewModels
                 {
                     await _dialogService.CloseLoadingPopup(pop);
                     await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
-                   
+
                     if (obj["Roles"] == "Employer")
                     {
                     }
                     else if (obj["Roles"] == "Candidate")
                     {
-                    App.ContactID = obj["ContactID"];
-                    App.UserName = obj["UserName"];
-                    RequestService.ACCESS_TOKEN = obj["access_token"];
-                    await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                        App.ContactID = obj["ContactID"];
+                        App.UserName = obj["UserName"];
+                        App.PassWord = Password;
+                        RequestService.ACCESS_TOKEN = obj["access_token"];
+                        await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
                 }
                 else if (obj["Message"] == "IsActive") //success //fail

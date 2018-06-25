@@ -13,6 +13,7 @@ namespace AppCRM.Services.Candidate
     {
         Task<dynamic> GetCandidateJobApplied();
         Task<dynamic> GetAssessment(ContactTemplateFilter filter);
+        Task<dynamic> GetVacancyDetails(Guid? vacancyID);
         //Task<dynamic> GetEmployerCandidateDetail();
         //Task<dynamic> GetEmployerCandidateProfile();
         //Task<dynamic> AddEducation(ContactEducation eduction);
@@ -46,6 +47,13 @@ namespace AppCRM.Services.Candidate
         public async Task<dynamic> GetAssessment(ContactTemplateFilter filter)
         {
             var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/GetAssessment", filter);
+            return result;
+        }
+
+
+        public async Task<dynamic> GetVacancyDetails(Guid? vacancyID)
+        {
+            var result = await _requestService.getDataFromServiceAuthority("api/CandidateJob/GetVacancyDetails?Id=" + vacancyID.ToString());
             return result;
         }
     }
