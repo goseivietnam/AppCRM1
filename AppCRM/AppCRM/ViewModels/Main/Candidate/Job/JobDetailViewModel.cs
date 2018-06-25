@@ -131,7 +131,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 List<JobRequire> requires = new List<JobRequire>();
                 if (obj["requiredList"] != null)
                 {
-                    requires = JsonConvert.DeserializeObject<List<JobRequire>>(obj["requiredList"]).ToString();
+                    requires = JsonConvert.DeserializeObject<List<JobRequire>>(obj["requiredList"].ToString());
                 }
                 Job = new Vacancy
                 {
