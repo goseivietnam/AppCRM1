@@ -3,6 +3,7 @@ using AppCRM.Models;
 using AppCRM.Services.Request;
 using AppCRM.Tools;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace AppCRM.Services.CandidateDetail
@@ -28,6 +29,8 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddEditContactCoverImage(SJFileStream stream);
         Task<dynamic> AddEditContactAvatarImage(SJFileStream stream);
         Task<dynamic> UploadResume(SJFileStream stream);
+        Task<IEnumerable<PickerItem>> GetInterestedLocationsDDL();
+        Task<IEnumerable<PickerItem>> GetInterestedRolesDDL();
     }
     public class CandidateDetailsService : ICandidateDetailsService
     {
@@ -158,6 +161,17 @@ namespace AppCRM.Services.CandidateDetail
         {
             var result = await _requestService.UploadFile("api/Document/UploadResume", stream, stream.FileName);
             return result;
+        }
+
+        public async Task<IEnumerable<PickerItem>> GetInterestedLocationsDDL()
+        {
+            return await _requestService.GetAsync1<IEnumerable<PickerItem>>("api/DDL/GetInterestedLocationsDDL?Filter");
+        }
+
+        public async Task<IEnumerable<PickerItem>> GetInterestedRolesDDL()
+        {
+            return await _requestService.GetAsync1<IEnumerable<PickerItem>>("api/DDL/GetInterestedRolesDDL?Filter");
+
         }
     }
 }
