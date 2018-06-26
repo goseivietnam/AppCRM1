@@ -178,6 +178,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         private async void OpenSignoutPage()
         {
+            var pop = await _dialogService.OpenLoadingPopup();
             var obj = await _authenticationService.Logout();
             if (obj != null)
             {
@@ -205,6 +206,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                 }
             }
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         private async Task OpenMainPageAsync()

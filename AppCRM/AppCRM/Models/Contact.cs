@@ -17,6 +17,7 @@ namespace AppCRM.Models
         public string Email { get; set; }
         public string Address { get; set; }
         public string CityName { get; set; }
+        public Guid? CityID { get; set; }
         public string Nationality { get; set; }
         public Guid? NationalityID { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -36,5 +37,7 @@ namespace AppCRM.Models
         public List<Document> Documents { get; set; }
         public ObservableCollection<PickerItem> NationalityDDL { get; set; }
         public PickerItem SelectedNationality { get; set; }
+        public ObservableCollection<PickerItem> CityDDL { get; set; }
+        public PickerItem SelectedCity { get; set; }
     }
 }

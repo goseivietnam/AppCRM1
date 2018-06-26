@@ -87,14 +87,14 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private async Task BtnSaveAccountSettingCommandAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             Contact profile = new Contact
             {
                 Password = _password,
             };
 
             var obj = await _authenticationService.ChangePassword(profile);
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
 
             if (obj != null)
             {
@@ -114,6 +114,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
         }

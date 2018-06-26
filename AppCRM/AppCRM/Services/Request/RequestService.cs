@@ -15,7 +15,7 @@ namespace AppCRM.Services.Request
 {
     public interface IRequestService
     {
-        Task<TResult> GetAsync1<TResult>(string queryString);
+        Task<TResult> GetAsync<TResult>(string queryString);
         Task<dynamic> getDataFromService(string queryString);
         Task<dynamic> getDataFromServiceAuthority(string queryString);
         Task<dynamic> postDataFromService(string url, object item);
@@ -26,7 +26,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        public static readonly string HOST_NAME = "http://4a5b04d0.ngrok.io/";
+        public static readonly string HOST_NAME = "http://86f134b5.ngrok.io/";
         public static string ACCESS_TOKEN;
         private readonly JsonSerializerSettings _serializerSettings;
 
@@ -189,7 +189,7 @@ namespace AppCRM.Services.Request
             return result;
         }
 
-        public async Task<TResult> GetAsync1<TResult>(string queryString)
+        public async Task<TResult> GetAsync<TResult>(string queryString)
         {
             HttpClient client = new HttpClient
             {

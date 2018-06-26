@@ -122,7 +122,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private async Task BtnSaveReferenceCommandAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             ContactReference reference = new ContactReference
             {
                 EmployerName = _employer,
@@ -133,7 +133,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 Contacted = _isContacted,
             };
             var obj = await _candidateDetailsService.AddReference(reference);
-            IsBusy = false;
 
             if (obj != null)
             {
@@ -160,9 +159,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                    IsBusy = false;
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
+            await _dialogService.CloseLoadingPopup(pop);
         }
     }
 }

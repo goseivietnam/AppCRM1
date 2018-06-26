@@ -39,7 +39,7 @@
                                     <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Title is not filled yet" ValidationLabelName="lblValidateTitle"/>
                                 </material:MaterialEntry.Behaviors>
                             </material:MaterialEntry>
-                            <Label x:Name="lblValidateTitle" FontSize="12" Margin="15,-2"/>                            
+                            <Label x:Name="lblValidateTitle" FontSize="12" Margin="15,-2"/>
                             <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
                             <StackLayout Orientation="Horizontal" Margin="15,0" >
                                 <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>
@@ -51,12 +51,6 @@
                     </ScrollView>
                 </StackLayout>
             </Grid>
-            <ActivityIndicator
-                Color="White"
-                IsRunning="{Binding IsBusy}"
-                IsEnabled="{Binding IsBusy}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>
         </Grid>
     </ContentPage.Content>
 </pages:PopupPage>

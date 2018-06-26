@@ -22,6 +22,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly ICandidateDetailsService _candidateDetailService;
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
+
         private Contact _profile;
         private int educationCount = 0;
         private int workExprienceCount = 0;

@@ -1,15 +1,12 @@
-﻿using AppCRM.ViewModels.Base;
-using AppCRM.Services.Authentication;
+﻿using AppCRM.Services.Authentication;
+using AppCRM.Services.Dialog;
+using AppCRM.Services.Navigation;
+using AppCRM.Services.Request;
 using AppCRM.Utils;
+using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using AppCRM.Services.Dialog;
-using AppCRM.Views;
-using Rg.Plugins.Popup.Services;
-using AppCRM.ViewModels;
-using AppCRM.Services.Request;
-using AppCRM.ViewModels.Main.Candidate;
-using AppCRM.Services.Navigation;
 
 namespace AppCRM.ViewModels
 {

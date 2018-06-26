@@ -180,9 +180,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 To = _toDate,
                 DateToString = _toDate.HasValue ? _toDate.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
             };
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             var obj = await _candidateDetailsService.AddLicence(licence);
-            IsBusy = false;
 
             if (obj != null)
             {
@@ -191,9 +190,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     if (obj["Success"] == "true") //success
                     {
                         await _dialogService.PopupMessage("Add new Licence Successefully", "#52CD9F", "#FFFFFF");
-                        IsBusy = true;
                         var objupload = await _candidateDetailsService.SaveContactLicenceAttachment(obj["Result"], stream);
-                        IsBusy = false;
 
                         if (objupload != null)
                         {
@@ -220,7 +217,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                             catch
                             {
                                 await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                                IsBusy = false;
+                                await _dialogService.CloseLoadingPopup(pop);
                             }
                         }
                     }
@@ -229,9 +226,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                    IsBusy = false;
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         private async Task BtnAttachmentAsync()

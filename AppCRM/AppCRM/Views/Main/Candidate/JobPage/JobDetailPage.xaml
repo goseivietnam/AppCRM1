@@ -74,7 +74,8 @@
                                         </ListView.ItemTemplate>
                                     </ListView>
                                 </StackLayout>
-                                <Button HorizontalOptions="FillAndExpand" BackgroundColor="#E85A6C" Text="Withdraw" TextColor="White"/>
+                                <Button Command="{Binding WithDrawComand}" IsVisible="{Binding WithDrawIsVisible}" HorizontalOptions="FillAndExpand" BackgroundColor="#E85A6C" Text="Withdraw" TextColor="White"/>
+                                <Button Command="{Binding ApplyComand}" IsVisible="{Binding ApplyIsVisible}" HorizontalOptions="FillAndExpand" BackgroundColor="#52CD9F" Text="Apply" TextColor="White"/>
                             </StackLayout>
                         </ScrollView>
                     </tabbedPage:SfTabItem.Content>
@@ -90,11 +91,11 @@
                                     </StackLayout>
                                 </StackLayout>
 
-                                <ListView ItemsSource="{Binding Job.ToDoTasks}" RowHeight="60" HeightRequest="{Binding TodoTaskListViewHeightRequest}"
+                                <ListView ItemsSource="{Binding Job.ContactTasksTodo}" RowHeight="60" HeightRequest="{Binding TodoTaskListViewHeightRequest}"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
-                                            <Label TextColor="#7F8890" Text="{Binding Job.ToDoTasks.Count, StringFormat='TO DO ({0})'}" FontSize="12"/>
+                                            <Label TextColor="#7F8890" Text="{Binding Job.ContactTasksTodo.Count, StringFormat='TO DO ({0})'}" FontSize="12"/>
                                         </Frame>
                                     </ListView.Header>
                                     <ListView.ItemTemplate>
@@ -111,7 +112,7 @@
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
                                                         <Label Text="{Binding TaskName}" TextColor="Black"/>
-                                                        <Label Text="{Binding CreatedBy}" TextColor="#9A9FA7"/>
+                                                        <Label Text="{Binding Description}" TextColor="#9A9FA7"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">
                                                         <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" HorizontalOptions="End"/>
@@ -122,11 +123,11 @@
                                     </ListView.ItemTemplate>
                                 </ListView>
 
-                                <ListView ItemsSource="{Binding Job.CompleteTasks}" RowHeight="60" HeightRequest="{Binding CompleteTaskListViewHeightRequest}"
+                                <ListView ItemsSource="{Binding Job.ContactTasksComplete}" RowHeight="60" HeightRequest="{Binding CompleteTaskListViewHeightRequest}"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
-                                            <Label TextColor="#7F8890" Text="{Binding Job.CompleteTasks.Count, StringFormat='COMPLETE ({0})'}" FontSize="12"/>
+                                            <Label TextColor="#7F8890" Text="{Binding Job.ContactTasksComplete.Count, StringFormat='COMPLETE ({0})'}" FontSize="12"/>
                                         </Frame>
                                     </ListView.Header>
                                     <ListView.ItemTemplate>
@@ -143,7 +144,7 @@
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
                                                         <Label Text="{Binding TaskName}" TextColor="#C4CBD3"/>
-                                                        <Label Text="{Binding CreatedBy}" TextColor="#C4CBD3"/>
+                                                        <Label Text="{Binding Description}" TextColor="#C4CBD3"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">
                                                         <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" HorizontalOptions="End"/>
@@ -167,8 +168,7 @@
                                         <controls:BorderlessEntry HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
                                     </StackLayout>
                                 </StackLayout>
-
-                                <ListView ItemsSource="{Binding Job.Attachments}" RowHeight="60" HeightRequest="{Binding AttachmentListViewHeightRequest}"
+                                <ListView ItemsSource="{Binding Job.ContactDocuments}" RowHeight="60" HeightRequest="{Binding AttachmentListViewHeightRequest}"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
@@ -183,8 +183,8 @@
                                                         <Image HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Source="icon_attachment.png" WidthRequest="20" HeightRequest="20"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding AttachmentName}" TextColor="Black"/>
-                                                        <Label Text="{Binding CreatedBy}" TextColor="#9A9FA7"/>
+                                                        <Label Text="{Binding DocumentName}" TextColor="Black"/>
+                                                        <Label Text="{Binding DocumentName}" TextColor="#9A9FA7"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">
                                                         <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" HorizontalOptions="End"/>

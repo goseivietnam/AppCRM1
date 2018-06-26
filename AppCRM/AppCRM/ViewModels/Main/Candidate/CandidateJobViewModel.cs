@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using AppCRM.Models;
 using AppCRM.Services.Candidate;
+using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
@@ -18,6 +19,8 @@ namespace AppCRM.ViewModels.Main.Candidate
     {
         private readonly ICandidateJobService _candidateJobService;
         private readonly INavigationService _navigationService;
+        private readonly IDialogService _dialogService;
+
         private CandidateJob _job;
         private List<ContactVacancyGroup> _jobGroups;
 
@@ -27,10 +30,11 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _completetListViewHeightRequest;
 
 
-        public CandidateJobViewModel(ICandidateJobService candidateJobService, INavigationService navigationService)
+        public CandidateJobViewModel(ICandidateJobService candidateJobService, INavigationService navigationService, IDialogService dialogService)
         {
             _candidateJobService = candidateJobService;
             _navigationService = navigationService;
+            _dialogService = dialogService;
         }
 
         public CandidateJob Job
@@ -120,7 +124,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         public override async Task InitializeAsync(object navigationData)
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             dynamic objcontactVacancies = await _candidateJobService.GetCandidateJobApplied();
 
             ContactTemplateFilter filter = new ContactTemplateFilter
@@ -177,7 +181,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             NeedActionListViewHeightRequest = Job.NeedActionAssessments.Count * 90 + 38;
             CompleteListViewHeightRequest = Job.CompleteAssessments.Count * 90 + 38;
 
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
     }
 

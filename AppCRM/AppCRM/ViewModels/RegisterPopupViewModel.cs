@@ -1,11 +1,8 @@
-﻿using AppCRM.Services.CandidateDetail;
-using AppCRM.Services.Dialog;
+﻿using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
-using AppCRM.Views.Account;
-using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
 

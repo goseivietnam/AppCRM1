@@ -84,7 +84,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private async Task BtnSaveSkillCommandAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             ContactSkill skill = new ContactSkill
             {
                 MeasurementName = _skill,
@@ -92,7 +92,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 ExperienceID = _experienceSelected.Id,
             };
             var obj = await _candidateDetailsService.AddSkill(skill);
-            IsBusy = false;
+
             if (obj != null)
             {
                 try
@@ -118,20 +118,21 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                    IsBusy = false;
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         public override async Task InitializeAsync(object navigationData)
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             var userId = App.ContactID;
             //load profile data from DataService
             var obj = await _candidateDetailsService.GetCandidateExperience();
 
             ExperienceDDL = JsonConvert.DeserializeObject<ObservableCollection<PickerItem>>(obj["ExperienceDDL"].ToString());
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
     }
 }

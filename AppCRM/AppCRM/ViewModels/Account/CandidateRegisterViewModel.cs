@@ -3,9 +3,11 @@ using AppCRM.Extensions;
 using AppCRM.Models;
 using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
+using AppCRM.Services.Navigation;
 using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace AppCRM.ViewModels.Account
     {
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
+        private readonly INavigationService _navigationService;
 
         private string _fieldFirstName;
         private string _fieldLastName;
@@ -34,10 +37,11 @@ namespace AppCRM.ViewModels.Account
 
         private SJFileStream _avatarStream = null;
 
-        public CandidateRegisterViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService)
+        public CandidateRegisterViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
+            _navigationService = navigationService;
         }
 
         public string FieldFirstName
@@ -152,17 +156,17 @@ namespace AppCRM.ViewModels.Account
         public ICommand PickAvatarBtnCommand => new AsyncCommand(PickAvatar);
         public ICommand JobInterestChangeCommand => new Command(UpdateJobInterest);
         public ICommand JobLocationChangeCommand => new Command(UpdateJobLocation);
-        
+
         private async Task SubmitRegisterAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             Register reg = new Register
             {
                 FirstName = _fieldFirstName,
                 LastName = _fieldLastName,
                 Email = _fieldEmail,
                 Password = _fieldPassword,
-                UserName=_fieldEmail,
+                UserName = _fieldEmail,
                 ConfirmPassword = _fieldPasswordConfirm,
                 InterestedRoleIds = _fieldJobInterest,
                 InterestedLocationIds = _fieldJobLocation
@@ -181,6 +185,25 @@ namespace AppCRM.ViewModels.Account
                         App.UserName = obj["UserName"];
                         App.PassWord = FieldPassword;
                         RequestService.ACCESS_TOKEN = obj["access_token"];
+                        await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+
+                        var objUpload = await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
+                        try
+                        {
+                            if (objUpload["Success"] == "true") //success
+                            {
+                                await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
+                            }
+                            else if (objUpload["Success"] == "false")
+                            {
+                                await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
+                            }
+                        }
+                        catch
+                        {
+                            await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                            await _dialogService.CloseLoadingPopup(pop);
+                        }
                     }
                     else if (obj["Message"] == "IsExists") //is exists
                     {
@@ -194,10 +217,11 @@ namespace AppCRM.ViewModels.Account
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!", "#CF6069", "#FFFFFF");
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
 
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
         private async Task BtnCancelAsync()
         {
@@ -205,7 +229,7 @@ namespace AppCRM.ViewModels.Account
         }
         private async Task PickAvatar()
         {
-            var pop =await _dialogService.OpenLoadingPopup();
+            var pop = await _dialogService.OpenLoadingPopup();
             _avatarStream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             if (_avatarStream != null && _avatarStream.Stream != null)
             {

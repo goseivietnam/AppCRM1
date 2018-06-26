@@ -1,10 +1,7 @@
-﻿using AppCRM.Controls;
-using AppCRM.Models;
-using AppCRM.Services.CandidateDetail;
+﻿using AppCRM.Models;
 using AppCRM.Services.Request;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace AppCRM.Services.Candidate
@@ -13,7 +10,11 @@ namespace AppCRM.Services.Candidate
     {
         Task<dynamic> GetCandidateJobApplied();
         Task<dynamic> GetAssessment(ContactTemplateFilter filter);
-        Task<dynamic> GetVacancyDetails(Guid? vacancyID);
+        Task<dynamic> GetContactTaskByContactIDAndVacancyID(Guid? VacancyID);
+        Task<dynamic> GetDocumentsAssigneedByContactIDAndVacancyID(Guid? VacancyID);
+        Task<dynamic> GetVacancyDetails(Guid? VacancyID);
+        Task<dynamic> WithDrawVacancy(Guid? VacancyID);
+        Task<dynamic> ApplyVacancy(Guid? VacancyID);
         //Task<dynamic> GetEmployerCandidateDetail();
         //Task<dynamic> GetEmployerCandidateProfile();
         //Task<dynamic> AddEducation(ContactEducation eduction);
@@ -50,10 +51,37 @@ namespace AppCRM.Services.Candidate
             return result;
         }
 
-
-        public async Task<dynamic> GetVacancyDetails(Guid? vacancyID)
+        public async Task<dynamic> GetContactTaskByContactIDAndVacancyID(Guid? VacancyID)
         {
-            var result = await _requestService.getDataFromServiceAuthority("api/CandidateJob/GetVacancyDetails?vacancyID=" + vacancyID.ToString());
+            object item = new Hashtable { { "VacancyID", VacancyID } };
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/GetContactTaskByContactIDAndVacancyID", item);
+            return result;
+        }
+
+        public async Task<dynamic> GetDocumentsAssigneedByContactIDAndVacancyID(Guid? VacancyID)
+        {
+            object item = new Hashtable { { "VacancyID", VacancyID } };
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/GetDocumentsAssigneedByContactIDAndVacancyID", item);
+            return result;
+        }
+
+        public async Task<dynamic> GetVacancyDetails(Guid? VacancyID)
+        {
+            var result = await _requestService.getDataFromServiceAuthority("api/CandidateJob/GetVacancyDetails?VacancyID=" + VacancyID.ToString());
+            return result;
+        }
+
+        public async Task<dynamic> WithDrawVacancy(Guid? VacancyID)
+        {
+            object item = new Hashtable { { "VacancyID", VacancyID } };
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/WithDrawVacancy", item);
+            return result;
+        }
+
+        public async Task<dynamic> ApplyVacancy(Guid? VacancyID)
+        {
+            object item = new Hashtable { { "VacancyID", VacancyID } };
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/ApplyVacancy", item);
             return result;
         }
     }

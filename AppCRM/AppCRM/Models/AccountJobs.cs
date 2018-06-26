@@ -1,4 +1,5 @@
 ﻿using AppCRM.Services.Request;
+using AppCRM.ViewModels.AdminArea;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -203,9 +204,8 @@ namespace AppCRM.Models
         public int AppliedDay { get { return (int)Math.Round((DateTime.Now - this.AppliedDate).TotalDays); } }
         public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + AccountID.ToString(); }
         public List<JobRequire> Requires { get; set; }
-        public List<JobTask> ToDoTasks { get; set; }
-        public List<JobTask> CompleteTasks { get; set; }
-        public List<JobAttachment> Attachments { get; set; }
+        public List<UserContactTask> ToDoTasks { get; set; }
+        public List<UserContactTask> CompleteTasks { get; set; }
     }
 
     public class Vacancy
@@ -255,13 +255,16 @@ namespace AppCRM.Models
 
         public IEnumerable<string> ListJobRequired { get; set; }
         public string VideoLink { get; set; }
-        public IEnumerable<Document> Documents { get; set; }
+        public List<ContactDocument> ContactDocuments { get; set; }
         public bool IsPromoted { get; set; }
         public string ThirdPartyURL { get; set; }
 
         public bool IsClosed { get; set; }
         public bool IsShowSalary { get; set; }
         public List<JobRequire> Requires { get; set; }
+        public List<ContactTemplate> Assessments { get; set; }
+        public List<UserContactTask> ContactTasksTodo { get; set; }
+        public List<UserContactTask> ContactTasksComplete { get; set; }
         public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + Account.AccountID.ToString(); }
     }
 
@@ -363,29 +366,6 @@ namespace AppCRM.Models
         public Guid? MeasurementID { get; set; }
         public string MeasurementName { get; set; }
         public string MeasurementType { get; set; }
-    }
-
-    public class JobTask
-    {
-        public string JobTaskId { get; set; }
-        public string TaskName { get; set; }
-        public string CreatedBy { get; set; }
-        public bool IsComplete { get; set; }
-    }
-
-    public class JobAttachment
-    {
-        public string JobAttachmentId { get; set; }
-        public string AttachmentName { get; set; }
-        public string CreatedBy { get; set; }
-    }
-
-    public class JobStatus
-    {
-        public const string APPLIED = "Applied";
-        public const string REFERENCE_CHECK = "ReferenceCheck";
-        public const string ASSESSMENT = "Assessment";
-        public const string SHORTLIST = "Shortlist";
     }
 
     public class AssessmentStatus

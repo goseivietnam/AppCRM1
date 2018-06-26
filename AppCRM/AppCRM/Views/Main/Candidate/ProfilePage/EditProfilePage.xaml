@@ -6,6 +6,7 @@
     xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
     xmlns:animations="clr-namespace:AppCRM.Effects"
     xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+    xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
     x:Class="AppCRM.Views.Main.Candidate.ProfilePage.EditProfilePage">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>
@@ -33,11 +34,15 @@
             <Style x:Key="PrimaryMaterialPicker" TargetType="material:MaterialPicker">
                 <Setter Property="TextColor" Value="#3C4455"/>
                 <Setter Property="AccentColor" Value="#828B93"/>
-                <!--<Setter Property="PlaceholderColor" Value="#828B93"/>-->
                 <Setter Property="InvalidColor" Value="#DD4C40"/>
                 <Setter Property="HiddenLabelTextSize" Value="11"/>
                 <Setter Property="FontSize" Value="13"></Setter>
                 <Setter Property="Margin" Value="15,-5"></Setter>
+            </Style>
+            <Style x:Key="PrimarySfAutoComplete" TargetType="autocomplete:SfAutoComplete">
+                <Setter Property="TextColor" Value="#3C4455"/>
+                <Setter Property="Margin" Value="15,-5"></Setter>
+                <Setter Property="TextSize" Value="13"></Setter>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -88,19 +93,26 @@
                                 </material:MaterialEntry.Behaviors>
                             </material:MaterialEntry>
                             <Label x:Name="lblValidateAddress" FontSize="12" Margin="15,-2"/>
-                            <material:MaterialEntry Text="{Binding City}" Placeholder="City" Style="{DynamicResource PrimaryMaterialEntry}">
-                                <material:MaterialEntry.Behaviors>
-                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="City is not filled yet" ValidationLabelName="lblValidateCity"/>
-                                </material:MaterialEntry.Behaviors>
-                            </material:MaterialEntry>
-                            <Label x:Name="lblValidateCity" FontSize="12" Margin="15,-2"/>
+                            <autocomplete:SfAutoComplete DataSource="{Binding CityCollection}" AutoCompleteMode="Suggest" DisplayMemberPath="Name"
+                                                         SelectedValuePath="Id" MultiSelectMode="None" TokensWrapMode="Wrap" 
+                                                         IsSelectedItemsVisibleInDropDown="True" 
+                                                         behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding CityChangeCommand}" 
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding CitySelected}">
+                            </autocomplete:SfAutoComplete>
+                            <!--<material:MaterialPicker Text="{Binding CityDDL}" SelectedItem="{Binding CitySelected}" Placeholder="City" Style="{DynamicResource PrimaryMaterialPicker}">
+                                <material:MaterialPicker.Behaviors>
+                                    <behaviors:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="City is not filled yet" ValidationLabelName="lblValidateCity"/>
+                                </material:MaterialPicker.Behaviors>
+                            </material:MaterialPicker>
+                            <Label x:Name="lblValidateCity" FontSize="12" Margin="15,-2"/>-->
                             <material:MaterialPicker Items="{Binding NationalityDDL}" SelectedItem="{Binding NationalitySelected}" Placeholder="Nationality" Style="{DynamicResource PrimaryMaterialPicker}">
                                 <material:MaterialPicker.Behaviors>
-                                    <behaviors:MaterialEntryValidationBehavior RuleNames="Required" RuleMessages="Nationality is not filled yet" ValidationLabelName="lblValidateNationality"/>
+                                    <behaviors:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="Nationality is not filled yet" ValidationLabelName="lblValidateNationality"/>
                                 </material:MaterialPicker.Behaviors>
                             </material:MaterialPicker>
                             <Label x:Name="lblValidateNationality" FontSize="12" Margin="15,-2"/>
-                            <material:MaterialDatePicker Date="{Binding BirthDay}" Placeholder="Day of birth" Style="{DynamicResource PrimaryMaterialEntry}">
+                            <material:MaterialDatePicker Date="{Binding BirthDay}" Placeholder="Day of birth" Style="{DynamicResource PrimaryMaterialDatePicker}">
                                 <material:MaterialDatePicker.Behaviors>
                                     <behaviors:MaterialDatePickerValidationBehavior RuleNames="Required" RuleMessages="Day of birth is not filled yet" ValidationLabelName="lblValidateBirthDay"/>
                                 </material:MaterialDatePicker.Behaviors>
@@ -115,13 +127,10 @@
                             <StackLayout Spacing="0" BackgroundColor="#F9F9F9" Padding="10" HeightRequest="20">
                                 <!--<Label FontSize="12" TextColor="#959DA3" Text="MY PROFILE" FontAttributes="Bold"/>-->
                             </StackLayout>
-                            <Label Text="Attachment" TextColor="#231F20" Margin="15, 0"/>
                             <StackLayout Orientation="Horizontal" Margin="15,0" >
                                 <Image IsVisible="{Binding FileAttachImageIsVisible}" Source="icon_attachment.png" HeightRequest="16" WidthRequest="16" BackgroundColor="Transparent"></Image>
                                 <Label Text="{Binding FileName}" IsVisible="{Binding FileNameIsVisible}" TextColor="Blue"></Label>
                             </StackLayout>
-                            <Label Text="Upload your document or image as attachment. Support file .doc, .docx" FontSize="12" Margin="15,10,15,5"/>
-                            <Button Text="Attachment" BackgroundColor="#2A76FD" TextColor="WhiteSmoke" Margin="15,0" Command="{Binding BtnAttachmentCommand}" IsEnabled="{Binding BtnAttachmentIsEnable}"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50*" />
@@ -144,12 +153,6 @@
                     </ScrollView>
                 </StackLayout>
             </Grid>
-            <ActivityIndicator
-                Color="White"
-                IsRunning="{Binding IsBusy}"
-                IsEnabled="{Binding IsBusy}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"/>
         </Grid>
     </ContentPage.Content>
 </pages:PopupPage>
