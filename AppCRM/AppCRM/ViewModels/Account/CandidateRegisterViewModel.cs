@@ -180,11 +180,21 @@ namespace AppCRM.ViewModels.Account
                 {
                     if (obj["Success"] == "true") //success
                     {
-                        await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                        App.ContactID = obj["ContactID"];
-                        App.UserName = obj["UserName"];
-                        App.PassWord = FieldPassword;
-                        RequestService.ACCESS_TOKEN = obj["access_token"];
+                        await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
+                        if (obj["Roles"] == "Employer")
+                        {
+                        }
+                        else if (obj["Roles"] == "Candidate")
+                        {
+                            await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
+                            App.ContactID = obj["ContactID"];
+                            App.UserName = obj["UserName"];
+                            App.PassWord = FieldPassword;
+                            RequestService.ACCESS_TOKEN = obj["access_token"];
+                            await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                            await PopupNavigation.Instance.PopAllAsync();
+                        }
+                       
                         await _navigationService.NavigateToAsync<CandidateMainViewModel>();
 
                         var objUpload = await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
