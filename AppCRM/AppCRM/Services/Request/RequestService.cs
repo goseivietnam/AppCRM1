@@ -23,7 +23,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
+        public static readonly string HOST_NAME = "https://1f4d7408.ngrok.io/";
         public static string ACCESS_TOKEN;
 
         public async Task<dynamic> getDataFromService(string queryString)
@@ -140,7 +140,7 @@ namespace AppCRM.Services.Request
             MultipartFormDataContent content = new MultipartFormDataContent();
             byte[] buffer = Tools.Utilities.ReadToEnd(stream.Stream);
             ByteArrayContent baContent = new ByteArrayContent(buffer);
-            baContent.Headers.ContentType = new MediaTypeHeaderValue(MimeTypeMap.Singleton.GetMimeTypeFromExtension(Utilities.getExtension(fileName)));
+            baContent.Headers.ContentType = new MediaTypeHeaderValue(MimeTypeMap.GetMimeType(Utilities.getExtension(fileName)));
             content.Add(baContent, "File", fileName);
 
             //upload MultipartFormDataContent content async and store response in response var
