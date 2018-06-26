@@ -425,6 +425,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             GetBindingWorkExprience();
         }
+
         private void SkillViewMoreCommandAsync()
         {
             GetBindingSkill();
@@ -462,15 +463,15 @@ namespace AppCRM.ViewModels.Main.Candidate
             var contactID = App.ContactID;
             dynamic obj = await _candidateDetailService.GetEmployerCandidateDetail();
             //Get all list
-            List<ContactEducation> educationList = JsonConvert.DeserializeObject<List<ContactEducation>>(obj["Educations"].ToString());
-            List<ContactWorkExprience> workExprienceList = JsonConvert.DeserializeObject<List<ContactWorkExprience>>(obj["WorkExperiences"].ToString());
-            List<ContactSkill> skillList = JsonConvert.DeserializeObject<List<ContactSkill>>(obj["Skills"].ToString());
-            List<ContactQualification> qualificationList = JsonConvert.DeserializeObject<List<ContactQualification>>(obj["Qualifications"].ToString());
-            List<ContactLicence> licenceList = JsonConvert.DeserializeObject<List<ContactLicence>>(obj["Licences"].ToString());
-            List<Document> documentList = JsonConvert.DeserializeObject<List<Document>>(obj["Documents"].ToString());
-            List<ContactReference> referenceList = JsonConvert.DeserializeObject<List<ContactReference>>(obj["References"].ToString());
+            educationList = JsonConvert.DeserializeObject<List<ContactEducation>>(obj["Educations"].ToString());
+            workExprienceList = JsonConvert.DeserializeObject<List<ContactWorkExprience>>(obj["WorkExperiences"].ToString());
+            skillList = JsonConvert.DeserializeObject<List<ContactSkill>>(obj["Skills"].ToString());
+            qualificationList = JsonConvert.DeserializeObject<List<ContactQualification>>(obj["Qualifications"].ToString());
+            licenceList = JsonConvert.DeserializeObject<List<ContactLicence>>(obj["Licences"].ToString());
+            documentList = JsonConvert.DeserializeObject<List<Document>>(obj["Documents"].ToString());
+            referenceList = JsonConvert.DeserializeObject<List<ContactReference>>(obj["References"].ToString());
             List<InterestedRole> roles = JsonConvert.DeserializeObject<List<InterestedRole>>(obj["Role"].ToString());
-            List<ContactLink> contactLinks = new List<ContactLink>();
+            contactLinks = new List<ContactLink>();
             contactLinks.Add(new ContactLink
             {
                 Title = obj["CandidateDetails"]["Email"],
@@ -503,24 +504,32 @@ namespace AppCRM.ViewModels.Main.Candidate
                 RoleAndAddress = interestedRoles + " - " + obj["CandidateDetails"]["CityName"],
                 Greeting = "Hi, I am " + obj["CandidateDetails"]["FullName"],
                 Introduction = Utilities.HtmlToPlainText(obj["CandidateDetails"]["AboutMe"].ToString()),
-                Educations = educationList,
-                WorkExpriences = workExprienceList,
-                Skills = skillList,
-                Qualifications = qualificationList,
-                Licences = licenceList,
-                Documents = documentList,
-                References = referenceList,
+                //Educations = educationList,
+                //WorkExpriences = workExprienceList,
+                //Skills = skillList,
+                //Qualifications = qualificationList,
+                //Licences = licenceList,
+                //Documents = documentList,
+                //References = referenceList,
                 ContactLinks = contactLinks
             };
 
-            ContactLinksListViewHeightRequest = (contactLinks.Count * 28 - 1);
-            EducationListViewHeightRequest = (educationList.Count * 91 - 1 * (educationList.Count > 1 ? 1 : 0));
-            WorkExperienceListViewHeightRequest = (workExprienceList.Count * 91 - 1 * (workExprienceList.Count > 1 ? 1 : 0));
-            SkillListViewHeightRequest = (skillList.Count * 31 - 1 * (skillList.Count > 1 ? 1 : 0));
-            QualificationListViewHeightRequest = (qualificationList.Count * 91 - 1 * (qualificationList.Count > 1 ? 1 : 0));
-            LicenceListViewHeightRequest = (licenceList.Count * 61 - 1 * (licenceList.Count > 1 ? 1 : 0));
-            DocumentListViewHeightRequest = (documentList.Count * 31 - 1 * (documentList.Count > 1 ? 1 : 0));
-            ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
+            GetBindingDocument();
+            GetBindingEducation();
+            GetBindingQualification();
+            GetBindingReference();
+            GetBindingSkill();
+            GetBindingWorkExprience();
+            GetBindinLicence();
+
+            //ContactLinksListViewHeightRequest = (contactLinks.Count * 28 - 1);
+            //EducationListViewHeightRequest = (educationList.Count * 91 - 1 * (educationList.Count > 1 ? 1 : 0));
+            //WorkExperienceListViewHeightRequest = (workExprienceList.Count * 91 - 1 * (workExprienceList.Count > 1 ? 1 : 0));
+            //SkillListViewHeightRequest = (skillList.Count * 31 - 1 * (skillList.Count > 1 ? 1 : 0));
+            //QualificationListViewHeightRequest = (qualificationList.Count * 91 - 1 * (qualificationList.Count > 1 ? 1 : 0));
+            //LicenceListViewHeightRequest = (licenceList.Count * 61 - 1 * (licenceList.Count > 1 ? 1 : 0));
+            //DocumentListViewHeightRequest = (documentList.Count * 31 - 1 * (documentList.Count > 1 ? 1 : 0));
+            //ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
             await _dialogService.CloseLoadingPopup(pop);
         }
         #endregion
@@ -606,7 +615,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 LicenceViewMoreIsVisible = false;
             }
 
-           Profile.Licences = licenceList.Take(licenceCount).ToList();
+            Profile.Licences = licenceList.Take(licenceCount).ToList();
             LicenceListViewHeightRequest = (licenceCount * 61 - 1 * (licenceCount > 1 ? 1 : 0));
         }
 

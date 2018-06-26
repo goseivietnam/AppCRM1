@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage
+    xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
     xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
     xmlns:animations="clr-namespace:AppCRM.Effects"
-    xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
     xmlns:components="clr-namespace:AppCRM.Controls"
     x:Class="AppCRM.Views.Main.Candidate.ProfilePage.AddSkillPage">
     <pages:PopupPage.Animation>
