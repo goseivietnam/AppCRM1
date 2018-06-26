@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AppCRM.Models
 {
-    public class CandidateProfile
+    public class Contact
     {
         public string UserID { get; set; }
         public string CoverUrl { get; set; }

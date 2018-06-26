@@ -14,7 +14,7 @@ namespace AppCRM.Services.Authentication
         Task<dynamic> LoginAsync(string username, string password);
         Task<dynamic> CandidateRegister(Register reg);
         Task<dynamic> EmployerRegister(Register reg);
-        Task<dynamic> ChangePassword(CandidateProfile profile);
+        Task<dynamic> ChangePassword(Contact profile);
         Task<dynamic> Logout();
     }
     public class AuthenticationService : IAuthenticationService
@@ -45,7 +45,7 @@ namespace AppCRM.Services.Authentication
             return result;
         }
 
-        public async Task<dynamic> ChangePassword(CandidateProfile profile)
+        public async Task<dynamic> ChangePassword(Contact profile)
         {
             var result = await _requestService.postDataFromServiceAuthority("api/Account/ChangePassword", profile);
             return result;

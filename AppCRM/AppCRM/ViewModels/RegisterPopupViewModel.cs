@@ -28,14 +28,18 @@ namespace AppCRM.ViewModels
 
         private async Task CandidateRegisterAsync()
         {
+            var pop = await _dialogService.OpenLoadingPopup();
             await _navigationService.NavigateToPopupAsync<CandidateRegisterViewModel>(true);
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
 
         private async Task EmployerRegisterrAsync()
         {
+            var pop = await _dialogService.OpenLoadingPopup();
             await _navigationService.NavigateToPopupAsync<EmployerRegisterViewModel>(true);
+            await _dialogService.CloseLoadingPopup(pop);
         }
-       
+
     }
 }

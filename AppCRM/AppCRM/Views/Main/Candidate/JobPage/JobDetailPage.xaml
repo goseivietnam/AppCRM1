@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:animations="clr-namespace:AppCRM.Effects"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
+                 xmlns:controls="clr-namespace:AppCRM.Controls"
+                 xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+                 x:Class="AppCRM.Views.Main.Candidate.JobPage.JobDetailPage">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
+                <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
+                <Label Text="{Binding Job.PoisitionName}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
+            </StackLayout>
+            <tabbedPage:SfTabView TabHeaderBackgroundColor="#FFFFFF" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="3" VerticalOptions="FillAndExpand">
+                <tabbedPage:SfTabView.SelectionIndicatorSettings>
+                    <tabbedPage:SelectionIndicatorSettings Color="#2A76FD" Position="Bottom"  StrokeThickness="2"/>
+                </tabbedPage:SfTabView.SelectionIndicatorSettings>
+
+                <tabbedPage:SfTabItem Title="Details" TitleFontColor="#7F8890" SelectionColor="#2A76FD" TitleFontSize="14">
+                    <tabbedPage:SfTabItem.Content>
+                        <ScrollView>
+                            <StackLayout BackgroundColor="White" Spacing="20" VerticalOptions="FillAndExpand" Padding="20,10">
+                                <Label Text="{Binding Job.Title}" FontSize="30" FontAttributes="Bold" Margin="0,20,0,0"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame HeightRequest="30" CornerRadius="15" Margin="0" Padding="20,0" BackgroundColor="#E6F2FF" IsClippedToBounds="True" HorizontalOptions="StartAndExpand">
+                                        <Label Text="{Binding Job.Status}" TextColor="#2F7CFD" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    </Frame>
+                                    <Label Text="{Binding Job.OpenDateInt, StringFormat=' {0}d'}" TextColor="#9A9FA7" VerticalOptions="Center" HorizontalOptions="EndAndExpand"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame HeightRequest="30" WidthRequest="30" CornerRadius="15" Margin="0" Padding="0" BackgroundColor="#E6F2FF" 
+                                           IsClippedToBounds="True" HorizontalOptions="Start" HasShadow="True">
+                                        <Image Source="{Binding Job.ImageSource}" WidthRequest="30" HeightRequest="30"/>
+                                    </Frame>
+                                    <Label Text="{Binding Job.Account.Name}" FontAttributes="Bold" TextColor="Black" FontSize="20"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image IsVisible="{Binding Job.IsPromoted}" Source="img_favorite_job.png" WidthRequest="18" HeightRequest="18"/>
+                                    <Label Text="{Binding Job.JobType}" FontSize="12"/>
+                                    <Label Text="{Binding Job.Salary, StringFormat='${0}'}" FontSize="12"/>
+                                    <Label Text="{Binding Job.WorksiteName}" FontSize="12"/>
+                                </StackLayout>
+                                <StackLayout Spacing="10">
+                                    <Label Text="Job Description" FontAttributes="Bold" TextColor="Black"/>
+                                    <Label Text="{Binding Job.Description}" TextColor="#231F20"/>
+                                </StackLayout>
+                                <StackLayout Spacing="10">
+                                    <Label Text="Required" FontAttributes="Bold" TextColor="Black"/>
+                                    <ListView ItemsSource="{Binding Job.Requires}" RowHeight="30" SeparatorVisibility="None"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                    <Grid Padding="10">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="20"/>
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackLayout Grid.Column="0">
+                                                            <Image HorizontalOptions="CenterAndExpand" Source="img_bullet_blue.png" WidthRequest="5" HeightRequest="5"/>
+                                                        </StackLayout>
+                                                        <StackLayout Grid.Column="1">
+                                                            <Label Text="{Binding MeasurementName}" TextColor="#231F20" VerticalOptions="Start"/>
+                                                        </StackLayout>
+                                                    </Grid>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </StackLayout>
+                                <Button HorizontalOptions="FillAndExpand" BackgroundColor="#E85A6C" Text="Withdraw" TextColor="White"/>
+                            </StackLayout>
+                        </ScrollView>
+                    </tabbedPage:SfTabItem.Content>
+                </tabbedPage:SfTabItem>
+
+                <tabbedPage:SfTabItem Title="Tasks" TitleFontColor="#7F8890" SelectionColor="#2A76FD" TitleFontSize="14">
+                    <tabbedPage:SfTabItem.Content>
+                        <ScrollView>
+                            <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
+                                <StackLayout Padding="10,5" BackgroundColor="#F2F2F2">
+                                    <StackLayout Padding="0,8" BackgroundColor="White">
+                                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <ListView ItemsSource="{Binding Job.ToDoTasks}" RowHeight="60" HeightRequest="{Binding TodoTaskListViewHeightRequest}"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                    <ListView.Header>
+                                        <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
+                                            <Label TextColor="#7F8890" Text="{Binding Job.ToDoTasks.Count, StringFormat='TO DO ({0})'}" FontSize="12"/>
+                                        </Frame>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="40"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Source="icon_check_empty.png" WidthRequest="20" HeightRequest="20"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding TaskName}" TextColor="Black"/>
+                                                        <Label Text="{Binding CreatedBy}" TextColor="#9A9FA7"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" HorizontalOptions="End"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+
+                                <ListView ItemsSource="{Binding Job.CompleteTasks}" RowHeight="60" HeightRequest="{Binding CompleteTaskListViewHeightRequest}"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                    <ListView.Header>
+                                        <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
+                                            <Label TextColor="#7F8890" Text="{Binding Job.CompleteTasks.Count, StringFormat='COMPLETE ({0})'}" FontSize="12"/>
+                                        </Frame>
+                                    </ListView.Header>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="40"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Source="icon_check.png" WidthRequest="20" HeightRequest="20"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding TaskName}" TextColor="#C4CBD3"/>
+                                                        <Label Text="{Binding CreatedBy}" TextColor="#C4CBD3"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" HorizontalOptions="End"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </ScrollView>
+                    </tabbedPage:SfTabItem.Content>
+                </tabbedPage:SfTabItem>
+
+                <tabbedPage:SfTabItem Title="Attachment" TitleFontColor="#7F8890" SelectionColor="#2A76FD" TitleFontSize="14">
+                    <tabbedPage:SfTabItem.Content>
+                        <ScrollView>
+                            <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
+                                <StackLayout Padding="10,5" BackgroundColor="#F2F2F2">
+                                    <StackLayout Padding="0,8" BackgroundColor="White">
+                                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <ListView ItemsSource="{Binding Job.Attachments}" RowHeight="60" HeightRequest="{Binding AttachmentListViewHeightRequest}"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="40"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" Source="icon_attachment.png" WidthRequest="20" HeightRequest="20"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding AttachmentName}" TextColor="Black"/>
+                                                        <Label Text="{Binding CreatedBy}" TextColor="#9A9FA7"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30" HorizontalOptions="End"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </ScrollView>
+                    </tabbedPage:SfTabItem.Content>
+                </tabbedPage:SfTabItem>
+                
+            </tabbedPage:SfTabView>
+        </StackLayout>
+    </ContentPage.Content>
+</pages:PopupPage>

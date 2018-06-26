@@ -286,4 +286,16 @@
   <ItemGroup>
     <BundleResource Include="Resources\img_favorite_job.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_attachment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_check_empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_bullet_blue.png" />
+  </ItemGroup>
 </Project>

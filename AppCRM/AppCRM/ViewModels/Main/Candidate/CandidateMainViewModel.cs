@@ -1,9 +1,12 @@
 ﻿using AppCRM.Services.Authentication;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
+using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Views.Main.Candidate.ProfilePage;
+using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -22,6 +25,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         private ViewModelBase _explorePage;
         private ViewModelBase _notifyPage;
         private ViewModelBase _messagePage;
+        private string _avartarUrl;
+        private string _userName;
 
         public int SelectedIndex
         {
@@ -95,6 +100,30 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
+        public string AvartarUrl
+        {
+            get
+            {
+                return _avartarUrl;
+            }
+            set
+            {
+                _avartarUrl = value;
+                OnPropertyChanged();
+            }
+        }
+        public string UserName
+        {
+            get
+            {
+                return _userName;
+            }
+            set
+            {
+                _userName = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand MasterMenuItemTappedCommand => new AsyncCommand(MasterMenuItemTappedAsync);
 
@@ -129,7 +158,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 switch ((item as Views.Main.MenuItem).Title)
                 {
                     case "Profile":
-                        await OpenMainPageAsync();
+                        await _navigationService.NavigateToAsync<CandidateProfileViewModel>();
                         break;
                     case "Account Setting":
                         await OpenChangePasswordPage();
@@ -143,51 +172,51 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         private async Task OpenChangePasswordPage()
         {
-            //_dialogService.CloseAllPopup();
-            //await _navigationService.NavigateToPopupAsync<RegisterPopupViewModel>(true);
+            _dialogService.CloseAllPopup();
+            await _navigationService.NavigateToPopupAsync<AccountSettingViewModel>(true);
         }
 
         private async void OpenSignoutPage()
         {
-            //var obj = await _authenticationService.Logout();
-            //if (obj != null)
-            //{
-            //    try
-            //    {
-            //        if (obj["Success"] == "true") //success
-            //        {
-            //            await PopupMessage("Logout Successefully", "#52CD9F", "#FFFFFF");
-            //            App.UserName = "";
-            //            App.ContactID = null;
-            //            DataService.ACCESS_TOKEN = "";
-
-            //            LoginPage loginPage = new LoginPage();
-            //            NavigationPage.SetHasNavigationBar(loginPage, false);
-            //            Application.Current.MainPage = new NavigationPage(loginPage);
-            //        }
-            //        else if (obj["Success"] == "false")
-            //        {
-            //            if (obj["Message"] == "Fail")
-            //            {
-            //                await PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-            //            }
-            //            else if (obj["Message"] == "AttachFail")
-            //            {
-            //                await PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
-            //            }
-            //        }
-            //    }
-            //    catch
-            //    {
-            //        await PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-            //    }
-            //}
+            var obj = await _authenticationService.Logout();
+            if (obj != null)
+            {
+                try
+                {
+                    if (obj["Success"] == "true") //success
+                    {
+                        await _dialogService.PopupMessage("Logout Successefully", "#52CD9F", "#FFFFFF");
+                        await PopupNavigation.Instance.PopAllAsync();
+                        App.UserName = "";
+                        App.ContactID = null;
+                        RequestService.ACCESS_TOKEN = "";
+                        await _navigationService.NavigateToAsync<LoginViewModel>();
+                    }
+                    else if (obj["Success"] == "false")
+                    {
+                        if (obj["Message"] == "Fail")
+                        {
+                            await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                        }
+                    }
+                }
+                catch
+                {
+                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                }
+            }
         }
 
         private async Task OpenMainPageAsync()
         {
             SelectedIndex = 0;
             await ProfilePage.InitializeAsync(null);
+        }
+
+        public override async Task InitializeAsync(object navigationData)
+        {
+            AvartarUrl = RequestService.HOST_NAME + "api/Document/GetContactImageByContactID?id=" + App.ContactID.ToString();
+            UserName = App.UserName;
         }
     }
 }

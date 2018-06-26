@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using AppCRM.Models;
 using AppCRM.Services.Candidate;
 using AppCRM.Services.Navigation;
+using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using AppCRM.ViewModels.Main.Candidate.Job;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate
@@ -15,12 +19,12 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly ICandidateJobService _candidateJobService;
         private readonly INavigationService _navigationService;
         private CandidateJob _job;
+        private List<ContactVacancyGroup> _jobGroups;
 
-        // height listview 
-        private int _appliedJobListViewHeightRequest;
-        private int _referenceCheckJobListViewHeightRequest;
-        private int _assessmentJobListViewHeightRequest;
-        private int _shortlistJobListViewHeightRequest;
+        // height listview
+        private int _jobListViewHeightRequest;
+        private int _needActionListViewHeightRequest;
+        private int _completetListViewHeightRequest;
 
 
         public CandidateJobViewModel(ICandidateJobService candidateJobService, INavigationService navigationService)
@@ -42,63 +46,74 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
         }
 
-        public int AppliedJobListViewHeightRequest
+        public List<ContactVacancyGroup> JobGroups
         {
             get
             {
-                return _appliedJobListViewHeightRequest;
+                return _jobGroups;
             }
             set
             {
-                _appliedJobListViewHeightRequest = value;
+                _jobGroups = value;
                 OnPropertyChanged();
             }
         }
-        public int ReferenceCheckJobListViewHeightRequest
+
+        public int JobListViewHeightRequest
         {
             get
             {
-                return _referenceCheckJobListViewHeightRequest;
+                return _jobListViewHeightRequest;
             }
             set
             {
-                _referenceCheckJobListViewHeightRequest = value;
+                _jobListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public int AssessmentJobListViewHeightRequest
+        public int NeedActionListViewHeightRequest
         {
             get
             {
-                return _assessmentJobListViewHeightRequest;
+                return _needActionListViewHeightRequest;
             }
             set
             {
-                _assessmentJobListViewHeightRequest = value;
+                _needActionListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public int ShortlistJobListViewHeightRequest
+        public int CompleteListViewHeightRequest
         {
             get
             {
-                return _shortlistJobListViewHeightRequest;
+                return _completetListViewHeightRequest;
             }
             set
             {
-                _shortlistJobListViewHeightRequest = value;
+                _completetListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
 
         public ICommand MasterPageBtnCommand => new Command(MasterPageBtnAsync);
-        public ICommand ListViewCommand => new Command(ListView_ItemTapped);
+        public ICommand JobListViewCommand => new AsyncCommand(JobListView_ItemTappedAsync);
+        public ICommand AssessmentListViewCommand => new Command(AssessmentListView_ItemTapped);
 
         private void MasterPageBtnAsync()
         {
             (Application.Current.MainPage as MasterDetailPage).IsPresented = true;
         }
-        private void ListView_ItemTapped()
+
+        private async Task JobListView_ItemTappedAsync(object jobDetail)
+        {
+            if (jobDetail != null)
+            {
+                await _navigationService.NavigateToPopupAsync<JobDetailViewModel>((jobDetail as ContactVacancy).VacancyID, true);
+            }
+        }
+
+        private void AssessmentListView_ItemTapped(object assessmentDetail)
         {
 
         }
@@ -106,44 +121,74 @@ namespace AppCRM.ViewModels.Main.Candidate
         public override async Task InitializeAsync(object navigationData)
         {
             IsBusy = true;
-            Job = new CandidateJob
-            {
-                AppliedJobs = new List<JobDetail>
-                {
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "Mechanical Design", CompanyName = "DBS Bank", IsFavorite = true, JobType = "Temporary", Salary = 80205, Location = "Townsville", DayRemain = 15, Status = JobStatus.APPLIED },
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "Case Manager", CompanyName = "NCS", IsFavorite = false, JobType = "Apprenticeship", Salary = 92509, Location = "Indiana", DayRemain = 31, Status = JobStatus.APPLIED },
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "Social Media Coordinator", CompanyName = "Barclays", IsFavorite = false, JobType = "Casual", Salary = 70247, Location = "Virginia", DayRemain = 22, Status = JobStatus.APPLIED },
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "Project Manager", CompanyName = "Nanyang Technological University", IsFavorite = false, JobType = "Subcontract", Salary = 68513, Location = "Pennsylvania", DayRemain = 5, Status = JobStatus.APPLIED }
-                },
-                ReferenceCheckJobs = new List<JobDetail>
-                {
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "Case Manager", CompanyName = "DBS", IsFavorite = true, JobType = "Subcontract", Salary = 98277, Location = "South Carolina", DayRemain = 3, Status = JobStatus.REFERENCE_CHECK }
-                },
-                AssessmentJobs = new List<JobDetail>
-                {
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "System Engineer", CompanyName = "Citibank", IsFavorite = false, JobType = "Subcontract", Salary = 3729, Location = "Hawaii", DayRemain = 16, Status = JobStatus.ASSESSMENT }
-                },
-                ShortlistJobs = new List<JobDetail>
-                {
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "Manager", CompanyName = "Accenture", IsFavorite = false, JobType = "Subcontract", Salary = 60119, Location = "New Hampshire", DayRemain = 10, Status = JobStatus.SHORTLIST },
-                    new JobDetail { JobDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", JobName = "Commercial Sales Executive", CompanyName = "DBS Bank", IsFavorite = false, JobType = "Apprenticeship", Salary = 47396, Location = "Wisconsin", DayRemain = 19, Status = JobStatus.SHORTLIST }
-                },
-                NeedActionAssessments = new List<AssessmentDetail>
-                {
-                    new AssessmentDetail { AssessmentDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", AssessmentName = "Assessment", JobName = "Job", CompanyName = "Company", Location = "City", Status = AssessmentStatus.NEED_ACTION }
-                },
-                CompleteAssessments = new List<AssessmentDetail>
-                {
-                    new AssessmentDetail { AssessmentDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", AssessmentName = "Assessment", JobName = "Job", CompanyName = "Company", Location = "City", Status = AssessmentStatus.COMPLETE },
-                    new AssessmentDetail { AssessmentDetailId = Guid.NewGuid().ToString(), ImageSource = "https://i.imgur.com/fSZz5Ta.png", AssessmentName = "Assessment", JobName = "Job", CompanyName = "Company", Location = "City", Status = AssessmentStatus.COMPLETE }
-                }
-            };
+            dynamic objcontactVacancies = await _candidateJobService.GetCandidateJobApplied();
 
-            AppliedJobListViewHeightRequest = Job.AppliedJobs.Count * 120 + 39;
-            ReferenceCheckJobListViewHeightRequest = Job.ReferenceCheckJobs.Count * 120 + 39;
-            AssessmentJobListViewHeightRequest = Job.AssessmentJobs.Count * 120 + 39;
-            ShortlistJobListViewHeightRequest = Job.ShortlistJobs.Count * 120 + 39;
+            ContactTemplateFilter filter = new ContactTemplateFilter
+            {
+                CurrentPage = 1,
+                PageSize = 100,
+                IsOpen = true
+            };
+            dynamic objAssessments = await _candidateJobService.GetAssessment(filter);
+
+            Job = new CandidateJob();
+            Job.ContactVacancies = new List<ContactVacancy>();
+            Job.NeedActionAssessments = new List<ContactTemplate>();
+            Job.CompleteAssessments = new List<ContactTemplate>();
+
+            if (objcontactVacancies["candidateJobsApplied"] != null)
+            {
+                Job.ContactVacancies = JsonConvert.DeserializeObject<List<ContactVacancy>>(objcontactVacancies["candidateJobsApplied"].ToString());
+            }
+            if (objAssessments["templates"] != null)
+            {
+                List<ContactTemplate> Assessments = JsonConvert.DeserializeObject<List<ContactTemplate>>(objAssessments["templates"].ToString());
+                foreach (var assessment in Assessments)
+                {
+                    if (assessment.IsCompleted)
+                    {
+                       Job.CompleteAssessments.Add(assessment);
+                    }
+                    else
+                    {
+                        Job.NeedActionAssessments.Add(assessment);
+                    }
+                }
+            }
+
+            //Populate JobGroup
+            List<ContactVacancyGroup> groups = new List<ContactVacancyGroup>();
+            foreach (var vacancy in Job.ContactVacancies)
+            {
+                //vacancy.ImageSource = 
+                var statusName = vacancy.StatusName;
+                if (groups.Any(r => r.StatusName == statusName))
+                {
+                    groups.Single(r => r.StatusName == statusName).Add(vacancy);
+                }
+                else
+                {
+                    groups.Add(new ContactVacancyGroup(statusName) { vacancy });
+                }
+            }
+            JobGroups = groups;
+
+            JobListViewHeightRequest = Job.ContactVacancies.Count * 120 + JobGroups.Count * 38;
+            NeedActionListViewHeightRequest = Job.NeedActionAssessments.Count * 90 + 38;
+            CompleteListViewHeightRequest = Job.CompleteAssessments.Count * 90 + 38;
+
             IsBusy = false;
+        }
+    }
+
+    public class ContactVacancyGroup : List<ContactVacancy>
+    {
+        public string StatusName { get; set; }
+        public string DisplayHeader { get { return string.Format("{0} ({1})", this.StatusName.ToUpper(), base.Count); } }
+
+        public ContactVacancyGroup(string statusName)
+        {
+            StatusName = statusName;
         }
     }
 }
