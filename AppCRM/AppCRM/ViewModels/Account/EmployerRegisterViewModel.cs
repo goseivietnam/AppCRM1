@@ -137,13 +137,14 @@ namespace AppCRM.ViewModels.Account
 
         private async Task SubmitRegisterAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             Register reg = new Register
             {
                 FirstName = _fieldFirstName,
                 LastName = _fieldLastName,
                 Email = _fieldEmail,
                 Password = _fieldPassword,
+                UserName = _fieldEmail,
                 ConfirmPassword = _fieldPasswordConfirm,
                 AccountName = _fieldCompanyName,
                 Industry = _fieldIndustry
@@ -160,6 +161,7 @@ namespace AppCRM.ViewModels.Account
                         await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
                         App.ContactID = obj["ContactID"];
                         App.UserName = obj["UserName"];
+                        App.PassWord = FieldPassword;
                         RequestService.ACCESS_TOKEN = obj["access_token"];
                     }
                     else if (obj["Message"] == "IsExists") //is exists
@@ -177,7 +179,7 @@ namespace AppCRM.ViewModels.Account
                 }
             }
 
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
         }
         private async Task BtnCancelAsync()
         {
@@ -185,13 +187,11 @@ namespace AppCRM.ViewModels.Account
         }
         private async Task PickAvatar()
         {
-            IsBusy = true;
             _avatarStream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             if (_avatarStream != null && _avatarStream.Stream != null)
             {
                 ProfileAvatarSource = ImageSource.FromStream(() => _avatarStream.Stream);
             }
-            IsBusy = false;
         }
     }
 }

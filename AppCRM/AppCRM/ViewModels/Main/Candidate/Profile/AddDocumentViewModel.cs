@@ -114,10 +114,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private async Task BtnSaveDocumentCommandAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             string fileName = _title + Path.GetExtension(stream.FileName);
             var obj = await _candidateDetailsService.AddDocument(stream, fileName);
-            IsBusy = false;
+            await _dialogService.CloseLoadingPopup(pop);
 
             if (obj != null)
             {
@@ -144,7 +144,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                    IsBusy = false;
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
         }

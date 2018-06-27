@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
-             xmlns:controls="clr-namespace:AppCRM.Controls"
              xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+             xmlns:controls="clr-namespace:AppCRM.Controls"
+             xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
              x:Class="AppCRM.Views.Main.Candidate.CandidateJobPage">
     <ContentView.Content>
         <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
@@ -103,14 +103,14 @@
                                                         <ColumnDefinition Width="40"/>
                                                     </Grid.ColumnDefinitions>
                                                     <StackLayout Grid.Column="0">
-                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding Vacancy.ImageSource}" WidthRequest="40" HeightRequest="40"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding AssessmentName}"/>
-                                                        <Label Text="{Binding JobName}"/>
+                                                        <Label Text="{Binding TemplateName}"/>
+                                                        <Label Text="{Binding Vacancy.Position}"/>
                                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                            <Label Text="{Binding CompanyName}" FontSize="11"/>
-                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                            <Label Text="{Binding Vacancy.Company}" FontSize="11"/>
+                                                            <Label Text="{Binding Vacancy.Worksite}" FontSize="11"/>
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">

@@ -3,6 +3,7 @@ using AppCRM.Models;
 using AppCRM.Services.Request;
 using AppCRM.Tools;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace AppCRM.Services.CandidateDetail
@@ -18,7 +19,7 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddLicence(ContactLicence licence);
         Task<dynamic> AddDocument(SJFileStream stream, string fileName);
         Task<dynamic> AddReference(ContactReference reference);
-        Task<dynamic> EditCandidateDetails(CandidateProfile profile);
+        Task<dynamic> EditCandidateDetails(Contact profile);
         Task<dynamic> GetCandidateExperience();
         Task<dynamic> CandidateRegister(Register reg);
         Task<dynamic> SaveEducationAttachment(string ContactEducationID, SJFileStream stream);
@@ -28,6 +29,8 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddEditContactCoverImage(SJFileStream stream);
         Task<dynamic> AddEditContactAvatarImage(SJFileStream stream);
         Task<dynamic> UploadResume(SJFileStream stream);
+        Task<IEnumerable<PickerItem>> GetInterestedLocationsDDL();
+        Task<IEnumerable<PickerItem>> GetInterestedRolesDDL();
     }
     public class CandidateDetailsService : ICandidateDetailsService
     {
@@ -92,7 +95,7 @@ namespace AppCRM.Services.CandidateDetail
             return result;
         }
 
-        public async Task<dynamic> EditCandidateDetails(CandidateProfile profile)
+        public async Task<dynamic> EditCandidateDetails(Contact profile)
         {
             var result = await _requestService.postDataFromServiceAuthority("api/CandidateDetails/AddEditContactDetails", profile);
             return result;
@@ -158,6 +161,17 @@ namespace AppCRM.Services.CandidateDetail
         {
             var result = await _requestService.UploadFile("api/Document/UploadResume", stream, stream.FileName);
             return result;
+        }
+
+        public async Task<IEnumerable<PickerItem>> GetInterestedLocationsDDL()
+        {
+            return await _requestService.GetAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedLocationsDDL?Filter");
+        }
+
+        public async Task<IEnumerable<PickerItem>> GetInterestedRolesDDL()
+        {
+            return await _requestService.GetAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedRolesDDL?Filter");
+
         }
     }
 }

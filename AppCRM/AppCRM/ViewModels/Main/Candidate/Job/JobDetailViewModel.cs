@@ -1,12 +1,15 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.Candidate;
+using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
+using AppCRM.Tools;
 using AppCRM.Utils;
+using AppCRM.ViewModels.AdminArea;
 using AppCRM.ViewModels.Base;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -17,19 +20,27 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
     {
         private readonly ICandidateJobService _candidateJobService;
         private readonly INavigationService _navigationService;
-        private ContactVacancy _job;
+        private readonly IDialogService _dialogService;
+
+        private Guid? _vacancyID;
+
+        private Vacancy _job;
 
         private int _todoTaskListViewHeightRequest;
         private int _completeTaskListViewHeightRequest;
         private int _attachmentListViewHeightRequest;
 
-        public JobDetailViewModel(ICandidateJobService candidateJobService, INavigationService navigationService)
+        private bool _withDrawIsVisible = true;
+        private bool _applyIsVisible = false;
+
+        public JobDetailViewModel(IDialogService dialogService, ICandidateJobService candidateJobService, INavigationService navigationService)
         {
+            _dialogService = dialogService;
             _candidateJobService = candidateJobService;
             _navigationService = navigationService;
         }
 
-        public ContactVacancy Job
+        public Vacancy Job
         {
             get
             {
@@ -79,8 +90,35 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             }
         }
 
+        public bool WithDrawIsVisible
+        {
+            get
+            {
+                return _withDrawIsVisible;
+            }
+            set
+            {
+                _withDrawIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool ApplyIsVisible
+        {
+            get
+            {
+                return _applyIsVisible;
+            }
+            set
+            {
+                _applyIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
         public ICommand ListViewCommand => new Command(ListViewTapped);
+        public ICommand WithDrawComand => new AsyncCommand(WithDrawComandAsync);
+        public ICommand ApplyComand => new AsyncCommand(ApplyComandAsync);
 
         private async Task BtnBackAsync()
         {
@@ -93,54 +131,161 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
 
         public override async Task InitializeAsync(object navigationData)
         {
-            IsBusy = true;
-            var id = (Guid)navigationData;
-            Job = new ContactVacancy
+            WithDrawIsVisible = true;
+            ApplyIsVisible = false;
+
+            var pop = await _dialogService.OpenLoadingPopup();
+            _vacancyID = (Guid)navigationData;
+            dynamic obj = await _candidateJobService.GetVacancyDetails(_vacancyID);
+            DateTime opendate;
+            try
             {
-                ContactVacancyID = id,
-                ImageSource = "https://i.imgur.com/fSZz5Ta.png",
-                PoisitionName = "Mechanical Design",
-                WorksiteName = "DBS Bank",
-                IsPromoted = true,
-                JobTypeName = "Temporary",
-                MaxSalary = 80205,
-                Location = "Townsville",
-                AppliedDate = DateTime.Now.AddDays(-15),
-                StatusName = JobStatus.APPLIED,
-                Description = "The Power Delivery Services Business Group is seeking an Electrical Designer with physical substation design experience to join their team in its Chattanooga, Tennessee ofﬁce. This position will allow you the opportunity to work with some of the best in the power industry and with a ﬁrm that has been an industry leader over the past 125 years!\n\nThis position will offer you the opportunity to utilize and expand your drafting and design skills, while working in a multi-disciplined team environment with other designers and/or engineers in the preparation of design drawings based on design input.",
-                Requires = new List<JobRequire>
+                opendate = DateTime.Parse(obj["jobDetail"]["OpenDate"].ToString());
+            }
+            catch
+            {
+                opendate = DateTime.MinValue;
+            }
+            TimeSpan opendateInt = DateTime.Now - opendate;
+
+            if (obj["jobDetail"] != null)
+            {
+                string Title = obj["jobDetail"]["Title"];
+                string worksiteName = obj["jobDetail"]["WorksiteName"];
+                bool isPromoted = obj["jobDetail"]["IsPromoted"];
+                string jobType = obj["jobDetail"]["JobType"];
+                string salary = obj["jobDetail"]["Salary"];
+                string status = obj["jobDetail"]["Status"];
+                string description = "";
+                if (obj["jobDetail"]["Description"] != null)
                 {
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Adaptability" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Attention To Detail" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Awareness" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Collaboration" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Composure Under Pressure" },
-                    new JobRequire { JobRequireId = Guid.NewGuid().ToString(), RequireName = "Creativity & Innovation" }
-                },
-                ToDoTasks = new List<JobTask>
-                {
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Prepare for implementation", CreatedBy = "Hedge Fund Principal", IsComplete = false }
-                },
-                CompleteTasks = new List<JobTask>
-                {
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Deﬁne users and workﬂow", CreatedBy = "Compensation Analyst", IsComplete = true },
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Deﬁne the server conﬁguration.", CreatedBy = "Investment Advisor", IsComplete = true },
-                    new JobTask { JobTaskId = Guid.NewGuid().ToString(), TaskName = "Conﬁgure ﬁltering, if appropriate.", CreatedBy = "Actuary", IsComplete = true }
-                },
-                Attachments = new List<JobAttachment>
-                {
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Prepare for implementation", CreatedBy = "Hedge Fund Principal" },
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Deﬁne users and workﬂow", CreatedBy = "Compensation Analyst" },
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Deﬁne the server conﬁguration.", CreatedBy = "Investment Advisor" },
-                    new JobAttachment { JobAttachmentId = Guid.NewGuid().ToString(), AttachmentName = "Conﬁgure ﬁltering, if appropriate.", CreatedBy = "Actuary" }
+                    description = Utilities.HtmlToPlainText(obj["jobDetail"]["Description"].ToString());
                 }
-            };
+                Models.Account account = new Models.Account();
+                if (obj["jobDetail"]["Account"] != null)
+                {
+                    account = JsonConvert.DeserializeObject<Models.Account>(obj["jobDetail"]["Account"].ToString());
+                }
+                List<JobRequire> requires;
+                if (obj["requiredList"] != null)
+                {
+                    requires = JsonConvert.DeserializeObject<List<JobRequire>>(obj["requiredList"].ToString());
+                }
+                else
+                {
+                    requires = new List<JobRequire>();
+                }
 
-            TodoTaskListViewHeightRequest = Job.ToDoTasks.Count * 60 + 38;
-            CompleteTaskListViewHeightRequest = Job.CompleteTasks.Count * 60 + 40;
-            AttachmentListViewHeightRequest = Job.Attachments.Count * 60 + 38;
+                //Get contact Task
+                dynamic objContactTask = await _candidateJobService.GetContactTaskByContactIDAndVacancyID(_vacancyID);
+                List<UserContactTask> contactTasksTodo = new List<UserContactTask>();
+                List<UserContactTask> contactTasksComplete = new List<UserContactTask>();
+                if (objContactTask["contactTasks"] != null)
+                {
+                    List<UserContactTask> ContactTasks = JsonConvert.DeserializeObject<List<UserContactTask>>(objContactTask["contactTasks"].ToString());
+                    foreach (var contactTask in ContactTasks)
+                    {
+                        if (contactTask.Completed)
+                        {
+                            contactTasksComplete.Add(contactTask);
+                        }
+                        else
+                        {
+                            contactTasksTodo.Add(contactTask);
+                        }
+                    }
+                }
 
-            IsBusy = false;
+                //Get contact Document
+                dynamic objContactDocument = await _candidateJobService.GetDocumentsAssigneedByContactIDAndVacancyID(_vacancyID);
+                List<ContactDocument> contactDocuments;
+                if (objContactDocument["contactDocuments"] != null)
+                {
+                    contactDocuments = JsonConvert.DeserializeObject<List<ContactDocument>>(objContactDocument["contactDocuments"].ToString());
+                }
+                else
+                {
+                    contactDocuments = new List<ContactDocument>();
+                }
+
+                Job = new Vacancy
+                {
+                    VacancyID = _vacancyID,
+                    Title = Title,
+                    WorksiteName = worksiteName,
+                    IsPromoted = isPromoted,
+                    JobType = jobType,
+                    Salary = salary,
+                    Status = status,
+                    OpenDate = opendate,
+                    OpenDateInt = (int)opendateInt.TotalDays,
+                    Description = description,
+                    Account = account,
+                    Requires = requires,
+                    ContactTasksTodo = contactTasksTodo,
+                    ContactTasksComplete = contactTasksComplete,
+                    ContactDocuments = contactDocuments
+                };
+
+                TodoTaskListViewHeightRequest = Job.ContactTasksTodo.Count * 60 + 38;
+                CompleteTaskListViewHeightRequest = Job.ContactTasksComplete.Count * 60 + 40;
+                AttachmentListViewHeightRequest = Job.ContactDocuments.Count * 60 + 38;
+            }
+            await _dialogService.CloseLoadingPopup(pop);
+        }
+
+        public async Task WithDrawComandAsync()
+        {
+            var result = await _dialogService.Alert("Please confirm you wish to withdraw your application?", "All related information will be removed from system", "Confirm Withdraw", "Cancel");
+            if (result)
+            {
+                var pop = await _dialogService.OpenLoadingPopup();
+                var obj = await _candidateJobService.WithDrawVacancy(_vacancyID);
+                try
+                {
+                    if (obj["Success"] == "true") //success
+                    {
+                        await _dialogService.PopupMessage("WithDraw Successefully", "#52CD9F", "#FFFFFF");
+                        WithDrawIsVisible = false;
+                        ApplyIsVisible = true;
+                    }
+                    else if (obj["Success"] == "false")
+                    {
+                        await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                    }
+                }
+                catch
+                {
+                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                    await _dialogService.CloseLoadingPopup(pop);
+                }
+                await _dialogService.CloseLoadingPopup(pop);
+            }
+        }
+
+        public async Task ApplyComandAsync()
+        {
+            var pop = await _dialogService.OpenLoadingPopup();
+            var obj = await _candidateJobService.ApplyVacancy(_vacancyID);
+            try
+            {
+                if (obj["Success"] == "true") //success
+                {
+                    await _dialogService.PopupMessage("Apply Job Successefully", "#52CD9F", "#FFFFFF");
+                    WithDrawIsVisible = true;
+                    ApplyIsVisible = false;
+                }
+                else if (obj["Success"] == "false")
+                {
+                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                }
+            }
+            catch
+            {
+                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                await _dialogService.CloseLoadingPopup(pop);
+            }
+            await _dialogService.CloseLoadingPopup(pop);
         }
     }
 }

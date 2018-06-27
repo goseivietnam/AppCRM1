@@ -4,18 +4,22 @@ using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Services.Request;
+using AppCRM.Tools;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate.Profile
 {
-   public class EditProfileViewModel : ViewModelBase
+    public class EditProfileViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
@@ -26,7 +30,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private string _lastName;
         private string _email;
         private string _address;
-        private string _cityName;
+        private ObservableCollection<PickerItem> _cityCollection;
+        private PickerItem _citySelected;
         private ObservableCollection<PickerItem> _nationalityDDL;
         private PickerItem _nationalitySelected;
         private DateTime? _birthDay;
@@ -38,7 +43,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private string _fileName;
         private bool _fileNameIsVisible = false;
         private bool _fileAttachImageIsVisible = false;
-        private SJFileStream stream;
+        private SJFileStream stream = null;
 
         public EditProfileViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
@@ -107,15 +112,27 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 OnPropertyChanged();
             }
         }
-        public string CityName
+        public ObservableCollection<PickerItem> CityCollection
         {
             get
             {
-                return _cityName;
+                return _cityCollection;
             }
             set
             {
-                _cityName = value;
+                _cityCollection = value;
+                OnPropertyChanged();
+            }
+        }
+        public PickerItem CitySelected
+        {
+            get
+            {
+                return _citySelected;
+            }
+            set
+            {
+                _citySelected = value;
                 OnPropertyChanged();
             }
         }
@@ -258,6 +275,13 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         public ICommand BtnUploadResumCommand => new AsyncCommand(BtnUploadResumCommandAsync);
         public ICommand BtnPickAvatarCommand => new AsyncCommand(BtnPickAvatarCommandAsync);
         public ICommand BtnEditCoverCommand => new AsyncCommand(BtnEditCoverCommandAsync);
+        public ICommand CityChangeCommand => new Command(UpdateCity);
+
+        private void UpdateCity(object selectedValues)
+        {
+            //Guid currentID = new Guid(selectedValues.ToString());
+            //CitySelected = CityCollection.Where(x => x.Id == currentID).FirstOrDefault();
+        }
 
         private async Task BtnBackAsync()
         {
@@ -270,7 +294,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private async Task BtnSaveProfileCommandAsync()
         {
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             DateTime? birthday = null;
             try
             {
@@ -282,64 +306,68 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             }
 
 
-            CandidateProfile profile = new CandidateProfile
+            Contact profile = new Contact
             {
-                FirstName = _fileName,
+                FirstName = _firstName,
                 LastName = _lastName,
                 Email = _email,
                 Address = _address,
-                CityName = _cityName,
+                CityName = CitySelected.Name,
+                CityID = CitySelected.Id,
                 Nationality = _nationalitySelected.Name,
                 NationalityID = _nationalitySelected.Id,
                 DateOfBirth = _birthDay,
                 AboutMe = _aboutMe,
             };
             var obj = await _candidateDetailsService.EditCandidateDetails(profile);
-            IsBusy = false;
 
             if (obj != null)
             {
                 try
                 {
-                    await _dialogService.PopupMessage("Add new Work Exprience Successefully", "#52CD9F", "#FFFFFF");
-                    IsBusy = true;
-                    var objupload = await _candidateDetailsService.UploadResume(stream);
-                    IsBusy = false;
-
-                    if (objupload != null)
+                    await _dialogService.PopupMessage("Edit Profile Successefully", "#52CD9F", "#FFFFFF");
+                    if (stream != null)
                     {
-                        try
+                        var objupload = await _candidateDetailsService.UploadResume(stream);
+
+                        if (objupload != null)
                         {
-                            if (objupload["Success"] == "true") //success
+                            try
                             {
-                                await _dialogService.PopupMessage("Upload Resume Successefully", "#52CD9F", "#FFFFFF");
-                                await PopupNavigation.Instance.PopAllAsync();
-                                await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                                if (objupload["Success"] == "true") //success
+                                {
+                                    await _dialogService.PopupMessage("Upload Resume Successefully", "#52CD9F", "#FFFFFF");
+                                }
+                                else if (objupload["Success"] == "false")
+                                {
+                                    if (objupload["Message"] == "Fail")
+                                    {
+                                        await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                    }
+                                    else if (objupload["Message"] == "NodocumentFile")
+                                    {
+                                        await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
+                                    }
+                                }
                             }
-                            else if (objupload["Success"] == "false")
+                            catch
                             {
-                                if (objupload["Message"] == "Fail")
-                                {
-                                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                                }
-                                else if (objupload["Message"] == "NodocumentFile")
-                                {
-                                    await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
-                                }
+                                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                await _dialogService.CloseLoadingPopup(pop);
                             }
-                        }
-                        catch
-                        {
-                            await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                            IsBusy = false;
                         }
                     }
+                    await PopupNavigation.Instance.PopAllAsync();
+                    await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                 }
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
+
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         private async Task BtnUploadResumCommandAsync()
@@ -358,9 +386,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             SJFileStream stream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             BtnPickAvatarIsEnable = true;
 
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             var obj = await _candidateDetailsService.AddEditContactAvatarImage(stream);
-            IsBusy = false;
 
             if (obj != null)
             {
@@ -368,7 +395,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 {
                     if (obj["Success"] == "true") //success
                     {
-                        _avatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
+                        AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
                         await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
                     }
                     else if (obj["Success"] == "false")
@@ -379,18 +406,19 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         private async Task BtnEditCoverCommandAsync()
         {
             BtnEditCoverIsEnable = false;
-            stream = await DependencyService.Get<IFilePicker>().GetFileStreamAsync(Tools.Enum.FileTypeDocAndPdf);
+            stream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             BtnEditCoverIsEnable = true;
-            IsBusy = true;
+            var pop = await _dialogService.OpenLoadingPopup();
             var obj = await _candidateDetailsService.AddEditContactCoverImage(stream);
-            IsBusy = false;
 
             if (obj != null)
             {
@@ -398,7 +426,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 {
                     if (obj["Success"] == "true")
                     {
-                        _coverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
+                        CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
                         await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
                     }
                     else if (obj["Success"] == "false")
@@ -409,8 +437,61 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 catch
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                    await _dialogService.CloseLoadingPopup(pop);
                 }
             }
+            await _dialogService.CloseLoadingPopup(pop);
+        }
+
+        public override async Task InitializeAsync(object navigationData)
+        {
+            var pop = await _dialogService.OpenLoadingPopup();
+            //load profile data from DataService
+            var obj = await _candidateDetailsService.GetEmployerCandidateProfile();
+            DateTime? datebirth;
+            try
+            {
+                datebirth = DateTime.Parse(obj["CandidateDetails"]["DateOfBirth"].ToString());
+            }
+            catch
+            {
+                datebirth = null;
+            }
+
+            ObservableCollection<PickerItem> nationalityDDL = null;
+            Guid? CurrentNationalityID = null;
+            PickerItem CurrentNationality = null;
+            if (obj["NationalityDDL"] != null)
+            {
+                nationalityDDL = JsonConvert.DeserializeObject<ObservableCollection<PickerItem>>(obj["NationalityDDL"].ToString());
+                CurrentNationalityID = obj["CandidateDetails"]["NationalityID"] != null ? (Guid?)new Guid(obj["CandidateDetails"]["NationalityID"].ToString()) : null;
+                CurrentNationality = nationalityDDL.Where(x => x.Id == CurrentNationalityID).FirstOrDefault();
+            }
+
+            ObservableCollection<PickerItem> cityDDL = null;
+            string CurrentCityName = "";
+            PickerItem CurrentCity = null;
+            if (obj["CityDDL"] != null)
+            {
+                cityDDL = JsonConvert.DeserializeObject<ObservableCollection<PickerItem>>(obj["CityDDL"].ToString());
+                CurrentCityName = obj["CandidateDetails"]["CityName"] != null ? obj["CandidateDetails"]["CityName"].ToString() : null;
+                CurrentCity = cityDDL.Where(x => x.Name == CurrentCityName).FirstOrDefault();
+            }
+
+            FirstName = obj["CandidateDetails"]["FirstName"];
+            LastName = obj["CandidateDetails"]["LastName"];
+            Email = obj["CandidateDetails"]["Email"];
+            Address = obj["CandidateDetails"]["Address"];
+            CityCollection = cityDDL;
+            CitySelected = CurrentCity;
+            NationalityDDL = nationalityDDL;
+            NationalitySelected = CurrentNationality;
+            BirthDay = datebirth;
+            AboutMe = Utilities.HtmlToPlainText(obj["CandidateDetails"]["AboutMe"].ToString());
+            AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["ProfileImage"];
+            CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["CoverImage"];
+
+            await _dialogService.CloseLoadingPopup(pop);
         }
     }
 }
