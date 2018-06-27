@@ -16,8 +16,8 @@ namespace AppCRM.ViewModels
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
 
-        private string _userName = "thuleduy01@gmail.com";
-        private string _password = "12345";
+        private string _userName = App.UserName;
+        private string _password = App.PassWord;
 
         public LoginViewModel(IAuthenticationService authenticationService, IDialogService dialogService, INavigationService navigationService)
         {
@@ -52,8 +52,6 @@ namespace AppCRM.ViewModels
             }
         }
         public ICommand SignInCommand => new AsyncCommand(SignInAsync);
-
-
 
         private async Task SignInAsync()
         {

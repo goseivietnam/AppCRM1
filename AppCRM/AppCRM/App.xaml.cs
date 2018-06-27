@@ -13,9 +13,8 @@ namespace AppCRM
     public partial class App : Application
     {
         public static string ContactID { get; set; }
-        public static string UserName { get; set; }
-
-        public static string PassWord { get; set; }
+        public static string UserName { get; set; } = "thuleduy01@gmail.com";
+        public static string PassWord { get; set; } = "12345";
 
     static App()
     {

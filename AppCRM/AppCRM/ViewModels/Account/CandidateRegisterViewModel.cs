@@ -1,6 +1,7 @@
 ﻿using AppCRM.Controls;
 using AppCRM.Extensions;
 using AppCRM.Models;
+using AppCRM.Services.Authentication;
 using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
@@ -12,6 +13,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -20,6 +22,7 @@ namespace AppCRM.ViewModels.Account
 {
     public class CandidateRegisterViewModel : ViewModelBase
     {
+        private readonly IAuthenticationService _authenticationService;
         private readonly IDialogService _dialogService;
         private readonly ICandidateDetailsService _candidateDetailsService;
         private readonly INavigationService _navigationService;
@@ -35,10 +38,11 @@ namespace AppCRM.ViewModels.Account
         private ObservableCollection<PickerItem> _jobInterestCollection;
         private ObservableCollection<PickerItem> _jobLocationCollection;
 
-        private SJFileStream _avatarStream = null;
+        private SJFileStream _avatarStream;
 
-        public CandidateRegisterViewModel(IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
+        public CandidateRegisterViewModel(IAuthenticationService authenticationService, IDialogService dialogService, ICandidateDetailsService candidateDetailsService, INavigationService navigationService)
         {
+            _authenticationService = authenticationService;
             _dialogService = dialogService;
             _candidateDetailsService = candidateDetailsService;
             _navigationService = navigationService;
@@ -180,7 +184,6 @@ namespace AppCRM.ViewModels.Account
                 {
                     if (obj["Success"] == "true") //success
                     {
-                        await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
                         if (obj["Roles"] == "Employer")
                         {
                         }
@@ -191,28 +194,29 @@ namespace AppCRM.ViewModels.Account
                             App.UserName = obj["UserName"];
                             App.PassWord = FieldPassword;
                             RequestService.ACCESS_TOKEN = obj["access_token"];
-                            await _navigationService.NavigateToAsync<CandidateMainViewModel>();
-                            await PopupNavigation.Instance.PopAllAsync();
-                        }
-                       
-                        await _navigationService.NavigateToAsync<CandidateMainViewModel>();
 
-                        var objUpload = await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
-                        try
-                        {
-                            if (objUpload["Success"] == "true") //success
+                            var objUpload = await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
+                            try
                             {
-                                await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
+                                if (objUpload["Success"] == "true") //success
+                                {
+                                    await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
+                                }
+                                else if (objUpload["Success"] == "false")
+                                {
+                                    await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
+                                }
                             }
-                            else if (objUpload["Success"] == "false")
+                            catch
                             {
-                                await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
+                                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                await _dialogService.CloseLoadingPopup(pop);
                             }
-                        }
-                        catch
-                        {
-                            await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                            await _dialogService.CloseLoadingPopup(pop);
+                            finally
+                            {
+                                await PopupNavigation.Instance.PopAllAsync();
+                                await NavigationService.NavigateToAsync<LoginViewModel>();
+                            }
                         }
                     }
                     else if (obj["Message"] == "IsExists") //is exists
@@ -240,10 +244,12 @@ namespace AppCRM.ViewModels.Account
         private async Task PickAvatar()
         {
             var pop = await _dialogService.OpenLoadingPopup();
-            _avatarStream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
-            if (_avatarStream != null && _avatarStream.Stream != null)
+            var stream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
+            byte[] _avatarStreamBuffer = Tools.Utilities.ReadToEnd(stream.Stream);
+            if (stream != null && stream.Stream != null)
             {
-                ProfileAvatarSource = ImageSource.FromStream(() => _avatarStream.Stream);
+                _avatarStream = new SJFileStream { FileName = stream.FileName, Stream = new MemoryStream(_avatarStreamBuffer) };
+                ProfileAvatarSource = ImageSource.FromStream(() => new MemoryStream(_avatarStreamBuffer));
             }
             await _dialogService.CloseLoadingPopup(pop);
         }

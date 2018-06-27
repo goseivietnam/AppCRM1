@@ -31,13 +31,6 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int licenceCount = 0;
         private int documentCount = 0;
         private int referenceCount = 0;
-        private int educationCount = 0;
-        private int workExprienceCount = 0;
-        private int skillCount = 0;
-        private int qualificationCount = 0;
-        private int licenceCount = 0;
-        private int documentCount = 0;
-        private int referenceCount = 0;
 
         private List<ContactEducation> educationList;
         private List<ContactWorkExprience> workExprienceList;
@@ -81,7 +74,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             _dialogService = dialogService;
         }
 
-        public CandidateProfile Profile
+        public Contact Profile
         {
             get
             {
