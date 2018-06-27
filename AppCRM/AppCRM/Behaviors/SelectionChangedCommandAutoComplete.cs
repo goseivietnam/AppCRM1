@@ -32,7 +32,7 @@ namespace AppCRM.Behaviors
 
             if (autoComplete != null && autoComplete.IsEnabled)
             {
-                autoComplete.SelectedItem = null;
+                //autoComplete.SelectedItem = null;
                 var command = GetSelectionChangedCommand(autoComplete);
                 if (command != null && command.CanExecute(autoComplete.SelectedValue))
                 {

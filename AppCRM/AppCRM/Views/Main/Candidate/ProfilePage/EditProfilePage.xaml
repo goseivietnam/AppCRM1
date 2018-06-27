@@ -98,7 +98,7 @@
                                                          IsSelectedItemsVisibleInDropDown="True" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding CityChangeCommand}" 
                                                          Style="{DynamicResource PrimarySfAutoComplete}"
-                                                         SelectedItem="{Binding CitySelected}">
+                                                         SelectedItem="{Binding CitySelected,Mode=TwoWay}">
                             </autocomplete:SfAutoComplete>
                             <!--<material:MaterialPicker Text="{Binding CityDDL}" SelectedItem="{Binding CitySelected}" Placeholder="City" Style="{DynamicResource PrimaryMaterialPicker}">
                                 <material:MaterialPicker.Behaviors>
