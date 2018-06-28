@@ -12,6 +12,7 @@ namespace AppCRM.Services.CandidateDetail
     {
         Task<dynamic> GetEmployerCandidateDetail();
         Task<dynamic> GetEmployerCandidateProfile();
+        Task<dynamic> GetResume();
         Task<dynamic> AddEducation(ContactEducation eduction);
         Task<dynamic> AddWorkExprience(ContactWorkExprience workExprience);
         Task<dynamic> AddSkill(ContactSkill skill);
@@ -44,6 +45,12 @@ namespace AppCRM.Services.CandidateDetail
         public async Task<dynamic> GetEmployerCandidateDetail()
         {
             var result = await _requestService.getDataFromServiceAuthority("api/CandidateDetails/GetEmployerCandidateDetail?ContactID=" + App.ContactID.ToString());
+            return result;
+        }
+
+        public async Task<dynamic> GetResume()
+        {
+            var result = await _requestService.getDataFromServiceAuthority("api/Document/GetResume");
             return result;
         }
 

@@ -41,7 +41,7 @@
             </Style>
             <Style x:Key="PrimarySfAutoComplete" TargetType="autocomplete:SfAutoComplete">
                 <Setter Property="TextColor" Value="#3C4455"/>
-                <Setter Property="Margin" Value="15,-5"></Setter>
+                <!--<Setter Property="Margin" Value="15,-5"></Setter>-->
                 <Setter Property="TextSize" Value="13"></Setter>
             </Style>
         </ResourceDictionary>
@@ -93,13 +93,17 @@
                                 </material:MaterialEntry.Behaviors>
                             </material:MaterialEntry>
                             <Label x:Name="lblValidateAddress" FontSize="12" Margin="15,-2"/>
-                            <autocomplete:SfAutoComplete DataSource="{Binding CityCollection}" AutoCompleteMode="Suggest" DisplayMemberPath="Name"
+                            <StackLayout Spacing="0" Margin="15,-2">
+                                <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">City</Label>
+                                <autocomplete:SfAutoComplete DataSource="{Binding CityCollection}" AutoCompleteMode="Suggest" DisplayMemberPath="Name"
                                                          SelectedValuePath="Id" MultiSelectMode="None" TokensWrapMode="Wrap" 
+                                                         SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding CityChangeCommand}" 
                                                          Style="{DynamicResource PrimarySfAutoComplete}"
                                                          SelectedItem="{Binding CitySelected,Mode=TwoWay}">
-                            </autocomplete:SfAutoComplete>
+                                </autocomplete:SfAutoComplete>
+                            </StackLayout>
                             <!--<material:MaterialPicker Text="{Binding CityDDL}" SelectedItem="{Binding CitySelected}" Placeholder="City" Style="{DynamicResource PrimaryMaterialPicker}">
                                 <material:MaterialPicker.Behaviors>
                                     <behaviors:MaterialPickerValidationBehavior RuleNames="Required" RuleMessages="City is not filled yet" ValidationLabelName="lblValidateCity"/>
