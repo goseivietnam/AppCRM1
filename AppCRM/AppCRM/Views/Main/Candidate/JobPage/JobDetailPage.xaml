@@ -87,10 +87,10 @@
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
                                 <StackLayout Padding="10,5" BackgroundColor="#F2F2F2">
                                     <StackLayout Padding="0,8" BackgroundColor="White">
-                                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+                                        <controls:BorderlessEntry Text="{Binding TaskSearchedText}" HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
                                     </StackLayout>
                                 </StackLayout>
-
+                                <Label Text="No Found Job" IsVisible="{Binding TaskNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>
                                 <ListView ItemsSource="{Binding Job.ContactTasksTodo}" RowHeight="60" HeightRequest="{Binding TodoTaskListViewHeightRequest}"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
@@ -165,9 +165,10 @@
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
                                 <StackLayout Padding="10,5" BackgroundColor="#F2F2F2">
                                     <StackLayout Padding="0,8" BackgroundColor="White">
-                                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+                                        <controls:BorderlessEntry Text="{Binding DocumentSearchedText, Mode=TwoWay}" HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
                                     </StackLayout>
                                 </StackLayout>
+                                <Label Text="No Found Job" IsVisible="{Binding DocumentNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>
                                 <ListView ItemsSource="{Binding Job.ContactDocuments}" RowHeight="60" HeightRequest="{Binding AttachmentListViewHeightRequest}"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
                                     <ListView.ItemTemplate>

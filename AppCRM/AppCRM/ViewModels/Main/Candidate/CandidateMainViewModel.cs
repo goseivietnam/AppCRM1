@@ -25,7 +25,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private ViewModelBase _explorePage;
         private ViewModelBase _notifyPage;
         private ViewModelBase _messagePage;
-        private string _avartarUrl;
+        private string _avatarUrl;
         private string _userName;
 
         public int SelectedIndex
@@ -100,15 +100,15 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public string AvartarUrl
+        public string AvatarUrl
         {
             get
             {
-                return _avartarUrl;
+                return _avatarUrl;
             }
             set
             {
-                _avartarUrl = value;
+                _avatarUrl = value;
                 OnPropertyChanged();
             }
         }
@@ -217,7 +217,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         public override async Task InitializeAsync(object navigationData)
         {
-            AvartarUrl = RequestService.HOST_NAME + "api/Document/GetContactImageByContactID?id=" + App.ContactID.ToString();
+            AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImageByContactID?id=" + App.ContactID.ToString();
             UserName = App.UserName;
         }
     }

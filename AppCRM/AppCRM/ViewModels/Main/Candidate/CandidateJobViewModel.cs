@@ -29,6 +29,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private List<ContactTemplate> _needDoAssessemntList = new List<ContactTemplate>();
         private List<ContactTemplate> _completeAssessemntList = new List<ContactTemplate>();
         private List<ContactVacancy> _contactVacanciesList = new List<ContactVacancy>();
+
         // height listview
         private int _jobListViewHeightRequest;
         private int _needActionListViewHeightRequest;
@@ -36,6 +37,9 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         private string _jobSearchedText;
         private string _assessmentSearchedText;
+
+        private bool _jobNoFoundIsVisible;
+        private bool _assessmentNoFoundIsVisible;
 
         public CandidateJobViewModel(ICandidateJobService candidateJobService, INavigationService navigationService, IDialogService dialogService)
         {
@@ -133,7 +137,6 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-
         public string AssessmentSearchedText
         {
             get
@@ -148,10 +151,33 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
         }
 
+        public bool JobNoFoundIsVisible
+        {
+            get
+            {
+                return _jobNoFoundIsVisible;
+            }
+            set
+            {
+                _jobNoFoundIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool AssessmentNoFoundIsVisible
+        {
+            get
+            {
+                return _assessmentNoFoundIsVisible;
+            }
+            set
+            {
+                _assessmentNoFoundIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand MasterPageBtnCommand => new Command(MasterPageBtnAsync);
         public ICommand JobListViewCommand => new AsyncCommand(JobListView_ItemTappedAsync);
         public ICommand AssessmentListViewCommand => new Command(AssessmentListView_ItemTapped);
-        //public ICommand SearchCommand => new Command(SearchCommandAsync);
 
         private void MasterPageBtnAsync()
         {
@@ -174,8 +200,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         public override async Task InitializeAsync(object navigationData)
         {
             var pop = await _dialogService.OpenLoadingPopup();
-            //_jobSearchedText = "";
-            //_assessmentSearchedText = "";
+            JobNoFoundIsVisible = false;
+            AssessmentNoFoundIsVisible = false;
 
             dynamic objcontactVacancies = await _candidateJobService.GetCandidateJobApplied();
 
@@ -249,7 +275,15 @@ namespace AppCRM.ViewModels.Main.Candidate
 
             List<ContactVacancy> ContactVacancies = new List<ContactVacancy>(_contactVacanciesList.Where(C => C.PoisitionName.ToLowerInvariant().Contains(_search.ToLowerInvariant())));
 
-            List<ContactVacancyGroup> groups = new List<ContactVacancyGroup>();
+            if (ContactVacancies.Count == 0)
+            {
+                JobNoFoundIsVisible = true;
+            }
+            else
+            {
+                JobNoFoundIsVisible = false;
+            }
+
             foreach (var vacancy in ContactVacancies)
             {
                 var statusName = vacancy.StatusName;
@@ -262,7 +296,6 @@ namespace AppCRM.ViewModels.Main.Candidate
                     JobGroups.Add(new ContactVacancyGroup(statusName) { vacancy });
                 }
             }
-            //JobGroups = groups;
 
             JobListViewHeightRequest = ContactVacancies.Count * 120 + JobGroups.Count * 38;
         }
@@ -291,6 +324,15 @@ namespace AppCRM.ViewModels.Main.Candidate
                 }
             }
             CompleteAssessement = completeTemplates;
+
+            if (CompleteAssessement.Count == 0 && NeedDoAssessement.Count == 0)
+            {
+                AssessmentNoFoundIsVisible = true;
+            }
+            else
+            {
+                AssessmentNoFoundIsVisible = false;
+            }
 
             NeedActionListViewHeightRequest = NeedDoAssessement.Count * 90 + 38;
             CompleteListViewHeightRequest = CompleteAssessement.Count * 90 + 38;

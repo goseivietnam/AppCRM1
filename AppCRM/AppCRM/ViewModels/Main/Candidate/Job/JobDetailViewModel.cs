@@ -33,6 +33,15 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         private bool _withDrawIsVisible = true;
         private bool _applyIsVisible = false;
 
+        private string _taskSearchedText;
+        private string _documentSearchedText;
+
+        private bool _taskNoFoundIsVisible;
+        private bool _documentNoFoundIsVisible;
+
+        private List<UserContactTask> _contactTasksTodoList = new List<UserContactTask>();
+        private List<UserContactTask> _contactTasksCompleteList = new List<UserContactTask>();
+        List<ContactDocument> _contactDocumentList = new List<ContactDocument>();
         public JobDetailViewModel(IDialogService dialogService, ICandidateJobService candidateJobService, INavigationService navigationService)
         {
             _dialogService = dialogService;
@@ -111,6 +120,58 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             set
             {
                 _applyIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string TaskSearchedText
+        {
+            get
+            {
+                return _taskSearchedText;
+            }
+            set
+            {
+                _taskSearchedText = value;
+                TaskSearchCommandExecute(_taskSearchedText);
+                OnPropertyChanged();
+            }
+        }
+        public string DocumentSearchedText
+        {
+            get
+            {
+                return _documentSearchedText;
+            }
+            set
+            {
+                _documentSearchedText = value;
+                DocumentSearchCommandExecute(_documentSearchedText);
+                OnPropertyChanged();
+            }
+        }
+
+        public bool TaskNoFoundIsVisible
+        {
+            get
+            {
+                return _taskNoFoundIsVisible;
+            }
+            set
+            {
+                _taskNoFoundIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool DocumentNoFoundIsVisible
+        {
+            get
+            {
+                return _documentNoFoundIsVisible;
+            }
+            set
+            {
+                _documentNoFoundIsVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -196,6 +257,9 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                     }
                 }
 
+                _contactTasksTodoList = contactTasksTodo;
+                _contactTasksCompleteList = contactTasksComplete;
+
                 //Get contact Document
                 dynamic objContactDocument = await _candidateJobService.GetDocumentsAssigneedByContactIDAndVacancyID(_vacancyID);
                 List<ContactDocument> contactDocuments;
@@ -207,6 +271,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 {
                     contactDocuments = new List<ContactDocument>();
                 }
+
+                _contactDocumentList = contactDocuments;
 
                 Job = new Vacancy
                 {
@@ -232,6 +298,71 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 AttachmentListViewHeightRequest = Job.ContactDocuments.Count * 60 + 38;
             }
             await _dialogService.CloseLoadingPopup(pop);
+        }
+
+        private void TaskSearchCommandExecute(string _search)
+        {
+            Job.ContactTasksTodo.RemoveRange(0, Job.ContactTasksTodo.Count);
+            Job.ContactTasksComplete.RemoveRange(0, Job.ContactTasksComplete.Count);
+
+            List<UserContactTask> contactTaskTodo = new List<UserContactTask>();
+            foreach (var item in _contactTasksTodoList)
+            {
+                if (item.TaskName.ToLowerInvariant().Contains(_search.ToLowerInvariant()))
+                {
+                    contactTaskTodo.Add(item);
+                }
+            }
+            Job.ContactTasksTodo = contactTaskTodo;
+
+            List<UserContactTask> contactTaskcomplete = new List<UserContactTask>();
+            foreach (var item in _contactTasksCompleteList)
+            {
+                if (item.TaskName.ToLowerInvariant().Contains(_search.ToLowerInvariant()))
+                {
+                    contactTaskcomplete.Add(item);
+                }
+            }
+            Job.ContactTasksComplete = contactTaskcomplete;
+
+            if (Job.ContactTasksComplete.Count == 0 && Job.ContactTasksTodo.Count == 0)
+            {
+                TaskNoFoundIsVisible = true;
+            }
+            else
+            {
+                TaskNoFoundIsVisible = false;
+            }
+
+            TodoTaskListViewHeightRequest = Job.ContactTasksTodo.Count * 60 + 38;
+            CompleteTaskListViewHeightRequest = Job.ContactTasksComplete.Count * 60 + 40;
+        }
+
+        private void DocumentSearchCommandExecute(string _search)
+        {
+            Job.ContactDocuments.RemoveRange(0, Job.ContactDocuments.Count);
+
+            List<ContactDocument> contactDocument = new List<ContactDocument>();
+            foreach (var item in _contactDocumentList)
+            {
+                if (item.DocumentName.ToLowerInvariant().Contains(_search.ToLowerInvariant()))
+                {
+                    contactDocument.Add(item);
+                }
+            }
+            Job.ContactDocuments = contactDocument;
+
+            if (Job.ContactDocuments.Count == 0)
+            {
+                DocumentNoFoundIsVisible = true;
+            }
+            else
+            {
+                DocumentNoFoundIsVisible = false;
+            }
+
+            TodoTaskListViewHeightRequest = Job.ContactTasksTodo.Count * 60 + 38;
+            AttachmentListViewHeightRequest = Job.ContactDocuments.Count * 60 + 38;
         }
 
         public async Task WithDrawComandAsync()

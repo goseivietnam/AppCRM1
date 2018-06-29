@@ -10,9 +10,12 @@
         <ContentPage Padding="0,40,0,0" Title="Master" BackgroundColor="White">
             <ContentPage.Content>
                 <StackLayout>
-                    <Frame CornerRadius="55" Margin="0" WidthRequest="110" HeightRequest="110" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" HorizontalOptions="Center">
-                        <Image Source="{Binding AvartarUrl}" Aspect="AspectFill" WidthRequest="110" HeightRequest="110"/>
-                    </Frame>
+                    <AbsoluteLayout Margin="20" WidthRequest="110" HeightRequest="110" HorizontalOptions="Center">
+                        <Frame CornerRadius="55" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" HasShadow="False"
+                                        AbsoluteLayout.LayoutBounds=".5,0,110,110" AbsoluteLayout.LayoutFlags="XProportional">
+                            <Image Aspect="AspectFill" Source="{Binding AvatarUrl}"/>
+                        </Frame>
+                    </AbsoluteLayout>
                     <Label Text="{Binding UserName}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
                     <ListView HorizontalOptions="Center" SeparatorVisibility="None" Margin="0,20" 
                               behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding MasterMenuItemTappedCommand}">
