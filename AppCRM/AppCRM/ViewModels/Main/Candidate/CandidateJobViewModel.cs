@@ -21,14 +21,25 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
 
-        private CandidateJob _job;
         private List<ContactVacancyGroup> _jobGroups;
+
+        private List<ContactTemplate> _needDoAssessemnt;
+        private List<ContactTemplate> _completeAssessemnt;
+
+        private List<ContactTemplate> _needDoAssessemntList = new List<ContactTemplate>();
+        private List<ContactTemplate> _completeAssessemntList = new List<ContactTemplate>();
+        private List<ContactVacancy> _contactVacanciesList = new List<ContactVacancy>();
 
         // height listview
         private int _jobListViewHeightRequest;
         private int _needActionListViewHeightRequest;
         private int _completetListViewHeightRequest;
 
+        private string _jobSearchedText;
+        private string _assessmentSearchedText;
+
+        private bool _jobNoFoundIsVisible;
+        private bool _assessmentNoFoundIsVisible;
 
         public CandidateJobViewModel(ICandidateJobService candidateJobService, INavigationService navigationService, IDialogService dialogService)
         {
@@ -37,15 +48,28 @@ namespace AppCRM.ViewModels.Main.Candidate
             _dialogService = dialogService;
         }
 
-        public CandidateJob Job
+        public List<ContactTemplate> NeedDoAssessement
         {
             get
             {
-                return _job;
+                return _needDoAssessemnt;
             }
             set
             {
-                _job = value;
+                _needDoAssessemnt = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<ContactTemplate> CompleteAssessement
+        {
+            get
+            {
+                return _completeAssessemnt;
+            }
+            set
+            {
+                _completeAssessemnt = value;
                 OnPropertyChanged();
             }
         }
@@ -100,6 +124,57 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
         }
 
+        public string JobSearchedText
+        {
+            get
+            {
+                return _jobSearchedText;
+            }
+            set
+            {
+                _jobSearchedText = value;
+                JobSearchCommandExecute(_jobSearchedText);
+                OnPropertyChanged();
+            }
+        }
+        public string AssessmentSearchedText
+        {
+            get
+            {
+                return _assessmentSearchedText;
+            }
+            set
+            {
+                _assessmentSearchedText = value;
+                AssessmentSearchCommandExecute(_assessmentSearchedText);
+                OnPropertyChanged();
+            }
+        }
+
+        public bool JobNoFoundIsVisible
+        {
+            get
+            {
+                return _jobNoFoundIsVisible;
+            }
+            set
+            {
+                _jobNoFoundIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool AssessmentNoFoundIsVisible
+        {
+            get
+            {
+                return _assessmentNoFoundIsVisible;
+            }
+            set
+            {
+                _assessmentNoFoundIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand MasterPageBtnCommand => new Command(MasterPageBtnAsync);
         public ICommand JobListViewCommand => new AsyncCommand(JobListView_ItemTappedAsync);
         public ICommand AssessmentListViewCommand => new Command(AssessmentListView_ItemTapped);
@@ -125,6 +200,9 @@ namespace AppCRM.ViewModels.Main.Candidate
         public override async Task InitializeAsync(object navigationData)
         {
             var pop = await _dialogService.OpenLoadingPopup();
+            JobNoFoundIsVisible = false;
+            AssessmentNoFoundIsVisible = false;
+
             dynamic objcontactVacancies = await _candidateJobService.GetCandidateJobApplied();
 
             ContactTemplateFilter filter = new ContactTemplateFilter
@@ -135,15 +213,17 @@ namespace AppCRM.ViewModels.Main.Candidate
             };
             dynamic objAssessments = await _candidateJobService.GetAssessment(filter);
 
-            Job = new CandidateJob();
-            Job.ContactVacancies = new List<ContactVacancy>();
-            Job.NeedActionAssessments = new List<ContactTemplate>();
-            Job.CompleteAssessments = new List<ContactTemplate>();
-
             if (objcontactVacancies["candidateJobsApplied"] != null)
             {
-                Job.ContactVacancies = JsonConvert.DeserializeObject<List<ContactVacancy>>(objcontactVacancies["candidateJobsApplied"].ToString());
+                _contactVacanciesList = JsonConvert.DeserializeObject<List<ContactVacancy>>(objcontactVacancies["candidateJobsApplied"].ToString());
             }
+
+
+            CompleteAssessement = new List<ContactTemplate>();
+            NeedDoAssessement = new List<ContactTemplate>();
+
+            List<ContactTemplate> complete = new List<ContactTemplate>();
+            List<ContactTemplate> needdo = new List<ContactTemplate>();
             if (objAssessments["templates"] != null)
             {
                 List<ContactTemplate> Assessments = JsonConvert.DeserializeObject<List<ContactTemplate>>(objAssessments["templates"].ToString());
@@ -151,20 +231,25 @@ namespace AppCRM.ViewModels.Main.Candidate
                 {
                     if (assessment.IsCompleted)
                     {
-                       Job.CompleteAssessments.Add(assessment);
+                        complete.Add(assessment);
                     }
                     else
                     {
-                        Job.NeedActionAssessments.Add(assessment);
+                        needdo.Add(assessment);
                     }
                 }
             }
 
+            _completeAssessemntList.AddRange(complete);
+            _needDoAssessemntList.AddRange(needdo);
+
+            CompleteAssessement = complete;
+            NeedDoAssessement = needdo;
+
             //Populate JobGroup
             List<ContactVacancyGroup> groups = new List<ContactVacancyGroup>();
-            foreach (var vacancy in Job.ContactVacancies)
+            foreach (var vacancy in _contactVacanciesList)
             {
-                //vacancy.ImageSource = 
                 var statusName = vacancy.StatusName;
                 if (groups.Any(r => r.StatusName == statusName))
                 {
@@ -177,23 +262,92 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
             JobGroups = groups;
 
-            JobListViewHeightRequest = Job.ContactVacancies.Count * 120 + JobGroups.Count * 38;
-            NeedActionListViewHeightRequest = Job.NeedActionAssessments.Count * 90 + 38;
-            CompleteListViewHeightRequest = Job.CompleteAssessments.Count * 90 + 38;
+            JobListViewHeightRequest = _contactVacanciesList.Count * 120 + JobGroups.Count * 38;
+            NeedActionListViewHeightRequest = _needDoAssessemntList.Count * 90 + 38;
+            CompleteListViewHeightRequest = _completeAssessemntList.Count * 90 + 38;
 
             CandidateMainViewModel.Current.IsJobPageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
         }
-    }
 
-    public class ContactVacancyGroup : List<ContactVacancy>
-    {
-        public string StatusName { get; set; }
-        public string DisplayHeader { get { return string.Format("{0} ({1})", this.StatusName.ToUpper(), base.Count); } }
-
-        public ContactVacancyGroup(string statusName)
+        private void JobSearchCommandExecute(string _search)
         {
-            StatusName = statusName;
+            JobGroups.RemoveRange(0, JobGroups.Count);
+
+            List<ContactVacancy> ContactVacancies = new List<ContactVacancy>(_contactVacanciesList.Where(C => C.PoisitionName.ToLowerInvariant().Contains(_search.ToLowerInvariant())));
+
+            if (ContactVacancies.Count == 0)
+            {
+                JobNoFoundIsVisible = true;
+            }
+            else
+            {
+                JobNoFoundIsVisible = false;
+            }
+
+            foreach (var vacancy in ContactVacancies)
+            {
+                var statusName = vacancy.StatusName;
+                if (JobGroups.Any(r => r.StatusName == statusName))
+                {
+                    JobGroups.Single(r => r.StatusName == statusName).Add(vacancy);
+                }
+                else
+                {
+                    JobGroups.Add(new ContactVacancyGroup(statusName) { vacancy });
+                }
+            }
+
+            JobListViewHeightRequest = ContactVacancies.Count * 120 + JobGroups.Count * 38;
+        }
+
+        private void AssessmentSearchCommandExecute(string _search)
+        {
+            NeedDoAssessement.RemoveRange(0, NeedDoAssessement.Count);
+            CompleteAssessement.RemoveRange(0, CompleteAssessement.Count);
+
+            List<ContactTemplate> needDoTemplates = new List<ContactTemplate>();
+            foreach (var item in _needDoAssessemntList)
+            {
+                if (item.TemplateName.ToLowerInvariant().Contains(_search.ToLowerInvariant()))
+                {
+                    needDoTemplates.Add(item);
+                }
+            }
+            NeedDoAssessement = needDoTemplates;
+
+            List<ContactTemplate> completeTemplates = new List<ContactTemplate>();
+            foreach (var item in _completeAssessemntList)
+            {
+                if (item.TemplateName.ToLowerInvariant().Contains(_search.ToLowerInvariant()))
+                {
+                    completeTemplates.Add(item);
+                }
+            }
+            CompleteAssessement = completeTemplates;
+
+            if (CompleteAssessement.Count == 0 && NeedDoAssessement.Count == 0)
+            {
+                AssessmentNoFoundIsVisible = true;
+            }
+            else
+            {
+                AssessmentNoFoundIsVisible = false;
+            }
+
+            NeedActionListViewHeightRequest = NeedDoAssessement.Count * 90 + 38;
+            CompleteListViewHeightRequest = CompleteAssessement.Count * 90 + 38;
+        }
+
+        public class ContactVacancyGroup : List<ContactVacancy>
+        {
+            public string StatusName { get; set; }
+            public string DisplayHeader { get { return string.Format("{0} ({1})", this.StatusName.ToUpper(), base.Count); } }
+
+            public ContactVacancyGroup(string statusName)
+            {
+                StatusName = statusName;
+            }
         }
     }
 }

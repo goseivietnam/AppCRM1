@@ -295,16 +295,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private async Task BtnSaveProfileCommandAsync()
         {
             var pop = await _dialogService.OpenLoadingPopup();
-            DateTime? birthday = null;
-            try
-            {
-                birthday = _birthDay;
-            }
-            catch
-            {
-                birthday = null;
-            }
-
 
             Contact profile = new Contact
             {
@@ -415,7 +405,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private async Task BtnEditCoverCommandAsync()
         {
             BtnEditCoverIsEnable = false;
-            stream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
+            SJFileStream stream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             BtnEditCoverIsEnable = true;
             var pop = await _dialogService.OpenLoadingPopup();
             var obj = await _candidateDetailsService.AddEditContactCoverImage(stream);
@@ -490,6 +480,15 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             AboutMe = Utilities.HtmlToPlainText(obj["CandidateDetails"]["AboutMe"].ToString());
             AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["ProfileImage"];
             CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["CandidateDetails"]["CoverImage"];
+
+            //load resum
+            var objResum = await _candidateDetailsService.GetResume();
+            if (objResum["Result"]["DocumentName"] != null)
+            {
+                FileName = objResum["Result"]["DocumentName"];
+                FileNameIsVisible = true;
+                FileAttachImageIsVisible = true;
+            }
 
             await _dialogService.CloseLoadingPopup(pop);
         }

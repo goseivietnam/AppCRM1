@@ -152,14 +152,6 @@ namespace AppCRM.Models
         #endregion
     }
 
-    public class CandidateJob
-    {
-        public string UserID { get; set; }
-        public List<ContactVacancy> ContactVacancies { get; set; }
-        public List<ContactTemplate> NeedActionAssessments { get; set; }
-        public List<ContactTemplate> CompleteAssessments { get; set; }
-    }
-
     public class ContactVacancy
     {
         public Guid ContactVacancyID { get; set; }

@@ -39,7 +39,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private ViewModelBase _explorePage;
         private ViewModelBase _notifyPage;
         private ViewModelBase _messagePage;
-        private string _avartarUrl;
+        private string _avatarUrl;
         private string _userName;
         private TabDisplayMode _tabHeaderMode = TabDisplayMode.ImageWithText;
 
@@ -115,15 +115,15 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public string AvartarUrl
+        public string AvatarUrl
         {
             get
             {
-                return _avartarUrl;
+                return _avatarUrl;
             }
             set
             {
-                _avartarUrl = value;
+                _avatarUrl = value;
                 OnPropertyChanged();
             }
         }
