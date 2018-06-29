@@ -9,10 +9,13 @@
     <MasterDetailPage.Master>
         <ContentPage Padding="0,40,0,0" Title="Master" BackgroundColor="White">
             <ContentPage.Content>
-                <StackLayout>
-                    <Frame CornerRadius="55" Margin="0" WidthRequest="110" HeightRequest="110" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" HorizontalOptions="Center">
-                        <Image Source="{Binding AvartarUrl}" Aspect="AspectFill" WidthRequest="110" HeightRequest="110"/>
-                    </Frame>
+                <StackLayout Spacing="10">
+                    <AbsoluteLayout>
+                        <Frame CornerRadius="55" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3"
+                           AbsoluteLayout.LayoutBounds=".5,20,110,110" AbsoluteLayout.LayoutFlags="XProportional">
+                            <Image Source="{Binding AvartarUrl}" Aspect="AspectFill"/>
+                        </Frame>
+                    </AbsoluteLayout>
                     <Label Text="{Binding UserName}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
                     <ListView HorizontalOptions="Center" SeparatorVisibility="None" Margin="0,20" 
                               behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding MasterMenuItemTappedCommand}">
@@ -52,7 +55,8 @@
     <MasterDetailPage.Detail>
         <ContentPage>
             <ContentPage.Content>
-                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA" SelectedIndex="{Binding SelectedIndex}">
+                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA" 
+                                      SelectedIndex="{Binding SelectedIndex}" behaviors:SelectionChangedCommandTabView.SelectionChangedCommand="{Binding SelectionChangedCommand}">
                     <tabbedPage:SfTabView.SelectionIndicatorSettings>
                         <tabbedPage:SelectionIndicatorSettings Color="#FAFAFA" Position="Top"  StrokeThickness="0"/>
                     </tabbedPage:SfTabView.SelectionIndicatorSettings>
@@ -68,9 +72,11 @@
                             <pages:CandidateJobPage BindingContext="{Binding JobPage}"/>
                         </tabbedPage:SfTabItem.Content>
                     </tabbedPage:SfTabItem>
-                    
-                    <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
 
+                    <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                        <tabbedPage:SfTabItem.Content>
+                            <pages:CandidateExplorePage BindingContext="{Binding ExplorePage}"/>
+                        </tabbedPage:SfTabItem.Content>
                     </tabbedPage:SfTabItem>
                     
                     <tabbedPage:SfTabItem Title="Notify" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">

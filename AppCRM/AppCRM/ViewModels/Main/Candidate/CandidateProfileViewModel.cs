@@ -531,6 +531,8 @@ namespace AppCRM.ViewModels.Main.Candidate
             //LicenceListViewHeightRequest = (licenceList.Count * 61 - 1 * (licenceList.Count > 1 ? 1 : 0));
             //DocumentListViewHeightRequest = (documentList.Count * 31 - 1 * (documentList.Count > 1 ? 1 : 0));
             //ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
+
+            CandidateMainViewModel.Current.IsProfilePageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
         }
         #endregion

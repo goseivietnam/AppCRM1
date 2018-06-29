@@ -16,39 +16,39 @@ namespace AppCRM
         public static string UserName { get; set; } = "thuleduy01@gmail.com";
         public static string PassWord { get; set; } = "12345";
 
-    static App()
-    {
-        BuildDependencies();
-    }
-    public App()
-    {
-        InitializeComponent();
-        InitNavigation();
-    }
+        static App()
+        {
+            BuildDependencies();
+        }
+        public App()
+        {
+            InitializeComponent();
+            InitNavigation();
+        }
 
-    private Task InitNavigation()
-    {
-        var navigationService = Locator.Instance.Resolve<INavigationService>();
-        return navigationService.NavigateToAsync<LoginViewModel>();
-    }
-    public static void BuildDependencies()
-    {
-        Locator.Instance.Build();
-    }
+        private Task InitNavigation()
+        {
+            var navigationService = Locator.Instance.Resolve<INavigationService>();
+            return navigationService.NavigateToAsync<LoginViewModel>();
+        }
+        public static void BuildDependencies()
+        {
+            Locator.Instance.Build();
+        }
 
-    protected override void OnStart()
-    {
-        // Handle when your app starts
-    }
+        protected override void OnStart()
+        {
+            // Handle when your app starts
+        }
 
-    protected override void OnSleep()
-    {
-        // Handle when your app sleeps
-    }
+        protected override void OnSleep()
+        {
+            // Handle when your app sleeps
+        }
 
-    protected override void OnResume()
-    {
-        // Handle when your app resumes
+        protected override void OnResume()
+        {
+            // Handle when your app resumes
+        }
     }
-}
 }

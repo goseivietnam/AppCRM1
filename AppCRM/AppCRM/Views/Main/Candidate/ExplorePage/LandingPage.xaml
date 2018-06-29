@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:controls="clr-namespace:AppCRM.Controls"
+                 xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+                 xmlns:animations="clr-namespace:AppCRM.Effects"
+                 x:Class="AppCRM.Views.Main.Candidate.ExplorePage.LandingPage">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
+                <Frame BackgroundColor="White" CornerRadius="4" HorizontalOptions="FillAndExpand" Padding="0" IsClippedToBounds="True" VerticalOptions="Center" Margin="10,0,0,0">
+                    <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
+                        <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Search" PlaceholderColor="#7F8890" 
+                                                  BackgroundColor="Transparent" TextColor="Black" FontSize="12"/>
+                        <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                    </StackLayout>
+                </Frame>
+                <Button Text="Cancel" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" WidthRequest="70" Command="{Binding CancelBtnCommand}"/>
+            </StackLayout>
+            <ScrollView>
+                <StackLayout Padding="10" Spacing="30">
+                    <Label Text="What you are looking for?" TextColor="#899198"/>
+                    <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                            <Button Image="img_jobs.png" BackgroundColor="Transparent" BorderWidth="0" WidthRequest="120" HeightRequest="120" 
+                                    HorizontalOptions="Center" Command="{Binding JobsBtnCommand}"/>
+                            <Label Text="Jobs" TextColor="#384052" HorizontalOptions="Center"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                            <Button Image="img_companies.png" BackgroundColor="Transparent" BorderWidth="0" WidthRequest="120" HeightRequest="120" 
+                                    HorizontalOptions="Center" Command="{Binding CompaniesBtnCommand}"/>
+                            <Label Text="Companies" TextColor="#384052" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <ListView ItemsSource="{Binding ExploreItems}" RowHeight="40" HeightRequest="{Binding RecentExploreListViewHeightRequest}" SeparatorVisibility="None"
+                              behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding RecentExploreListViewCommand}">
+                        <ListView.Header>
+                            <Label Text="Recent explore" TextColor="#899198"/>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" Spacing="4" VerticalOptions="Center">
+                                        <Image Source="icon_search.png" WidthRequest="20" HeightRequest="20"/>
+                                        <Label Text="{Binding Title}" TextColor="#4A5161"/>
+                                        <Label Text="in" IsVisible="{Binding IsTitleWithLocation}" TextColor="#808991"/>
+                                        <Label Text="{Binding Location}" TextColor="#4A5161"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</pages:PopupPage>

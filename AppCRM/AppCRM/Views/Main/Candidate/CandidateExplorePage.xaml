@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+             xmlns:controls="clr-namespace:AppCRM.Controls"
+             xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
+             x:Class="AppCRM.Views.Main.Candidate.CandidateExplorePage">
+    <ContentView.Content>
+        <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
+                <Button BackgroundColor="Transparent" Image="icon_back.png" WidthRequest="40" HorizontalOptions="Start" Command="{Binding BackBtnCommand}" IsVisible="{Binding IsBackButtonVisible}"/>
+                <Frame BackgroundColor="White" CornerRadius="4" HorizontalOptions="FillAndExpand" Padding="0" Margin="10,0,0,0" IsClippedToBounds="True" VerticalOptions="Center" IsVisible="{Binding IsTriggerFocusVisible}">
+                    <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
+                        <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Search" PlaceholderColor="#7F8890" 
+                                                  BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Display}"
+                                                  behaviors:FocusedCommandBorderlessEntry.FocusedCommand="{Binding FocusSearchCommand}"/>
+                        <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearSearchCommand}"/>
+                    </StackLayout>
+                </Frame>
+                <Button Text="Cancel" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" WidthRequest="70" IsVisible="{Binding IsCancelButtonVisible}" Command="{Binding CancelBtnCommand}"/>
+                <Button Text="Filter" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" WidthRequest="60" IsVisible="{Binding IsFilterButtonVisible}"/>
+            </StackLayout>
+            <ScrollView IsVisible="{Binding IsSearchViewVisible}">
+                <StackLayout Padding="10" Spacing="30">
+                    <Label Text="What you are looking for?" TextColor="#899198" IsVisible="{Binding IsNavigationSearchVisible}"/>
+                    <StackLayout Orientation="Horizontal" Spacing="0" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsNavigationSearchVisible}">
+                        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                            <Button Image="img_jobs.png" BackgroundColor="Transparent" BorderWidth="0" WidthRequest="120" HeightRequest="120" 
+                                    HorizontalOptions="Center" Command="{Binding JobsBtnCommand}"/>
+                            <Label Text="Jobs" TextColor="#384052" HorizontalOptions="Center"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand">
+                            <Button Image="img_companies.png" BackgroundColor="Transparent" BorderWidth="0" WidthRequest="120" HeightRequest="120" 
+                                    HorizontalOptions="Center" Command="{Binding CompaniesBtnCommand}"/>
+                            <Label Text="Companies" TextColor="#384052" HorizontalOptions="Center"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <ListView ItemsSource="{Binding RecentExploreItems}" RowHeight="40" HeightRequest="{Binding RecentExploreListViewHeightRequest}" SeparatorVisibility="None"
+                              behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding RecentExploreListViewCommand}">
+                        <ListView.Header>
+                            <Label Text="Recent explore" TextColor="#899198"/>
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal" Spacing="4" VerticalOptions="Center">
+                                        <Image Source="icon_search.png" WidthRequest="20" HeightRequest="20"/>
+                                        <Label Text="{Binding Title}" TextColor="#4A5161"/>
+                                        <Label Text="in" IsVisible="{Binding IsTitleWithLocation}" TextColor="#808991"/>
+                                        <Label Text="{Binding Location}" TextColor="#4A5161"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ScrollView>
+            <tabbedPage:SfTabView TabHeaderBackgroundColor="#2A76FD" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="2" VerticalOptions="FillAndExpand" 
+                                  SelectedIndex="{Binding SelectedIndex}" IsVisible="{Binding IsResultViewVisible}">
+                <tabbedPage:SfTabView.SelectionIndicatorSettings>
+                    <tabbedPage:SelectionIndicatorSettings Color="White" Position="Bottom" StrokeThickness="4"/>
+                </tabbedPage:SfTabView.SelectionIndicatorSettings>
+
+                <tabbedPage:SfTabItem Title="Jobs" TitleFontColor="WhiteSmoke" SelectionColor="White" TitleFontAttributes="Bold" TitleFontSize="14">
+                    <tabbedPage:SfTabItem.Content>
+                        <ScrollView></ScrollView>
+                    </tabbedPage:SfTabItem.Content>
+                </tabbedPage:SfTabItem>
+
+                <tabbedPage:SfTabItem Title="Companies" TitleFontColor="WhiteSmoke" SelectionColor="White" TitleFontAttributes="Bold" TitleFontSize="14">
+                    <tabbedPage:SfTabItem.Content>
+                        <ScrollView></ScrollView>
+                    </tabbedPage:SfTabItem.Content>
+                </tabbedPage:SfTabItem>
+            </tabbedPage:SfTabView>
+        </StackLayout>
+    </ContentView.Content>
+</ContentView>

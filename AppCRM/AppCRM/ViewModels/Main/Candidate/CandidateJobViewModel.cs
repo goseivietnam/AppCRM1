@@ -181,6 +181,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             NeedActionListViewHeightRequest = Job.NeedActionAssessments.Count * 90 + 38;
             CompleteListViewHeightRequest = Job.CompleteAssessments.Count * 90 + 38;
 
+            CandidateMainViewModel.Current.IsJobPageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
         }
     }

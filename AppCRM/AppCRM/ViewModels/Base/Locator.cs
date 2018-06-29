@@ -41,6 +41,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<DialogService>().As<IDialogService>();
             _containerBuilder.RegisterType<CandidateDetailsService>().As<ICandidateDetailsService>();
             _containerBuilder.RegisterType<CandidateJobService>().As<ICandidateJobService>();
+            _containerBuilder.RegisterType<CandidateExploreService>().As<ICandidateExploreService>();
             _containerBuilder.RegisterType<EmployerDetailService>().As<IEmployerDetailService>();
             //ViewModel
             _containerBuilder.RegisterType<LoginViewModel>();
@@ -61,6 +62,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<EditProfileViewModel>();
             _containerBuilder.RegisterType<AccountSettingViewModel>();
             _containerBuilder.RegisterType<JobDetailViewModel>();
+            _containerBuilder.RegisterType<CandidateExploreViewModel>();
         }
         #endregion
 

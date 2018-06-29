@@ -298,4 +298,19 @@
   <ItemGroup>
     <BundleResource Include="Resources\img_bullet_blue.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_remove.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_companies.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\img_jobs.png" />
+  </ItemGroup>
 </Project>

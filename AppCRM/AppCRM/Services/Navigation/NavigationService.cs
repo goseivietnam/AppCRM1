@@ -7,6 +7,7 @@ using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Views;
 using AppCRM.Views.Account;
 using AppCRM.Views.Main.Candidate;
+using AppCRM.Views.Main.Candidate.ExplorePage;
 using AppCRM.Views.Main.Candidate.JobPage;
 using AppCRM.Views.Main.Candidate.ProfilePage;
 using Rg.Plugins.Popup.Pages;
@@ -103,15 +104,11 @@ namespace AppCRM.Services.Navigation
         protected virtual async Task InternalNavigateToAsync(Type viewModelType, object parameter)
         {
             Page page = CreateAndBindPage(viewModelType, parameter);
-            if(page is CandidateMainPage)
-            {
-                CurrentApplication.MainPage=page;
-            }
-            else if (page is LoginPage)
+            if (page is CandidateMainPage || page is LoginPage)
             {
                 CurrentApplication.MainPage = page;
             }
-            else if(CurrentApplication.MainPage is CandidateMainPage)
+            else if (CurrentApplication.MainPage is CandidateMainPage)
             {
                 var candidateMainPage = CurrentApplication.MainPage as CandidateMainPage;
                 var navigationPage = candidateMainPage.Detail as NavigationPage;
@@ -184,9 +181,9 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(CandidateProfileViewModel), typeof(CandidateProfilePage));
             _mappings.Add(typeof(CandidateJobViewModel), typeof(CandidateJobPage));
             _mappings.Add(typeof(CandidateMainViewModel), typeof(CandidateMainPage));
-            _mappings.Add(typeof(CandidateRegisterViewModel),typeof(CandidateRegisterPage));
-            _mappings.Add(typeof(EmployerRegisterViewModel),typeof(EmployerRegisterPage));
-            _mappings.Add(typeof(RegisterPopupViewModel),typeof(RegisterPopupPage));
+            _mappings.Add(typeof(CandidateRegisterViewModel), typeof(CandidateRegisterPage));
+            _mappings.Add(typeof(EmployerRegisterViewModel), typeof(EmployerRegisterPage));
+            _mappings.Add(typeof(RegisterPopupViewModel), typeof(RegisterPopupPage));
             _mappings.Add(typeof(AddEducationViewModel), typeof(AddEducationPage));
             _mappings.Add(typeof(AddDocumentViewModel), typeof(AddDocumentPage));
             _mappings.Add(typeof(AddLicenceViewModel), typeof(AddLicencePage));
@@ -197,6 +194,7 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(EditProfileViewModel), typeof(EditProfilePage));
             _mappings.Add(typeof(AccountSettingViewModel), typeof(AccountSettingPage));
             _mappings.Add(typeof(JobDetailViewModel), typeof(JobDetailPage));
+            _mappings.Add(typeof(CandidateExploreViewModel), typeof(CandidateExplorePage));
         }
         #endregion
     }

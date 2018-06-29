@@ -80,8 +80,9 @@
 
             <StackLayout Spacing="0" Padding="10">
                 <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Job interest</Label>
-                <autocomplete:SfAutoComplete DataSource="{Binding JobInterestCollection}" DisplayMemberPath="Name" SelectedValuePath="Id" TextHighlightMode="MultipleOccurrence"
-                                             MultiSelectMode="Token" TokensWrapMode="Wrap" IsSelectedItemsVisibleInDropDown="false" SuggestionMode="Contains"
+                <autocomplete:SfAutoComplete DataSource="{Binding JobInterestCollection}" DisplayMemberPath="Name" SelectedValuePath="Id"
+                                             MultiSelectMode="Token" TokensWrapMode="None" IsSelectedItemsVisibleInDropDown="false" NoResultsFoundText="No Results Found"
+                                             WatermarkColor="#828B93" Watermark="Type to filter..." TextHighlightMode="MultipleOccurrence" SuggestionMode="Contains"
                                              behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding JobInterestChangeCommand}">
                 </autocomplete:SfAutoComplete>
             </StackLayout>
@@ -92,8 +93,9 @@
 
             <StackLayout Spacing="0" Padding="10">
                 <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">My Location</Label>
-                <autocomplete:SfAutoComplete DataSource="{Binding JobLocationCollection}" DisplayMemberPath="Name" SelectedValuePath="Id" TextHighlightMode="MultipleOccurrence"
-                                             MultiSelectMode="Token" TokensWrapMode="Wrap" IsSelectedItemsVisibleInDropDown="false" SuggestionMode="Contains"
+                <autocomplete:SfAutoComplete DataSource="{Binding JobLocationCollection}" DisplayMemberPath="Name" SelectedValuePath="Id"
+                                             MultiSelectMode="Token" TokensWrapMode="None" IsSelectedItemsVisibleInDropDown="false" NoResultsFoundText="No Results Found"
+                                             WatermarkColor="#828B93" Watermark="Type to filter..." TextHighlightMode="MultipleOccurrence" SuggestionMode="Contains" 
                                              behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding JobLocationChangeCommand}">
                 </autocomplete:SfAutoComplete>
             </StackLayout>

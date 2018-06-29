@@ -5,8 +5,8 @@ using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate.Profile;
-using AppCRM.Views.Main.Candidate.ProfilePage;
 using Rg.Plugins.Popup.Services;
+using Syncfusion.XForms.TabView;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -15,9 +15,23 @@ namespace AppCRM.ViewModels.Main.Candidate
 {
     public class CandidateMainViewModel : ViewModelBase
     {
+        public static CandidateMainViewModel Current
+        {
+            get
+            {
+                return Application.Current.MainPage.BindingContext as CandidateMainViewModel;
+            }
+        }
+
         private readonly IAuthenticationService _authenticationService;
         private readonly IDialogService _dialogService;
         private readonly INavigationService _navigationService;
+
+        public bool IsProfilePageRendered = false;
+        public bool IsJobPageRendered = false;
+        public bool IsExplorePageRendered = false;
+        public bool IsNotifyPageRendered = false;
+        public bool IsMessagePageRendered = false;
 
         private int _selectedIndex;
         private ViewModelBase _profilePage;
@@ -27,6 +41,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private ViewModelBase _messagePage;
         private string _avartarUrl;
         private string _userName;
+        private TabDisplayMode _tabHeaderMode = TabDisplayMode.ImageWithText;
 
         public int SelectedIndex
         {
@@ -124,8 +139,21 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
+        public TabDisplayMode TabHeaderMode
+        {
+            get
+            {
+                return _tabHeaderMode;
+            }
+            set
+            {
+                _tabHeaderMode = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ICommand MasterMenuItemTappedCommand => new AsyncCommand(MasterMenuItemTappedAsync);
+        public ICommand SelectionChangedCommand => new Command(RenderTabContent);
 
         public CandidateMainViewModel()
         {
@@ -133,21 +161,9 @@ namespace AppCRM.ViewModels.Main.Candidate
             _dialogService = Locator.Instance.Resolve<IDialogService>();
             _navigationService = Locator.Instance.Resolve<INavigationService>();
 
-            SelectedIndex = 0;
-
             ProfilePage = Locator.Instance.Resolve<CandidateProfileViewModel>() as ViewModelBase;
             JobPage = Locator.Instance.Resolve<CandidateJobViewModel>() as ViewModelBase;
-
-
-            ProfilePage.InitializeAsync(null);
-            JobPage.InitializeAsync(null);
-
-            //Initializing ExplorePage
-
-            //Initializing NotifyPage
-
-            //Initializing MessagePage
-
+            ExplorePage = Locator.Instance.Resolve<CandidateExploreViewModel>() as ViewModelBase;
         }
 
         private async Task MasterMenuItemTappedAsync(object item)
@@ -158,13 +174,38 @@ namespace AppCRM.ViewModels.Main.Candidate
                 switch ((item as Views.Main.MenuItem).Title)
                 {
                     case "Profile":
-                        await _navigationService.NavigateToAsync<CandidateProfileViewModel>();
+                        OpenMainPageAsync();
                         break;
                     case "Account Setting":
                         await OpenChangePasswordPage();
                         break;
                     case "Sign out":
                         OpenSignoutPage();
+                        break;
+                }
+            }
+        }
+        private async void RenderTabContent(object obj)
+        {
+            if (obj is int index)
+            {
+                TabHeaderMode = TabDisplayMode.ImageWithText;
+                switch (index)
+                {
+                    case 0: //Profile Tab
+                        if (!this.IsProfilePageRendered)
+                        {
+                            await ProfilePage.InitializeAsync(null);
+                        }
+                        break;
+                    case 1: //Job Tab
+                        if (!this.IsJobPageRendered)
+                        {
+                            await JobPage.InitializeAsync(null);
+                        }
+                        break;
+                    case 2: //Explore Tab
+                        await ExplorePage.InitializeAsync(null);
                         break;
                 }
             }
@@ -209,16 +250,31 @@ namespace AppCRM.ViewModels.Main.Candidate
             await _dialogService.CloseLoadingPopup(pop);
         }
 
-        private async Task OpenMainPageAsync()
+        private void OpenMainPageAsync()
         {
-            SelectedIndex = 0;
-            await ProfilePage.InitializeAsync(null);
+            CandidateMainViewModel.Current.SelectTab(CandidateTab.Profile);
+            //await ProfilePage.InitializeAsync(null);
         }
 
         public override async Task InitializeAsync(object navigationData)
         {
+            await ProfilePage.InitializeAsync(null);
             AvartarUrl = RequestService.HOST_NAME + "api/Document/GetContactImageByContactID?id=" + App.ContactID.ToString();
             UserName = App.UserName;
         }
+
+        public void SelectTab(CandidateTab tab)
+        {
+            this.SelectedIndex = (int)tab;
+        }
+    }
+
+    public enum CandidateTab
+    {
+        Profile = 0,
+        Job = 1,
+        Explore = 2,
+        Notify = 3,
+        Message = 4
     }
 }
