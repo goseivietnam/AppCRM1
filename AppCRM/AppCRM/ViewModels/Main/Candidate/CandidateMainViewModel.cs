@@ -259,7 +259,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         public override async Task InitializeAsync(object navigationData)
         {
             await ProfilePage.InitializeAsync(null);
-            AvartarUrl = RequestService.HOST_NAME + "api/Document/GetContactImageByContactID?id=" + App.ContactID.ToString();
+            AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImageByContactID?id=" + App.ContactID.ToString();
             UserName = App.UserName;
         }
 

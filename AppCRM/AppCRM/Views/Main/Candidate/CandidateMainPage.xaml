@@ -13,7 +13,7 @@
                     <AbsoluteLayout>
                         <Frame CornerRadius="55" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3"
                            AbsoluteLayout.LayoutBounds=".5,20,110,110" AbsoluteLayout.LayoutFlags="XProportional">
-                            <Image Source="{Binding AvartarUrl}" Aspect="AspectFill"/>
+                            <Image Source="{Binding AvatarUrl}" Aspect="AspectFill"/>
                         </Frame>
                     </AbsoluteLayout>
                     <Label Text="{Binding UserName}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
