@@ -35,6 +35,11 @@ namespace AppCRM.ViewModels.Main.Candidate
         private bool _isSearchViewVisible;
         private bool _isResultViewVisible;
         private bool _isNavigationSearchVisible;
+        private bool _isSearchDetailVisible;
+
+        private bool _isSearchFocused;
+        private bool _isTitleSearchFocused;
+        private bool _isLocationSearchFocused;
 
         // height listview
         private int _recentExploreListViewHeightRequest;
@@ -193,6 +198,55 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
+        public bool IsSearchDetailVisible
+        {
+            get
+            {
+                return _isSearchDetailVisible;
+            }
+            set
+            {
+                _isSearchDetailVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsSearchFocused
+        {
+            get
+            {
+                return _isSearchFocused;
+            }
+            set
+            {
+                _isSearchFocused = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsTitleSearchFocused
+        {
+            get
+            {
+                return _isTitleSearchFocused;
+            }
+            set
+            {
+                _isTitleSearchFocused = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsLocationSearchFocused
+        {
+            get
+            {
+                return _isLocationSearchFocused;
+            }
+            set
+            {
+                _isLocationSearchFocused = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int RecentExploreListViewHeightRequest
         {
@@ -234,10 +288,13 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand RecentExploreListViewCommand => new AsyncCommand(RecentExploreListView_ItemTappedAsync);
         public ICommand JobsBtnCommand => new AsyncCommand(SelectJobTabAsync);
         public ICommand CompaniesBtnCommand => new AsyncCommand(SelectCompanyTabAsync);
-        public ICommand CancelBtnCommand => new Command(CancelExplore);
+        public ICommand CancelBtnCommand => new Command(CancelSearch);
         public ICommand BackBtnCommand => new Command(RenderLandingPage);
         public ICommand FocusSearchCommand => new Command(OnFocusSearch);
         public ICommand ClearSearchCommand => new Command(OnClearSearch);
+        public ICommand ClearTitleSearchCommand => new Command(OnClearTitleSearch);
+        public ICommand ClearLocationSearchCommand => new Command(OnClearLocationSearch);
+        public ICommand SearchCompletedCommand => new AsyncCommand(OnSearchCompletedAsync);
 
         private void RenderLandingPage()
         {
@@ -248,6 +305,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             IsSearchViewVisible = true;
             IsResultViewVisible = false;
             IsNavigationSearchVisible = true;
+            IsSearchDetailVisible = false;
             CandidateMainViewModel.Current.TabHeaderMode = TabDisplayMode.NoHeader;
 
             CurrentExploreItem = new ExploreItem();
@@ -256,30 +314,68 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             if (obj is ExploreItem item)
             {
-                await SearchAndPopulate(item);
+                CurrentExploreItem = new ExploreItem(item);
+                await SearchAndPopulate();
             }
         }
         private async Task SelectJobTabAsync()
         {
-            await SearchAndPopulate(new ExploreItem { ExploreCategory = ExploreCategory.Jobs });
+            CurrentExploreItem = new ExploreItem { ExploreCategory = ExploreCategory.Jobs };
+            await SearchAndPopulate();
         }
         private async Task SelectCompanyTabAsync()
         {
-            await SearchAndPopulate(new ExploreItem { ExploreCategory = ExploreCategory.Companies });
+            CurrentExploreItem = new ExploreItem { ExploreCategory = ExploreCategory.Companies };
+            await SearchAndPopulate();
         }
-        private void CancelExplore()
+        private void CancelSearch()
         {
-            CandidateMainViewModel.Current.SelectTab(CandidateTab.Profile);
+            if (!IsTriggerFocusVisible)
+            {
+                RenderLandingPage();
+            }
+            else
+            {
+                CandidateMainViewModel.Current.SelectTab(CandidateTab.Profile);
+            }
         }
         private void OnFocusSearch(object obj)
         {
-            RenderLandingPage();
-            IsBackButtonVisible = true;
-            IsNavigationSearchVisible = false;
+            if(obj != null && obj is bool && (bool)obj)
+            {
+                IsBackButtonVisible = true;
+                IsTriggerFocusVisible = false;
+                IsCancelButtonVisible = true;
+                IsFilterButtonVisible = false;
+                IsSearchViewVisible = true;
+                IsResultViewVisible = false;
+                IsNavigationSearchVisible = false;
+
+                IsSearchFocused = false;
+                IsSearchDetailVisible = true;
+                IsTitleSearchFocused = true;
+            }
         }
         private void OnClearSearch()
         {
             CurrentExploreItem = new ExploreItem();
+            IsSearchFocused = true;
+        }
+        private void OnClearTitleSearch()
+        {
+            CurrentExploreItem.Title = string.Empty;
+            CurrentExploreItem = new ExploreItem(CurrentExploreItem);
+            IsTitleSearchFocused = true;
+        }
+        private void OnClearLocationSearch()
+        {
+            CurrentExploreItem.Location = string.Empty;
+            CurrentExploreItem = new ExploreItem(CurrentExploreItem);
+            IsLocationSearchFocused = true;
+        }
+        private async Task OnSearchCompletedAsync(object obj)
+        {
+            await SearchAndPopulate();
         }
 
         public override async Task InitializeAsync(object navigationData)
@@ -296,14 +392,15 @@ namespace AppCRM.ViewModels.Main.Candidate
                 new ExploreItem { Title = "ios developer", Location = "Queensland" }
             };
 
-            JobListViewHeightRequest = 30;
-            CompanyListViewHeightRequest = 30;
+            Vacancies = new List<Vacancy>();
+            Companies = new List<Company>();
+
             RecentExploreListViewHeightRequest = RecentExploreItems.Count * 40 + 40;
             CandidateMainViewModel.Current.IsExplorePageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
         }
 
-        private async Task SearchAndPopulate(ExploreItem exploreItem)
+        private async Task SearchAndPopulate()
         {
             var pop = await _dialogService.OpenLoadingPopup();
 
@@ -314,11 +411,14 @@ namespace AppCRM.ViewModels.Main.Candidate
             IsSearchViewVisible = false;
             IsResultViewVisible = true;
             IsNavigationSearchVisible = false;
-            SelectedIndex = (int)exploreItem.ExploreCategory;
+            IsSearchDetailVisible = false;
+            SelectedIndex = (int)CurrentExploreItem.ExploreCategory;
             CandidateMainViewModel.Current.TabHeaderMode = TabDisplayMode.ImageWithText;
+            CurrentExploreItem = new ExploreItem(CurrentExploreItem);
 
-            CurrentExploreItem = exploreItem;
 
+            JobListViewHeightRequest = Vacancies.Count * 100;
+            CompanyListViewHeightRequest = Companies.Count * 100;
             await _dialogService.CloseLoadingPopup(pop);
         }
     }
@@ -357,6 +457,17 @@ namespace AppCRM.ViewModels.Main.Candidate
                     }
                 }
             }
+        }
+
+        public ExploreItem()
+        {
+        }
+
+        public ExploreItem(ExploreItem obj)
+        {
+            this.Title = obj.Title;
+            this.Location = obj.Location;
+            this.ExploreCategory = obj.ExploreCategory;
         }
     }
 

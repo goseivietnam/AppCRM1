@@ -18,9 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Main\Candidate\ExplorePage\LandingPage.xaml.cs">
-      <DependentUpon>LandingPage.xaml</DependentUpon>
-    </Compile>
     <Compile Update="Views\Main\Candidate\ProfilePage\AddWorkExpriencePage.xaml.cs">
       <DependentUpon>AddWorkExpriencePage.xaml</DependentUpon>
     </Compile>
@@ -97,5 +94,6 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\Main\Candidate\Explore\" />
+    <Folder Include="Views\Main\Candidate\ExplorePage\" />
   </ItemGroup>
 </Project>

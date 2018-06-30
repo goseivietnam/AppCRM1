@@ -8,18 +8,38 @@
     <ContentView.Content>
         <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
             <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
-                <Button BackgroundColor="Transparent" Image="icon_back.png" WidthRequest="40" HorizontalOptions="Start" Command="{Binding BackBtnCommand}" IsVisible="{Binding IsBackButtonVisible}"/>
-                <Frame BackgroundColor="White" CornerRadius="4" HorizontalOptions="FillAndExpand" Padding="0" Margin="10,0,0,0" IsClippedToBounds="True" VerticalOptions="Center" IsVisible="{Binding IsTriggerFocusVisible}">
-                    <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
-                        <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
-                        <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Search" PlaceholderColor="#7F8890" 
+                <Button BackgroundColor="Transparent" Image="icon_back.png" WidthRequest="40" HeightRequest="40" HorizontalOptions="Start" VerticalOptions="Start" Command="{Binding BackBtnCommand}" IsVisible="{Binding IsBackButtonVisible}"/>
+                <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="0">
+                    <Frame BackgroundColor="White" CornerRadius="4" Padding="0" Margin="10,0,0,0" IsClippedToBounds="True" IsVisible="{Binding IsTriggerFocusVisible}" VerticalOptions="CenterAndExpand">
+                        <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
+                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                            <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Search" PlaceholderColor="#7F8890" HasFocus="{Binding IsSearchFocused, Mode=TwoWay}"
                                                   BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Display}"
-                                                  behaviors:FocusedCommandBorderlessEntry.FocusedCommand="{Binding FocusSearchCommand}"/>
-                        <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearSearchCommand}"/>
-                    </StackLayout>
-                </Frame>
-                <Button Text="Cancel" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" WidthRequest="70" IsVisible="{Binding IsCancelButtonVisible}" Command="{Binding CancelBtnCommand}"/>
-                <Button Text="Filter" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" WidthRequest="60" IsVisible="{Binding IsFilterButtonVisible}"/>
+                                                  behaviors:FocusChangedCommandBorderlessEntry.FocusChangedCommand="{Binding FocusSearchCommand}"/>
+                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearSearchCommand}"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame BackgroundColor="White" CornerRadius="4" Padding="0" Margin="10,5,0,0" IsClippedToBounds="True" IsVisible="{Binding IsSearchDetailVisible}" VerticalOptions="CenterAndExpand">
+                        <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
+                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                            <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Job title, keyword or company" HasFocus="{Binding IsTitleSearchFocused, Mode=TwoWay}"
+                                                      PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Title, Mode=TwoWay}" ReturnType="Search"
+                                                      behaviors:CompletedCommandBorderlessEntry.CompletedCommand="{Binding SearchCompletedCommand}"/>
+                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearTitleSearchCommand}"/>
+                        </StackLayout>
+                    </Frame>
+                    <Frame BackgroundColor="White" CornerRadius="4" Padding="0" Margin="10,5,0,10" IsClippedToBounds="True" IsVisible="{Binding IsSearchDetailVisible}" VerticalOptions="CenterAndExpand">
+                        <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
+                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                            <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="City, state, suburb or country" HasFocus="{Binding IsLocationSearchFocused, Mode=TwoWay}"
+                                                      PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Location, Mode=TwoWay}" ReturnType="Search"
+                                                      behaviors:CompletedCommandBorderlessEntry.CompletedCommand="{Binding SearchCompletedCommand}"/>
+                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearLocationSearchCommand}"/>
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <Button Text="Cancel" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="70" HeightRequest="40" IsVisible="{Binding IsCancelButtonVisible}" Command="{Binding CancelBtnCommand}"/>
+                <Button Text="Filter" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="60" HeightRequest="40" IsVisible="{Binding IsFilterButtonVisible}"/>
             </StackLayout>
             <ScrollView IsVisible="{Binding IsSearchViewVisible}">
                 <StackLayout Padding="10" Spacing="30">
@@ -64,7 +84,42 @@
 
                 <tabbedPage:SfTabItem Title="Jobs" TitleFontColor="WhiteSmoke" SelectionColor="White" TitleFontAttributes="Bold" TitleFontSize="14">
                     <tabbedPage:SfTabItem.Content>
-                        <ScrollView></ScrollView>
+                        <ScrollView>
+                            <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
+                                <ListView ItemsSource="{Binding Vacancies}" HeightRequest="{Binding JobListViewHeightRequest}" VerticalOptions="Start">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell Height="100">
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="70"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding PoisitionName}"/>
+                                                        <Label Text="{Binding WorksiteName}"/>
+                                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                            <Image IsVisible="{Binding IsPromoted}" Source="img_favorite_job.png" WidthRequest="12" HeightRequest="12"/>
+                                                            <Label Text="{Binding JobTypeName}" FontSize="11"/>
+                                                            <Label Text="{Binding MaxSalary, StringFormat='${0}'}" FontSize="11"/>
+                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
+                                                        <Label Text="{Binding AppliedDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </ScrollView>
                     </tabbedPage:SfTabItem.Content>
                 </tabbedPage:SfTabItem>
 

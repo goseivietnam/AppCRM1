@@ -7,7 +7,6 @@ using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Views;
 using AppCRM.Views.Account;
 using AppCRM.Views.Main.Candidate;
-using AppCRM.Views.Main.Candidate.ExplorePage;
 using AppCRM.Views.Main.Candidate.JobPage;
 using AppCRM.Views.Main.Candidate.ProfilePage;
 using Rg.Plugins.Popup.Pages;
