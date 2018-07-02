@@ -4,12 +4,9 @@ using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
-using Newtonsoft.Json;
-using Rg.Plugins.Popup.Services;
+using AppCRM.ViewModels.Main.Candidate.Explore;
 using Syncfusion.XForms.TabView;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -296,6 +293,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand ClearTitleSearchCommand => new Command(OnClearTitleSearch);
         public ICommand ClearLocationSearchCommand => new Command(OnClearLocationSearch);
         public ICommand SearchCompletedCommand => new AsyncCommand(OnSearchCompletedAsync);
+        public ICommand FilterBtnCommand => new AsyncCommand(OnFilterBtn);
 
         private void RenderLandingPage()
         {
@@ -378,6 +376,10 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             await SearchAndPopulate();
         }
+        private async Task OnFilterBtn()
+        {
+            await _navigationService.NavigateToPopupAsync<FiltersViewModel>(true);
+        }
 
         public override async Task InitializeAsync(object navigationData)
         {
@@ -395,12 +397,12 @@ namespace AppCRM.ViewModels.Main.Candidate
 
             Vacancies = new List<Vacancy>();
             Companies = new List<Company>();
-            SearchParameters parameters = new SearchParameters { CurrentPage = 1, JobTotal = 10};
-            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
-            if (obj != null)
-            {
-                Vacancies= JsonConvert.DeserializeObject<Vacancy>(obj.ToString());
-            }
+            //SearchParameters parameters = new SearchParameters { CurrentPage = 1, JobTotal = 10};
+            //dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
+            //if (obj != null)
+            //{
+            //    Vacancies= JsonConvert.DeserializeObject<Vacancy>(obj.ToString());
+            //}
 
             RecentExploreListViewHeightRequest = RecentExploreItems.Count * 40 + 40;
             CandidateMainViewModel.Current.IsExplorePageRendered = true;

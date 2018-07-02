@@ -18,6 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Main\Candidate\ExplorePage\FiltersPage.xaml.cs">
+      <DependentUpon>FiltersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\Main\Candidate\ProfilePage\AddWorkExpriencePage.xaml.cs">
       <DependentUpon>AddWorkExpriencePage.xaml</DependentUpon>
     </Compile>
@@ -43,6 +46,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Main\Candidate\CandidateExplorePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Main\Candidate\ExplorePage\FiltersPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Main\Candidate\ProfilePage\AccountSettingPage.xaml">
@@ -90,10 +96,5 @@
     <EmbeddedResource Update="Views\Shared\MessagePopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\Main\Candidate\Explore\" />
-    <Folder Include="Views\Main\Candidate\ExplorePage\" />
   </ItemGroup>
 </Project>

@@ -2,11 +2,13 @@
 using AppCRM.ViewModels.Account;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate;
+using AppCRM.ViewModels.Main.Candidate.Explore;
 using AppCRM.ViewModels.Main.Candidate.Job;
 using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Views;
 using AppCRM.Views.Account;
 using AppCRM.Views.Main.Candidate;
+using AppCRM.Views.Main.Candidate.ExplorePage;
 using AppCRM.Views.Main.Candidate.JobPage;
 using AppCRM.Views.Main.Candidate.ProfilePage;
 using Rg.Plugins.Popup.Pages;
@@ -194,6 +196,7 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(AccountSettingViewModel), typeof(AccountSettingPage));
             _mappings.Add(typeof(JobDetailViewModel), typeof(JobDetailPage));
             _mappings.Add(typeof(CandidateExploreViewModel), typeof(CandidateExplorePage));
+            _mappings.Add(typeof(FiltersViewModel),typeof(FiltersPage));
         }
         #endregion
     }

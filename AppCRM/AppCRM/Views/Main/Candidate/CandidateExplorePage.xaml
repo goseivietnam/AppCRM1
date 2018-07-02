@@ -39,7 +39,7 @@
                     </Frame>
                 </StackLayout>
                 <Button Text="Cancel" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="70" HeightRequest="40" IsVisible="{Binding IsCancelButtonVisible}" Command="{Binding CancelBtnCommand}"/>
-                <Button Text="Filter" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="60" HeightRequest="40" IsVisible="{Binding IsFilterButtonVisible}"/>
+                <Button Text="Filter" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="60" HeightRequest="40" IsVisible="{Binding IsFilterButtonVisible}" Command="{Binding FilterBtnCommand}}"/>
             </StackLayout>
             <ScrollView IsVisible="{Binding IsSearchViewVisible}">
                 <StackLayout Padding="10" Spacing="30">
