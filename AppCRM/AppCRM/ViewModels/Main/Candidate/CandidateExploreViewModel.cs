@@ -6,6 +6,7 @@ using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate.Explore;
+using Newtonsoft.Json;
 using Syncfusion.XForms.TabView;
 using System.Collections.Generic;
 using System.Threading.Tasks;
