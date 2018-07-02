@@ -86,7 +86,7 @@ namespace AppCRM.Models
         public string PostalCode { get; set; }
 
         public Guid? BusinessTypeID { get; set; }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + AccountID.ToString(); }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
         #endregion
     }
 }

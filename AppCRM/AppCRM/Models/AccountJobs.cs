@@ -28,7 +28,7 @@ namespace AppCRM.Models
         public String Country { get; set; }
         public bool Applied { get; set; }
         public Guid? ObjectID { get; set; }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + ObjectID.ToString(); }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (ObjectID == null ? "" : ObjectID.ToString());}
 
         public String KeyWord { get; set; }
         public String Location { get; set; }
@@ -64,7 +64,7 @@ namespace AppCRM.Models
 
 
         public DateTime? CloseDate { get; set; }
- 
+
         //public int Quantity { get; set; }
         public String City { get; set; }
         public String State { get; set; }
@@ -194,7 +194,7 @@ namespace AppCRM.Models
         //public String Assessment { get; set; }
         //public String AssessmentLabel { get; set; }
         public int AppliedDay { get { return (int)Math.Round((DateTime.Now - this.AppliedDate).TotalDays); } }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + AccountID.ToString(); }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
         public List<JobRequire> Requires { get; set; }
         public List<UserContactTask> ToDoTasks { get; set; }
         public List<UserContactTask> CompleteTasks { get; set; }
@@ -434,7 +434,8 @@ namespace AppCRM.Models
         public string ThirdPartyURL { get; set; }
         public string WorksiteName { get; set; }
         public int OpenDurationDay { get { return (int)Math.Round((DateTime.Now - this.OpenDate.Value).TotalDays); } }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + AccountID.ToString(); }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
+        public string TenantLogoSource { get => RequestService.HOST_NAME + "api/Document/Get?id=" + (TenantLogo == null ? "" : TenantLogo.ToString()); }
         #endregion
     }
 }
