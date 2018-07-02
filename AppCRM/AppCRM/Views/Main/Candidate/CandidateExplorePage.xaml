@@ -111,7 +111,7 @@
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">
                                                         <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
-                                                        <Label Text="{Binding AppliedDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
+                                                        <Label Text="{Binding RemainingDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
                                                     </StackLayout>
                                                 </Grid>
                                             </ViewCell>
@@ -125,7 +125,39 @@
 
                 <tabbedPage:SfTabItem Title="Companies" TitleFontColor="WhiteSmoke" SelectionColor="White" TitleFontAttributes="Bold" TitleFontSize="14">
                     <tabbedPage:SfTabItem.Content>
-                        <ScrollView></ScrollView>
+                        <ScrollView>
+                            <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
+                                <ListView ItemsSource="{Binding Vacancies}" HeightRequest="{Binding CompanyListViewHeightRequest}" VerticalOptions="Start">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell Height="100">
+                                                <Grid Padding="10">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="70"/>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="40"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Grid.Column="0">
+                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="1">
+                                                        <Label Text="{Binding Name}"/>
+                                                        <Label Text="{Binding Type}"/>
+                                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                            <Label Text="{Binding Website}" FontSize="11"/>
+                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <StackLayout Grid.Column="2" Padding="0">
+                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </ScrollView>
                     </tabbedPage:SfTabItem.Content>
                 </tabbedPage:SfTabItem>
             </tabbedPage:SfTabView>

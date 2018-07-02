@@ -6,7 +6,7 @@ namespace AppCRM.Models
     {
         public string Keyword { get; set; }
         public string Location { get; set; }
-        public Guid JobTypeId { get; set; }
+        public Guid? JobTypeId { get; set; }
         public string JobTypeIds { get; set; }
         public string SalaryEstimateIds { get; set; }
         public string CategoryIds { get; set; }
@@ -15,7 +15,7 @@ namespace AppCRM.Models
         public string SkillsIds { get; set; }
         public string QualificationsIds { get; set; }
         public string TicketLicensesIds { get; set; }
-        public bool SaveSearchCriterias { get; set; }
+        public bool? SaveSearchCriterias { get; set; }
         public bool? IsExperience { get; set; }
         public bool? IsQualification { get; set; }
         public bool? IsWorkRights { get; set; }
