@@ -4,6 +4,7 @@ using AppCRM.Services.Dialog;
 using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using Syncfusion.XForms.TabView;
 using System;
@@ -394,6 +395,12 @@ namespace AppCRM.ViewModels.Main.Candidate
 
             Vacancies = new List<Vacancy>();
             Companies = new List<Company>();
+            SearchParameters parameters = new SearchParameters { CurrentPage = 1, JobTotal = 10};
+            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
+            if (obj != null)
+            {
+                Vacancies= JsonConvert.DeserializeObject<Vacancy>(obj.ToString());
+            }
 
             RecentExploreListViewHeightRequest = RecentExploreItems.Count * 40 + 40;
             CandidateMainViewModel.Current.IsExplorePageRendered = true;
