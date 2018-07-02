@@ -8,7 +8,7 @@ namespace AppCRM.Services.Candidate
 {
     public interface ICandidateExploreService
     {
-
+        Task<dynamic> GetCandidateJobsSearch(SearchParameters parameters);
     }
 
     class CandidateExploreService : ICandidateExploreService
@@ -18,6 +18,12 @@ namespace AppCRM.Services.Candidate
         public CandidateExploreService(IRequestService requestService)
         {
             _requestService = requestService;
+        }
+
+        public async Task<dynamic> GetCandidateJobsSearch(SearchParameters parameters)
+        {
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/GetCandidateJobsSearch", parameters);
+            return result;
         }
     }
 }
