@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:animations="clr-namespace:AppCRM.Effects"
+                 x:Class="AppCRM.Views.Main.Candidate.ExplorePage.FiltersPage" BackgroundColor="Transparent">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Content>
+        <Grid Margin="10,0,0,0" BackgroundColor="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="-10,0,0,-6">
+                <Grid BackgroundColor="#2A76FD">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Image="icon_back.png" Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="Start"/>
+                    <Label Grid.Column="1" Text="Filters" TextColor="WhiteSmoke" VerticalOptions="Center" FontSize="16" HorizontalOptions="CenterAndExpand"/>
+                    <Button Grid.Column="2" Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveProfileCommand}" BackgroundColor="#2A76FD" HorizontalOptions="End"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackLayout>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
+                    <StackLayout BackgroundColor="#F9F9F9" Padding="15,10,0,10" Margin="-10,-6,0,-6">
+                        <Label Text="FURTHER FILTER RESULT" FontSize="12" TextColor="#959DA3" />
+                    </StackLayout>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Job type" TextColor="Black" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Salary Estimate" TextColor="Black" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Category" TextColor="Black" />
+                        <Label Grid.Column="1" Text="3 item" FontSize="12" TextColor="#959DA3" HorizontalOptions="End" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Location" TextColor="Black" />
+                        <Label Grid.Column="1" Text="Queensland" FontSize="12" TextColor="#959DA3" HorizontalOptions="End" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Position" TextColor="Black" />
+                        <Label Grid.Column="1" Text="2 item" FontSize="12" TextColor="#959DA3" HorizontalOptions="End" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                </StackLayout>
+            </Grid>
+            <Grid Grid.Row="2" Margin="0,-6,0,0">
+                <StackLayout>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
+                    <StackLayout BackgroundColor="#F9F9F9" Padding="15,10,0,10" Margin="-10,-6,0,-6">
+                        <Label Text="MORE FILTER" FontSize="12" TextColor="#959DA3" />
+                    </StackLayout>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Skill" TextColor="Black" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Qualification" TextColor="Black" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <Grid Margin="0,5,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*" />
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Text="Ticket/Lisence" TextColor="Black" />
+                        <StackLayout Grid.Column="2">
+                            <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
+                        </StackLayout>
+                    </Grid>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</pages:PopupPage>

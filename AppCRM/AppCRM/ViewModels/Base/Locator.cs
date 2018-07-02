@@ -11,6 +11,7 @@ using AppCRM.Services.Employer;
 using AppCRM.ViewModels.Main.Candidate.Profile;
 using AppCRM.Services.Candidate;
 using AppCRM.ViewModels.Main.Candidate.Job;
+using AppCRM.ViewModels.Main.Candidate.Explore;
 
 namespace AppCRM.ViewModels.Base
 {
@@ -64,6 +65,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<AccountSettingViewModel>();
             _containerBuilder.RegisterType<JobDetailViewModel>();
             _containerBuilder.RegisterType<CandidateExploreViewModel>();
+            _containerBuilder.RegisterType<FiltersViewModel>();
         }
         #endregion
 
