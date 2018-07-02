@@ -24,4 +24,12 @@ namespace AppCRM.Models
         public int JobTotal { get; set; }
         public int CurrentPage { get; set; }
     }
+
+    public class EmployerSearchFilter
+    {
+        public string KeySearch1 { get; set; }
+        public string KeySearch2 { get; set; }
+        public int PageSize { get; set; }
+        public int CurrentPage { get; set; }
+    }
 }

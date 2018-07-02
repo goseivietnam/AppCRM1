@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppCRM.Services.Request;
+using System;
 
 namespace AppCRM.Models
 {
@@ -47,10 +48,7 @@ namespace AppCRM.Models
 
         public string RoleName { get; set; }
 
-        public string AboutUs
-        {
-            get; set;
-        }
+        public string AboutUs { get; set; }
 
         public Guid? AccountLogo { get; set; }
         public bool AccountLogoIsCircle { get; set; }
@@ -64,13 +62,7 @@ namespace AppCRM.Models
         public String Position { get; set; }
         public String Country { get; set; }
 
-        ///// <summary>
-        ///// Total number of open vacancy
-        ///// </summary>
-        //public int VacancyNumber { get; set; }
-
         public string ClassificationIds { get; set; }
-
         public string Classification { get; set; }
         public string Quickfilter { get; set; }
 
@@ -89,12 +81,12 @@ namespace AppCRM.Models
         public string VideoLink { get; set; }
 
         public string TimeZone { get; set; }
-
         public string CityName { get; set; }
 
         public string PostalCode { get; set; }
 
         public Guid? BusinessTypeID { get; set; }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + AccountID.ToString(); }
         #endregion
     }
 }

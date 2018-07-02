@@ -1,6 +1,7 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.Candidate;
 using AppCRM.Services.Dialog;
+using AppCRM.Services.Employer;
 using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
@@ -19,12 +20,13 @@ namespace AppCRM.ViewModels.Main.Candidate
     public class CandidateExploreViewModel : ViewModelBase
     {
         private readonly ICandidateExploreService _candidateExploreService;
+        private readonly IEmployerJobService _employerJobService;
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
 
         private int _selectedIndex;
-        private List<Vacancy> _vacancies;
-        private List<Company> _companies;
+        private List<ContactJobs> _vacancies;
+        private List<Models.Account> _companies;
         private List<ExploreItem> _recentExploreItems;
         private ExploreItem _currentExploreItem;
 
@@ -47,9 +49,10 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _jobListViewHeightRequest;
         private int _companyListViewHeightRequest;
 
-        public CandidateExploreViewModel(ICandidateExploreService candidateExploreService, INavigationService navigationService, IDialogService dialogService)
+        public CandidateExploreViewModel(ICandidateExploreService candidateExploreService, IEmployerJobService employerJobService, INavigationService navigationService, IDialogService dialogService)
         {
             _candidateExploreService = candidateExploreService;
+            _employerJobService = employerJobService;
             _navigationService = navigationService;
             _dialogService = dialogService;
         }
@@ -66,7 +69,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public List<Vacancy> Vacancies
+        public List<ContactJobs> Vacancies
         {
             get
             {
@@ -78,7 +81,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public List<Company> Companies
+        public List<Models.Account> Companies
         {
             get
             {
@@ -342,7 +345,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         }
         private void OnFocusSearch(object obj)
         {
-            if(obj != null && obj is bool && (bool)obj)
+            if (obj != null && obj is bool && (bool)obj)
             {
                 IsBackButtonVisible = true;
                 IsTriggerFocusVisible = false;
@@ -393,16 +396,9 @@ namespace AppCRM.ViewModels.Main.Candidate
                 new ExploreItem { Title = "ios developer", Location = "Queensland" }
             };
 
-            Vacancies = new List<Vacancy>();
-            Companies = new List<Company>();
-            SearchParameters parameters = new SearchParameters { CurrentPage = 1, JobTotal = 10};
-            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
-            if (obj != null)
-            {
-                Vacancies= JsonConvert.DeserializeObject<Vacancy>(obj.ToString());
-            }
-
+            //Companies = new List<Models.Account>();
             RecentExploreListViewHeightRequest = RecentExploreItems.Count * 40 + 40;
+
             CandidateMainViewModel.Current.IsExplorePageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
         }
@@ -423,6 +419,31 @@ namespace AppCRM.ViewModels.Main.Candidate
             CandidateMainViewModel.Current.TabHeaderMode = TabDisplayMode.ImageWithText;
             CurrentExploreItem = new ExploreItem(CurrentExploreItem);
 
+            SearchParameters parameters = new SearchParameters { CurrentPage = 1, JobTotal = 10 };
+            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
+            if (obj["Jobs"] != null)
+            {
+                Vacancies = JsonConvert.DeserializeObject<List<ContactJobs>>(obj["Jobs"].ToString());
+            }
+            else
+            {
+                Vacancies = new List<ContactJobs>();
+            }
+
+            EmployerSearchFilter filter = new EmployerSearchFilter {
+                KeySearch1 = CurrentExploreItem.Title,
+                KeySearch2 = CurrentExploreItem.Location,
+                CurrentPage = 1,
+                PageSize = 10 };
+            dynamic objEmployerlist = await _employerJobService.GetEmployerList(filter);
+            if (objEmployerlist["employers"] != null)
+            {
+                Companies = JsonConvert.DeserializeObject<List<Models.Account>>(objEmployerlist["employers"].ToString());
+            }
+            else
+            {
+                Companies = new List<Models.Account>();
+            }
 
             JobListViewHeightRequest = Vacancies.Count * 100;
             CompanyListViewHeightRequest = Companies.Count * 100;

@@ -380,4 +380,61 @@ namespace AppCRM.Models
         public DateTime? Modifiedon { get; set; }
         public int EmployeeCount { get; set; }
     }
+
+    public class ContactJobs
+    {
+        #region Variable Declaration
+        public Guid? ContactID { get; set; }
+
+        public Contact Contact { get; set; }
+
+        public AccountJobs Job { get; set; }
+
+        public DateTime? AppliedDate { get; set; }
+
+        public Guid? AccountID { get; set; }
+
+        public Guid? StatusID { get; set; }
+
+        public Guid? TenantID { get; set; }
+
+        public Guid? TenantLogo { get; set; }
+        public String TenantName { get; set; }
+
+        public Guid? ClassificationID { get; set; }
+        public Guid? SalaryRangeUnitID { get; set; }
+        public Guid? JobTypeID { get; set; }
+        public String JobTypeName { get; set; }
+        public String Status { get; set; }
+        public Guid? EmployerID { get; set; }
+        public int DateRange { get; set; }
+        public Guid? VacancyID { get; set; }
+        public String Company { get; set; }
+        public String Title { get; set; }
+        public String Salary { get; set; }
+        public String Country { get; set; }
+        public String Applied { get; set; }
+
+        public Guid? ObjectID { get; set; }
+        public String KeyWord { get; set; }
+        public String Location { get; set; }
+        public String JobType { get; set; }
+        public String Description { get; set; }
+        public DateTime? OpenDate { get; set; }
+        public Guid? AccountLogo { get; set; }
+        public String CurrencyName { get; set; }
+        public string ProfileImageLink { get; set; }
+        public bool? IsCoverLetterRequired { get; set; }
+        public string ContentCoverLetter { get; set; }
+        public Guid? Signature { get; set; }
+        public Guid? FavouriteCandidateID { get; set; }
+        public bool? IsPromoted { get; set; }
+        public bool? IsOwner { get; set; }
+        public bool? AreRefereesRequired { get; set; }
+        public string ThirdPartyURL { get; set; }
+        public string WorksiteName { get; set; }
+        public int OpenDurationDay { get { return (int)Math.Round((DateTime.Now - this.OpenDate.Value).TotalDays); } }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + AccountID.ToString(); }
+        #endregion
+    }
 }

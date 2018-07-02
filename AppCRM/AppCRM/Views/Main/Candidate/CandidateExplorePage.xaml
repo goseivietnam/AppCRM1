@@ -86,7 +86,7 @@
                     <tabbedPage:SfTabItem.Content>
                         <ScrollView>
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
-                                <ListView ItemsSource="{Binding Vacancies}" HeightRequest="{Binding JobListViewHeightRequest}" VerticalOptions="Start">
+                                <ListView ItemsSource="{Binding Vacancies}" HeightRequest="{Binding JobListViewHeightRequest}" VerticalOptions="Start" RowHeight="100">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell Height="100">
@@ -100,18 +100,18 @@
                                                         <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding PoisitionName}"/>
-                                                        <Label Text="{Binding WorksiteName}"/>
+                                                        <Label Text="{Binding Title}"/>
+                                                        <Label Text="{Binding Company}"/>
                                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                            <Image IsVisible="{Binding IsPromoted}" Source="img_favorite_job.png" WidthRequest="12" HeightRequest="12"/>
+                                                            <Image Source="{Binding ImageSource}" WidthRequest="12" HeightRequest="12"/>
                                                             <Label Text="{Binding JobTypeName}" FontSize="11"/>
-                                                            <Label Text="{Binding MaxSalary, StringFormat='${0}'}" FontSize="11"/>
-                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                            <Label Text="{Binding Salary, StringFormat='${0}'}" FontSize="11"/>
+                                                            <Label Text="{Binding WorksiteName}" FontSize="11"/>
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">
                                                         <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
-                                                        <Label Text="{Binding RemainingDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
+                                                        <Label Text="{Binding OpenDurationDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
                                                     </StackLayout>
                                                 </Grid>
                                             </ViewCell>
@@ -127,7 +127,7 @@
                     <tabbedPage:SfTabItem.Content>
                         <ScrollView>
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
-                                <ListView ItemsSource="{Binding Vacancies}" HeightRequest="{Binding CompanyListViewHeightRequest}" VerticalOptions="Start">
+                                <ListView ItemsSource="{Binding Companies}" HeightRequest="{Binding CompanyListViewHeightRequest}" VerticalOptions="Start" RowHeight="100">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell Height="100">
@@ -141,11 +141,11 @@
                                                         <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding Name}"/>
-                                                        <Label Text="{Binding Type}"/>
+                                                        <Label Text="{Binding AccountName}"/>
+                                                        <Label Text="{Binding IndustryName}"/>
                                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                            <Label Text="{Binding Website}" FontSize="11"/>
-                                                            <Label Text="{Binding Location}" FontSize="11"/>
+                                                            <Label Text="{Binding WebSite}" FontSize="11"/>
+                                                            <Label Text="{Binding CityName}" FontSize="11"/>
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">

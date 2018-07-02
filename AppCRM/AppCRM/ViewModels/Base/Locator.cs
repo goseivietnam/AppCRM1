@@ -43,6 +43,7 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<CandidateJobService>().As<ICandidateJobService>();
             _containerBuilder.RegisterType<CandidateExploreService>().As<ICandidateExploreService>();
             _containerBuilder.RegisterType<EmployerDetailService>().As<IEmployerDetailService>();
+            _containerBuilder.RegisterType<EmployerJobService>().As<IEmployerJobService>();
             //ViewModel
             _containerBuilder.RegisterType<LoginViewModel>();
             _containerBuilder.RegisterType<MainViewModel>();
