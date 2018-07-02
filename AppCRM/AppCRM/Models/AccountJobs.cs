@@ -257,6 +257,7 @@ namespace AppCRM.Models
         public List<ContactTemplate> Assessments { get; set; }
         public List<UserContactTask> ContactTasksTodo { get; set; }
         public List<UserContactTask> ContactTasksComplete { get; set; }
+        public int RemainingDay { get { return (int)Math.Round((this.CloseDate.Value - DateTime.Now).TotalDays); } }
         public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + Account.AccountID.ToString(); }
     }
 
