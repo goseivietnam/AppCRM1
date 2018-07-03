@@ -15,7 +15,8 @@ namespace AppCRM.Services.Request
 {
     public interface IRequestService
     {
-        Task<TResult> GetAsync<TResult>(string queryString);
+        Task<TResult> GetDDLAsync<TResult>(string queryString);
+        Task<TResult> GetDDLAsyncAuthority<TResult>(string queryString);
         Task<dynamic> getDataFromService(string queryString);
         Task<dynamic> getDataFromServiceAuthority(string queryString);
         Task<dynamic> postDataFromService(string url, object item);
@@ -26,7 +27,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        public static readonly string HOST_NAME = "http://7c015b8c.ngrok.io/";
+        public static readonly string HOST_NAME = "https://4ee450d6.ngrok.io/";
         public static string ACCESS_TOKEN;
         private readonly JsonSerializerSettings _serializerSettings;
 
@@ -189,7 +190,7 @@ namespace AppCRM.Services.Request
             return result;
         }
 
-        public async Task<TResult> GetAsync<TResult>(string queryString)
+        public async Task<TResult> GetDDLAsync<TResult>(string queryString)
         {
             HttpClient client = new HttpClient
             {
@@ -210,6 +211,30 @@ namespace AppCRM.Services.Request
                 throw e;
             }
            
+        }
+
+        public async Task<TResult> GetDDLAsyncAuthority<TResult>(string queryString)
+        {
+            HttpClient client = new HttpClient
+            {
+                BaseAddress = new Uri(HOST_NAME),
+                Timeout = TimeSpan.FromMilliseconds(180000)
+            };
+            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
+            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+            try
+            {
+                var response = await client.GetAsync(HOST_NAME + queryString);
+                string json = response.Content.ReadAsStringAsync().Result;
+                TResult data = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(json, _serializerSettings));
+                return data;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
         }
     }
 }

@@ -148,7 +148,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 OnPropertyChanged();
             }
         }
-
         public PickerItem NationalitySelected
         {
             get
