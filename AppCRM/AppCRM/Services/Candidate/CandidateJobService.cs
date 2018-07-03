@@ -15,8 +15,7 @@ namespace AppCRM.Services.Candidate
         Task<dynamic> GetVacancyDetails(Guid? VacancyID);
         Task<dynamic> WithDrawVacancy(Guid? VacancyID);
         Task<dynamic> ApplyVacancy(Guid? VacancyID);
-        Task<dynamic> SaveSearchDefinition(SearchParameters parameters);
-        Task<dynamic> GetSavedSearchDefinition();
+
         //Task<dynamic> GetEmployerCandidateDetail();
         //Task<dynamic> GetEmployerCandidateProfile();
         //Task<dynamic> AddEducation(ContactEducation eduction);
@@ -84,18 +83,6 @@ namespace AppCRM.Services.Candidate
         {
             object item = new Hashtable { { "VacancyID", VacancyID } };
             var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/ApplyVacancy", item);
-            return result;
-        }
-
-        public async Task<dynamic> SaveSearchDefinition(SearchParameters parameters)
-        {
-            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/SaveSearchDefinition", parameters);
-            return result;
-        }
-
-        public async Task<dynamic> GetSavedSearchDefinition()
-        {
-            var result = await _requestService.getDataFromServiceAuthority("api/CandidateJob/GetSavedSearchDefinition");
             return result;
         }
     }

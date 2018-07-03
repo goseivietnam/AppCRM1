@@ -20,7 +20,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
     public class FiltersViewModel : ViewModelBase
     {
         private readonly IDialogService _dialogService;
-        private readonly ICandidateJobService _candidateJobService;
+        private readonly ICandidateExploreService _candidateExploreService;
         private readonly IDDLService _iDDLService;
 
         private ObservableCollection<PickerItem> _jobTypeCollection;
@@ -215,10 +215,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             }
         }
 
-        public FiltersViewModel(IDialogService dialogService, ICandidateJobService candidateJobService, IDDLService iDDLService)
+        public FiltersViewModel(IDialogService dialogService, ICandidateExploreService candidateExploreService, IDDLService iDDLService)
         {
             _dialogService = dialogService;
-            _candidateJobService = candidateJobService;
+            _candidateExploreService = candidateExploreService;
             _iDDLService = iDDLService;
         }
 
@@ -234,7 +234,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
 
         private void UpdateJobType(object selectedValues)
         {
-            _fieldJobType = String.Join(",", (selectedValues as List<string>).ToArray());
+           // _fieldJobType = String.Join(",", (selectedValues as List<string>).ToArray());
         }
         private void UpdateCategory(object selectedValues)
         {
@@ -286,7 +286,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             //var LicenceDDL = await _iDDLService.GetLicenceDDL();
             //LicenceCollection = LicenceDDL.ToObservableCollection();
 
-            var objSearchDifinition = await _candidateJobService.GetSavedSearchDefinition();
+            var objSearchDifinition = await _candidateExploreService.GetSavedSearchDefinition();
             if (objSearchDifinition["parameter"] != null)
             {
                 string JobTypeIds = objSearchDifinition["parameter"]["JobTypeIds"].ToString();
@@ -315,7 +315,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 QualificationsIds = _fieldQualification,
                 TicketLicensesIds = _fieldLicence
             };
-            dynamic obj = await _candidateJobService.SaveSearchDefinition(parameter);
+            dynamic obj = await _candidateExploreService.SaveSearchDefinition(parameter);
 
             try
             {
