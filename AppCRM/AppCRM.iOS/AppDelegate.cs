@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CarouselView.FormsPlugin.iOS;
 using Foundation;
+using Syncfusion.ListView.XForms.iOS;
 using Syncfusion.XForms.iOS.TabView;
 using UIKit;
 
@@ -27,6 +28,7 @@ namespace AppCRM.iOS
             new Syncfusion.SfAutoComplete.XForms.iOS.SfAutoCompleteRenderer();
 
             global::Xamarin.Forms.Forms.Init();
+            SfListViewRenderer.Init();
             SfTabViewRenderer.Init();
             CarouselViewRenderer.Init();
             LoadApplication(new App());

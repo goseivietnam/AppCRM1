@@ -7,6 +7,7 @@ using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate.Explore;
 using Newtonsoft.Json;
+using Syncfusion.ListView.XForms;
 using Syncfusion.XForms.TabView;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -44,8 +45,9 @@ namespace AppCRM.ViewModels.Main.Candidate
 
         // height listview
         private int _recentExploreListViewHeightRequest;
-        private int _jobListViewHeightRequest;
         private int _companyListViewHeightRequest;
+
+        private ContactJobs SwipedJobItem = new ContactJobs();
 
         public CandidateExploreViewModel(ICandidateExploreService candidateExploreService, IEmployerJobService employerJobService, INavigationService navigationService, IDialogService dialogService)
         {
@@ -262,18 +264,6 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public int JobListViewHeightRequest
-        {
-            get
-            {
-                return _jobListViewHeightRequest;
-            }
-            set
-            {
-                _jobListViewHeightRequest = value;
-                OnPropertyChanged();
-            }
-        }
         public int CompanyListViewHeightRequest
         {
             get
@@ -298,6 +288,11 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand ClearLocationSearchCommand => new Command(OnClearLocationSearch);
         public ICommand SearchCompletedCommand => new AsyncCommand(OnSearchCompletedAsync);
         public ICommand FilterBtnCommand => new AsyncCommand(OnFilterBtn);
+        public ICommand JobTappedCommand => new AsyncCommand(OpenJobDetail);
+        public ICommand SwipeJobItemCommand => new Command(SwipeJobItem);
+        public ICommand ShortListChangedCommand => new Command(AddShortListTapGestureRecognizer);
+        public ICommand ApplyChangedCommand => new Command(AddApplyTapGestureRecognizer);
+        public ICommand LoadMoreVacanciesCommand => new AsyncCommand(LoadMoreVacancies);
 
         private void RenderLandingPage()
         {
@@ -384,6 +379,55 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             await _navigationService.NavigateToPopupAsync<FiltersViewModel>(true);
         }
+        private async Task OpenJobDetail(object obj)
+        {
+            var job = (obj as Syncfusion.ListView.XForms.ItemTappedEventArgs).ItemData as ContactJobs;
+
+        }
+        private void SwipeJobItem(object obj)
+        {
+            SwipedJobItem = (obj as SwipeEndedEventArgs).ItemData as ContactJobs;
+        }
+        private void AddShortListTapGestureRecognizer(object sender)
+        {
+            (sender as Button).Command = new AsyncCommand(ShortListJob);
+        }
+        private void AddApplyTapGestureRecognizer(object sender)
+        {
+            (sender as Button).Command = new AsyncCommand(ApplyJob);
+        }
+        private async Task ShortListJob()
+        {
+            if (SwipedJobItem.VacancyID.HasValue)
+            {
+                //Do Shortlist for SwipedJobItem on Server
+
+                //Refresh list
+                Vacancies.RemoveAll(r => r.VacancyID == SwipedJobItem.VacancyID);
+                Vacancies = new List<ContactJobs>(Vacancies);
+            }
+        }
+        private async Task ApplyJob()
+        {
+            if (SwipedJobItem.VacancyID.HasValue)
+            {
+                //Do Apply for SwipedJobItem on Server
+
+                //Refresh list
+                Vacancies.RemoveAll(r => r.VacancyID == SwipedJobItem.VacancyID);
+                Vacancies = new List<ContactJobs>(Vacancies);
+            }
+        }
+        private async Task LoadMoreVacancies()
+        {
+            IsBusy = true;
+
+            //Do load more
+            Vacancies.AddRange(Vacancies);
+            Vacancies = new List<ContactJobs>(Vacancies);
+
+            IsBusy = false;
+        }
 
         public override async Task InitializeAsync(object navigationData)
         {
@@ -447,8 +491,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             {
                 Companies = new List<Models.Account>();
             }
-
-            JobListViewHeightRequest = Vacancies.Count * 100;
+            
             CompanyListViewHeightRequest = Companies.Count * 100;
             await _dialogService.CloseLoadingPopup(pop);
         }

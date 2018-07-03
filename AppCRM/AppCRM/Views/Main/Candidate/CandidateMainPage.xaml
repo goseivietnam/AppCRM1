@@ -55,7 +55,7 @@
     <MasterDetailPage.Detail>
         <ContentPage>
             <ContentPage.Content>
-                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA" 
+                <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA" EnableSwiping="False"
                                       SelectedIndex="{Binding SelectedIndex}" behaviors:SelectionChangedCommandTabView.SelectionChangedCommand="{Binding SelectionChangedCommand}">
                     <tabbedPage:SfTabView.SelectionIndicatorSettings>
                         <tabbedPage:SelectionIndicatorSettings Color="#FAFAFA" Position="Top"  StrokeThickness="0"/>
