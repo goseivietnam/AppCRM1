@@ -67,7 +67,8 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" HorizontalOptions="Fill"
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding JobTypeChangeCommand}" 
-                                                         Style="{DynamicResource PrimarySfAutoComplete}">
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding JobTypeSelected,Mode=TwoWay}">
                         </autocomplete:SfAutoComplete>
                     </StackLayout>
 
@@ -78,7 +79,8 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" HorizontalOptions="Fill"
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding CategoryChangeCommand}" 
-                                                         Style="{DynamicResource PrimarySfAutoComplete}">
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding CategorySelected,Mode=TwoWay}">
                         </autocomplete:SfAutoComplete>
                     </StackLayout>
                     <StackLayout Spacing="0" Padding="10">
@@ -88,7 +90,8 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" HorizontalOptions="Fill"
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding LocationChangeCommand}" 
-                                                         Style="{DynamicResource PrimarySfAutoComplete}">
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding LocationSelected,Mode=TwoWay}">
                         </autocomplete:SfAutoComplete>
                     </StackLayout>
                     <StackLayout Spacing="0" Padding="10">
@@ -98,7 +101,8 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" HorizontalOptions="Fill"
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding PositionChangeCommand}" 
-                                                         Style="{DynamicResource PrimarySfAutoComplete}">
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding PositionSelected,Mode=TwoWay}">
                         </autocomplete:SfAutoComplete>
                     </StackLayout>
                 </StackLayout>
@@ -116,7 +120,8 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" HorizontalOptions="Fill"
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding SkillChangeCommand}" 
-                                                         Style="{DynamicResource PrimarySfAutoComplete}">
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding SkillSelected,Mode=TwoWay}">
                         </autocomplete:SfAutoComplete>
                     </StackLayout>
                     <StackLayout Spacing="0" Padding="10">
@@ -126,7 +131,8 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" HorizontalOptions="Fill"
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding QualificationChangeCommand}" 
-                                                         Style="{DynamicResource PrimarySfAutoComplete}">
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding QualificationSelected,Mode=TwoWay}">
                         </autocomplete:SfAutoComplete>
                     </StackLayout>
                     <StackLayout Spacing="0" Padding="10">
@@ -136,7 +142,8 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="True" HorizontalOptions="Fill"
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding LicenceChangeCommand}" 
-                                                         Style="{DynamicResource PrimarySfAutoComplete}">
+                                                         Style="{DynamicResource PrimarySfAutoComplete}"
+                                                         SelectedItem="{Binding LicenceSelected,Mode=TwoWay}">
                         </autocomplete:SfAutoComplete>
                     </StackLayout>
                 </StackLayout>

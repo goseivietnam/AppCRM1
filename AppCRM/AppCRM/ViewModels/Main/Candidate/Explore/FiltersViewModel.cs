@@ -4,10 +4,12 @@ using AppCRM.Services.Candidate;
 using AppCRM.Services.Dialog;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -35,6 +37,14 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private ObservableCollection<PickerItem> _qualificationSelected;
         private ObservableCollection<PickerItem> _licenceCollection;
         private ObservableCollection<PickerItem> _licenceSelected;
+
+        private string _fieldJobType;
+        private string _fieldCategory;
+        private string _fieldLocation;
+        private string _fieldPosition;
+        private string _fieldSkill;
+        private string _fieldQualification;
+        private string _fieldLicence;
 
         public ObservableCollection<PickerItem> JobTypeCollection
         {
@@ -213,21 +223,43 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         }
 
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackCommandAsync);
-        //public ICommand BtnSaveProfileCommand => new AsyncCommand(BtnSaveProfileCommandAsync);
-        public ICommand JobTypeChangeCommand => new Command(UpdateCity);
-        //public ICommand CategoryChangeCommand => new Command(UpdateCity);
-        //public ICommand LocationChangeCommand => new Command(UpdateCity);
-        //public ICommand PositionChangeCommand => new Command(UpdateCity);
-        //public ICommand SkillChangeCommand => new Command(UpdateCity);
-        //public ICommand QualificationChangeCommand => new Command(UpdateCity);
-        //public ICommand LicenceChangeCommand => new Command(UpdateCity);
+        public ICommand BtnSaveProfileCommand => new AsyncCommand(BtnSaveProfileCommandAsync);
+        public ICommand JobTypeChangeCommand => new Command(UpdateJobType);
+        public ICommand CategoryChangeCommand => new Command(UpdateCategory);
+        public ICommand LocationChangeCommand => new Command(UpdateLocation);
+        public ICommand PositionChangeCommand => new Command(UpdatePosition);
+        public ICommand SkillChangeCommand => new Command(UpdateSkill);
+        public ICommand QualificationChangeCommand => new Command(UpdateQualification);
+        public ICommand LicenceChangeCommand => new Command(UpdateLicence);
 
-        private void UpdateCity(object selectedValues)
+        private void UpdateJobType(object selectedValues)
         {
-            //Guid currentID = new Guid(selectedValues.ToString());
-            //CitySelected = CityCollection.Where(x => x.Id == currentID).FirstOrDefault();
+            _fieldJobType = String.Join(",", (selectedValues as List<string>).ToArray());
         }
-
+        private void UpdateCategory(object selectedValues)
+        {
+            _fieldCategory = String.Join(",", (selectedValues as List<string>).ToArray());
+        }
+        private void UpdateLocation(object selectedValues)
+        {
+            _fieldLocation = String.Join(",", (selectedValues as List<string>).ToArray());
+        }
+        private void UpdatePosition(object selectedValues)
+        {
+            _fieldPosition = String.Join(",", (selectedValues as List<string>).ToArray());
+        }
+        private void UpdateSkill(object selectedValues)
+        {
+            _fieldSkill = String.Join(",", (selectedValues as List<string>).ToArray());
+        }
+        private void UpdateQualification(object selectedValues)
+        {
+            _fieldQualification = String.Join(",", (selectedValues as List<string>).ToArray());
+        }
+        private void UpdateLicence(object selectedValues)
+        {
+            _fieldLicence = String.Join(",", (selectedValues as List<string>).ToArray());
+        }
 
         public override async Task InitializeAsync(object navigationData)
         {
@@ -236,29 +268,73 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             var JobTypeDDL = await _iDDLService.GetJobTypeDDL();
             JobTypeCollection = JobTypeDDL.ToObservableCollection();
 
-            var CategoryDDL = await _iDDLService.GetClassificationDDL();
-            CategoryCollection = CategoryDDL.ToObservableCollection();
+            //var CategoryDDL = await _iDDLService.GetClassificationDDL();
+            //CategoryCollection = CategoryDDL.ToObservableCollection();
 
-            var LocationDDL = await _iDDLService.GetLocationDDL("");
-            LocationCollection = LocationDDL.ToObservableCollection();
+            //var LocationDDL = await _iDDLService.GetLocationDDL("");
+            //LocationCollection = LocationDDL.ToObservableCollection();
 
-            var PositionDDL = await _iDDLService.GetPositionDDL("");
-            PositionCollection = PositionDDL.ToObservableCollection();
+            //var PositionDDL = await _iDDLService.GetPositionDDL("");
+            //PositionCollection = PositionDDL.ToObservableCollection();
 
-            var SkillDDL = await _iDDLService.GetSkillsDDL("");
-            SkillCollection = SkillDDL.ToObservableCollection();
+            //var SkillDDL = await _iDDLService.GetSkillsDDL("");
+            //SkillCollection = SkillDDL.ToObservableCollection();
 
-            var QualificationDDL = await _iDDLService.GetQualificationDDL();
-            QualificationCollection = QualificationDDL.ToObservableCollection();
+            //var QualificationDDL = await _iDDLService.GetQualificationDDL();
+            //QualificationCollection = QualificationDDL.ToObservableCollection();
 
-            var LicenceDDL = await _iDDLService.GetLicenceDDL();
-            LicenceCollection = LicenceDDL.ToObservableCollection();
+            //var LicenceDDL = await _iDDLService.GetLicenceDDL();
+            //LicenceCollection = LicenceDDL.ToObservableCollection();
+
+            var objSearchDifinition = await _candidateJobService.GetSavedSearchDefinition();
+            if (objSearchDifinition["parameter"] != null)
+            {
+                string JobTypeIds = objSearchDifinition["parameter"]["JobTypeIds"].ToString();
+                List<Guid> JobTypeIdsList = new List<Guid>();
+                foreach (var id in JobTypeIds.Split(','))
+                {
+                    JobTypeIdsList.Add(new Guid(id));
+                }
+
+                JobTypeSelected = JobTypeCollection.Where(x => JobTypeIdsList.Contains(x.Id)).ToObservableCollection();
+            }
 
             await _dialogService.CloseLoadingPopup(pop);
         }
         private async Task BtnSaveProfileCommandAsync()
         {
+            var pop = await _dialogService.OpenLoadingPopup();
+            SearchParameters parameter = new SearchParameters
+            {
+                JobTypeIds = _fieldJobType,
+                //SalaryEstimateIds = _fieldSalaryEstimateIds,
+                CategoryIds = _fieldCategory,
+                LocationIds = _fieldLocation,
+                PositionIds = _fieldPosition,
+                SkillsIds = _fieldSkill,
+                QualificationsIds = _fieldQualification,
+                TicketLicensesIds = _fieldLicence
+            };
+            dynamic obj = await _candidateJobService.SaveSearchDefinition(parameter);
 
+            try
+            {
+                if (obj["Success"] == "true")
+                {
+                    await _dialogService.PopupMessage("Save Search Difinition Successefully", "#52CD9F", "#FFFFFF");
+                    await PopupNavigation.Instance.PopAllAsync();
+                }
+                else
+                {
+                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                }
+            }
+            catch
+            {
+                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                await _dialogService.CloseLoadingPopup(pop);
+            }
+            await _dialogService.CloseLoadingPopup(pop);
         }
 
         private async Task BtnBackCommandAsync()
