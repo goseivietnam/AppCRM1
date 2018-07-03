@@ -423,7 +423,8 @@ namespace AppCRM.ViewModels.Main.Candidate
             IsBusy = true;
 
             //Do load more
-            Vacancies.AddRange(Vacancies);
+
+            //Refresh list
             Vacancies = new List<ContactJobs>(Vacancies);
 
             IsBusy = false;

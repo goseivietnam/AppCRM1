@@ -172,12 +172,12 @@ namespace AppCRM.Services.CandidateDetail
 
         public async Task<IEnumerable<PickerItem>> GetInterestedLocationsDDL()
         {
-            return await _requestService.GetAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedLocationsDDL?Filter");
+            return await _requestService.GetDDLAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedLocationsDDL?Filter");
         }
 
         public async Task<IEnumerable<PickerItem>> GetInterestedRolesDDL()
         {
-            return await _requestService.GetAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedRolesDDL?Filter");
+            return await _requestService.GetDDLAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedRolesDDL?Filter");
 
         }
     }
