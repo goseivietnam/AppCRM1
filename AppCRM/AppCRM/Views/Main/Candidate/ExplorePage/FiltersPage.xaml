@@ -8,13 +8,13 @@
         <animations:UserAnimation/>
     </pages:PopupPage.Animation>
     <ContentPage.Content>
-        <Grid Margin="10,0,0,0" BackgroundColor="White">
+        <Grid BackgroundColor="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="-10,0,0,-6">
+            <Grid Grid.Row="0" Margin="0,0,0,-6">
                 <Grid BackgroundColor="#2A76FD">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
@@ -28,12 +28,12 @@
             </Grid>
             <Grid Grid.Row="1">
                 <StackLayout>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
-                    <StackLayout BackgroundColor="#F9F9F9" Padding="15,10,0,10" Margin="-10,-6,0,-6">
+                    <BoxView HeightRequest="1" Color="#DEE2E6"></BoxView>
+                    <StackLayout BackgroundColor="#F9F9F9" Padding="15,10,0,10" Margin="0,-6,0,-6">
                         <Label Text="FURTHER FILTER RESULT" FontSize="12" TextColor="#959DA3" />
                     </StackLayout>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6"></BoxView>
+                    <Grid Padding="15,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -44,8 +44,8 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
+                    <Grid Margin="15,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -56,8 +56,8 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
+                    <Grid Margin="15,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -69,8 +69,8 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
+                    <Grid Margin="15,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -82,8 +82,8 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
+                    <Grid Margin="15,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -95,17 +95,17 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
                 </StackLayout>
             </Grid>
             <Grid Grid.Row="2" Margin="0,-6,0,0">
                 <StackLayout>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
-                    <StackLayout BackgroundColor="#F9F9F9" Padding="15,10,0,10" Margin="-10,-6,0,-6">
+                    <BoxView HeightRequest="1" Color="#DEE2E6"></BoxView>
+                    <StackLayout BackgroundColor="#F9F9F9" Padding="15,10,0,10" Margin="0,-6,0,-6">
                         <Label Text="MORE FILTER" FontSize="12" TextColor="#959DA3" />
                     </StackLayout>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="-10,0,0,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6"></BoxView>
+                    <Grid Margin="15,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -116,8 +116,8 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
+                    <Grid Margin="15,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -128,8 +128,8 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
-                    <Grid Margin="0,5,0,0">
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
+                    <Grid Margin="15,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="6*" />
                             <ColumnDefinition Width="3*" />
@@ -140,7 +140,7 @@
                             <Button Image="icon_back.png" BackgroundColor="Transparent" Rotation="180" HeightRequest="32" WidthRequest="30" Margin="0,-7,0,0" />
                         </StackLayout>
                     </Grid>
-                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="0,0,10,0"></BoxView>
+                    <BoxView HeightRequest="1" Color="#DEE2E6" Margin="10,0,10,0"></BoxView>
                 </StackLayout>
             </Grid>
         </Grid>
