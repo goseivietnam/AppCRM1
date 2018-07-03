@@ -22,6 +22,7 @@ namespace AppCRM
         }
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzgyNEAzMTM2MmUzMjJlMzBhdThPQ0s1em5NandpNVNHeHNBbDRpdDJxVFVmR0Q0Y3ErdEhDZ0FVYlNZPQ==");
             InitializeComponent();
             InitNavigation();
         }

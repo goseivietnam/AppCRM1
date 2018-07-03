@@ -433,7 +433,7 @@ namespace AppCRM.Models
         public bool? AreRefereesRequired { get; set; }
         public string ThirdPartyURL { get; set; }
         public string WorksiteName { get; set; }
-        public int OpenDurationDay { get { return (int)Math.Round((DateTime.Now - this.OpenDate.Value).TotalDays); } }
+        public int OpenDurationDay { get => this.OpenDate.HasValue ? (int)Math.Round((DateTime.Now - this.OpenDate.Value).TotalDays) : 0; }
         public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
         public string TenantLogoSource { get => RequestService.HOST_NAME + "api/Document/Get?id=" + (TenantLogo == null ? "" : TenantLogo.ToString()); }
         #endregion

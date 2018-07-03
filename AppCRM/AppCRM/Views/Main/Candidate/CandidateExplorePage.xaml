@@ -3,8 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
              xmlns:controls="clr-namespace:AppCRM.Controls"
+             xmlns:helper="clr-namespace:Syncfusion.ListView.XForms.Helpers;assembly=Syncfusion.SfListView.XForms"
              xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
+             xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              x:Class="AppCRM.Views.Main.Candidate.CandidateExplorePage">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <helper:InverseBoolConverter x:Key="inverseBoolConverter"/>
+        </ResourceDictionary>
+    </ContentView.Resources>
     <ContentView.Content>
         <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
             <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
@@ -39,7 +46,7 @@
                     </Frame>
                 </StackLayout>
                 <Button Text="Cancel" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="70" HeightRequest="40" IsVisible="{Binding IsCancelButtonVisible}" Command="{Binding CancelBtnCommand}"/>
-                <Button Text="Filter" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="60" HeightRequest="40" IsVisible="{Binding IsFilterButtonVisible}" Command="{Binding FilterBtnCommand}}"/>
+                <Button Text="Filter" TextColor="WhiteSmoke" BackgroundColor="Transparent" HorizontalOptions="End" VerticalOptions="Start" WidthRequest="60" HeightRequest="40" IsVisible="{Binding IsFilterButtonVisible}" Command="{Binding FilterBtnCommand}"/>
             </StackLayout>
             <ScrollView IsVisible="{Binding IsSearchViewVisible}">
                 <StackLayout Padding="10" Spacing="30">
@@ -77,49 +84,89 @@
                 </StackLayout>
             </ScrollView>
             <tabbedPage:SfTabView TabHeaderBackgroundColor="#2A76FD" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="2" VerticalOptions="FillAndExpand" 
-                                  SelectedIndex="{Binding SelectedIndex}" IsVisible="{Binding IsResultViewVisible}">
+                                  SelectedIndex="{Binding SelectedIndex}" IsVisible="{Binding IsResultViewVisible}" EnableSwiping="False" >
                 <tabbedPage:SfTabView.SelectionIndicatorSettings>
                     <tabbedPage:SelectionIndicatorSettings Color="White" Position="Bottom" StrokeThickness="4"/>
                 </tabbedPage:SfTabView.SelectionIndicatorSettings>
 
                 <tabbedPage:SfTabItem Title="Jobs" TitleFontColor="WhiteSmoke" SelectionColor="White" TitleFontAttributes="Bold" TitleFontSize="14">
                     <tabbedPage:SfTabItem.Content>
-                        <ScrollView>
-                            <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
-                                <ListView ItemsSource="{Binding Vacancies}" HeightRequest="{Binding JobListViewHeightRequest}" VerticalOptions="Start" RowHeight="100">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <ViewCell Height="100">
-                                                <Grid Padding="10">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="70"/>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="40"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackLayout Grid.Column="0">
-                                                        <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                        <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
+                            <sfListView:SfListView ItemsSource="{Binding Vacancies}" ItemSize="100" AutoFitMode="Height" AllowSwiping="True"
+                                                   TapCommand="{Binding JobTappedCommand}" SelectionMode="None" SwipeOffset="200"
+                                                   LoadMoreOption="Manual" LoadMoreCommand="{Binding LoadMoreVacanciesCommand}" IsBusy="{Binding IsBusy}"
+                                                   behaviors:SwipeEndedCommandSfListView.SwipeEndedCommand="{Binding SwipeJobItemCommand}">
+                                <sfListView:SfListView.RightSwipeTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnSpacing="0" Padding="0,2,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="100"/>
+                                            </Grid.ColumnDefinitions>
+                                            <AbsoluteLayout BackgroundColor="#F6F7FA" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
+                                                <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
+                                                    <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_shortlist.png" WidthRequest="20" HeightRequest="20"/>
+                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="Shortlist" TextColor="#E66424"/>
+                                                </StackLayout>
+                                                <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
+                                                            behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding ShortListChangedCommand}"/>
+                                            </AbsoluteLayout>
+                                            <AbsoluteLayout  BackgroundColor="#2A76FD" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="1">
+                                                <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
+                                                    <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_apply.png" WidthRequest="20" HeightRequest="20"/>
+                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="Apply" TextColor="White"/>
+                                                </StackLayout>
+                                                <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
+                                                        behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding ApplyChangedCommand}"/>
+                                            </AbsoluteLayout>
+                                        </Grid>
+                                    </DataTemplate>
+                                </sfListView:SfListView.RightSwipeTemplate>
+                                <sfListView:SfListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Grid Padding="10,10,10,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="70"/>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="40"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="10"/>
+                                                </Grid.RowDefinitions>
+                                                <StackLayout Grid.Column="0">
+                                                    <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="1">
+                                                    <Label Text="{Binding Title}"/>
+                                                    <Label Text="{Binding Company}"/>
+                                                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                        <Image Source="{Binding TenantLogoSource}" WidthRequest="12" HeightRequest="12"/>
+                                                        <Label Text="{Binding JobTypeName}" FontSize="11"/>
+                                                        <Label Text="{Binding Salary, StringFormat='${0}'}" FontSize="11"/>
+                                                        <Label Text="{Binding WorksiteName}" FontSize="11"/>
                                                     </StackLayout>
-                                                    <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding Title}"/>
-                                                        <Label Text="{Binding Company}"/>
-                                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                            <Image IsVisible="{Binding IsPromoted}" Source="img_favorite_job.png" WidthRequest="12" HeightRequest="12"/>
-                                                            <Label Text="{Binding JobTypeName}" FontSize="11"/>
-                                                            <Label Text="{Binding Salary, StringFormat='${0}'}" FontSize="11"/>
-                                                            <Label Text="{Binding WorksiteName}" FontSize="11"/>
-                                                        </StackLayout>
-                                                    </StackLayout>
-                                                    <StackLayout Grid.Column="2" Padding="0">
-                                                        <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
-                                                        <Label Text="{Binding OpenDurationDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
-                                                    </StackLayout>
-                                                </Grid>
-                                            </ViewCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </StackLayout>
-                        </ScrollView>
+                                                </StackLayout>
+                                                <StackLayout Grid.Column="2" Padding="0">
+                                                    <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
+                                                    <Label Text="{Binding OpenDurationDay, StringFormat=' {0}d'}" VerticalOptions="CenterAndExpand" HorizontalOptions="Center" TextColor="#AFB4BC"/>
+                                                </StackLayout>
+                                                <BoxView Grid.ColumnSpan="3" Grid.Row="1" HeightRequest="1" Margin="0" HorizontalOptions="FillAndExpand" BackgroundColor="#E6E6E6" VerticalOptions="End"/>
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </sfListView:SfListView.ItemTemplate>
+                                <sfListView:SfListView.LoadMoreTemplate>
+                                    <DataTemplate>
+                                        <Grid HeightRequest="70">
+                                            <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" />
+                                            <sfListView:LoadMoreIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#DFDFDF" VerticalOptions="Center"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </sfListView:SfListView.LoadMoreTemplate>
+                            </sfListView:SfListView>
+                        </StackLayout>
                     </tabbedPage:SfTabItem.Content>
                 </tabbedPage:SfTabItem>
 
