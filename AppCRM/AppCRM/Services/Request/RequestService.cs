@@ -27,7 +27,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        public static readonly string HOST_NAME = "https://4ee450d6.ngrok.io/";
+        public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
         public static string ACCESS_TOKEN;
         private readonly JsonSerializerSettings _serializerSettings;
 
@@ -41,15 +41,21 @@ namespace AppCRM.Services.Request
             };
         }
 
-        public async Task<dynamic> getDataFromService(string queryString)
+        private HttpClient CreateHttpClient()
         {
-            HttpClient client = new HttpClient
+            var client = new HttpClient
             {
                 BaseAddress = new Uri(HOST_NAME),
                 Timeout = TimeSpan.FromMilliseconds(180000)
             };
             client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
             client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
+            return client;
+        }
+
+        public async Task<dynamic> getDataFromService(string queryString)
+        {
+            HttpClient client = CreateHttpClient();
 
             var response = await client.GetAsync(HOST_NAME + queryString);
 
@@ -65,14 +71,8 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> getDataFromServiceAuthority(string queryString)
         {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
-            };
+            HttpClient client = CreateHttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
 
             var response = await client.GetAsync(HOST_NAME + queryString);
@@ -89,13 +89,7 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> postDataFromService(string url, object item)
         {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
-            };
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
+            HttpClient client = CreateHttpClient();
 
             var jsonRequest = JsonConvert.SerializeObject(item);
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
@@ -110,14 +104,8 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> postDataFromServiceAuthority(string url, object item)
         {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
-            };
+            HttpClient client = CreateHttpClient();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
 
             JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
@@ -137,13 +125,7 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> UploadFileWithParameters(string url, SJFileStream stream, string fileName, List<HeaderParameters> parameters)
         {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
-            };
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
+            HttpClient client = CreateHttpClient();
 
             //Add parameters to header
             foreach (var para in parameters)
@@ -168,13 +150,7 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> UploadFile(string url, SJFileStream stream, string fileName)
         {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
-            };
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
+            HttpClient client = CreateHttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
             MultipartFormDataContent content = new MultipartFormDataContent();
             byte[] buffer = Tools.Utilities.ReadToEnd(stream.Stream);
@@ -192,13 +168,7 @@ namespace AppCRM.Services.Request
 
         public async Task<TResult> GetDDLAsync<TResult>(string queryString)
         {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
-            };
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
+            HttpClient client = CreateHttpClient();
             try
             {
                 var response = await client.GetAsync(HOST_NAME + queryString);
@@ -215,13 +185,7 @@ namespace AppCRM.Services.Request
 
         public async Task<TResult> GetDDLAsyncAuthority<TResult>(string queryString)
         {
-            HttpClient client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
-            };
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
+            HttpClient client = CreateHttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
             try
             {
