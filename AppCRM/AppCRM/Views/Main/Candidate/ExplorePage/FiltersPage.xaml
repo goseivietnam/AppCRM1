@@ -40,11 +40,13 @@
 
                         <StackLayout Spacing="0" Padding="10">
                             <Label FontSize="12" TextColor="#3B4455" Margin="3, 5, 3, 0">Job Type</Label>
-                            <autocomplete:SfAutoComplete DataSource="{Binding JobTypeCollection}" DisplayMemberPath="Name"
+                            <autocomplete:SfAutoComplete DataSource="{Binding JobTypeCollection}" SelectedItem="{Binding JobTypeSelected}"
+                                                         DisplayMemberPath="Name"
                                                          SelectedValuePath="Id" MultiSelectMode="Token" TokensWrapMode="Wrap"
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="False"  WatermarkColor="#828B93"  NoResultsFoundText="No Results Found"
-                                             behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding JobTypeChangeCommand}">
+                                                    behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding JobTypeChangeCommand}"
+                                                         >
                             </autocomplete:SfAutoComplete>
                         </StackLayout>
 
@@ -55,7 +57,7 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="False"  WatermarkColor="#828B93"  NoResultsFoundText="No Results Found" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding CategoryChangeCommand}" 
-                                                         >
+                                                         SelectedItem="{Binding CategorySelected}">
                             </autocomplete:SfAutoComplete>
                         </StackLayout>
                         <StackLayout Spacing="0" Padding="10" Margin="0,-15,0,0">
@@ -65,7 +67,7 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="False"  WatermarkColor="#828B93"  NoResultsFoundText="No Results Found" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding LocationChangeCommand}" 
-                                                         >
+                                                         SelectedItem="{Binding LocationSelected}">
                             </autocomplete:SfAutoComplete>
                         </StackLayout>
                         <StackLayout Spacing="0" Padding="10" Margin="0,-15,0,0">
@@ -75,7 +77,7 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="False"  WatermarkColor="#828B93"  NoResultsFoundText="No Results Found" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding PositionChangeCommand}" 
-                                                         >
+                                                         SelectedItem="{Binding PositionSelected}">
                             </autocomplete:SfAutoComplete>
                         </StackLayout>
                     </StackLayout>
@@ -94,7 +96,7 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="False"  WatermarkColor="#828B93"  NoResultsFoundText="No Results Found" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding SkillChangeCommand}" 
-                                                         >
+                                                         SelectedItem="{Binding SkillSelected}">
                             </autocomplete:SfAutoComplete>
                         </StackLayout>
                         <StackLayout Spacing="0" Padding="10" Margin="0,-15,0,0">
@@ -104,7 +106,7 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="False"  WatermarkColor="#828B93"  NoResultsFoundText="No Results Found" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding QualificationChangeCommand}" 
-                                                         >
+                                                         SelectedItem="{Binding QualificationSelected}">
                             </autocomplete:SfAutoComplete>
                         </StackLayout>
                         <StackLayout Spacing="0" Padding="10" Margin="0,-15,0,0">
@@ -114,7 +116,7 @@
                                                          SuggestionMode="Contains" TextHighlightMode="MultipleOccurrence"
                                                          IsSelectedItemsVisibleInDropDown="False"  WatermarkColor="#828B93"  NoResultsFoundText="No Results Found" 
                                                          behaviors:SelectionChangedCommandAutoComplete.SelectionChangedCommand="{Binding LicenceChangeCommand}" 
-                                                         >
+                                                         SelectedItem="{Binding LicenceSelected}">
                             </autocomplete:SfAutoComplete>
                         </StackLayout>
                     </StackLayout>

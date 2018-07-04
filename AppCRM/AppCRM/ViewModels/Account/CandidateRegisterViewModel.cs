@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -32,11 +33,11 @@ namespace AppCRM.ViewModels.Account
         private string _fieldEmail;
         private string _fieldPassword;
         private string _fieldPasswordConfirm;
-        private string _fieldJobInterest;
-        private string _fieldJobLocation;
         private ImageSource _profileAvatarSource;
-        private ObservableCollection<PickerItem> _jobInterestCollection;
-        private ObservableCollection<PickerItem> _jobLocationCollection;
+        private List<PickerItem> _jobInterestCollection;
+        private List<PickerItem> _jobLocationCollection;
+        private List<PickerItem> _selectedJobs;
+        private List<PickerItem> _selectedLocations;
 
         private SJFileStream _avatarStream;
 
@@ -108,30 +109,6 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public string FieldJobInterest
-        {
-            get
-            {
-                return _fieldJobInterest;
-            }
-            set
-            {
-                _fieldJobInterest = value;
-                OnPropertyChanged();
-            }
-        }
-        public string FieldJobLocation
-        {
-            get
-            {
-                return _fieldJobLocation;
-            }
-            set
-            {
-                _fieldJobLocation = value;
-                OnPropertyChanged();
-            }
-        }
         public ImageSource ProfileAvatarSource
         {
             get
@@ -144,22 +121,30 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> JobInterestCollection
+        public List<PickerItem> JobInterestCollection
         {
             get { return _jobInterestCollection; }
             set { _jobInterestCollection = value; OnPropertyChanged(); }
         }
-        public ObservableCollection<PickerItem> JobLocationCollection
+        public List<PickerItem> JobLocationCollection
         {
             get { return _jobLocationCollection; }
             set { _jobLocationCollection = value; OnPropertyChanged(); }
+        }
+        public List<PickerItem> SelectedJobs
+        {
+            get { return _selectedJobs; }
+            set { _selectedJobs = value; OnPropertyChanged(); }
+        }
+        public List<PickerItem> SelectedLocations
+        {
+            get { return _selectedLocations; }
+            set { _selectedLocations = value; OnPropertyChanged(); }
         }
 
         public ICommand SubmitRegisterCommand => new AsyncCommand(SubmitRegisterAsync);
         public ICommand BtnCancelCommand => new AsyncCommand(BtnCancelAsync);
         public ICommand PickAvatarBtnCommand => new AsyncCommand(PickAvatar);
-        public ICommand JobInterestChangeCommand => new Command(UpdateJobInterest);
-        public ICommand JobLocationChangeCommand => new Command(UpdateJobLocation);
 
         private async Task SubmitRegisterAsync()
         {
@@ -172,8 +157,8 @@ namespace AppCRM.ViewModels.Account
                 Password = _fieldPassword,
                 UserName = _fieldEmail,
                 ConfirmPassword = _fieldPasswordConfirm,
-                InterestedRoleIds = _fieldJobInterest,
-                InterestedLocationIds = _fieldJobLocation
+                InterestedRoleIds = string.Join(",", SelectedJobs.Select(r => r.Id)),
+                InterestedLocationIds = string.Join(",", SelectedLocations.Select(r => r.Id))
             };
 
             var obj = await _candidateDetailsService.CandidateRegister(reg);
@@ -253,21 +238,15 @@ namespace AppCRM.ViewModels.Account
             }
             await _dialogService.CloseLoadingPopup(pop);
         }
-        private void UpdateJobInterest(object selectedValues)
-        {
-            _fieldJobInterest = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
-        private void UpdateJobLocation(object selectedValues)
-        {
-            _fieldJobLocation = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
 
         public override async Task InitializeAsync(object navigationData)
         {
             var InterestedRolesDDL = await _candidateDetailsService.GetInterestedRolesDDL();
-            JobInterestCollection = InterestedRolesDDL.ToObservableCollection();
+            JobInterestCollection = InterestedRolesDDL.ToList();
+            SelectedJobs = new List<PickerItem>();
+            SelectedLocations = new List<PickerItem>();
             var InterestedLocationsDDL = await _candidateDetailsService.GetInterestedLocationsDDL();
-            JobLocationCollection = InterestedLocationsDDL.ToObservableCollection();
+            JobLocationCollection = InterestedLocationsDDL.ToList();
         }
 
     }

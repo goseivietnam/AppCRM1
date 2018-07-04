@@ -278,8 +278,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
         private void UpdateCity(object selectedValues)
         {
-            //Guid currentID = new Guid(selectedValues.ToString());
-            //CitySelected = CityCollection.Where(x => x.Id == currentID).FirstOrDefault();
+            if (selectedValues == null)
+            {
+                CitySelected = null;
+            }
         }
 
         private async Task BtnBackAsync()
@@ -295,14 +297,21 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         {
             var pop = await _dialogService.OpenLoadingPopup();
 
+            string CityName = "";
+            Guid? CityID = null;
+            if (CitySelected != null)
+            {
+                CityName = CitySelected.Name;
+                CityID = CitySelected.Id;
+            }
             Contact profile = new Contact
             {
                 FirstName = _firstName,
                 LastName = _lastName,
                 Email = _email,
                 Address = _address,
-                CityName = CitySelected.Name,
-                CityID = CitySelected.Id,
+                CityName = CityName,
+                CityID = CityID,
                 Nationality = _nationalitySelected.Name,
                 NationalityID = _nationalitySelected.Id,
                 DateOfBirth = _birthDay,

@@ -15,6 +15,7 @@ namespace AppCRM.Services.Candidate
         Task<dynamic> GetVacancyDetails(Guid? VacancyID);
         Task<dynamic> WithDrawVacancy(Guid? VacancyID);
         Task<dynamic> ApplyVacancy(Guid? VacancyID);
+
         //Task<dynamic> GetEmployerCandidateDetail();
         //Task<dynamic> GetEmployerCandidateProfile();
         //Task<dynamic> AddEducation(ContactEducation eduction);
