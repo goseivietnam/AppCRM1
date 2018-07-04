@@ -194,9 +194,11 @@ namespace AppCRM.Services.Navigation
             _mappings.Add(typeof(AddWorkExprienceViewModel), typeof(AddWorkExpriencePage));
             _mappings.Add(typeof(EditProfileViewModel), typeof(EditProfilePage));
             _mappings.Add(typeof(AccountSettingViewModel), typeof(AccountSettingPage));
-            _mappings.Add(typeof(JobDetailViewModel), typeof(JobDetailPage));
+            _mappings.Add(typeof(ViewModels.Main.Candidate.Job.JobDetailViewModel), typeof(Views.Main.Candidate.JobPage.JobDetailPage));
             _mappings.Add(typeof(CandidateExploreViewModel), typeof(CandidateExplorePage));
             _mappings.Add(typeof(FiltersViewModel),typeof(FiltersPage));
+            _mappings.Add(typeof(ViewModels.Main.Candidate.Explore.JobDetailViewModel), typeof(Views.Main.Candidate.ExplorePage.JobDetailPage));
+            _mappings.Add(typeof(CompanyDetailViewModel), typeof(CompanyDetailPage));
         }
         #endregion
     }

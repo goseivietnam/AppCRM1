@@ -174,7 +174,8 @@
                     <tabbedPage:SfTabItem.Content>
                         <ScrollView>
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
-                                <ListView ItemsSource="{Binding Companies}" HeightRequest="{Binding CompanyListViewHeightRequest}" VerticalOptions="Start" RowHeight="100">
+                                <ListView ItemsSource="{Binding Companies}" HeightRequest="{Binding CompanyListViewHeightRequest}" VerticalOptions="Start" RowHeight="100"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding CompanyTappedCommand}">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell Height="100">

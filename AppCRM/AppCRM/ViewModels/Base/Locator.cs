@@ -64,9 +64,11 @@ namespace AppCRM.ViewModels.Base
             _containerBuilder.RegisterType<AddWorkExprienceViewModel>();
             _containerBuilder.RegisterType<EditProfileViewModel>();
             _containerBuilder.RegisterType<AccountSettingViewModel>();
-            _containerBuilder.RegisterType<JobDetailViewModel>();
+            _containerBuilder.RegisterType<Main.Candidate.Job.JobDetailViewModel>();
             _containerBuilder.RegisterType<CandidateExploreViewModel>();
             _containerBuilder.RegisterType<FiltersViewModel>();
+            _containerBuilder.RegisterType<Main.Candidate.Explore.JobDetailViewModel>();
+            _containerBuilder.RegisterType<CompanyDetailViewModel>();
         }
         #endregion
 

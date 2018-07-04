@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:animations="clr-namespace:AppCRM.Effects"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+                 x:Class="AppCRM.Views.Main.Candidate.ExplorePage.CompanyDetailPage">
+    <pages:PopupPage.Animation>
+        <animations:UserAnimation/>
+    </pages:PopupPage.Animation>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+            <AbsoluteLayout>
+                <Image Source="https://i.imgur.com/hqT8eAt.png" AbsoluteLayout.LayoutBounds="0,0,1,150" AbsoluteLayout.LayoutFlags="WidthProportional"
+                       Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
+                <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,40" AbsoluteLayout.LayoutFlags="WidthProportional">
+                    <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="Transparent" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
+                    <Button BackgroundColor="Transparent" Image="three_dots.png" HorizontalOptions="EndAndExpand" WidthRequest="40"/>
+                </StackLayout>
+                <Frame CornerRadius="40" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" AbsoluteLayout.LayoutBounds="20,110,80,80">
+                    <Image Aspect="AspectFill" Source="https://i.imgur.com/fSZz5Ta.png"/>
+                </Frame>
+                <StackLayout AbsoluteLayout.LayoutBounds="0,150,1,150" AbsoluteLayout.LayoutFlags="WidthProportional" Padding="110,10" Spacing="15">
+                    <Label Text="{Binding Company.AccountName}" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" TextColor="Black"/>
+                    <StackLayout Padding="0" Orientation="Horizontal" Spacing="5">
+                        <Label Text="{Binding Company.WebSite}" FontSize="11"/>
+                        <Label Text="{Binding Company.Address}" FontSize="11"/>
+                    </StackLayout>
+                    <Button Text="More info..." TextColor="#2A76FD" BackgroundColor="Transparent" HeightRequest="40" WidthRequest="80"/>
+                </StackLayout>
+            </AbsoluteLayout>
+                <StackLayout BackgroundColor="White" Spacing="20" VerticalOptions="FillAndExpand" Padding="0,10">
+                    <Grid Padding="15,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="50*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Text="♡ Shortlist" TextColor="#E66424" BackgroundColor="White" BorderWidth="1" BorderColor="#E66424" Margin="5"/>
+                        <Button Grid.Column="1" Text="Vacancy" TextColor="White" BackgroundColor="#2A76FD" BorderWidth="1" BorderColor="#266CE9" Margin="5"/>
+                    </Grid>
+                    <StackLayout Spacing="10" Padding="20,0">
+                        <Label Text="About company" TextColor="#231F20" FontSize="14" FontAttributes="Bold"/>
+                        <Label Text="{Binding Company.AboutUs}"/>
+                    </StackLayout>
+
+                    <StackLayout Spacing="10" Padding="0">
+                        <Label Text="Vacancy" TextColor="#231F20" FontSize="14" FontAttributes="Bold" Margin="20,0"/>
+                        <sfListView:SfListView ItemsSource="{Binding Vacancies}" ItemSize="60" SelectionMode="None">
+                            <sfListView:SfListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid Padding="10,10,10,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="70"/>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="40"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="10"/>
+                                            </Grid.RowDefinitions>
+                                            <StackLayout Grid.Column="0">
+                                                <Image HorizontalOptions="CenterAndExpand" Source="https://i.imgur.com/fSZz5Ta.png" WidthRequest="40" HeightRequest="40"/>
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="1">
+                                                <Label Text="{Binding Title}"/>
+                                                <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                                    <Label Text="{Binding JobType}" FontSize="11"/>
+                                                    <Label Text="{Binding Salary, StringFormat='${0}'}" FontSize="11"/>
+                                                    <Label Text="{Binding Country}" FontSize="11"/>
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <StackLayout Grid.Column="2" Padding="0">
+                                                <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
+                                            </StackLayout>
+                                            <BoxView Grid.ColumnSpan="3" Grid.Row="1" HeightRequest="1" Margin="0" HorizontalOptions="FillAndExpand" BackgroundColor="#E6E6E6" VerticalOptions="End"/>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </sfListView:SfListView.ItemTemplate>
+                        </sfListView:SfListView>
+                    </StackLayout>
+
+                    <Button Text="View contact" BackgroundColor="Transparent" TextColor="#2A76FD"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</pages:PopupPage>

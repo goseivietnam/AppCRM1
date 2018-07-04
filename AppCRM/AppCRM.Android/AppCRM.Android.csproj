@@ -60,7 +60,7 @@
       <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete">
-      <Version>16.1.0.37</Version>
+      <Version>16.2.0.42</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfListView">
       <Version>16.2.0.42</Version>
