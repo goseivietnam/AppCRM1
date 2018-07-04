@@ -17,5 +17,5 @@ namespace AppCRM.Views.Account
 		{
 			InitializeComponent ();
 		}
-	}
+    }
 }

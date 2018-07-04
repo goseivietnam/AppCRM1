@@ -1,5 +1,10 @@
-﻿using Syncfusion.SfAutoComplete.XForms;
+﻿using AppCRM.Extensions;
+using AppCRM.Models;
+using Syncfusion.SfAutoComplete.XForms;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace AppCRM.Behaviors
 {
@@ -32,11 +37,14 @@ namespace AppCRM.Behaviors
 
             if (autoComplete != null && autoComplete.IsEnabled)
             {
-                //autoComplete.SelectedItem = null;
-                var command = GetSelectionChangedCommand(autoComplete);
-                if (command != null && command.CanExecute(autoComplete.SelectedValue))
+                if (autoComplete.MultiSelectMode != MultiSelectMode.None && !autoComplete.IsSelectedItemsVisibleInDropDown)
                 {
-                    command.Execute(autoComplete.SelectedValue);
+                    autoComplete.SelectedItem = (autoComplete.SelectedItem as Collection<object>).Distinct().ToObservableCollection();
+                }
+                var command = GetSelectionChangedCommand(autoComplete);
+                if (command != null && command.CanExecute(autoComplete.SelectedItem))
+                {
+                    command.Execute(autoComplete.SelectedItem);
                 }
             }
         }

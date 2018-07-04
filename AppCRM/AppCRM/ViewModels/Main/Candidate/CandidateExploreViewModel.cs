@@ -311,6 +311,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand SearchCompletedCommand => new AsyncCommand(OnSearchCompletedAsync);
         public ICommand FilterBtnCommand => new AsyncCommand(OnFilterBtn);
         public ICommand JobTappedCommand => new AsyncCommand(OpenJobDetail);
+        public ICommand CompanyTappedCommand => new AsyncCommand(OpenCompanyDetail);
         public ICommand SwipeJobItemCommand => new Command(SwipeJobItem);
         public ICommand ShortListChangedCommand => new Command(AddShortListTapGestureRecognizer);
         public ICommand ApplyChangedCommand => new Command(AddApplyTapGestureRecognizer);
@@ -405,7 +406,11 @@ namespace AppCRM.ViewModels.Main.Candidate
         private async Task OpenJobDetail(object obj)
         {
             var job = (obj as Syncfusion.ListView.XForms.ItemTappedEventArgs).ItemData as ContactJobs;
-
+            await _navigationService.NavigateToPopupAsync<JobDetailViewModel>(job.VacancyID, true);
+        }
+        private async Task OpenCompanyDetail(object obj)
+        {
+            await _navigationService.NavigateToPopupAsync<CompanyDetailViewModel>((obj as Models.Account).AccountID, true);
         }
         private void SwipeJobItem(object obj)
         {

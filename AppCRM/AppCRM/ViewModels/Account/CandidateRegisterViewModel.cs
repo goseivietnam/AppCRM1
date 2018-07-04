@@ -34,10 +34,10 @@ namespace AppCRM.ViewModels.Account
         private string _fieldPassword;
         private string _fieldPasswordConfirm;
         private ImageSource _profileAvatarSource;
-        private List<PickerItem> _jobInterestCollection;
-        private List<PickerItem> _jobLocationCollection;
-        private List<PickerItem> _selectedJobs;
-        private List<PickerItem> _selectedLocations;
+        private ObservableCollection<object> _jobInterestCollection;
+        private ObservableCollection<object> _jobLocationCollection;
+        private ObservableCollection<object> _selectedJobs;
+        private ObservableCollection<object> _selectedLocations;
 
         private SJFileStream _avatarStream;
 
@@ -121,22 +121,22 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public List<PickerItem> JobInterestCollection
+        public ObservableCollection<object> JobInterestCollection
         {
             get { return _jobInterestCollection; }
             set { _jobInterestCollection = value; OnPropertyChanged(); }
         }
-        public List<PickerItem> JobLocationCollection
+        public ObservableCollection<object> JobLocationCollection
         {
             get { return _jobLocationCollection; }
             set { _jobLocationCollection = value; OnPropertyChanged(); }
         }
-        public List<PickerItem> SelectedJobs
+        public ObservableCollection<object> SelectedJobs
         {
             get { return _selectedJobs; }
             set { _selectedJobs = value; OnPropertyChanged(); }
         }
-        public List<PickerItem> SelectedLocations
+        public ObservableCollection<object> SelectedLocations
         {
             get { return _selectedLocations; }
             set { _selectedLocations = value; OnPropertyChanged(); }
@@ -145,6 +145,7 @@ namespace AppCRM.ViewModels.Account
         public ICommand SubmitRegisterCommand => new AsyncCommand(SubmitRegisterAsync);
         public ICommand BtnCancelCommand => new AsyncCommand(BtnCancelAsync);
         public ICommand PickAvatarBtnCommand => new AsyncCommand(PickAvatar);
+        public ICommand SelectionChangedCommand => new Command(SelectionChanged);
 
         private async Task SubmitRegisterAsync()
         {
@@ -157,8 +158,8 @@ namespace AppCRM.ViewModels.Account
                 Password = _fieldPassword,
                 UserName = _fieldEmail,
                 ConfirmPassword = _fieldPasswordConfirm,
-                InterestedRoleIds = string.Join(",", SelectedJobs.Select(r => r.Id)),
-                InterestedLocationIds = string.Join(",", SelectedLocations.Select(r => r.Id))
+                InterestedRoleIds = string.Join(",", SelectedJobs.Select(r => (r as PickerItem).Id)),
+                InterestedLocationIds = string.Join(",", SelectedLocations.Select(r => (r as PickerItem).Id))
             };
 
             var obj = await _candidateDetailsService.CandidateRegister(reg);
@@ -238,15 +239,20 @@ namespace AppCRM.ViewModels.Account
             }
             await _dialogService.CloseLoadingPopup(pop);
         }
+        private void SelectionChanged(object obj)
+        {
+
+        }
 
         public override async Task InitializeAsync(object navigationData)
         {
             var InterestedRolesDDL = await _candidateDetailsService.GetInterestedRolesDDL();
-            JobInterestCollection = InterestedRolesDDL.ToList();
-            SelectedJobs = new List<PickerItem>();
-            SelectedLocations = new List<PickerItem>();
+            JobInterestCollection = InterestedRolesDDL.Cast<object>().ToObservableCollection();
+            SelectedJobs = new ObservableCollection<object>();
+
             var InterestedLocationsDDL = await _candidateDetailsService.GetInterestedLocationsDDL();
-            JobLocationCollection = InterestedLocationsDDL.ToList();
+            JobLocationCollection = InterestedLocationsDDL.Cast<object>().ToObservableCollection();
+            SelectedLocations = new ObservableCollection<object>();
         }
 
     }

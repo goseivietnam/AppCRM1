@@ -11,7 +11,7 @@
     <PackageReference Include="MimeTypeMap.Core" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.4.158-pre" />
-    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="16.1.0.37" />
+    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="16.2.0.42" />
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="16.2.0.42" />
     <PackageReference Include="Syncfusion.Xamarin.SfTabView" Version="16.1.0.37" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
@@ -21,6 +21,12 @@
   <ItemGroup>
     <Compile Update="Views\Main\Candidate\ExplorePage\FiltersPage.xaml.cs">
       <DependentUpon>FiltersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Main\Candidate\ExplorePage\CompanyDetailPage.xaml.cs">
+      <DependentUpon>CompanyDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Main\Candidate\ExplorePage\JobDetailPage.xaml.cs">
+      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <Compile Update="Views\Main\Candidate\ProfilePage\AddWorkExpriencePage.xaml.cs">
       <DependentUpon>AddWorkExpriencePage.xaml</DependentUpon>

@@ -14,7 +14,7 @@
         <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
             <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                 <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                <Label Text="{Binding Job.PoisitionName}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
+                <Label Text="{Binding Job.Title}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                 <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
             </StackLayout>
             <tabbedPage:SfTabView TabHeaderBackgroundColor="#FFFFFF" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="3" VerticalOptions="FillAndExpand">
