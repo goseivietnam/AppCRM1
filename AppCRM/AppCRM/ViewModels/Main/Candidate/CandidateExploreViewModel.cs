@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using Syncfusion.ListView.XForms;
 using Syncfusion.XForms.TabView;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -27,7 +29,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _currentJobPage;
 
         private int _selectedIndex;
-        private List<ContactJobs> _vacancies;
+        private ObservableCollection<ContactJobs> _vacancies;
         private List<Models.Account> _companies;
         private List<ExploreItem> _recentExploreItems;
         private ExploreItem _currentExploreItem;
@@ -46,7 +48,9 @@ namespace AppCRM.ViewModels.Main.Candidate
         private bool _isTitleSearchFocused;
         private bool _isLocationSearchFocused;
 
-        private double _swipeOffsetWidth;
+        private bool _loadMoreIsVisible;
+
+
         // height listview
         private int _recentExploreListViewHeightRequest;
         private int _companyListViewHeightRequest;
@@ -74,7 +78,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public List<ContactJobs> Vacancies
+        public ObservableCollection<ContactJobs> Vacancies
         {
             get
             {
@@ -257,6 +261,19 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
         }
 
+        public bool LoadMoreIsVisible
+        {
+            get
+            {
+                return _loadMoreIsVisible;
+            }
+            set
+            {
+                _loadMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public int RecentExploreListViewHeightRequest
         {
             get
@@ -282,19 +299,6 @@ namespace AppCRM.ViewModels.Main.Candidate
             }
         }
 
-        public double SwipeOffsetWidth
-        {
-            get
-            {
-                return _swipeOffsetWidth;
-            }
-            set
-            {
-                _swipeOffsetWidth = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ICommand RecentExploreListViewCommand => new AsyncCommand(RecentExploreListView_ItemTappedAsync);
         public ICommand JobsBtnCommand => new AsyncCommand(SelectJobTabAsync);
         public ICommand CompaniesBtnCommand => new AsyncCommand(SelectCompanyTabAsync);
@@ -310,6 +314,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand SwipeJobItemCommand => new Command(SwipeJobItem);
         public ICommand ShortListChangedCommand => new Command(AddShortListTapGestureRecognizer);
         public ICommand ApplyChangedCommand => new Command(AddApplyTapGestureRecognizer);
+        public ICommand WithDrawChangedCommand => new Command(WithDrawTapGestureRecognizer);
         public ICommand LoadMoreVacanciesCommand => new AsyncCommand(LoadMoreVacancies);
 
         private void RenderLandingPage()
@@ -405,13 +410,6 @@ namespace AppCRM.ViewModels.Main.Candidate
         private void SwipeJobItem(object obj)
         {
             SwipedJobItem = (obj as SwipeEndedEventArgs).ItemData as ContactJobs;
-            if (!SwipedJobItem.ShortlistedVisible)
-            {
-                SwipeOffsetWidth = 100;
-            }
-            else {
-                SwipeOffsetWidth = 200;
-            }
         }
         private void AddShortListTapGestureRecognizer(object sender)
         {
@@ -420,6 +418,10 @@ namespace AppCRM.ViewModels.Main.Candidate
         private void AddApplyTapGestureRecognizer(object sender)
         {
             (sender as Button).Command = new AsyncCommand(ApplyJob);
+        }
+        private void WithDrawTapGestureRecognizer(object sender)
+        {
+            (sender as Button).Command = new AsyncCommand(WithDrawJob);
         }
         private async Task ShortListJob()
         {
@@ -433,11 +435,18 @@ namespace AppCRM.ViewModels.Main.Candidate
                 try
                 {
                     if (obj["Success"] == "true") //success
-                    {
-                        await _dialogService.PopupMessage("Shortlist Job Successefully", "#52CD9F", "#FFFFFF");
-                        //Refresh list
-                        Vacancies.RemoveAll(r => r.VacancyID == SwipedJobItem.VacancyID);
-                        Vacancies = new List<ContactJobs>(Vacancies);
+                    {                        
+                        ContactJobs oldValue = Vacancies.Where(x => x.VacancyID == SwipedJobItem.VacancyID).FirstOrDefault();
+                        if (obj["Message"] == "UnShortlist")
+                        {
+                            oldValue.Status = null;
+                            await _dialogService.PopupMessage("Remove Shortlist Job Successefully", "#52CD9F", "#FFFFFF");
+                        }
+                        else if (obj["Message"] == "Shortlist")
+                        {
+                            oldValue.Status = "Interested";
+                            await _dialogService.PopupMessage("Shortlist Job Successefully", "#52CD9F", "#FFFFFF");
+                        }
                     }
                     else if (obj["Success"] == "false")
                     {
@@ -464,9 +473,8 @@ namespace AppCRM.ViewModels.Main.Candidate
                     if (obj["Success"] == "true") //success
                     {
                         await _dialogService.PopupMessage("Apply Job Successefully", "#52CD9F", "#FFFFFF");
-                        //Refresh list
-                        Vacancies.RemoveAll(r => r.VacancyID == SwipedJobItem.VacancyID);
-                        Vacancies = new List<ContactJobs>(Vacancies);
+
+                        Vacancies.FirstOrDefault(x => x.VacancyID == SwipedJobItem.VacancyID).Status = "Applied";
                     }
                     else if (obj["Success"] == "false")
                     {
@@ -481,6 +489,37 @@ namespace AppCRM.ViewModels.Main.Candidate
                 await _dialogService.CloseLoadingPopup(pop);
             }
         }
+        public async Task WithDrawJob()
+        {
+            if (SwipedJobItem.VacancyID.HasValue)
+            {
+                var result = await _dialogService.Alert("Please confirm you wish to withdraw your application?", "All related information will be removed from system", "Confirm Withdraw", "Cancel");
+                if (result)
+                {
+                    var pop = await _dialogService.OpenLoadingPopup();
+                    var obj = await _candidateJobService.WithDrawVacancy(SwipedJobItem.VacancyID);
+                    try
+                    {
+                        if (obj["Success"] == "true") //success
+                        {
+                            await _dialogService.PopupMessage("WithDraw Successefully", "#52CD9F", "#FFFFFF");
+
+                            Vacancies.FirstOrDefault(x => x.VacancyID == SwipedJobItem.VacancyID).Status = null;
+                        }
+                        else if (obj["Success"] == "false")
+                        {
+                            await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                        }
+                    }
+                    catch
+                    {
+                        await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                        await _dialogService.CloseLoadingPopup(pop);
+                    }
+                    await _dialogService.CloseLoadingPopup(pop);
+                }
+            }
+        }
         private async Task LoadMoreVacancies()
         {
             IsBusy = true;
@@ -493,15 +532,23 @@ namespace AppCRM.ViewModels.Main.Candidate
             dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
             if (obj["Jobs"] != null)
             {
-                Vacancies = JsonConvert.DeserializeObject<List<ContactJobs>>(obj["Jobs"].ToString());
+                List<ContactJobs> listMore = JsonConvert.DeserializeObject<List<ContactJobs>>(obj["Jobs"].ToString());
+                if (listMore.Count > 0)
+                {
+                    foreach (var item in listMore)
+                    {
+                        Vacancies.Add(item);
+                    }
+                    if (listMore.Count < 10)
+                    {
+                        LoadMoreIsVisible = false;
+                    }
+                }
+                else
+                {
+                    LoadMoreIsVisible = false;
+                }
             }
-            else
-            {
-                Vacancies = new List<ContactJobs>();
-            }
-
-            //Vacancies = new List<ContactJobs>(Vacancies);
-
             IsBusy = false;
         }
 
@@ -550,11 +597,19 @@ namespace AppCRM.ViewModels.Main.Candidate
             dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
             if (obj["Jobs"] != null)
             {
-                Vacancies = JsonConvert.DeserializeObject<List<ContactJobs>>(obj["Jobs"].ToString());
+                Vacancies = JsonConvert.DeserializeObject<ObservableCollection<ContactJobs>>(obj["Jobs"].ToString());
             }
             else
             {
-                Vacancies = new List<ContactJobs>();
+                Vacancies = new ObservableCollection<ContactJobs>();
+            }
+
+            if (Vacancies.Count < 10)
+            {
+                LoadMoreIsVisible = false;
+            }
+            else {
+                LoadMoreIsVisible = true;
             }
 
             EmployerSearchFilter filter = new EmployerSearchFilter

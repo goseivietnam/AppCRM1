@@ -89,7 +89,7 @@ namespace AppCRM.Services.Candidate
 
         public async Task<dynamic> ShortListJob(bool? shortlisted, Guid? VacancyID)
         {
-            object item = new Hashtable { { "VacancyID", VacancyID }, { "shortlisted", shortlisted } };
+            object item = new Hashtable { { "VacancyID", VacancyID }, { "IsShortList", shortlisted } };
             var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/ShortListJob", item);
             return result;
         }

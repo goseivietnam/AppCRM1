@@ -106,7 +106,7 @@
                                             <AbsoluteLayout IsVisible="{Binding ShortlistedVisible}" IsEnabled="{Binding CanShortlisted}" BackgroundColor="#F6F7FA" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
                                                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
                                                     <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_shortlist.png" WidthRequest="20" HeightRequest="20"/>
-                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="Shortlist" TextColor="#E66424"/>
+                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="Shortlist" TextColor="{Binding ShortlistTextColor}"/>
                                                 </StackLayout>
                                                 <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
                                                             behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding ShortListChangedCommand}"/>
@@ -114,7 +114,7 @@
                                             <AbsoluteLayout IsVisible="{Binding ShortlistedVisible, Converter={StaticResource inverseBoolConverter}}" IsEnabled="{Binding CanShortlisted}" BackgroundColor="#F6F7FA" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
                                                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
                                                     <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_shortlist.png" WidthRequest="20" HeightRequest="20"/>
-                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Remove Shortlist" TextColor="#E66424"/>
+                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Remove Shortlist" TextColor="{Binding ShortlistTextColor}"/>
                                                 </StackLayout>
                                                 <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
                                                             behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding ShortListChangedCommand}"/>
@@ -176,7 +176,7 @@
                                 <sfListView:SfListView.LoadMoreTemplate>
                                     <DataTemplate>
                                         <Grid HeightRequest="70">
-                                            <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" />
+                                            <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding LoadMoreIsVisible}" />
                                             <sfListView:LoadMoreIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#DFDFDF" VerticalOptions="Center"/>
                                         </Grid>
                                     </DataTemplate>

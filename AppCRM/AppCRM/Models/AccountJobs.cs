@@ -2,6 +2,7 @@
 using AppCRM.ViewModels.AdminArea;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace AppCRM.Models
@@ -381,7 +382,7 @@ namespace AppCRM.Models
         public int EmployeeCount { get; set; }
     }
 
-    public class ContactJobs
+    public class ContactJobs : INotifyPropertyChanged
     {
         #region Variable Declaration
         public Guid? ContactID { get; set; }
@@ -405,7 +406,21 @@ namespace AppCRM.Models
         public Guid? SalaryRangeUnitID { get; set; }
         public Guid? JobTypeID { get; set; }
         public String JobTypeName { get; set; }
-        public String Status { get; set; }
+        private String _status;
+        public String Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                OnPropertyChanged("Status");
+                OnPropertyChanged("AppliedVisible");
+                OnPropertyChanged("CanShortlisted"); 
+                OnPropertyChanged("ShortlistedVisible");
+                OnPropertyChanged("WithDrawVisible");
+                OnPropertyChanged("ShortlistTextColor");
+            }
+        }
         public Guid? EmployerID { get; set; }
         public int DateRange { get; set; }
         public Guid? VacancyID { get; set; }
@@ -524,6 +539,28 @@ namespace AppCRM.Models
                 }
             }
             set { }
+        }
+        public string ShortlistTextColor {
+            get
+            {
+                if (CanShortlisted)
+                {
+                    return "#E66424";
+                }
+                else
+                {
+                    return "#ccc";
+                }
+            }
+            set { }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            }
         }
         #endregion
     }
