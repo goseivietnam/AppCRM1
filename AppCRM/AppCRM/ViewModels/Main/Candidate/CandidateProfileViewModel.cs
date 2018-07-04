@@ -523,15 +523,6 @@ namespace AppCRM.ViewModels.Main.Candidate
             GetBindingWorkExprience();
             GetBindinLicence();
 
-            //ContactLinksListViewHeightRequest = (contactLinks.Count * 28 - 1);
-            //EducationListViewHeightRequest = (educationList.Count * 91 - 1 * (educationList.Count > 1 ? 1 : 0));
-            //WorkExperienceListViewHeightRequest = (workExprienceList.Count * 91 - 1 * (workExprienceList.Count > 1 ? 1 : 0));
-            //SkillListViewHeightRequest = (skillList.Count * 31 - 1 * (skillList.Count > 1 ? 1 : 0));
-            //QualificationListViewHeightRequest = (qualificationList.Count * 91 - 1 * (qualificationList.Count > 1 ? 1 : 0));
-            //LicenceListViewHeightRequest = (licenceList.Count * 61 - 1 * (licenceList.Count > 1 ? 1 : 0));
-            //DocumentListViewHeightRequest = (documentList.Count * 31 - 1 * (documentList.Count > 1 ? 1 : 0));
-            //ReferenceListViewHeightRequest = (referenceList.Count * 91 - 1 * (referenceList.Count > 1 ? 1 : 0));
-
             CandidateMainViewModel.Current.IsProfilePageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
         }
