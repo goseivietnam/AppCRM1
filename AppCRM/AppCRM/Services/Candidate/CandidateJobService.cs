@@ -15,6 +15,7 @@ namespace AppCRM.Services.Candidate
         Task<dynamic> GetVacancyDetails(Guid? VacancyID);
         Task<dynamic> WithDrawVacancy(Guid? VacancyID);
         Task<dynamic> ApplyVacancy(Guid? VacancyID);
+        Task<dynamic> ShortListJob(bool? shortlisted, Guid? VacancyID);
 
         //Task<dynamic> GetEmployerCandidateDetail();
         //Task<dynamic> GetEmployerCandidateProfile();
@@ -83,6 +84,13 @@ namespace AppCRM.Services.Candidate
         {
             object item = new Hashtable { { "VacancyID", VacancyID } };
             var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/ApplyVacancy", item);
+            return result;
+        }
+
+        public async Task<dynamic> ShortListJob(bool? shortlisted, Guid? VacancyID)
+        {
+            object item = new Hashtable { { "VacancyID", VacancyID }, { "IsShortList", shortlisted } };
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/ShortListJob", item);
             return result;
         }
     }

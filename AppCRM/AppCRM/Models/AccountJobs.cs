@@ -2,6 +2,7 @@
 using AppCRM.ViewModels.AdminArea;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace AppCRM.Models
@@ -28,7 +29,7 @@ namespace AppCRM.Models
         public String Country { get; set; }
         public bool Applied { get; set; }
         public Guid? ObjectID { get; set; }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (ObjectID == null ? "" : ObjectID.ToString());}
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (ObjectID == null ? "" : ObjectID.ToString()); }
 
         public String KeyWord { get; set; }
         public String Location { get; set; }
@@ -381,7 +382,7 @@ namespace AppCRM.Models
         public int EmployeeCount { get; set; }
     }
 
-    public class ContactJobs
+    public class ContactJobs : INotifyPropertyChanged
     {
         #region Variable Declaration
         public Guid? ContactID { get; set; }
@@ -405,7 +406,21 @@ namespace AppCRM.Models
         public Guid? SalaryRangeUnitID { get; set; }
         public Guid? JobTypeID { get; set; }
         public String JobTypeName { get; set; }
-        public String Status { get; set; }
+        private String _status;
+        public String Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                OnPropertyChanged("Status");
+                OnPropertyChanged("AppliedVisible");
+                OnPropertyChanged("CanShortlisted"); 
+                OnPropertyChanged("ShortlistedVisible");
+                OnPropertyChanged("WithDrawVisible");
+                OnPropertyChanged("ShortlistTextColor");
+            }
+        }
         public Guid? EmployerID { get; set; }
         public int DateRange { get; set; }
         public Guid? VacancyID { get; set; }
@@ -436,6 +451,117 @@ namespace AppCRM.Models
         public int OpenDurationDay { get => this.OpenDate.HasValue ? (int)Math.Round((DateTime.Now - this.OpenDate.Value).TotalDays) : 0; }
         public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
         public string TenantLogoSource { get => RequestService.HOST_NAME + "api/Document/Get?id=" + (TenantLogo == null ? "" : TenantLogo.ToString()); }
+        public bool ShortlistedVisible
+        {
+            get
+            {
+                if (Status == "Interested")
+                {
+                    return false;
+                }
+                else
+                {
+                    if (Status == "My Talent Pool" || Status == null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            set { }
+        }
+        public bool CanShortlisted
+        {
+            get
+            {
+                if (Status == "Interested")
+                {
+                    return true;
+                }
+                else
+                {
+                    if (Status == "My Talent Pool" || Status == null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            set { }
+        }
+        public bool AppliedVisible
+        {
+            get
+            {
+                if (Status == "Interested")
+                {
+                    return true;
+                }
+                else
+                {
+                    if (Status == "My Talent Pool" || Status == null)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            set { }
+        }
+
+        public bool WithDrawVisible
+        {
+            get
+            {
+                if (Status == "Interested")
+                {
+                    return false;
+                }
+                else
+                {
+                    if (Status == "My Talent Pool" || Status == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+            }
+            set { }
+        }
+        public string ShortlistTextColor {
+            get
+            {
+                if (CanShortlisted)
+                {
+                    return "#E66424";
+                }
+                else
+                {
+                    return "#ccc";
+                }
+            }
+            set { }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            }
+        }
         #endregion
     }
 }

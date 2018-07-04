@@ -103,21 +103,37 @@
                                                 <ColumnDefinition Width="100"/>
                                                 <ColumnDefinition Width="100"/>
                                             </Grid.ColumnDefinitions>
-                                            <AbsoluteLayout BackgroundColor="#F6F7FA" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
+                                            <AbsoluteLayout IsVisible="{Binding ShortlistedVisible}" IsEnabled="{Binding CanShortlisted}" BackgroundColor="#F6F7FA" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
                                                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
                                                     <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_shortlist.png" WidthRequest="20" HeightRequest="20"/>
-                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="Shortlist" TextColor="#E66424"/>
+                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="Shortlist" TextColor="{Binding ShortlistTextColor}"/>
                                                 </StackLayout>
                                                 <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
                                                             behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding ShortListChangedCommand}"/>
                                             </AbsoluteLayout>
-                                            <AbsoluteLayout  BackgroundColor="#2A76FD" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="1">
+                                            <AbsoluteLayout IsVisible="{Binding ShortlistedVisible, Converter={StaticResource inverseBoolConverter}}" IsEnabled="{Binding CanShortlisted}" BackgroundColor="#F6F7FA" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="0">
+                                                <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
+                                                    <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_shortlist.png" WidthRequest="20" HeightRequest="20"/>
+                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" HorizontalTextAlignment="Center" Text="Remove Shortlist" TextColor="{Binding ShortlistTextColor}"/>
+                                                </StackLayout>
+                                                <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
+                                                            behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding ShortListChangedCommand}"/>
+                                            </AbsoluteLayout>
+                                            <AbsoluteLayout IsVisible="{Binding AppliedVisible}" BackgroundColor="#2A76FD" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="1">
                                                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
                                                     <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_apply.png" WidthRequest="20" HeightRequest="20"/>
                                                     <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="Apply" TextColor="White"/>
                                                 </StackLayout>
                                                 <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
                                                         behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding ApplyChangedCommand}"/>
+                                            </AbsoluteLayout>
+                                            <AbsoluteLayout IsVisible="{Binding AppliedVisible, Converter={StaticResource inverseBoolConverter}}" BackgroundColor="#E85A6C" HorizontalOptions="Fill" VerticalOptions="Fill" Grid.Column="1">
+                                                <StackLayout AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional">
+                                                    <Image VerticalOptions="EndAndExpand" HorizontalOptions="Center" Source="icon_apply.png" WidthRequest="20" HeightRequest="20"/>
+                                                    <Label VerticalOptions="StartAndExpand" HorizontalOptions="Center" Text="WithDraw" TextColor="White"/>
+                                                </StackLayout>
+                                                <Button AbsoluteLayout.LayoutBounds="0,0,100,1" AbsoluteLayout.LayoutFlags="HeightProportional" BackgroundColor="Transparent"
+                                                        behaviors:BindingContextChangedCommand.BindingContextChangedCommand="{Binding WithDrawChangedCommand}"/>
                                             </AbsoluteLayout>
                                         </Grid>
                                     </DataTemplate>
@@ -142,7 +158,7 @@
                                                     <Label Text="{Binding Title}"/>
                                                     <Label Text="{Binding Company}"/>
                                                     <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                        <Image Source="{Binding TenantLogoSource}" WidthRequest="12" HeightRequest="12"/>
+                                                        <Image IsVisible="{Binding Job.IsPromoted}" Source="img_favorite_job.png" WidthRequest="12" HeightRequest="12"/>
                                                         <Label Text="{Binding JobTypeName}" FontSize="11"/>
                                                         <Label Text="{Binding Salary, StringFormat='${0}'}" FontSize="11"/>
                                                         <Label Text="{Binding WorksiteName}" FontSize="11"/>
@@ -160,7 +176,7 @@
                                 <sfListView:SfListView.LoadMoreTemplate>
                                     <DataTemplate>
                                         <Grid HeightRequest="70">
-                                            <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding IsBusy, Converter={StaticResource inverseBoolConverter}}" />
+                                            <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding LoadMoreIsVisible}" />
                                             <sfListView:LoadMoreIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#DFDFDF" VerticalOptions="Center"/>
                                         </Grid>
                                     </DataTemplate>
