@@ -21,15 +21,15 @@ namespace AppCRM.Models
         public bool? IsWorkRights { get; set; }
         public string SalaryMin { get; set; }
         public string SalaryMax { get; set; }
-        public int JobTotal { get; set; }
-        public int CurrentPage { get; set; }
+        public int JobTotal { get; set; } = 5;
+        public int CurrentPage { get; set; } = 1;
     }
 
     public class EmployerSearchFilter
     {
         public string KeySearch1 { get; set; }
         public string KeySearch2 { get; set; }
-        public int PageSize { get; set; }
-        public int CurrentPage { get; set; }
+        public int PageSize { get; set; } = 5;
+        public int CurrentPage { get; set; } = 1;
     }
 }

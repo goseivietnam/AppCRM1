@@ -11,25 +11,25 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
-            <AbsoluteLayout>
-                <Image Source="https://i.imgur.com/hqT8eAt.png" AbsoluteLayout.LayoutBounds="0,0,1,150" AbsoluteLayout.LayoutFlags="WidthProportional"
+                <AbsoluteLayout>
+                    <Image Source="{Binding Company.CoverImageSource}" AbsoluteLayout.LayoutBounds="0,0,1,150" AbsoluteLayout.LayoutFlags="WidthProportional"
                        Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-                <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,40" AbsoluteLayout.LayoutFlags="WidthProportional">
-                    <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="Transparent" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                    <Button BackgroundColor="Transparent" Image="three_dots.png" HorizontalOptions="EndAndExpand" WidthRequest="40"/>
-                </StackLayout>
-                <Frame CornerRadius="40" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" AbsoluteLayout.LayoutBounds="20,110,80,80">
-                    <Image Aspect="AspectFill" Source="https://i.imgur.com/fSZz5Ta.png"/>
-                </Frame>
-                <StackLayout AbsoluteLayout.LayoutBounds="0,150,1,150" AbsoluteLayout.LayoutFlags="WidthProportional" Padding="110,10" Spacing="15">
-                    <Label Text="{Binding Company.AccountName}" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" TextColor="Black"/>
-                    <StackLayout Padding="0" Orientation="Horizontal" Spacing="5">
-                        <Label Text="{Binding Company.WebSite}" FontSize="11"/>
-                        <Label Text="{Binding Company.Address}" FontSize="11"/>
+                    <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,40" AbsoluteLayout.LayoutFlags="WidthProportional">
+                        <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="Transparent" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
+                        <Button BackgroundColor="Transparent" Image="three_dots.png" HorizontalOptions="EndAndExpand" WidthRequest="40"/>
                     </StackLayout>
-                    <Button Text="More info..." TextColor="#2A76FD" BackgroundColor="Transparent" HeightRequest="40" WidthRequest="80"/>
-                </StackLayout>
-            </AbsoluteLayout>
+                    <Frame CornerRadius="40" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" AbsoluteLayout.LayoutBounds="20,110,80,80">
+                        <Image Aspect="AspectFill" Source="{Binding Company.ImageSource}"/>
+                    </Frame>
+                    <StackLayout AbsoluteLayout.LayoutBounds="0,150,1,150" AbsoluteLayout.LayoutFlags="WidthProportional" Padding="110,10" Spacing="15">
+                        <Label Text="{Binding Company.AccountName}" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" TextColor="Black"/>
+                        <StackLayout Padding="0" Orientation="Horizontal" Spacing="5">
+                            <Label Text="{Binding Company.WebSite}" FontSize="11"/>
+                            <Label Text="{Binding Company.Address}" FontSize="11"/>
+                        </StackLayout>
+                        <Button Text="More info..." TextColor="#2A76FD" BackgroundColor="Transparent" HeightRequest="40" WidthRequest="80"/>
+                    </StackLayout>
+                </AbsoluteLayout>
                 <StackLayout BackgroundColor="White" Spacing="20" VerticalOptions="FillAndExpand" Padding="0,10">
                     <Grid Padding="15,0">
                         <Grid.ColumnDefinitions>
@@ -46,7 +46,8 @@
 
                     <StackLayout Spacing="10" Padding="0">
                         <Label Text="Vacancy" TextColor="#231F20" FontSize="14" FontAttributes="Bold" Margin="20,0"/>
-                        <sfListView:SfListView ItemsSource="{Binding Vacancies}" ItemSize="60" SelectionMode="None">
+                        <sfListView:SfListView ItemsSource="{Binding Vacancies}" ItemSize="60" SelectionMode="None" 
+                                               LoadMoreCommand="{Binding LoadMoreVacanciesCommand}" IsBusy="{Binding IsBusy}">
                             <sfListView:SfListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -61,14 +62,14 @@
                                                 <RowDefinition Height="10"/>
                                             </Grid.RowDefinitions>
                                             <StackLayout Grid.Column="0">
-                                                <Image HorizontalOptions="CenterAndExpand" Source="https://i.imgur.com/fSZz5Ta.png" WidthRequest="40" HeightRequest="40"/>
+                                                <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSourceByAccountID}" WidthRequest="40" HeightRequest="40"/>
                                             </StackLayout>
                                             <StackLayout Grid.Column="1">
                                                 <Label Text="{Binding Title}"/>
                                                 <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                                     <Label Text="{Binding JobType}" FontSize="11"/>
                                                     <Label Text="{Binding Salary, StringFormat='${0}'}" FontSize="11"/>
-                                                    <Label Text="{Binding Country}" FontSize="11"/>
+                                                    <Label Text="{Binding WorksiteName}" FontSize="11"/>
                                                 </StackLayout>
                                             </StackLayout>
                                             <StackLayout Grid.Column="2" Padding="0">
@@ -79,6 +80,14 @@
                                     </ViewCell>
                                 </DataTemplate>
                             </sfListView:SfListView.ItemTemplate>
+                            <sfListView:SfListView.LoadMoreTemplate>
+                                <DataTemplate>
+                                    <Grid HeightRequest="70">
+                                        <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding VacancisLoadMoreIsVisible}" />
+                                        <sfListView:LoadMoreIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#DFDFDF" VerticalOptions="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </sfListView:SfListView.LoadMoreTemplate>
                         </sfListView:SfListView>
                     </StackLayout>
 

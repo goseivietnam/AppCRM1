@@ -1,12 +1,16 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.Candidate;
 using AppCRM.Services.Dialog;
+using AppCRM.Services.Employer;
 using AppCRM.Services.Navigation;
+using AppCRM.Tools;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
+using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -16,18 +20,24 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
     public class CompanyDetailViewModel : ViewModelBase
     {
         private readonly ICandidateExploreService _candidateExploreService;
+        private readonly IEmployerJobService _employerJobService;
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
 
-        private Guid? _accountID;
+        private Guid _accountID;
+        private int _currentPageVacancies = 1;
+        private readonly int PageSize = 5;
 
         private Models.Account _company;
-        private List<Vacancy> _vacancies;
+        private ObservableCollection<AccountJobs> _vacancies;
 
-        public CompanyDetailViewModel(IDialogService dialogService, ICandidateExploreService candidateExploreService, INavigationService navigationService)
+        private bool _vacancisLoadMoreIsVisible;
+
+        public CompanyDetailViewModel(IDialogService dialogService, IEmployerJobService employerJobService, ICandidateExploreService candidateExploreService, INavigationService navigationService)
         {
             _dialogService = dialogService;
             _candidateExploreService = candidateExploreService;
+            _employerJobService = employerJobService;
             _navigationService = navigationService;
         }
 
@@ -43,7 +53,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public List<Vacancy> Vacancies
+        public ObservableCollection<AccountJobs> Vacancies
         {
             get
             {
@@ -55,9 +65,21 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-
+        public bool VacancisLoadMoreIsVisible
+        {
+            get
+            {
+                return _vacancisLoadMoreIsVisible;
+            }
+            set
+            {
+                _vacancisLoadMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
         public ICommand ListViewCommand => new Command(ListViewTapped);
+        public ICommand LoadMoreVacanciesCommand => new AsyncCommand(LoadMoreVacancies);
 
         private async Task BtnBackAsync()
         {
@@ -73,21 +95,81 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             var pop = await _dialogService.OpenLoadingPopup();
             _accountID = (Guid)navigationData;
 
-            Company = new Models.Account
-            {
-                AboutUs = "The first is a non technical method which requires the use of adware removal software. Download free adware and spyware removal software and use advanced tools to help prevent getting infected.Spyware scan review is a free service for anyone interested in downloading spyware / adware removal software.Our adware remover is the most trusted adware removal software in the world. Additionally, adware operations are increasingly asking that their software no longer be uninstalled by adware / spyware removal companies.",
-                AccountName = "National University of Singapore",
-                WebSite = "www.nus.edu.sg",
-                Address = "Singapore",
-                VideoLink = ""
-            };
+            dynamic obj = await _employerJobService.GetEmployerDetails(_accountID);
 
-            Vacancies = new List<Vacancy>
+            if (obj["EmployerDetails"] != null)
             {
-                new Vacancy { Title = "Program Manager", JobType = "Casual", Salary = "18619", Country = "Washington" }
-            };
+                string aboutUs = "";
+                if (obj["EmployerDetails"]["AboutUs"] != null)
+                {
+                    aboutUs = Utilities.HtmlToPlainText(obj["EmployerDetails"]["AboutUs"].ToString());
+                }
 
+                Company = new Models.Account
+                {
+                    AccountID = _accountID,
+                    AboutUs = aboutUs,
+                    AccountName = obj["EmployerDetails"]["AccountName"],
+                    WebSite = obj["EmployerDetails"]["WebSite"],
+                    Address = obj["EmployerDetails"]["Address"],
+                    VideoLink = obj["EmployerDetails"]["VideoLink"]
+                };
+            }
+
+            AccountJobs AJ = new AccountJobs
+            {
+                AccountID = _accountID,
+                CurrentPage = _currentPageVacancies,
+                PageSize = PageSize
+            };
+            dynamic objVacancies = await _employerJobService.GetRelatedJobs(AJ);
+            if (objVacancies["records"] != null)
+            {
+                Vacancies = JsonConvert.DeserializeObject<ObservableCollection<AccountJobs>>(objVacancies["records"].ToString());
+            }
+            VacancisLoadMoreIsVisible = true;
+
+            if (objVacancies["hasMore"] == false)
+            {
+                VacancisLoadMoreIsVisible = false;
+            }
             await _dialogService.CloseLoadingPopup(pop);
+        }
+
+        private async Task LoadMoreVacancies()
+        {
+            IsBusy = true;
+
+            _currentPageVacancies += 1;
+            AccountJobs AJ = new AccountJobs
+            {
+                AccountID = _accountID,
+                CurrentPage = _currentPageVacancies,
+                PageSize = PageSize
+            };
+
+            dynamic obj = await _employerJobService.GetRelatedJobs(AJ);
+
+            if (obj["Jobs"] != null)
+            {
+                List<AccountJobs> listMore = JsonConvert.DeserializeObject<List<AccountJobs>>(obj["records"].ToString());
+                if (listMore.Count > 0)
+                {
+                    foreach (var item in listMore)
+                    {
+                        Vacancies.Add(item);
+                    }
+                    if (obj["hasMore"] == false)
+                    {
+                        VacancisLoadMoreIsVisible = false;
+                    }
+                }
+                else
+                {
+                    VacancisLoadMoreIsVisible = false;
+                }
+            }
+            IsBusy = false;
         }
     }
 }

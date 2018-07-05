@@ -27,7 +27,8 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-		public static readonly string HOST_NAME = "https://4ee450d6.ngrok.io/";        public static string ACCESS_TOKEN;
+		public static readonly string HOST_NAME = "http://747a046d.ngrok.io/";
+        public static string ACCESS_TOKEN;
         private readonly JsonSerializerSettings _serializerSettings;
 
         public RequestService()

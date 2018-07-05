@@ -321,6 +321,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             {
                 if (obj["Success"] == "true")
                 {
+                    (CandidateMainViewModel.Current.ExplorePage as CandidateExploreViewModel).FilterParameters = parameter;
                     await _dialogService.PopupMessage("Save Search Difinition Successefully", "#52CD9F", "#FFFFFF");
                     await PopupNavigation.Instance.PopAllAsync();
                 }
