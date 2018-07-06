@@ -29,8 +29,8 @@ namespace AppCRM.Models
         public String Country { get; set; }
         public bool Applied { get; set; }
         public Guid? ObjectID { get; set; }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (ObjectID == null ? "" : ObjectID.ToString()); }
-
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountLogoByAccountID?id=" + (ObjectID == null ? "" : ObjectID.ToString()); }
+        public string ImageSourceByAccountID { get => RequestService.HOST_NAME + "api/Document/GetAccountLogoByAccountID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
         public String KeyWord { get; set; }
         public String Location { get; set; }
         public string CityName { get; set; }
@@ -195,7 +195,7 @@ namespace AppCRM.Models
         //public String Assessment { get; set; }
         //public String AssessmentLabel { get; set; }
         public int AppliedDay { get { return (int)Math.Round((DateTime.Now - this.AppliedDate).TotalDays); } }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountLogoByAccountID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
         public List<JobRequire> Requires { get; set; }
         public List<UserContactTask> ToDoTasks { get; set; }
         public List<UserContactTask> CompleteTasks { get; set; }
@@ -259,7 +259,7 @@ namespace AppCRM.Models
         public List<UserContactTask> ContactTasksTodo { get; set; }
         public List<UserContactTask> ContactTasksComplete { get; set; }
         public int RemainingDay { get { return (int)Math.Round((this.CloseDate.Value - DateTime.Now).TotalDays); } }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + Account.AccountID.ToString(); }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountLogoByAccountID?id=" + Account.AccountID.ToString(); }
     }
 
     public class ContactTemplateFilter
@@ -449,7 +449,7 @@ namespace AppCRM.Models
         public string ThirdPartyURL { get; set; }
         public string WorksiteName { get; set; }
         public int OpenDurationDay { get => this.OpenDate.HasValue ? (int)Math.Round((DateTime.Now - this.OpenDate.Value).TotalDays) : 0; }
-        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountImageByContactID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
+        public string ImageSource { get => RequestService.HOST_NAME + "api/Document/GetAccountLogoByAccountID?id=" + (AccountID == null ? "" : AccountID.ToString()); }
         public string TenantLogoSource { get => RequestService.HOST_NAME + "api/Document/Get?id=" + (TenantLogo == null ? "" : TenantLogo.ToString()); }
         public bool ShortlistedVisible
         {

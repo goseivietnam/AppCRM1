@@ -4,14 +4,12 @@ using AppCRM.Services.Candidate;
 using AppCRM.Services.Dialog;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
-using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
 using Syncfusion.SfAutoComplete.XForms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -38,6 +36,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private ObservableCollection<object> _qualificationSelected;
         private ObservableCollection<object> _licenceCollection;
         private ObservableCollection<object> _licenceSelected;
+        private InitFilter _initDataFilter;
 
         private bool _isJobTypeEditing;
         private bool _isCategoryEditing;
@@ -47,6 +46,18 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private bool _isQualificationEditing;
         private bool _isLicenceEditing;
 
+        public InitFilter InitDataFilter
+        {
+            get
+            {
+                return _initDataFilter;
+            }
+            set
+            {
+                _initDataFilter = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<object> JobTypeCollection
         {
             get
@@ -323,26 +334,14 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         {
             var pop = await _dialogService.OpenLoadingPopup();
 
-            var JobTypeDDL = await _iDDLService.GetJobTypeDDL();
-            JobTypeCollection = JobTypeDDL.Cast<object>().ToObservableCollection();
-
-            var CategoryDDL = await _iDDLService.GetClassificationDDL();
-            CategoryCollection = CategoryDDL.Cast<object>().ToObservableCollection();
-
-            var LocationDDL = await _iDDLService.GetLocationDDL("");
-            LocationCollection = LocationDDL.Cast<object>().ToObservableCollection();
-
-            var PositionDDL = await _iDDLService.GetPositionDDL("");
-            PositionCollection = PositionDDL.Cast<object>().ToObservableCollection();
-
-            var SkillDDL = await _iDDLService.GetSkillsDDL("");
-            SkillCollection = SkillDDL.Cast<object>().ToObservableCollection();
-
-            var QualificationDDL = await _iDDLService.GetQualificationDDL();
-            QualificationCollection = QualificationDDL.Cast<object>().ToObservableCollection();
-
-            var LicenceDDL = await _iDDLService.GetLicenceDDL();
-            LicenceCollection = LicenceDDL.Cast<object>().ToObservableCollection();
+            InitDataFilter = await _iDDLService.GetInitDataFilter();
+            JobTypeCollection = InitDataFilter.JobTypeDLL.Cast<object>().ToObservableCollection();
+            CategoryCollection = InitDataFilter.ClassificationDLL.Cast<object>().ToObservableCollection();
+            LocationCollection = InitDataFilter.LocationDDL.Cast<object>().ToObservableCollection();
+            PositionCollection =InitDataFilter.PositionDLL.Cast<object>().ToObservableCollection();
+            SkillCollection =InitDataFilter.SkillsDLL.Cast<object>().ToObservableCollection();
+            QualificationCollection = InitDataFilter.QualificationDLL.Cast<object>().ToObservableCollection();
+            LicenceCollection = InitDataFilter.TicketsDLL.Cast<object>().ToObservableCollection();
 
             var objSearchDifinition = await _candidateExploreService.GetSavedSearchDefinition();
             if (objSearchDifinition["parameter"] != null)
@@ -391,6 +390,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             {
                 if (obj["Success"] == "true")
                 {
+                    (CandidateMainViewModel.Current.ExplorePage as CandidateExploreViewModel).FilterParameters = parameter;
                     await _dialogService.PopupMessage("Save Search Difinition Successefully", "#52CD9F", "#FFFFFF");
                     await PopupNavigation.Instance.PopAllAsync();
                 }

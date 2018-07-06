@@ -190,9 +190,9 @@
                     <tabbedPage:SfTabItem.Content>
                         <ScrollView>
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
-                                <ListView ItemsSource="{Binding Companies}" HeightRequest="{Binding CompanyListViewHeightRequest}" VerticalOptions="Start" RowHeight="100"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding CompanyTappedCommand}">
-                                    <ListView.ItemTemplate>
+                                <sfListView:SfListView ItemsSource="{Binding Companies}" ItemSize="100" AutoFitMode="Height" TapCommand="{Binding CompanyTappedCommand}" SelectionMode="None"
+                                                   LoadMoreOption="Manual" LoadMoreCommand="{Binding LoadMoreCompaniesCommand}" IsBusy="{Binding IsBusy}">
+                                    <sfListView:SfListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell Height="100">
                                                 <Grid Padding="10">
@@ -218,8 +218,16 @@
                                                 </Grid>
                                             </ViewCell>
                                         </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                    </sfListView:SfListView.ItemTemplate>
+                                    <sfListView:SfListView.LoadMoreTemplate>
+                                        <DataTemplate>
+                                            <Grid HeightRequest="70">
+                                                <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding CompaniesLoadMoreIsVisible}" />
+                                                <sfListView:LoadMoreIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#DFDFDF" VerticalOptions="Center"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </sfListView:SfListView.LoadMoreTemplate>
+                                </sfListView:SfListView>
                             </StackLayout>
                         </ScrollView>
                     </tabbedPage:SfTabItem.Content>

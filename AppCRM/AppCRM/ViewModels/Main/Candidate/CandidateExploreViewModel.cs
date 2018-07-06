@@ -25,14 +25,16 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly IEmployerJobService _employerJobService;
         private readonly INavigationService _navigationService;
         private readonly IDialogService _dialogService;
-
-        private int _currentJobPage;
+        private readonly int PageSize = 5;
 
         private int _selectedIndex;
         private ObservableCollection<ContactJobs> _vacancies;
-        private List<Models.Account> _companies;
+        private ObservableCollection<Models.Account> _companies;
         private List<ExploreItem> _recentExploreItems;
         private ExploreItem _currentExploreItem;
+
+        public SearchParameters FilterParameters = new SearchParameters();
+        public EmployerSearchFilter FilterEmployer = new EmployerSearchFilter();
 
         //component visibility
         private bool _isBackButtonVisible;
@@ -49,6 +51,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private bool _isLocationSearchFocused;
 
         private bool _loadMoreIsVisible;
+        private bool _companiesLoadMoreIsVisible;
 
 
         // height listview
@@ -90,7 +93,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public List<Models.Account> Companies
+        public ObservableCollection<Models.Account> Companies
         {
             get
             {
@@ -273,7 +276,18 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-
+        public bool CompaniesLoadMoreIsVisible
+        {
+            get
+            {
+                return _companiesLoadMoreIsVisible;
+            }
+            set
+            {
+                _companiesLoadMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
         public int RecentExploreListViewHeightRequest
         {
             get
@@ -317,6 +331,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand ApplyChangedCommand => new Command(AddApplyTapGestureRecognizer);
         public ICommand WithDrawChangedCommand => new Command(WithDrawTapGestureRecognizer);
         public ICommand LoadMoreVacanciesCommand => new AsyncCommand(LoadMoreVacancies);
+        public ICommand LoadMoreCompaniesCommand => new AsyncCommand(LoadMoreCompanies);
 
         private void RenderLandingPage()
         {
@@ -410,7 +425,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         }
         private async Task OpenCompanyDetail(object obj)
         {
-            await _navigationService.NavigateToPopupAsync<CompanyDetailViewModel>((obj as Models.Account).AccountID, true);
+            var company = (obj as Syncfusion.ListView.XForms.ItemTappedEventArgs).ItemData as Models.Account;
+            await _navigationService.NavigateToPopupAsync<CompanyDetailViewModel>(company.AccountID, true);
         }
         private void SwipeJobItem(object obj)
         {
@@ -440,7 +456,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 try
                 {
                     if (obj["Success"] == "true") //success
-                    {                        
+                    {
                         ContactJobs oldValue = Vacancies.Where(x => x.VacancyID == SwipedJobItem.VacancyID).FirstOrDefault();
                         if (obj["Message"] == "UnShortlist")
                         {
@@ -528,13 +544,9 @@ namespace AppCRM.ViewModels.Main.Candidate
         private async Task LoadMoreVacancies()
         {
             IsBusy = true;
-            _currentJobPage += 1;
-            SearchParameters parameters = new SearchParameters
-            {
-                CurrentPage = _currentJobPage,
-                JobTotal = 10,
-            };
-            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
+            FilterParameters.CurrentPage += 1;
+
+            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
             if (obj["Jobs"] != null)
             {
                 List<ContactJobs> listMore = JsonConvert.DeserializeObject<List<ContactJobs>>(obj["Jobs"].ToString());
@@ -544,7 +556,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                     {
                         Vacancies.Add(item);
                     }
-                    if (listMore.Count < 10)
+                    if (listMore.Count < PageSize)
                     {
                         LoadMoreIsVisible = false;
                     }
@@ -552,6 +564,34 @@ namespace AppCRM.ViewModels.Main.Candidate
                 else
                 {
                     LoadMoreIsVisible = false;
+                }
+            }
+            IsBusy = false;
+        }
+        private async Task LoadMoreCompanies()
+        {
+            IsBusy = true;
+            //FilterEmployer.KeySearch1 = CurrentExploreItem.Title;
+            //FilterEmployer.KeySearch2 = CurrentExploreItem.Location;
+            FilterEmployer.CurrentPage += 1;
+            dynamic objEmployerlist = await _employerJobService.GetEmployerList(FilterEmployer);
+            if (objEmployerlist["employers"] != null)
+            {
+                List<Models.Account> listMore = JsonConvert.DeserializeObject<List<Models.Account>>(objEmployerlist["employers"].ToString());
+                if (listMore.Count > 0)
+                {
+                    foreach (var item in listMore)
+                    {
+                        Companies.Add(item);
+                    }
+                    if (listMore.Count < PageSize)
+                    {
+                        CompaniesLoadMoreIsVisible = false;
+                    }
+                }
+                else
+                {
+                    CompaniesLoadMoreIsVisible = false;
                 }
             }
             IsBusy = false;
@@ -593,13 +633,10 @@ namespace AppCRM.ViewModels.Main.Candidate
             CandidateMainViewModel.Current.TabHeaderMode = TabDisplayMode.ImageWithText;
             CurrentExploreItem = new ExploreItem(CurrentExploreItem);
 
-            _currentJobPage = 1;
-            SearchParameters parameters = new SearchParameters
-            {
-                CurrentPage = _currentJobPage,
-                JobTotal = 10,
-            };
-            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(parameters);
+            //Get Vacancies
+            FilterParameters.Keyword = CurrentExploreItem.Title;
+            FilterParameters.Location = CurrentExploreItem.Location;
+            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
             if (obj["Jobs"] != null)
             {
                 Vacancies = JsonConvert.DeserializeObject<ObservableCollection<ContactJobs>>(obj["Jobs"].ToString());
@@ -609,32 +646,38 @@ namespace AppCRM.ViewModels.Main.Candidate
                 Vacancies = new ObservableCollection<ContactJobs>();
             }
 
-            if (Vacancies.Count < 10)
+            if (Vacancies.Count < PageSize)
             {
                 LoadMoreIsVisible = false;
             }
-            else {
+            else
+            {
                 LoadMoreIsVisible = true;
             }
 
-            EmployerSearchFilter filter = new EmployerSearchFilter
-            {
-                KeySearch1 = CurrentExploreItem.Title,
-                KeySearch2 = CurrentExploreItem.Location,
-                CurrentPage = 1,
-                PageSize = 10
-            };
-            dynamic objEmployerlist = await _employerJobService.GetEmployerList(filter);
+            //Get Companies
+            FilterEmployer.KeySearch1 = CurrentExploreItem.Title;
+            FilterEmployer.KeySearch2 = CurrentExploreItem.Location;
+
+            dynamic objEmployerlist = await _employerJobService.GetEmployerList(FilterEmployer);
             if (objEmployerlist["employers"] != null)
             {
-                Companies = JsonConvert.DeserializeObject<List<Models.Account>>(objEmployerlist["employers"].ToString());
+                Companies = JsonConvert.DeserializeObject<ObservableCollection<Models.Account>>(objEmployerlist["employers"].ToString());
             }
             else
             {
-                Companies = new List<Models.Account>();
+                Companies = new ObservableCollection<Models.Account>();
             }
 
-            CompanyListViewHeightRequest = Companies.Count * 100;
+            if (Companies.Count < PageSize)
+            {
+                CompaniesLoadMoreIsVisible = false;
+            }
+            else
+            {
+                CompaniesLoadMoreIsVisible = true;
+            }
+
             await _dialogService.CloseLoadingPopup(pop);
         }
     }
