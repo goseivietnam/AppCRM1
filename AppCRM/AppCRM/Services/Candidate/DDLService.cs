@@ -14,6 +14,7 @@ namespace AppCRM.Services.Candidate
         Task<IEnumerable<PickerItem>> GetSkillsDDL(string Filter);
         Task<IEnumerable<PickerItem>> GetQualificationDDL();
         Task<IEnumerable<PickerItem>> GetLicenceDDL();
+        Task<InitFilter> GetInitDataFilter();
     }
 
     class DDLService : IDDLService
@@ -57,6 +58,12 @@ namespace AppCRM.Services.Candidate
         public async Task<IEnumerable<PickerItem>> GetLicenceDDL()
         {
             var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetLicenceDDL");
+            return result;
+        }
+
+        public async Task<InitFilter> GetInitDataFilter()
+        {
+            var result = await _requestService.GetDDLAsyncAuthority<InitFilter>("api/CandidateJob/GetDLLFilterSearch");
             return result;
         }
     }

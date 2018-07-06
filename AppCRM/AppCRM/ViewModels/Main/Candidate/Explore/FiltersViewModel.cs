@@ -35,6 +35,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private ObservableCollection<PickerItem> _qualificationSelected;
         private ObservableCollection<PickerItem> _licenceCollection;
         private ObservableCollection<PickerItem> _licenceSelected;
+        private InitFilter _initDataFilter;
 
         private string _fieldJobType;
         private string _fieldCategory;
@@ -44,6 +45,18 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private string _fieldQualification;
         private string _fieldLicence;
 
+        public InitFilter InitDataFilter
+        {
+            get
+            {
+                return _initDataFilter;
+            }
+            set
+            {
+                _initDataFilter = value;
+                OnPropertyChanged();
+            }
+        }
         public ObservableCollection<PickerItem> JobTypeCollection
         {
             get
@@ -263,26 +276,14 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         {
             var pop = await _dialogService.OpenLoadingPopup();
 
-            var JobTypeDDL = await _iDDLService.GetJobTypeDDL();
-            JobTypeCollection = JobTypeDDL.ToObservableCollection();
-
-            //var CategoryDDL = await _iDDLService.GetClassificationDDL();
-            //CategoryCollection = CategoryDDL.ToObservableCollection();
-
-            //var LocationDDL = await _iDDLService.GetLocationDDL("");
-            //LocationCollection = LocationDDL.ToObservableCollection();
-
-            //var PositionDDL = await _iDDLService.GetPositionDDL("");
-            //PositionCollection = PositionDDL.ToObservableCollection();
-
-            //var SkillDDL = await _iDDLService.GetSkillsDDL("");
-            //SkillCollection = SkillDDL.ToObservableCollection();
-
-            //var QualificationDDL = await _iDDLService.GetQualificationDDL();
-            //QualificationCollection = QualificationDDL.ToObservableCollection();
-
-            //var LicenceDDL = await _iDDLService.GetLicenceDDL();
-            //LicenceCollection = LicenceDDL.ToObservableCollection();
+            InitDataFilter = await _iDDLService.GetInitDataFilter();
+            JobTypeCollection = InitDataFilter.JobTypeDLL.ToObservableCollection();
+            CategoryCollection = InitDataFilter.ClassificationDLL.ToObservableCollection();
+            LocationCollection = InitDataFilter.LocationDDL.ToObservableCollection();
+            PositionCollection =InitDataFilter.PositionDLL.ToObservableCollection();
+            SkillCollection =InitDataFilter.SkillsDLL.ToObservableCollection();
+            QualificationCollection = InitDataFilter.QualificationDLL.ToObservableCollection();
+            LicenceCollection = InitDataFilter.TicketsDLL.ToObservableCollection();
 
             var objSearchDifinition = await _candidateExploreService.GetSavedSearchDefinition();
             if (objSearchDifinition["parameter"] != null)
