@@ -1,5 +1,6 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.Request;
+using AppCRM.ViewModels.Main.Candidate.Explore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,13 +8,13 @@ namespace AppCRM.Services.Candidate
 {
     public interface IDDLService
     {
-        Task<IEnumerable<PickerItem>> GetJobTypeDDL();
-        Task<IEnumerable<PickerItem>> GetClassificationDDL();
-        Task<IEnumerable<PickerItem>> GetLocationDDL(string Filter);
-        Task<IEnumerable<PickerItem>> GetPositionDDL(string Filter);
-        Task<IEnumerable<PickerItem>> GetSkillsDDL(string Filter);
-        Task<IEnumerable<PickerItem>> GetQualificationDDL();
-        Task<IEnumerable<PickerItem>> GetLicenceDDL();
+        Task<IEnumerable<LookupItem>> GetJobTypeDDL();
+        Task<IEnumerable<LookupItem>> GetClassificationDDL();
+        Task<IEnumerable<LookupItem>> GetLocationDDL(string Filter);
+        Task<IEnumerable<LookupItem>> GetPositionDDL(string Filter);
+        Task<IEnumerable<LookupItem>> GetSkillsDDL(string Filter);
+        Task<IEnumerable<LookupItem>> GetQualificationDDL();
+        Task<IEnumerable<LookupItem>> GetLicenceDDL();
     }
 
     class DDLService : IDDLService
@@ -24,39 +25,39 @@ namespace AppCRM.Services.Candidate
         {
             _requestService = requestService;
         }
-        public async Task<IEnumerable<PickerItem>> GetJobTypeDDL()
+        public async Task<IEnumerable<LookupItem>> GetJobTypeDDL()
         {
-            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetJobTypeDDL");
+            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<LookupItem>>("api/DDL/GetJobTypeDDL");
             return result;
         }
-        public async Task<IEnumerable<PickerItem>> GetClassificationDDL()
+        public async Task<IEnumerable<LookupItem>> GetClassificationDDL()
         {
-            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetClassificationDDL");
+            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<LookupItem>>("api/DDL/GetClassificationDDL");
             return result;
         }
-        public async Task<IEnumerable<PickerItem>> GetLocationDDL(string Filter)
+        public async Task<IEnumerable<LookupItem>> GetLocationDDL(string Filter)
         {
-            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetLocationDDL?Filter=" + Filter);
+            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<LookupItem>>("api/DDL/GetLocationDDL?Filter=" + Filter);
             return result;
         }
-        public async Task<IEnumerable<PickerItem>> GetPositionDDL(string Filter)
+        public async Task<IEnumerable<LookupItem>> GetPositionDDL(string Filter)
         {
-            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetPositionDDL?Filter=" + Filter);
+            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<LookupItem>>("api/DDL/GetPositionDDL?Filter=" + Filter);
             return result;
         }
-        public async Task<IEnumerable<PickerItem>> GetSkillsDDL(string Filter)
+        public async Task<IEnumerable<LookupItem>> GetSkillsDDL(string Filter)
         {
-            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetSkillsDDL?Filter=" + Filter);
+            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<LookupItem>>("api/DDL/GetSkillsDDL?Filter=" + Filter);
             return result;
         }
-        public async Task<IEnumerable<PickerItem>> GetQualificationDDL()
+        public async Task<IEnumerable<LookupItem>> GetQualificationDDL()
         {
-            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetQualificationDDL");
+            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<LookupItem>>("api/DDL/GetQualificationDDL");
             return result;
         }
-        public async Task<IEnumerable<PickerItem>> GetLicenceDDL()
+        public async Task<IEnumerable<LookupItem>> GetLicenceDDL()
         {
-            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<PickerItem>>("api/DDL/GetLicenceDDL");
+            var result = await _requestService.GetDDLAsyncAuthority<IEnumerable<LookupItem>>("api/DDL/GetLicenceDDL");
             return result;
         }
     }

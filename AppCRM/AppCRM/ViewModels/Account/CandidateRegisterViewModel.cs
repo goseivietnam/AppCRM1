@@ -158,8 +158,8 @@ namespace AppCRM.ViewModels.Account
                 Password = _fieldPassword,
                 UserName = _fieldEmail,
                 ConfirmPassword = _fieldPasswordConfirm,
-                InterestedRoleIds = string.Join(",", SelectedJobs.Select(r => (r as PickerItem).Id)),
-                InterestedLocationIds = string.Join(",", SelectedLocations.Select(r => (r as PickerItem).Id))
+                InterestedRoleIds = string.Join(",", SelectedJobs.Select(r => (r as LookupItem).Id)),
+                InterestedLocationIds = string.Join(",", SelectedLocations.Select(r => (r as LookupItem).Id))
             };
 
             var obj = await _candidateDetailsService.CandidateRegister(reg);

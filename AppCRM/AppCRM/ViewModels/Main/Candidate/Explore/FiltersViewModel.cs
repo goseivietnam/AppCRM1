@@ -6,6 +6,7 @@ using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using Newtonsoft.Json;
 using Rg.Plugins.Popup.Services;
+using Syncfusion.SfAutoComplete.XForms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,30 +24,30 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private readonly ICandidateExploreService _candidateExploreService;
         private readonly IDDLService _iDDLService;
 
-        private ObservableCollection<PickerItem> _jobTypeCollection;
-        private ObservableCollection<PickerItem> _jobTypeSelected;
-        private ObservableCollection<PickerItem> _categoryCollection;
-        private ObservableCollection<PickerItem> _categorySelected;
-        private ObservableCollection<PickerItem> _locationCollection;
-        private ObservableCollection<PickerItem> _locationSelected;
-        private ObservableCollection<PickerItem> _positionCollection;
-        private ObservableCollection<PickerItem> _positionSelected;
-        private ObservableCollection<PickerItem> _skillCollection;
-        private ObservableCollection<PickerItem> _skillSelected;
-        private ObservableCollection<PickerItem> _qualificationCollection;
-        private ObservableCollection<PickerItem> _qualificationSelected;
-        private ObservableCollection<PickerItem> _licenceCollection;
-        private ObservableCollection<PickerItem> _licenceSelected;
+        private ObservableCollection<object> _jobTypeCollection;
+        private ObservableCollection<object> _jobTypeSelected;
+        private ObservableCollection<object> _categoryCollection;
+        private ObservableCollection<object> _categorySelected;
+        private ObservableCollection<object> _locationCollection;
+        private ObservableCollection<object> _locationSelected;
+        private ObservableCollection<object> _positionCollection;
+        private ObservableCollection<object> _positionSelected;
+        private ObservableCollection<object> _skillCollection;
+        private ObservableCollection<object> _skillSelected;
+        private ObservableCollection<object> _qualificationCollection;
+        private ObservableCollection<object> _qualificationSelected;
+        private ObservableCollection<object> _licenceCollection;
+        private ObservableCollection<object> _licenceSelected;
 
-        private string _fieldJobType;
-        private string _fieldCategory;
-        private string _fieldLocation;
-        private string _fieldPosition;
-        private string _fieldSkill;
-        private string _fieldQualification;
-        private string _fieldLicence;
+        private bool _isJobTypeEditing;
+        private bool _isCategoryEditing;
+        private bool _isLocationEditing;
+        private bool _isPositionEditing;
+        private bool _isSkillEditing;
+        private bool _isQualificationEditing;
+        private bool _isLicenceEditing;
 
-        public ObservableCollection<PickerItem> JobTypeCollection
+        public ObservableCollection<object> JobTypeCollection
         {
             get
             {
@@ -58,7 +59,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> JobTypeSelected
+        public ObservableCollection<object> JobTypeSelected
         {
             get
             {
@@ -70,7 +71,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> CategoryCollection
+        public ObservableCollection<object> CategoryCollection
         {
             get
             {
@@ -82,7 +83,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> CategorySelected
+        public ObservableCollection<object> CategorySelected
         {
             get
             {
@@ -94,7 +95,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> LocationCollection
+        public ObservableCollection<object> LocationCollection
         {
             get
             {
@@ -106,7 +107,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> LocationSelected
+        public ObservableCollection<object> LocationSelected
         {
             get
             {
@@ -118,7 +119,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> PositionCollection
+        public ObservableCollection<object> PositionCollection
         {
             get
             {
@@ -130,7 +131,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> PositionSelected
+        public ObservableCollection<object> PositionSelected
         {
             get
             {
@@ -142,7 +143,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> SkillCollection
+        public ObservableCollection<object> SkillCollection
         {
             get
             {
@@ -154,7 +155,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> SkillSelected
+        public ObservableCollection<object> SkillSelected
         {
             get
             {
@@ -166,7 +167,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> QualificationCollection
+        public ObservableCollection<object> QualificationCollection
         {
             get
             {
@@ -178,7 +179,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> QualificationSelected
+        public ObservableCollection<object> QualificationSelected
         {
             get
             {
@@ -190,7 +191,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> LicenceCollection
+        public ObservableCollection<object> LicenceCollection
         {
             get
             {
@@ -202,7 +203,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<PickerItem> LicenceSelected
+        public ObservableCollection<object> LicenceSelected
         {
             get
             {
@@ -211,6 +212,91 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             set
             {
                 _licenceSelected = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsJobTypeEditing
+        {
+            get
+            {
+                return _isJobTypeEditing;
+            }
+            set
+            {
+                _isJobTypeEditing = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsCategoryEditing
+        {
+            get
+            {
+                return _isCategoryEditing;
+            }
+            set
+            {
+                _isCategoryEditing = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsLocationEditing
+        {
+            get
+            {
+                return _isLocationEditing;
+            }
+            set
+            {
+                _isLocationEditing = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsPositionEditing
+        {
+            get
+            {
+                return _isPositionEditing;
+            }
+            set
+            {
+                _isPositionEditing = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsSkillEditing
+        {
+            get
+            {
+                return _isSkillEditing;
+            }
+            set
+            {
+                _isSkillEditing = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsQualificationEditing
+        {
+            get
+            {
+                return _isQualificationEditing;
+            }
+            set
+            {
+                _isQualificationEditing = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool IsLicenceEditing
+        {
+            get
+            {
+                return _isLicenceEditing;
+            }
+            set
+            {
+                _isLicenceEditing = value;
                 OnPropertyChanged();
             }
         }
@@ -224,79 +310,63 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
 
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackCommandAsync);
         public ICommand BtnSaveProfileCommand => new AsyncCommand(BtnSaveProfileCommandAsync);
-        public ICommand JobTypeChangeCommand => new Command(UpdateJobType);
-        public ICommand CategoryChangeCommand => new Command(UpdateCategory);
-        public ICommand LocationChangeCommand => new Command(UpdateLocation);
-        public ICommand PositionChangeCommand => new Command(UpdatePosition);
-        public ICommand SkillChangeCommand => new Command(UpdateSkill);
-        public ICommand QualificationChangeCommand => new Command(UpdateQualification);
-        public ICommand LicenceChangeCommand => new Command(UpdateLicence);
-
-        private void UpdateJobType(object selectedValues)
-        {
-           // _fieldJobType = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
-        private void UpdateCategory(object selectedValues)
-        {
-            _fieldCategory = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
-        private void UpdateLocation(object selectedValues)
-        {
-            _fieldLocation = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
-        private void UpdatePosition(object selectedValues)
-        {
-            _fieldPosition = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
-        private void UpdateSkill(object selectedValues)
-        {
-            _fieldSkill = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
-        private void UpdateQualification(object selectedValues)
-        {
-            _fieldQualification = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
-        private void UpdateLicence(object selectedValues)
-        {
-            _fieldLicence = String.Join(",", (selectedValues as List<string>).ToArray());
-        }
+        public ICommand AutoCompleteChangedCommand => new Command(() => { });
+        public ICommand JobTypeTappedCommand => new Command(() => { IsJobTypeEditing = !IsJobTypeEditing; });
+        public ICommand CategoryTappedCommand => new Command(() => { IsCategoryEditing = !IsCategoryEditing; });
+        public ICommand LocationTappedCommand => new Command(() => { IsLocationEditing = !IsLocationEditing; });
+        public ICommand PositionTappedCommand => new Command(() => { IsPositionEditing = !IsPositionEditing; });
+        public ICommand SkillTappedCommand => new Command(() => { IsSkillEditing = !IsSkillEditing; });
+        public ICommand QualificationTappedCommand => new Command(() => { IsQualificationEditing = !IsQualificationEditing; });
+        public ICommand LicenceTappedCommand => new Command(() => { IsLicenceEditing = !IsLicenceEditing; });
 
         public override async Task InitializeAsync(object navigationData)
         {
             var pop = await _dialogService.OpenLoadingPopup();
 
             var JobTypeDDL = await _iDDLService.GetJobTypeDDL();
-            JobTypeCollection = JobTypeDDL.ToObservableCollection();
+            JobTypeCollection = JobTypeDDL.Cast<object>().ToObservableCollection();
 
-            //var CategoryDDL = await _iDDLService.GetClassificationDDL();
-            //CategoryCollection = CategoryDDL.ToObservableCollection();
+            var CategoryDDL = await _iDDLService.GetClassificationDDL();
+            CategoryCollection = CategoryDDL.Cast<object>().ToObservableCollection();
 
-            //var LocationDDL = await _iDDLService.GetLocationDDL("");
-            //LocationCollection = LocationDDL.ToObservableCollection();
+            var LocationDDL = await _iDDLService.GetLocationDDL("");
+            LocationCollection = LocationDDL.Cast<object>().ToObservableCollection();
 
-            //var PositionDDL = await _iDDLService.GetPositionDDL("");
-            //PositionCollection = PositionDDL.ToObservableCollection();
+            var PositionDDL = await _iDDLService.GetPositionDDL("");
+            PositionCollection = PositionDDL.Cast<object>().ToObservableCollection();
 
-            //var SkillDDL = await _iDDLService.GetSkillsDDL("");
-            //SkillCollection = SkillDDL.ToObservableCollection();
+            var SkillDDL = await _iDDLService.GetSkillsDDL("");
+            SkillCollection = SkillDDL.Cast<object>().ToObservableCollection();
 
-            //var QualificationDDL = await _iDDLService.GetQualificationDDL();
-            //QualificationCollection = QualificationDDL.ToObservableCollection();
+            var QualificationDDL = await _iDDLService.GetQualificationDDL();
+            QualificationCollection = QualificationDDL.Cast<object>().ToObservableCollection();
 
-            //var LicenceDDL = await _iDDLService.GetLicenceDDL();
-            //LicenceCollection = LicenceDDL.ToObservableCollection();
+            var LicenceDDL = await _iDDLService.GetLicenceDDL();
+            LicenceCollection = LicenceDDL.Cast<object>().ToObservableCollection();
 
             var objSearchDifinition = await _candidateExploreService.GetSavedSearchDefinition();
             if (objSearchDifinition["parameter"] != null)
             {
-                string JobTypeIds = objSearchDifinition["parameter"]["JobTypeIds"].ToString();
-                List<Guid> JobTypeIdsList = new List<Guid>();
-                foreach (var id in JobTypeIds.Split(','))
-                {
-                    JobTypeIdsList.Add(new Guid(id));
-                }
+                string[] jobTypeIds = objSearchDifinition["parameter"]["JobTypeIds"].ToString().Split(',');
+                JobTypeSelected = new ObservableCollection<object>(JobTypeCollection.Where(x => Array.IndexOf(jobTypeIds, (x as LookupItem).Id) >= 0));
 
-                JobTypeSelected = JobTypeCollection.Where(x => JobTypeIdsList.Contains(x.Id)).ToObservableCollection();
+                string[] categoryIds = objSearchDifinition["parameter"]["CategoryIds"].ToString().Split(',');
+                CategorySelected = new ObservableCollection<object>(CategoryCollection.Where(x => Array.IndexOf(categoryIds, (x as LookupItem).Id) >= 0));
+
+                string[] locationIds = objSearchDifinition["parameter"]["LocationIds"].ToString().Split(',');
+                LocationSelected = new ObservableCollection<object>(LocationCollection.Where(x => Array.IndexOf(locationIds, (x as LookupItem).Id) >= 0));
+
+                string[] positionIds = objSearchDifinition["parameter"]["PositionIds"].ToString().Split(',');
+                PositionSelected = new ObservableCollection<object>(PositionCollection.Where(x => Array.IndexOf(positionIds, (x as LookupItem).Id) >= 0));
+
+                string[] skillIds = objSearchDifinition["parameter"]["SkillsIds"].ToString().Split(',');
+                SkillSelected = new ObservableCollection<object>(SkillCollection.Where(x => Array.IndexOf(skillIds, (x as LookupItem).Id) >= 0));
+
+                string[] qualificationIds = objSearchDifinition["parameter"]["QualificationsIds"].ToString().Split(',');
+                QualificationSelected = new ObservableCollection<object>(QualificationCollection.Where(x => Array.IndexOf(qualificationIds, (x as LookupItem).Id) >= 0));
+
+                string[] licenceIds = objSearchDifinition["parameter"]["TicketLicensesIds"].ToString().Split(',');
+                LicenceSelected = new ObservableCollection<object>(LicenceCollection.Where(x => Array.IndexOf(licenceIds, (x as LookupItem).Id) >= 0));
             }
 
             await _dialogService.CloseLoadingPopup(pop);
@@ -306,14 +376,14 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             var pop = await _dialogService.OpenLoadingPopup();
             SearchParameters parameter = new SearchParameters
             {
-                JobTypeIds = _fieldJobType,
+                JobTypeIds = string.Join(",", JobTypeSelected.Cast<LookupItem>().Select(r => r.Id.ToString())),
                 //SalaryEstimateIds = _fieldSalaryEstimateIds,
-                CategoryIds = _fieldCategory,
-                LocationIds = _fieldLocation,
-                PositionIds = _fieldPosition,
-                SkillsIds = _fieldSkill,
-                QualificationsIds = _fieldQualification,
-                TicketLicensesIds = _fieldLicence
+                CategoryIds = string.Join(",", CategorySelected.Cast<LookupItem>().Select(r => r.Id.ToString())),
+                LocationIds = string.Join(",", LocationSelected.Cast<LookupItem>().Select(r => r.Id.ToString())),
+                PositionIds = string.Join(",", PositionSelected.Cast<LookupItem>().Select(r => r.Id.ToString())),
+                SkillsIds = string.Join(",", SkillSelected.Cast<LookupItem>().Select(r => r.Id.ToString())),
+                QualificationsIds = string.Join(",", QualificationSelected.Cast<LookupItem>().Select(r => r.Id.ToString())),
+                TicketLicensesIds = string.Join(",", LicenceSelected.Cast<LookupItem>().Select(r => r.Id.ToString()))
             };
             dynamic obj = await _candidateExploreService.SaveSearchDefinition(parameter);
 
