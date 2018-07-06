@@ -633,6 +633,9 @@ namespace AppCRM.ViewModels.Main.Candidate
             CandidateMainViewModel.Current.TabHeaderMode = TabDisplayMode.ImageWithText;
             CurrentExploreItem = new ExploreItem(CurrentExploreItem);
 
+            //Get Vacancies
+            FilterParameters.Keyword = CurrentExploreItem.Title;
+            FilterParameters.Location = CurrentExploreItem.Location;
             dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
             if (obj["Jobs"] != null)
             {
@@ -652,6 +655,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 LoadMoreIsVisible = true;
             }
 
+            //Get Companies
             FilterEmployer.KeySearch1 = CurrentExploreItem.Title;
             FilterEmployer.KeySearch2 = CurrentExploreItem.Location;
 
