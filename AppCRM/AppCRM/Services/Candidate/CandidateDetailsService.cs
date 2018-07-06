@@ -30,8 +30,8 @@ namespace AppCRM.Services.CandidateDetail
         Task<dynamic> AddEditContactCoverImage(SJFileStream stream);
         Task<dynamic> AddEditContactAvatarImage(SJFileStream stream);
         Task<dynamic> UploadResume(SJFileStream stream);
-        Task<IEnumerable<PickerItem>> GetInterestedLocationsDDL();
-        Task<IEnumerable<PickerItem>> GetInterestedRolesDDL();
+        Task<IEnumerable<LookupItem>> GetInterestedLocationsDDL();
+        Task<IEnumerable<LookupItem>> GetInterestedRolesDDL();
     }
     public class CandidateDetailsService : ICandidateDetailsService
     {
@@ -170,14 +170,14 @@ namespace AppCRM.Services.CandidateDetail
             return result;
         }
 
-        public async Task<IEnumerable<PickerItem>> GetInterestedLocationsDDL()
+        public async Task<IEnumerable<LookupItem>> GetInterestedLocationsDDL()
         {
-            return await _requestService.GetDDLAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedLocationsDDL?Filter");
+            return await _requestService.GetDDLAsync<IEnumerable<LookupItem>>("api/DDL/GetInterestedLocationsDDL?Filter");
         }
 
-        public async Task<IEnumerable<PickerItem>> GetInterestedRolesDDL()
+        public async Task<IEnumerable<LookupItem>> GetInterestedRolesDDL()
         {
-            return await _requestService.GetDDLAsync<IEnumerable<PickerItem>>("api/DDL/GetInterestedRolesDDL?Filter");
+            return await _requestService.GetDDLAsync<IEnumerable<LookupItem>>("api/DDL/GetInterestedRolesDDL?Filter");
 
         }
     }

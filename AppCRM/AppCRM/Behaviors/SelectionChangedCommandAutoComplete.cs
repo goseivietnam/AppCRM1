@@ -39,7 +39,21 @@ namespace AppCRM.Behaviors
             {
                 if (autoComplete.MultiSelectMode != MultiSelectMode.None && !autoComplete.IsSelectedItemsVisibleInDropDown)
                 {
-                    autoComplete.SelectedItem = (autoComplete.SelectedItem as Collection<object>).Distinct().ToObservableCollection();
+                    if(autoComplete.SelectedItem.ToString() == "")
+                    {
+                        autoComplete.SelectedItem = new Collection<LookupItem>().Cast<object>().ToObservableCollection();
+                    }
+                    else
+                    {
+                        foreach(var item in autoComplete.SelectedItem as Collection<object>)
+                        {
+                            var lookupItem = item as LookupItem;
+                            if((autoComplete.SelectedItem as Collection<object>).Count(r => (r as LookupItem).Id == lookupItem.Id) > 1)
+                            {
+                                (autoComplete.SelectedItem as Collection<object>).Remove(item);
+                            }
+                        }
+                    }
                 }
                 var command = GetSelectionChangedCommand(autoComplete);
                 if (command != null && command.CanExecute(autoComplete.SelectedItem))

@@ -7,18 +7,18 @@ namespace AppCRM.Models
     public class InitFilter
     {
         [JsonProperty("PositionDLL")]
-        public List<PickerItem> PositionDLL { get;set;}
+        public List<LookupItem> PositionDLL { get;set;}
         [JsonProperty("QualificationDLL")]
-        public List<PickerItem> QualificationDLL { get;set;}
+        public List<LookupItem> QualificationDLL { get;set;}
         [JsonProperty("JobTypeDLL")]
-        public List<PickerItem> JobTypeDLL { get;set;}
+        public List<LookupItem> JobTypeDLL { get;set;}
         [JsonProperty("LocationDDL")]
-        public List<PickerItem> LocationDDL { get;set;}
+        public List<LookupItem> LocationDDL { get;set;}
         [JsonProperty("ClassificationDLL")]
-        public List<PickerItem> ClassificationDLL { get;set;}
+        public List<LookupItem> ClassificationDLL { get;set;}
         [JsonProperty("TicketsDLL")]
-        public List<PickerItem> TicketsDLL { get;set;}
+        public List<LookupItem> TicketsDLL { get;set;}
         [JsonProperty("SkillsDLL")]
-        public List<PickerItem> SkillsDLL { get;set;}
+        public List<LookupItem> SkillsDLL { get;set;}
     }
 }

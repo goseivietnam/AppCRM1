@@ -11,4 +11,10 @@ namespace AppCRM.Models
 
         public override string ToString() => Name;
     }
+
+    public class LookupItem
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
 }
