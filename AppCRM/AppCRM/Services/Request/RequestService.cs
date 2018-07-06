@@ -2,14 +2,13 @@
 using AppCRM.Tools;
 using MimeTypes.Core;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json.Serialization;
 
 namespace AppCRM.Services.Request
 {
@@ -27,7 +26,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-		public static readonly string HOST_NAME = "http://747a046d.ngrok.io/";
+		public static readonly string HOST_NAME = "http://440f2723.ngrok.io/";
         public static string ACCESS_TOKEN;
         private readonly JsonSerializerSettings _serializerSettings;
 
