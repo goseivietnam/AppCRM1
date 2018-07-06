@@ -338,8 +338,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             JobTypeCollection = InitDataFilter.JobTypeDLL.Cast<object>().ToObservableCollection();
             CategoryCollection = InitDataFilter.ClassificationDLL.Cast<object>().ToObservableCollection();
             LocationCollection = InitDataFilter.LocationDDL.Cast<object>().ToObservableCollection();
-            PositionCollection =InitDataFilter.PositionDLL.Cast<object>().ToObservableCollection();
-            SkillCollection =InitDataFilter.SkillsDLL.Cast<object>().ToObservableCollection();
+            PositionCollection = InitDataFilter.PositionDLL.Cast<object>().ToObservableCollection();
+            SkillCollection = InitDataFilter.SkillsDLL.Cast<object>().ToObservableCollection();
             QualificationCollection = InitDataFilter.QualificationDLL.Cast<object>().ToObservableCollection();
             LicenceCollection = InitDataFilter.TicketsDLL.Cast<object>().ToObservableCollection();
 

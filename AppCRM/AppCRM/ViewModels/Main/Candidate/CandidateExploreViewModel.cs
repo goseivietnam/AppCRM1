@@ -343,6 +343,10 @@ namespace AppCRM.ViewModels.Main.Candidate
             IsResultViewVisible = false;
             IsNavigationSearchVisible = true;
             IsSearchDetailVisible = false;
+
+            FilterParameters.CurrentPage = 1;
+            FilterEmployer.CurrentPage = 1;
+
             CandidateMainViewModel.Current.TabHeaderMode = TabDisplayMode.NoHeader;
 
             CurrentExploreItem = new ExploreItem();
@@ -544,33 +548,36 @@ namespace AppCRM.ViewModels.Main.Candidate
         private async Task LoadMoreVacancies()
         {
             IsBusy = true;
+            LoadMoreIsVisible = false;
             FilterParameters.CurrentPage += 1;
-
             dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
             if (obj["Jobs"] != null)
             {
                 List<ContactJobs> listMore = JsonConvert.DeserializeObject<List<ContactJobs>>(obj["Jobs"].ToString());
-                if (listMore.Count > 0)
+                foreach (var item in listMore)
                 {
-                    foreach (var item in listMore)
-                    {
-                        Vacancies.Add(item);
-                    }
-                    if (listMore.Count < PageSize)
-                    {
-                        LoadMoreIsVisible = false;
-                    }
+                    Vacancies.Add(item);
                 }
-                else
+                if (listMore.Count < PageSize)
                 {
                     LoadMoreIsVisible = false;
                 }
+                else
+                {
+                    LoadMoreIsVisible = true;
+                }
+            }
+            else
+            {
+                FilterParameters.CurrentPage--;
+                LoadMoreIsVisible = true;
             }
             IsBusy = false;
         }
         private async Task LoadMoreCompanies()
         {
             IsBusy = true;
+            CompaniesLoadMoreIsVisible = false;
             //FilterEmployer.KeySearch1 = CurrentExploreItem.Title;
             //FilterEmployer.KeySearch2 = CurrentExploreItem.Location;
             FilterEmployer.CurrentPage += 1;
@@ -578,21 +585,23 @@ namespace AppCRM.ViewModels.Main.Candidate
             if (objEmployerlist["employers"] != null)
             {
                 List<Models.Account> listMore = JsonConvert.DeserializeObject<List<Models.Account>>(objEmployerlist["employers"].ToString());
-                if (listMore.Count > 0)
+                foreach (var item in listMore)
                 {
-                    foreach (var item in listMore)
-                    {
-                        Companies.Add(item);
-                    }
-                    if (listMore.Count < PageSize)
-                    {
-                        CompaniesLoadMoreIsVisible = false;
-                    }
+                    Companies.Add(item);
                 }
-                else
+                if (listMore.Count < PageSize)
                 {
                     CompaniesLoadMoreIsVisible = false;
                 }
+                else
+                {
+                    CompaniesLoadMoreIsVisible = true;
+                }
+            }
+            else
+            {
+                FilterEmployer.CurrentPage--;
+                CompaniesLoadMoreIsVisible = true;
             }
             IsBusy = false;
         }
@@ -600,6 +609,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         public override async Task InitializeAsync(object navigationData)
         {
             var pop = await _dialogService.OpenLoadingPopup();
+            LoadMoreIsVisible = false;
+            CompaniesLoadMoreIsVisible = false;
 
             RenderLandingPage();
             SelectedIndex = 0;
@@ -613,6 +624,8 @@ namespace AppCRM.ViewModels.Main.Candidate
 
             RecentExploreListViewHeightRequest = RecentExploreItems.Count * 40 + 40;
 
+            LoadMoreIsVisible = false;
+            CompaniesLoadMoreIsVisible = false;
             CandidateMainViewModel.Current.IsExplorePageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
         }
