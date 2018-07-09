@@ -35,9 +35,9 @@ namespace AppCRM.Behaviors
             if (entry != null && entry.IsEnabled)
             {
                 var command = GetFocusChangedCommand(entry);
-                if (command != null && command.CanExecute(e.IsFocused))
+                if (command != null && command.CanExecute(e))
                 {
-                    command.Execute(e.IsFocused);
+                    command.Execute(e);
                 }
             }
         }

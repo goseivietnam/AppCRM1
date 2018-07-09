@@ -39,6 +39,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         private bool _taskNoFoundIsVisible;
         private bool _documentNoFoundIsVisible;
 
+        private bool autoUnfocusTasksFlag = false;
+        private bool autoUnfocusAttachmentFlag = false;
+        private LayoutOptions _tabViewVerticalOption = LayoutOptions.FillAndExpand;
+
         private List<UserContactTask> _contactTasksTodoList = new List<UserContactTask>();
         private List<UserContactTask> _contactTasksCompleteList = new List<UserContactTask>();
         List<ContactDocument> _contactDocumentList = new List<ContactDocument>();
@@ -176,11 +180,80 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             }
         }
 
+        public LayoutOptions TabViewVerticalOption
+        {
+            get
+            {
+                return _tabViewVerticalOption;
+            }
+            set
+            {
+                _tabViewVerticalOption = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
         public ICommand ListViewCommand => new Command(ListViewTapped);
         public ICommand WithDrawComand => new AsyncCommand(WithDrawComandAsync);
         public ICommand ApplyComand => new AsyncCommand(ApplyComandAsync);
+        public ICommand SearchTasksFocusChangedCommand => new Command(OnSearchTasksFocusChanged);
+        public ICommand SearchAttachmentFocusChangedCommand => new Command(OnSearchAttachmentFocusChanged);
 
+        private void OnSearchTasksFocusChanged(object obj)
+        {
+            if (obj is FocusEventArgs focusEventArgs)
+            {
+                var element = focusEventArgs.VisualElement;
+                if (focusEventArgs.IsFocused)
+                {
+                    if (TabViewVerticalOption.Alignment != LayoutAlignment.Start)
+                    {
+                        TabViewVerticalOption = LayoutOptions.Start;
+                        autoUnfocusTasksFlag = true;
+                    }
+                }
+                else
+                {
+                    if (autoUnfocusTasksFlag)
+                    {
+                        autoUnfocusTasksFlag = false;
+                        element.Focus();
+                    }
+                    else
+                    {
+                        TabViewVerticalOption = LayoutOptions.FillAndExpand;
+                    }
+                }
+            }
+        }
+        private void OnSearchAttachmentFocusChanged(object obj)
+        {
+            if (obj is FocusEventArgs focusEventArgs)
+            {
+                var element = focusEventArgs.VisualElement;
+                if (focusEventArgs.IsFocused)
+                {
+                    if (TabViewVerticalOption.Alignment != LayoutAlignment.Start)
+                    {
+                        TabViewVerticalOption = LayoutOptions.Start;
+                        autoUnfocusAttachmentFlag = true;
+                    }
+                }
+                else
+                {
+                    if (autoUnfocusAttachmentFlag)
+                    {
+                        autoUnfocusAttachmentFlag = false;
+                        element.Focus();
+                    }
+                    else
+                    {
+                        TabViewVerticalOption = LayoutOptions.FillAndExpand;
+                    }
+                }
+            }
+        }
         private async Task BtnBackAsync()
         {
             await PopupNavigation.Instance.PopAllAsync();

@@ -17,7 +17,7 @@
                 <Label Text="{Binding Job.Title}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
                 <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
             </StackLayout>
-            <tabbedPage:SfTabView TabHeaderBackgroundColor="#FFFFFF" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="3" VerticalOptions="FillAndExpand">
+            <tabbedPage:SfTabView TabHeaderBackgroundColor="#FFFFFF" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="3" VerticalOptions="{Binding TabViewVerticalOption}">
                 <tabbedPage:SfTabView.SelectionIndicatorSettings>
                     <tabbedPage:SelectionIndicatorSettings Color="#2A76FD" Position="Bottom"  StrokeThickness="2"/>
                 </tabbedPage:SfTabView.SelectionIndicatorSettings>
@@ -87,7 +87,9 @@
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
                                 <StackLayout Padding="10,5" BackgroundColor="#F2F2F2">
                                     <StackLayout Padding="0,8" BackgroundColor="White">
-                                        <controls:BorderlessEntry Text="{Binding TaskSearchedText}" HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+                                        <controls:BorderlessEntry Text="{Binding TaskSearchedText}" HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" 
+                                                                  BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"
+                                                                  behaviors:FocusChangedCommandBorderlessEntry.FocusChangedCommand="{Binding SearchTasksFocusChangedCommand}"/>
                                     </StackLayout>
                                 </StackLayout>
                                 <Label Text="No Found Job" IsVisible="{Binding TaskNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>
@@ -165,7 +167,9 @@
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
                                 <StackLayout Padding="10,5" BackgroundColor="#F2F2F2">
                                     <StackLayout Padding="0,8" BackgroundColor="White">
-                                        <controls:BorderlessEntry Text="{Binding DocumentSearchedText, Mode=TwoWay}" HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"/>
+                                        <controls:BorderlessEntry Text="{Binding DocumentSearchedText, Mode=TwoWay}" HorizontalOptions="FillAndExpand" Placeholder="Search" PlaceholderColor="#7F8890" 
+                                                                  BackgroundColor="Transparent" HorizontalTextAlignment="Center" TextColor="Black" FontSize="12"
+                                                                  behaviors:FocusChangedCommandBorderlessEntry.FocusChangedCommand="{Binding SearchAttachmentFocusChangedCommand}"/>
                                     </StackLayout>
                                 </StackLayout>
                                 <Label Text="No Found Job" IsVisible="{Binding DocumentNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>

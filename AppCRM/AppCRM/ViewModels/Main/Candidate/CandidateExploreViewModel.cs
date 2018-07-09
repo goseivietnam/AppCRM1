@@ -382,7 +382,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         }
         private void OnFocusSearch(object obj)
         {
-            if (obj != null && obj is bool && (bool)obj)
+            if (obj is FocusEventArgs focusEventArgs && focusEventArgs.IsFocused)
             {
                 IsBackButtonVisible = true;
                 IsTriggerFocusVisible = false;
