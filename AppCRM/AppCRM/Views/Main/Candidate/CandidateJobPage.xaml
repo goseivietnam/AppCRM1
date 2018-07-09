@@ -48,16 +48,18 @@
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="40"/>
                                                     </Grid.ColumnDefinitions>
-                                                    <StackLayout Grid.Column="0">
+                                                    <StackLayout Grid.Column="0" Padding="0,10,0,0">
                                                         <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding PoisitionName}"/>
+                                                        <Label Text="{Binding PoisitionName}" TextColor="Black"/>
                                                         <Label Text="{Binding WorksiteName}"/>
                                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                                             <Image IsVisible="{Binding IsPromoted}" Source="img_favorite_job.png" WidthRequest="12" HeightRequest="12"/>
-                                                            <Label Text="{Binding JobTypeName}" FontSize="11"/>
+                                                            <Label Text="{Binding JobTypeName}" FontSize="11" />
+                                                            <Label FontSize="11" FontFamily="Bold">.</Label>
                                                             <Label Text="{Binding MaxSalary, StringFormat='${0}'}" FontSize="11"/>
+                                                            <Label FontSize="11" FontFamily="Bold">.</Label>
                                                             <Label Text="{Binding Location}" FontSize="11"/>
                                                         </StackLayout>
                                                         <Frame HeightRequest="30" CornerRadius="15" Margin="0" Padding="20,0" BackgroundColor="#E6F2FF" IsClippedToBounds="True" HorizontalOptions="Start">
@@ -108,10 +110,11 @@
                                                         <Image HorizontalOptions="CenterAndExpand" Source="{Binding Vacancy.ImageSource}" WidthRequest="40" HeightRequest="40"/>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="1">
-                                                        <Label Text="{Binding TemplateName}"/>
+                                                        <Label Text="{Binding TemplateName}" TextColor="Black"/>
                                                         <Label Text="{Binding Vacancy.Position}"/>
                                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                                             <Label Text="{Binding Vacancy.Company}" FontSize="11"/>
+                                                            <Label FontSize="11" FontFamily="Bold">.</Label>
                                                             <Label Text="{Binding Vacancy.Worksite}" FontSize="11"/>
                                                         </StackLayout>
                                                     </StackLayout>
@@ -146,8 +149,8 @@
                                                         <Label Text="{Binding TemplateName}"/>
                                                         <Label Text="{Binding Vacancy.Position}"/>
                                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                                            <Label Text="{Binding Vacancy.Company}" FontSize="11"/>
-                                                            <Label Text="{Binding Vacancy.Worksite}" FontSize="11"/>
+                                                            <Label Text="{Binding Vacancy.Company}" LineBreakMode="TailTruncation" FontSize="11"/>
+                                                            <Label Text="{Binding Vacancy.Worksite}" LineBreakMode="TailTruncation" FontSize="11"/>
                                                         </StackLayout>
                                                     </StackLayout>
                                                     <StackLayout Grid.Column="2" Padding="0">
