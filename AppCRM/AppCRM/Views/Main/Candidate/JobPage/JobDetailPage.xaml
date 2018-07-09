@@ -52,22 +52,18 @@
                                 </StackLayout>
                                 <StackLayout Spacing="10">
                                     <Label Text="Required" FontAttributes="Bold" TextColor="Black"/>
-                                    <ListView ItemsSource="{Binding Job.Requires}" RowHeight="30" SeparatorVisibility="None"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                    <ListView ItemsSource="{Binding Job.Requires}" RowHeight="40" SeparatorVisibility="None"
+                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <ViewCell>
                                                     <Grid Padding="10">
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="20"/>
-                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="19*" />
                                                         </Grid.ColumnDefinitions>
-                                                        <StackLayout Grid.Column="0">
-                                                            <Image HorizontalOptions="CenterAndExpand" Source="img_bullet_blue.png" WidthRequest="5" HeightRequest="5"/>
-                                                        </StackLayout>
-                                                        <StackLayout Grid.Column="1">
-                                                            <Label Text="{Binding MeasurementName}" TextColor="#231F20" VerticalOptions="Start"/>
-                                                        </StackLayout>
+                                                            <Image HorizontalOptions="CenterAndExpand" Source="img_bullet_blue.png" WidthRequest="5" HeightRequest="5"  Grid.Column="0"/>
+                                                        <Label Text="{Binding MeasurementName}" TextColor="#231F20" VerticalOptions="Start"  Grid.Column="1" HorizontalOptions="Start"/>
                                                     </Grid>
                                                 </ViewCell>
                                             </DataTemplate>

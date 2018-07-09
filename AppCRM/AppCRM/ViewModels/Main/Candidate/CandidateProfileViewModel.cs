@@ -472,7 +472,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             documentList = JsonConvert.DeserializeObject<List<Document>>(obj["Documents"].ToString());
             referenceList = JsonConvert.DeserializeObject<List<ContactReference>>(obj["References"].ToString());
             List<InterestedRole> roles = JsonConvert.DeserializeObject<List<InterestedRole>>(obj["Role"].ToString());
-            List<ContactLink>  contactLinks = new List<ContactLink>();
+            List<ContactLink> contactLinks = new List<ContactLink>();
             contactLinks.Add(new ContactLink
             {
                 Title = obj["CandidateDetails"]["Email"],
@@ -556,7 +556,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             else
             {
                 workExprienceCount = workExprienceList.Count;
-                _workExperienceViewMoreIsVisible = false;
+                WorkExperienceViewMoreIsVisible = false;
             }
 
             Profile.WorkExpriences = workExprienceList.Take(workExprienceCount).ToList();
@@ -579,7 +579,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
             Profile.Skills = skillList.Take(skillCount).ToList();
             Profile = Profile;
-            SkillListViewHeightRequest = (skillCount * 91 - 1 * (skillCount > 1 ? 1 : 0));
+            SkillListViewHeightRequest = (skillCount * 31 - 1 * (skillCount > 1 ? 1 : 0));
         }
 
         private void GetBindingQualification()
@@ -633,7 +633,7 @@ namespace AppCRM.ViewModels.Main.Candidate
 
             Profile.Documents = documentList.Take(documentCount).ToList();
             Profile = Profile;
-            DocumentListViewHeightRequest = (documentCount * 91 - 1 * (documentCount > 1 ? 1 : 0));
+            DocumentListViewHeightRequest = (documentCount * 31 - 1 * (documentCount > 1 ? 1 : 0));
         }
 
         private void GetBindingReference()
