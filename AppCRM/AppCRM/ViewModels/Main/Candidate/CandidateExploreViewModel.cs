@@ -615,6 +615,19 @@ namespace AppCRM.ViewModels.Main.Candidate
             RenderLandingPage();
             SelectedIndex = 0;
 
+            //Init filter search
+            var objSearchDifinition = await _candidateExploreService.GetSavedSearchDefinition();
+            if (objSearchDifinition["parameter"] != null)
+            {
+                FilterParameters.JobTypeIds = objSearchDifinition["parameter"]["JobTypeIds"].ToString();
+                FilterParameters.CategoryIds = objSearchDifinition["parameter"]["CategoryIds"].ToString();
+                FilterParameters.LocationIds = objSearchDifinition["parameter"]["LocationIds"].ToString();
+                FilterParameters.PositionIds = objSearchDifinition["parameter"]["PositionIds"].ToString();
+                FilterParameters.SkillsIds = objSearchDifinition["parameter"]["SkillsIds"].ToString();
+                FilterParameters.QualificationsIds = objSearchDifinition["parameter"]["QualificationsIds"].ToString();
+                FilterParameters.TicketLicensesIds = objSearchDifinition["parameter"]["TicketLicensesIds"].ToString();
+            }
+
             RecentExploreItems = new List<ExploreItem>
             {
                 new ExploreItem { Title = "Marketing", ExploreCategory = ExploreCategory.Companies },
@@ -646,7 +659,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             CandidateMainViewModel.Current.TabHeaderMode = TabDisplayMode.ImageWithText;
             CurrentExploreItem = new ExploreItem(CurrentExploreItem);
 
-            //Get Vacancies
+            //Get Vacancies          
             FilterParameters.Keyword = CurrentExploreItem.Title;
             FilterParameters.Location = CurrentExploreItem.Location;
             dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
