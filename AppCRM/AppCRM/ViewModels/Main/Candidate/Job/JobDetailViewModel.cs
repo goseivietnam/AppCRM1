@@ -43,9 +43,13 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         private bool autoUnfocusAttachmentFlag = false;
         private LayoutOptions _tabViewVerticalOption = LayoutOptions.FillAndExpand;
 
+        private List<UserContactTask> _contactTasksTodo;
+        private List<UserContactTask> _contactTasksComplete;
+        private List<ContactDocument> _contactDocument;
+
         private List<UserContactTask> _contactTasksTodoList = new List<UserContactTask>();
         private List<UserContactTask> _contactTasksCompleteList = new List<UserContactTask>();
-        List<ContactDocument> _contactDocumentList = new List<ContactDocument>();
+        private List<ContactDocument> _contactDocumentList = new List<ContactDocument>();
         public JobDetailViewModel(IDialogService dialogService, ICandidateJobService candidateJobService, INavigationService navigationService)
         {
             _dialogService = dialogService;
@@ -62,6 +66,43 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             set
             {
                 _job = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public List<UserContactTask> ContactTasksTodo
+        {
+            get
+            {
+                return _contactTasksTodo;
+            }
+            set
+            {
+                _contactTasksTodo = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<UserContactTask> ContactTasksComplete
+        {
+            get
+            {
+                return _contactTasksComplete;
+            }
+            set
+            {
+                _contactTasksComplete = value;
+                OnPropertyChanged();
+            }
+        }
+        public List<ContactDocument> ContactDocument
+        {
+            get
+            {
+                return _contactDocument;
+            }
+            set
+            {
+                _contactDocument = value;
                 OnPropertyChanged();
             }
         }
@@ -312,6 +353,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
 
                 //Get contact Task
                 dynamic objContactTask = await _candidateJobService.GetContactTaskByContactIDAndVacancyID(_vacancyID);
+
                 List<UserContactTask> contactTasksTodo = new List<UserContactTask>();
                 List<UserContactTask> contactTasksComplete = new List<UserContactTask>();
                 if (objContactTask["contactTasks"] != null)
@@ -330,8 +372,11 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                     }
                 }
 
-                _contactTasksTodoList = contactTasksTodo;
-                _contactTasksCompleteList = contactTasksComplete;
+                _contactTasksTodoList.AddRange(contactTasksTodo);
+                _contactTasksCompleteList.AddRange(contactTasksComplete);
+
+                ContactTasksComplete = contactTasksComplete;
+                ContactTasksTodo = contactTasksTodo;
 
                 //Get contact Document
                 dynamic objContactDocument = await _candidateJobService.GetDocumentsAssigneedByContactIDAndVacancyID(_vacancyID);
@@ -345,7 +390,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                     contactDocuments = new List<ContactDocument>();
                 }
 
-                _contactDocumentList = contactDocuments;
+                _contactDocumentList.AddRange(contactDocuments);
+                ContactDocument = contactDocuments;
 
                 Job = new Vacancy
                 {
@@ -361,22 +407,22 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                     Description = description,
                     Account = account,
                     Requires = requires,
-                    ContactTasksTodo = contactTasksTodo,
-                    ContactTasksComplete = contactTasksComplete,
-                    ContactDocuments = contactDocuments
+                    //ContactTasksTodo = contactTasksTodo,
+                    //ContactTasksComplete = contactTasksComplete,
+                    //ContactDocuments = contactDocuments
                 };
 
-                TodoTaskListViewHeightRequest = Job.ContactTasksTodo.Count * 60 + 38;
-                CompleteTaskListViewHeightRequest = Job.ContactTasksComplete.Count * 60 + 40;
-                AttachmentListViewHeightRequest = Job.ContactDocuments.Count * 60 + 38;
+                TodoTaskListViewHeightRequest = ContactTasksTodo.Count * 60 + 38;
+                CompleteTaskListViewHeightRequest = ContactTasksComplete.Count * 60 + 40;
+                AttachmentListViewHeightRequest = ContactDocument.Count * 60 + 38;
             }
             await _dialogService.CloseLoadingPopup(pop);
         }
 
         private void TaskSearchCommandExecute(string _search)
         {
-            Job.ContactTasksTodo.RemoveRange(0, Job.ContactTasksTodo.Count);
-            Job.ContactTasksComplete.RemoveRange(0, Job.ContactTasksComplete.Count);
+            ContactTasksTodo.RemoveRange(0, ContactTasksTodo.Count);
+            ContactTasksComplete.RemoveRange(0, ContactTasksComplete.Count);
 
             List<UserContactTask> contactTaskTodo = new List<UserContactTask>();
             foreach (var item in _contactTasksTodoList)
@@ -386,7 +432,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                     contactTaskTodo.Add(item);
                 }
             }
-            Job.ContactTasksTodo = contactTaskTodo;
+            ContactTasksTodo = contactTaskTodo;
 
             List<UserContactTask> contactTaskcomplete = new List<UserContactTask>();
             foreach (var item in _contactTasksCompleteList)
@@ -396,9 +442,9 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                     contactTaskcomplete.Add(item);
                 }
             }
-            Job.ContactTasksComplete = contactTaskcomplete;
+            ContactTasksComplete = contactTaskcomplete;
 
-            if (Job.ContactTasksComplete.Count == 0 && Job.ContactTasksTodo.Count == 0)
+            if (ContactTasksComplete.Count == 0 && ContactTasksTodo.Count == 0)
             {
                 TaskNoFoundIsVisible = true;
             }
@@ -407,13 +453,13 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 TaskNoFoundIsVisible = false;
             }
 
-            TodoTaskListViewHeightRequest = Job.ContactTasksTodo.Count * 60 + 38;
-            CompleteTaskListViewHeightRequest = Job.ContactTasksComplete.Count * 60 + 40;
+            TodoTaskListViewHeightRequest = ContactTasksTodo.Count * 60 + 38;
+            CompleteTaskListViewHeightRequest = ContactTasksComplete.Count * 60 + 40;
         }
 
         private void DocumentSearchCommandExecute(string _search)
         {
-            Job.ContactDocuments.RemoveRange(0, Job.ContactDocuments.Count);
+            ContactDocument.RemoveRange(0, ContactDocument.Count);
 
             List<ContactDocument> contactDocument = new List<ContactDocument>();
             foreach (var item in _contactDocumentList)
@@ -423,9 +469,9 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                     contactDocument.Add(item);
                 }
             }
-            Job.ContactDocuments = contactDocument;
+            ContactDocument = contactDocument;
 
-            if (Job.ContactDocuments.Count == 0)
+            if (ContactDocument.Count == 0)
             {
                 DocumentNoFoundIsVisible = true;
             }
@@ -434,8 +480,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 DocumentNoFoundIsVisible = false;
             }
 
-            TodoTaskListViewHeightRequest = Job.ContactTasksTodo.Count * 60 + 38;
-            AttachmentListViewHeightRequest = Job.ContactDocuments.Count * 60 + 38;
+            AttachmentListViewHeightRequest = ContactDocument.Count * 60 + 38;
         }
 
         public async Task WithDrawComandAsync()

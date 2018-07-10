@@ -22,11 +22,10 @@ namespace AppCRM.Services.Request
         Task<dynamic> postDataFromServiceAuthority(string url, object item);
         Task<dynamic> UploadFileWithParameters(string url, SJFileStream stream, string fileName, List<HeaderParameters> parameters);
         Task<dynamic> UploadFile(string url, SJFileStream stream, string fileName);
-
     }
     public class RequestService : IRequestService
     {
-		public static readonly string HOST_NAME = "http://396afaa6.ngrok.io/";
+		public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
         public static string ACCESS_TOKEN;
         private readonly JsonSerializerSettings _serializerSettings;
 
@@ -45,7 +44,7 @@ namespace AppCRM.Services.Request
             var client = new HttpClient
             {
                 BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(180000)
+                Timeout = TimeSpan.FromMilliseconds(10000)
             };
             client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
             client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
