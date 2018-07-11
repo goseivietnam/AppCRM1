@@ -27,7 +27,10 @@ namespace AppCRM.Services.Request
     {
 		public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
         public static string ACCESS_TOKEN;
+        public static readonly string APP_VERSION = "1.0.0";
+        public static readonly string TENANT_NAME = "Go2Whoa";
         private readonly JsonSerializerSettings _serializerSettings;
+        private static HttpClient _client = new HttpClient { BaseAddress = new Uri(HOST_NAME), Timeout = TimeSpan.FromMilliseconds(10000) };
 
         public RequestService()
         {
@@ -37,25 +40,14 @@ namespace AppCRM.Services.Request
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc,
                 NullValueHandling = NullValueHandling.Ignore
             };
-        }
-
-        private HttpClient CreateHttpClient()
-        {
-            var client = new HttpClient
-            {
-                BaseAddress = new Uri(HOST_NAME),
-                Timeout = TimeSpan.FromMilliseconds(10000)
-            };
-            client.DefaultRequestHeaders.Add("APP_VERSION", "1.0.0");
-            client.DefaultRequestHeaders.Add("TenantName", "Go2Whoa");
-            return client;
+            _client.DefaultRequestHeaders.Clear();
+            _client.DefaultRequestHeaders.Add("APP_VERSION", APP_VERSION);
+            _client.DefaultRequestHeaders.Add("TenantName", TENANT_NAME);
         }
 
         public async Task<dynamic> getDataFromService(string queryString)
         {
-            HttpClient client = CreateHttpClient();
-
-            var response = await client.GetAsync(HOST_NAME + queryString);
+            var response = await _client.GetAsync(HOST_NAME + queryString);
 
             dynamic data = null;
             if (response != null)
@@ -69,11 +61,11 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> getDataFromServiceAuthority(string queryString)
         {
-            HttpClient client = CreateHttpClient();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
 
-            var response = await client.GetAsync(HOST_NAME + queryString);
+            var response = await _client.GetAsync(HOST_NAME + queryString);
 
             dynamic data = null;
             if (response != null)
@@ -87,13 +79,11 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> postDataFromService(string url, object item)
         {
-            HttpClient client = CreateHttpClient();
-
             var jsonRequest = JsonConvert.SerializeObject(item);
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
             System.Net.WebRequest.DefaultWebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
 
-            HttpResponseMessage response = await client.PostAsync(url, content);
+            HttpResponseMessage response = await _client.PostAsync(url, content);
             string json = response.Content.ReadAsStringAsync().Result;
             dynamic result = JsonConvert.DeserializeAnonymousType(json, new Dictionary<string, object>());
 
@@ -102,9 +92,9 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> postDataFromServiceAuthority(string url, object item)
         {
-            HttpClient client = CreateHttpClient();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+            _client.DefaultRequestHeaders.Accept.Clear();
+            _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
 
             JsonSerializerSettings microsoftDateFormatSettings = new JsonSerializerSettings
             {
@@ -114,7 +104,7 @@ namespace AppCRM.Services.Request
             var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
             System.Net.WebRequest.DefaultWebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
 
-            HttpResponseMessage response = await client.PostAsync(url, content);
+            HttpResponseMessage response = await _client.PostAsync(url, content);
             string json = response.Content.ReadAsStringAsync().Result;
             dynamic result = JsonConvert.DeserializeAnonymousType(json, new Dictionary<string, object>());
 
@@ -123,15 +113,15 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> UploadFileWithParameters(string url, SJFileStream stream, string fileName, List<HeaderParameters> parameters)
         {
-            HttpClient client = CreateHttpClient();
-
-            //Add parameters to header
+            _client.DefaultRequestHeaders.Clear();
+            _client.DefaultRequestHeaders.Add("APP_VERSION", APP_VERSION);
+            _client.DefaultRequestHeaders.Add("TenantName", TENANT_NAME);
             foreach (var para in parameters)
             {
-                client.DefaultRequestHeaders.Add(para.Name, para.Value);
+                _client.DefaultRequestHeaders.Add(para.Name, para.Value);
             }
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
             MultipartFormDataContent content = new MultipartFormDataContent();
             byte[] buffer = Tools.Utilities.ReadToEnd(stream.Stream);
             ByteArrayContent baContent = new ByteArrayContent(buffer);
@@ -139,7 +129,7 @@ namespace AppCRM.Services.Request
             content.Add(baContent, "File", fileName);
 
             //upload MultipartFormDataContent content async and store response in response var
-            HttpResponseMessage response = await client.PostAsync(url, content);
+            HttpResponseMessage response = await _client.PostAsync(url, content);
             string json = response.Content.ReadAsStringAsync().Result;
             dynamic result = JsonConvert.DeserializeAnonymousType(json, new Dictionary<string, object>());
 
@@ -148,8 +138,7 @@ namespace AppCRM.Services.Request
 
         public async Task<dynamic> UploadFile(string url, SJFileStream stream, string fileName)
         {
-            HttpClient client = CreateHttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
             MultipartFormDataContent content = new MultipartFormDataContent();
             byte[] buffer = Tools.Utilities.ReadToEnd(stream.Stream);
             ByteArrayContent baContent = new ByteArrayContent(buffer);
@@ -157,7 +146,7 @@ namespace AppCRM.Services.Request
             content.Add(baContent, "File", fileName);
 
             //upload MultipartFormDataContent content async and store response in response var
-            HttpResponseMessage response = await client.PostAsync(url, content);
+            HttpResponseMessage response = await _client.PostAsync(url, content);
             string json = response.Content.ReadAsStringAsync().Result;
             dynamic result = JsonConvert.DeserializeAnonymousType(json, new Dictionary<string, object>());
 
@@ -166,10 +155,9 @@ namespace AppCRM.Services.Request
 
         public async Task<TResult> GetDDLAsync<TResult>(string queryString)
         {
-            HttpClient client = CreateHttpClient();
             try
             {
-                var response = await client.GetAsync(HOST_NAME + queryString);
+                var response = await _client.GetAsync(HOST_NAME + queryString);
                 string json = response.Content.ReadAsStringAsync().Result;
                 TResult data = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(json,_serializerSettings));
                 return data;
@@ -183,11 +171,10 @@ namespace AppCRM.Services.Request
 
         public async Task<TResult> GetDDLAsyncAuthority<TResult>(string queryString)
         {
-            HttpClient client = CreateHttpClient();
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ACCESS_TOKEN);
             try
             {
-                var response = await client.GetAsync(HOST_NAME + queryString);
+                var response = await _client.GetAsync(HOST_NAME + queryString);
                 string json = response.Content.ReadAsStringAsync().Result;
                 TResult data = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(json, _serializerSettings));
                 return data;

@@ -491,7 +491,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
 
             //load resum
             var objResum = await _candidateDetailsService.GetResume();
-            if (objResum["Result"]["DocumentName"] != null)
+            if (objResum["Result"] != null && objResum["Result"]["DocumentName"] != null)
             {
                 FileName = objResum["Result"]["DocumentName"];
                 FileNameIsVisible = true;
