@@ -395,6 +395,9 @@ namespace AppCRM.ViewModels.Main.Candidate
                 IsSearchFocused = false;
                 IsSearchDetailVisible = true;
                 IsTitleSearchFocused = true;
+
+                FilterParameters.CurrentPage = 1;
+                FilterEmployer.CurrentPage = 1;
             }
         }
         private void OnClearSearch()
