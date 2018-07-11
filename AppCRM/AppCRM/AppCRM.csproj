@@ -15,7 +15,7 @@
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="16.2.0.42" />
     <PackageReference Include="Syncfusion.Xamarin.SfTabView" Version="16.1.0.37" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
-    <PackageReference Include="Xamarin.Forms" Version="3.0.0.446417" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.530893" />
   </ItemGroup>
 
   <ItemGroup>
