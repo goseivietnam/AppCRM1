@@ -44,7 +44,7 @@
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Image="icon_back.png" Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="Start"/>
                         <Label Grid.Column="1" Text="Filters" TextColor="WhiteSmoke" VerticalOptions="Center" FontSize="16" HorizontalOptions="CenterAndExpand"/>
-                        <Button Grid.Column="2" Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveProfileCommand}" BackgroundColor="#2A76FD" HorizontalOptions="End"/>
+                        <Button Grid.Column="2" Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveCommand}" BackgroundColor="#2A76FD" HorizontalOptions="End"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1">

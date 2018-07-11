@@ -319,8 +319,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             _iDDLService = iDDLService;
         }
 
-        public ICommand BtnBackCommand => new AsyncCommand(BtnBackCommandAsync);
-        public ICommand BtnSaveProfileCommand => new AsyncCommand(BtnSaveProfileCommandAsync);
+        public ICommand BtnBackCommand => new AsyncCommand(BackAsync);
+        public ICommand BtnSaveCommand => new AsyncCommand(SaveFilterAsync);
         public ICommand AutoCompleteChangedCommand => new Command(() => { });
         public ICommand JobTypeTappedCommand => new Command(() => { IsJobTypeEditing = !IsJobTypeEditing; });
         public ICommand CategoryTappedCommand => new Command(() => { IsCategoryEditing = !IsCategoryEditing; });
@@ -367,10 +367,20 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 string[] licenceIds = objSearchDifinition["parameter"]["TicketLicensesIds"].ToString().Split(',');
                 LicenceSelected = new ObservableCollection<object>(LicenceCollection.Where(x => Array.IndexOf(licenceIds, (x as LookupItem).Id) >= 0));
             }
+            else
+            {
+                JobTypeSelected = new ObservableCollection<object>();
+                CategorySelected = new ObservableCollection<object>();
+                LocationSelected = new ObservableCollection<object>();
+                PositionSelected = new ObservableCollection<object>();
+                SkillSelected = new ObservableCollection<object>();
+                QualificationSelected = new ObservableCollection<object>();
+                LicenceSelected = new ObservableCollection<object>();
+            }
 
             await _dialogService.CloseLoadingPopup(pop);
         }
-        private async Task BtnSaveProfileCommandAsync()
+        private async Task SaveFilterAsync()
         {
             var pop = await _dialogService.OpenLoadingPopup();
             SearchParameters parameter = new SearchParameters
@@ -407,7 +417,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             await _dialogService.CloseLoadingPopup(pop);
         }
 
-        private async Task BtnBackCommandAsync()
+        private async Task BackAsync()
         {
             await PopupNavigation.Instance.PopAllAsync();
         }
