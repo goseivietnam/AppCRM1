@@ -394,6 +394,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     if (obj["Success"] == "true") //success
                     {
                         AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
+                        (CandidateMainViewModel.Current.ProfilePage as CandidateProfileViewModel).Profile.AvatarUrl = AvatarUrl;
+
                         await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
                     }
                     else if (obj["Success"] == "false")
@@ -425,6 +427,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     if (obj["Success"] == "true")
                     {
                         CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
+                        (CandidateMainViewModel.Current.ProfilePage as CandidateProfileViewModel).Profile.CoverUrl = CoverUrl;
                         await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
                     }
                     else if (obj["Success"] == "false")

@@ -176,7 +176,7 @@
                                 <sfListView:SfListView.LoadMoreTemplate>
                                     <DataTemplate>
                                         <Grid HeightRequest="70">
-                                            <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding LoadMoreIsVisible}" />
+                                            <Label Text="Load more" TextColor="#2A76FD" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="{Binding LoadMoreIsVisible}" />
                                             <sfListView:LoadMoreIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#DFDFDF" VerticalOptions="Center"/>
                                         </Grid>
                                     </DataTemplate>
@@ -222,7 +222,7 @@
                                     <sfListView:SfListView.LoadMoreTemplate>
                                         <DataTemplate>
                                             <Grid HeightRequest="70">
-                                                <Label Text="Load more" TextColor="#2A76FD" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" IsVisible="{Binding CompaniesLoadMoreIsVisible}" />
+                                                <Label Text="Load more" TextColor="#2A76FD" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" IsVisible="{Binding CompaniesLoadMoreIsVisible}" />
                                                 <sfListView:LoadMoreIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" Color="#DFDFDF" VerticalOptions="Center"/>
                                             </Grid>
                                         </DataTemplate>

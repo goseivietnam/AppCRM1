@@ -1,15 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Text;
 
 namespace AppCRM.Models
 {
-    public class Contact
+    public class Contact : INotifyPropertyChanged
     {
         public string UserID { get; set; }
-        public string CoverUrl { get; set; }
-        public string AvatarUrl { get; set; }
+        private string _coverUrl;
+        public string CoverUrl
+        {
+            get { return _coverUrl; }
+            set
+            {
+                _coverUrl = value;
+                OnPropertyChanged("CoverUrl");
+            }
+        }
+        private string _avatarUrl;
+        public string AvatarUrl
+        {
+            get { return _avatarUrl; }
+            set
+            {
+                _avatarUrl = value;
+                OnPropertyChanged("AvatarUrl");
+            }
+        }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
@@ -39,5 +58,14 @@ namespace AppCRM.Models
         public PickerItem SelectedNationality { get; set; }
         public ObservableCollection<PickerItem> CityDDL { get; set; }
         public PickerItem SelectedCity { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            }
+        }
     }
 }
