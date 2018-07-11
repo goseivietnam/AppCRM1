@@ -47,12 +47,12 @@ namespace AppCRM.Controls.TemplateMaterial
             var matEntry = (MaterialEntry)bindable;
             matEntry.UpdateValidation();
         });
-        public static BindableProperty PlaceholderColorProperty = BindableProperty.Create(nameof(PlaceholderColorProperty), typeof(Color), typeof(MaterialEntry), Color.Gray, propertyChanged: (bindable, oldVal, newVal) =>
+        public static BindableProperty PlaceholderColorProperty = BindableProperty.Create(nameof(PlaceholderColor), typeof(Color), typeof(MaterialEntry), Color.Gray, propertyChanged: (bindable, oldVal, newVal) =>
         {
             var matEntry = (MaterialEntry)bindable;
             matEntry.EntryField.PlaceholderColor = (Color)newVal;
         });
-        public static BindableProperty TextBackgroundColorProperty = BindableProperty.Create(nameof(TextBackgroundColorProperty), typeof(Color), typeof(MaterialEntry), Color.Transparent, propertyChanged: (bindable, oldVal, newVal) =>
+        public static BindableProperty TextBackgroundColorProperty = BindableProperty.Create(nameof(TextBackgroundColor), typeof(Color), typeof(MaterialEntry), Color.Transparent, propertyChanged: (bindable, oldVal, newVal) =>
         {
             var matEntry = (MaterialEntry)bindable;
             matEntry.EntryField.BackgroundColor = (Color)newVal;
@@ -67,15 +67,20 @@ namespace AppCRM.Controls.TemplateMaterial
             var matEntry = (MaterialEntry)bindable;
             matEntry.UpdateValidation();
         });
-        public static BindableProperty HiddenLabelTextSizeProperty = BindableProperty.Create(nameof(HiddenLabelTextSizeProperty), typeof(double), typeof(MaterialEntry), 10.0, propertyChanged: (bindable, oldVal, newVal) =>
+        public static BindableProperty HiddenLabelTextSizeProperty = BindableProperty.Create(nameof(HiddenLabelTextSize), typeof(double), typeof(MaterialEntry), 10.0, propertyChanged: (bindable, oldVal, newVal) =>
         {
             var matEntry = (MaterialEntry)bindable;
             matEntry.HiddenLabel.FontSize = (double)newVal;
         });
-        public static BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSizeProperty), typeof(double), typeof(MaterialEntry), 14.0, propertyChanged: (bindable, oldVal, newVal) =>
+        public static BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(double), typeof(MaterialEntry), 14.0, propertyChanged: (bindable, oldVal, newVal) =>
         {
             var matEntry = (MaterialEntry)bindable;
             matEntry.EntryField.FontSize = (double)newVal;
+        });
+        public static BindableProperty HasFocusedProperty = BindableProperty.Create(nameof(HasFocused), typeof(bool), typeof(MaterialEntry), true, propertyChanged: (bindable, oldVal, newVal) =>
+        {
+            var matEntry = (MaterialEntry)bindable;
+            matEntry.EntryField.HasFocus = (bool)newVal;
         });
         #endregion
 
@@ -114,7 +119,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(InvalidColorProperty, value);
             }
         }
-
         public Color AccentColor
         {
             get
@@ -126,7 +130,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(AccentColorProperty, value);
             }
         }
-
         public Color TextBackgroundColor
         {
             get
@@ -138,7 +141,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(TextBackgroundColorProperty, value);
             }
         }
-
         public Color TextColor
         {
             get
@@ -150,7 +152,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(TextColorProperty, value);
             }
         }
-
         [TypeConverter(typeof(FontSizeConverter))]
         public double HiddenLabelTextSize
         {
@@ -163,7 +164,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(HiddenLabelTextSizeProperty, value);
             }
         }
-
         [TypeConverter(typeof(FontSizeConverter))]
         public double FontSize
         {
@@ -176,7 +176,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(FontSizeProperty, value);
             }
         }
-
         public Color PlaceholderColor
         {
             get
@@ -199,7 +198,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(KeyboardProperty, value);
             }
         }
-
         public bool IsPassword
         {
             get
@@ -211,7 +209,6 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(IsPasswordProperty, value);
             }
         }
-
         public string Text
         {
             get
@@ -234,8 +231,19 @@ namespace AppCRM.Controls.TemplateMaterial
                 SetValue(PlaceholderProperty, value);
             }
         }
+        public bool HasFocused
+        {
+            get
+            {
+                return (bool)GetValue(HasFocusedProperty);
+            }
+            set
+            {
+                SetValue(HasFocusedProperty, value);
+            }
+        }
 
-#endregion
+        #endregion
 
         public MaterialEntry()
         {
@@ -246,17 +254,18 @@ namespace AppCRM.Controls.TemplateMaterial
             {
                 TextChanged?.Invoke(s, a);
             };
-
             EntryField.Focused += async (s, a) =>
             {
                 EntryFocused?.Invoke(this, a);
                 await CalculateLayoutFocused();
+                HasFocused = a.IsFocused;
 
             };
             EntryField.Unfocused += async (s, a) =>
             {
                 EntryUnfocused?.Invoke(this, a);
                 await CalculateLayoutUnfocused();
+                HasFocused = a.IsFocused;
             };
             EntryField.PropertyChanged += async (sender, args) =>
             {

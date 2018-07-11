@@ -30,7 +30,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         private int _selectedIndex;
         private ObservableCollection<ContactJobs> _vacancies;
         private ObservableCollection<Models.Account> _companies;
-        private List<ExploreItem> _recentExploreItems;
+        private ObservableCollection<ExploreItem> _recentExploreItems;
         private ExploreItem _currentExploreItem;
 
         public SearchParameters FilterParameters = new SearchParameters();
@@ -105,7 +105,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        public List<ExploreItem> RecentExploreItems
+        public ObservableCollection<ExploreItem> RecentExploreItems
         {
             get
             {
@@ -416,6 +416,12 @@ namespace AppCRM.ViewModels.Main.Candidate
         }
         private async Task OnSearchCompletedAsync(object obj)
         {
+            if(!RecentExploreItems.Any(r => r.Title == CurrentExploreItem.Title && r.Location == CurrentExploreItem.Location) 
+                && (!string.IsNullOrEmpty(CurrentExploreItem.Title) || !string.IsNullOrEmpty(CurrentExploreItem.Location)))
+            {
+                RecentExploreItems.Add(new ExploreItem(CurrentExploreItem));
+                RecentExploreListViewHeightRequest = RecentExploreItems.Count * 40 + 40;
+            }
             await SearchAndPopulate();
         }
         private async Task OnFilterBtn()
@@ -628,12 +634,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 FilterParameters.TicketLicensesIds = objSearchDifinition["parameter"]["TicketLicensesIds"].ToString();
             }
 
-            RecentExploreItems = new List<ExploreItem>
-            {
-                new ExploreItem { Title = "Marketing", ExploreCategory = ExploreCategory.Companies },
-                new ExploreItem { Title = "Marketing", Location = "Queensland" },
-                new ExploreItem { Title = "ios developer", Location = "Queensland" }
-            };
+            RecentExploreItems = new ObservableCollection<ExploreItem>();
 
             RecentExploreListViewHeightRequest = RecentExploreItems.Count * 40 + 40;
 

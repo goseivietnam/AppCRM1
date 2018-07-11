@@ -24,6 +24,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private string _email;
         private string _password;
         private bool _passwordIsEnabled = false;
+        private bool _passwordHasFocused = false;
 
 
         public AccountSettingViewModel(IDialogService dialogService, IAuthenticationService authenticationService, INavigationService navigationService)
@@ -45,7 +46,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 OnPropertyChanged();
             }
         }
-
         public string Password
         {
             get
@@ -58,7 +58,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 OnPropertyChanged();
             }
         }
-
         public bool PasswordIsEnabled
         {
             get
@@ -68,6 +67,22 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             set
             {
                 _passwordIsEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool PasswordHasFocused
+        {
+            get
+            {
+                return _passwordHasFocused;
+            }
+            set
+            {
+                _passwordHasFocused = value;
+                if (!value)
+                {
+                    PasswordIsEnabled = false;
+                }
                 OnPropertyChanged();
             }
         }
@@ -122,6 +137,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         private void ChangePassCommandAsync()
         {
             PasswordIsEnabled = true;
+            PasswordHasFocused = true;
         }
 
         public override async Task InitializeAsync(object navigationData)
