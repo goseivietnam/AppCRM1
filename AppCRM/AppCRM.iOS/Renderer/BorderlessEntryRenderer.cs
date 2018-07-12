@@ -44,23 +44,23 @@ namespace AppCRM.iOS
 
         private void SetReturnType(BorderlessEntry entry)
         {
-            ReturnType type = entry.ReturnType;
+            Controls.ReturnType type = entry.ReturnType;
 
             switch (type)
             {
-                case ReturnType.Go:
+                case Controls.ReturnType.Go:
                     Control.ReturnKeyType = UIReturnKeyType.Go;
                     break;
-                case ReturnType.Next:
+                case Controls.ReturnType.Next:
                     Control.ReturnKeyType = UIReturnKeyType.Next;
                     break;
-                case ReturnType.Send:
+                case Controls.ReturnType.Send:
                     Control.ReturnKeyType = UIReturnKeyType.Send;
                     break;
-                case ReturnType.Search:
+                case Controls.ReturnType.Search:
                     Control.ReturnKeyType = UIReturnKeyType.Search;
                     break;
-                case ReturnType.Done:
+                case Controls.ReturnType.Done:
                     Control.ReturnKeyType = UIReturnKeyType.Done;
                     break;
                 default:

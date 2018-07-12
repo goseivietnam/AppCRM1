@@ -35,7 +35,7 @@ namespace AppCRM.Droid
 
                         Control.EditorAction += (object sender, TextView.EditorActionEventArgs args) =>
                         {
-                            if (entry.ReturnType != ReturnType.Next)
+                            if (entry.ReturnType != Controls.ReturnType.Next)
                                 entry.Unfocus();
 
                             entry.InvokeCompleted();
@@ -47,23 +47,23 @@ namespace AppCRM.Droid
 
         private void SetReturnType(BorderlessEntry entry)
         {
-            ReturnType type = entry.ReturnType;
+            Controls.ReturnType type = entry.ReturnType;
 
             switch (type)
             {
-                case ReturnType.Go:
+                case Controls.ReturnType.Go:
                     Control.ImeOptions = ImeAction.Go;
                     Control.SetImeActionLabel("Go", ImeAction.Go);
                     break;
-                case ReturnType.Next:
+                case Controls.ReturnType.Next:
                     Control.ImeOptions = ImeAction.Next;
                     Control.SetImeActionLabel("Next", ImeAction.Next);
                     break;
-                case ReturnType.Send:
+                case Controls.ReturnType.Send:
                     Control.ImeOptions = ImeAction.Send;
                     Control.SetImeActionLabel("Send", ImeAction.Send);
                     break;
-                case ReturnType.Search:
+                case Controls.ReturnType.Search:
                     Control.ImeOptions = ImeAction.Search;
                     Control.SetImeActionLabel("Search", ImeAction.Search);
                     break;
