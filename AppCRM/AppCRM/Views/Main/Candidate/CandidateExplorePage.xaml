@@ -30,8 +30,8 @@
                         <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
                             <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
                             <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Job title, keyword or company" HasFocus="{Binding IsTitleSearchFocused, Mode=TwoWay}"
-                                                      PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Title, Mode=TwoWay}" ReturnType="Search"
-                                                      behaviors:CompletedCommandBorderlessEntry.CompletedCommand="{Binding SearchCompletedCommand}"/>
+                                                      PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Title, Mode=TwoWay}" 
+                                                      ReturnType="Search" ReturnCommand="{Binding SearchCompletedCommand}"/>
                             <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearTitleSearchCommand}"/>
                         </StackLayout>
                     </Frame>
@@ -39,8 +39,8 @@
                         <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
                             <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
                             <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="City, state, suburb or country" HasFocus="{Binding IsLocationSearchFocused, Mode=TwoWay}"
-                                                      PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Location, Mode=TwoWay}" ReturnType="Search"
-                                                      behaviors:CompletedCommandBorderlessEntry.CompletedCommand="{Binding SearchCompletedCommand}"/>
+                                                      PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Location, Mode=TwoWay}"
+                                                      ReturnType="Search" ReturnCommand="{Binding SearchCompletedCommand}"/>
                             <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearLocationSearchCommand}"/>
                         </StackLayout>
                     </Frame>
@@ -64,7 +64,7 @@
                         </StackLayout>
                     </StackLayout>
                     <ListView ItemsSource="{Binding RecentExploreItems}" RowHeight="40" HeightRequest="{Binding RecentExploreListViewHeightRequest}" SeparatorVisibility="None"
-                              behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding RecentExploreListViewCommand}">
+                              behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding RecentExploreListViewCommand}" SelectionMode="None">
                         <ListView.Header>
                             <Label Text="Recent explore" TextColor="#899198"/>
                         </ListView.Header>
@@ -190,17 +190,21 @@
                     <tabbedPage:SfTabItem.Content>
                         <ScrollView>
                             <StackLayout BackgroundColor="White" Spacing="0" VerticalOptions="FillAndExpand">
-                                <sfListView:SfListView ItemsSource="{Binding Companies}" ItemSize="100" AutoFitMode="Height" TapCommand="{Binding CompanyTappedCommand}" SelectionMode="None"
-                                                   LoadMoreOption="Manual" LoadMoreCommand="{Binding LoadMoreCompaniesCommand}" IsBusy="{Binding IsBusy}">
+                                <sfListView:SfListView ItemsSource="{Binding Companies}" ItemSize="100" AutoFitMode="Height" TapCommand="{Binding CompanyTappedCommand}"
+                                                       SelectionMode="None" LoadMoreOption="Manual" LoadMoreCommand="{Binding LoadMoreCompaniesCommand}" IsBusy="{Binding IsBusy}">
                                     <sfListView:SfListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell Height="100">
-                                                <Grid Padding="10">
+                                                <Grid Padding="10,10,10,0">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="70"/>
                                                         <ColumnDefinition Width="*" />
                                                         <ColumnDefinition Width="40"/>
                                                     </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="10"/>
+                                                    </Grid.RowDefinitions>
                                                     <StackLayout Grid.Column="0">
                                                         <Image HorizontalOptions="CenterAndExpand" Source="{Binding ImageSource}" WidthRequest="40" HeightRequest="40"/>
                                                     </StackLayout>
@@ -215,6 +219,7 @@
                                                     <StackLayout Grid.Column="2" Padding="0">
                                                         <Button Image="three_dots_vertical.png" BackgroundColor="Transparent" WidthRequest="30" HeightRequest="30"/>
                                                     </StackLayout>
+                                                    <BoxView Grid.ColumnSpan="3" Grid.Row="1" HeightRequest="1" Margin="0" HorizontalOptions="FillAndExpand" BackgroundColor="#E6E6E6" VerticalOptions="End"/>
                                                 </Grid>
                                             </ViewCell>
                                         </DataTemplate>

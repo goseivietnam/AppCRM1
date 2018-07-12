@@ -28,7 +28,7 @@
                                 </StackLayout>
                                 <Label Text="No Found Job" IsVisible="{Binding JobNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>
                                 <ListView ItemsSource="{Binding JobGroups}" IsGroupingEnabled="true" GroupDisplayBinding="{Binding StatusName}"
-                                          HasUnevenRows="True" HeightRequest="{Binding JobListViewHeightRequest}" SeparatorColor="#E6E6E6"
+                                          HasUnevenRows="True" HeightRequest="{Binding JobListViewHeightRequest}" SeparatorColor="#E6E6E6" SelectionMode="None"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding JobListViewCommand}" VerticalOptions="Start">
                                     <ListView.GroupHeaderTemplate>
                                         <DataTemplate>
@@ -90,7 +90,7 @@
                                     </StackLayout>
                                 </StackLayout>
                                 <Label Text="No Found Assessment" IsVisible="{Binding AssessmentNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>
-                                <ListView ItemsSource="{Binding NeedDoAssessement}" RowHeight="90" HeightRequest="{Binding NeedActionListViewHeightRequest}"
+                                <ListView ItemsSource="{Binding NeedDoAssessement}" RowHeight="90" HeightRequest="{Binding NeedActionListViewHeightRequest}" SelectionMode="None"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding AssessmentListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
@@ -126,7 +126,7 @@
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
-                                <ListView ItemsSource="{Binding CompleteAssessement}" RowHeight="90" HeightRequest="{Binding CompleteListViewHeightRequest}"
+                                <ListView ItemsSource="{Binding CompleteAssessement}" RowHeight="90" HeightRequest="{Binding CompleteListViewHeightRequest}" SelectionMode="None"
                                           behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding AssessmentListViewCommand}" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">

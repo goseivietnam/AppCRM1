@@ -205,7 +205,10 @@ namespace AppCRM.ViewModels.Main.Candidate
                         }
                         break;
                     case 2: //Explore Tab
-                        await ExplorePage.InitializeAsync(null);
+                        if (!this.IsExplorePageRendered)
+                        {
+                            await ExplorePage.InitializeAsync(null);
+                        }
                         break;
                 }
             }

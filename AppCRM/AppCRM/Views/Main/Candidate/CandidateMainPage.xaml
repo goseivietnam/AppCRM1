@@ -17,7 +17,7 @@
                         </Frame>
                     </AbsoluteLayout>
                     <Label Text="{Binding UserName}" HorizontalOptions="Center" FontAttributes="Bold" TextColor="#231F20"/>
-                    <ListView HorizontalOptions="Center" SeparatorVisibility="None" Margin="0,20" 
+                    <ListView HorizontalOptions="Center" SeparatorVisibility="None" Margin="0,20" SelectionMode="None"
                               behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding MasterMenuItemTappedCommand}">
                         <ListView.ItemsSource>
                             <x:Array Type="{x:Type local:MenuItem}">

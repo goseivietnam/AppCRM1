@@ -48,15 +48,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         }
 
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
-        public ICommand ListViewCommand => new Command(ListViewTapped);
 
         private async Task BtnBackAsync()
         {
             await PopupNavigation.Instance.PopAllAsync();
-        }
-        private void ListViewTapped()
-        {
-
         }
 
         public override async Task InitializeAsync(object navigationData)

@@ -43,8 +43,7 @@
                     </StackLayout>
                     <StackLayout Spacing="10">
                         <Label Text="Required" FontAttributes="Bold" TextColor="Black"/>
-                        <ListView ItemsSource="{Binding Job.Requires}" RowHeight="40" SeparatorVisibility="None"
-                                  behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                        <ListView ItemsSource="{Binding Job.Requires}" RowHeight="40" SeparatorVisibility="None" SelectionMode="None" VerticalOptions="Start">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>

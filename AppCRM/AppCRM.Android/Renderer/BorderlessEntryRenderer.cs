@@ -24,53 +24,6 @@ namespace AppCRM.Droid
                 Control.LayoutParameters = layoutParams;
                 Control.SetPadding(0, 0, 0, 0);
                 SetPadding(0, 0, 0, 0);
-
-                BorderlessEntry entry = (BorderlessEntry)this.Element;
-
-                if (this.Control != null)
-                {
-                    if (entry != null)
-                    {
-                        SetReturnType(entry);
-
-                        Control.EditorAction += (object sender, TextView.EditorActionEventArgs args) =>
-                        {
-                            if (entry.ReturnType != Controls.ReturnType.Next)
-                                entry.Unfocus();
-
-                            entry.InvokeCompleted();
-                        };
-                    }
-                }
-            }
-        }
-
-        private void SetReturnType(BorderlessEntry entry)
-        {
-            Controls.ReturnType type = entry.ReturnType;
-
-            switch (type)
-            {
-                case Controls.ReturnType.Go:
-                    Control.ImeOptions = ImeAction.Go;
-                    Control.SetImeActionLabel("Go", ImeAction.Go);
-                    break;
-                case Controls.ReturnType.Next:
-                    Control.ImeOptions = ImeAction.Next;
-                    Control.SetImeActionLabel("Next", ImeAction.Next);
-                    break;
-                case Controls.ReturnType.Send:
-                    Control.ImeOptions = ImeAction.Send;
-                    Control.SetImeActionLabel("Send", ImeAction.Send);
-                    break;
-                case Controls.ReturnType.Search:
-                    Control.ImeOptions = ImeAction.Search;
-                    Control.SetImeActionLabel("Search", ImeAction.Search);
-                    break;
-                default:
-                    Control.ImeOptions = ImeAction.Done;
-                    Control.SetImeActionLabel("Done", ImeAction.Done);
-                    break;
             }
         }
     }

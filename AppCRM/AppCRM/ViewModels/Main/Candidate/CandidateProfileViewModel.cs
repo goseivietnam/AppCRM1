@@ -370,7 +370,6 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand LicenceViewMoreCommand => new Command(LicenceViewMoreCommandAsync);
         public ICommand DocumentViewMoreCommand => new Command(DocumentViewMoreCommandAsync);
         public ICommand ReferenceViewMoreCommand => new Command(ReferenceViewMoreCommandAsync);
-        public ICommand ListViewCommand => new Command(ListView_ItemTapped);
 
         private void masterPageBtnAsync()
         {
@@ -450,11 +449,6 @@ namespace AppCRM.ViewModels.Main.Candidate
         private void ReferenceViewMoreCommandAsync()
         {
             GetBindingReference();
-        }
-
-        private void ListView_ItemTapped()
-        {
-
         }
 
         #region Initdata

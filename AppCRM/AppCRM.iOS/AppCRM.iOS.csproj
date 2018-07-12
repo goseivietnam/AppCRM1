@@ -185,7 +185,7 @@
       <Version>16.2.0.42</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfTabView">
-      <Version>16.1.0.37</Version>
+      <Version>16.2.0.42</Version>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>4.5.0</Version>
