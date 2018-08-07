@@ -368,8 +368,10 @@ Global
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|ARM.Build.0 = Release|Any CPU
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|ARM.Deploy.0 = Release|Any CPU
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|iPhone.ActiveCfg = Release|Any CPU
+		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|iPhone.Build.0 = Release|Any CPU
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|iPhone.Deploy.0 = Release|Any CPU
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|iPhoneSimulator.Deploy.0 = Release|Any CPU
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|x64.ActiveCfg = Release|Any CPU
 		{BDCAD4CD-3619-4470-86C2-FAAB05293D97}.iOS Release|x64.Build.0 = Release|Any CPU
