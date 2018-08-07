@@ -29,7 +29,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>AppCRM</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.companyname.AppCRM</string>
+	<string>com.sj.AppCRM</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>
@@ -38,7 +38,7 @@
 	<string>AppCRM</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
-  <key>NSPhotoLibraryUsageDescription</key>
-  <string>Picture Picker uses photo library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Picture Picker uses photo library</string>
 </dict>
 </plist>

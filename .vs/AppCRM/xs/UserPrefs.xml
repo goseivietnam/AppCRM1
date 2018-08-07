@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{82EF412E-FD1F-44E1-A428-6E424A554CA6}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="AppCRM/AppCRM/ViewModels/LoginViewModel.cs">
+    <Files>
+      <File FileName="AppCRM/AppCRM.iOS/Renderer/BorderlessDatePickerRenderer.cs" Line="24" Column="2" />
+      <File FileName="AppCRM/AppCRM.iOS/AppDelegate.cs" Line="4" Column="7" />
+      <File FileName="AppCRM/AppCRM/ViewModels/LoginViewModel.cs" Line="65" Column="65" />
+      <File FileName="AppCRM/AppCRM/Services/Authentication/AuthenticationService.cs" Line="32" Column="66" />
+      <File FileName="AppCRM/AppCRM/Services/Request/RequestService.cs" Line="34" Column="76" />
+      <File FileName="AppCRM/AppCRM.iOS/Info.plist" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.AppCRM.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget" automaticSigning="False" />
+  <MonoDevelop.Ide.ItemProperties.AppCRM.Android PreferredExecutionTarget="Android.SelectDevice" />
+  <MultiItemStartupConfigurations />
+</Properties>
