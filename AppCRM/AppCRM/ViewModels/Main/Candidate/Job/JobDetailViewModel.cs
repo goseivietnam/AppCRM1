@@ -235,7 +235,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         }
 
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
-        public ICommand ListViewCommand => new Command(ListViewTapped);
         public ICommand WithDrawComand => new AsyncCommand(WithDrawComandAsync);
         public ICommand ApplyComand => new AsyncCommand(ApplyComandAsync);
         public ICommand SearchTasksFocusChangedCommand => new Command(OnSearchTasksFocusChanged);
@@ -298,10 +297,6 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         private async Task BtnBackAsync()
         {
             await PopupNavigation.Instance.PopAllAsync();
-        }
-        private void ListViewTapped()
-        {
-
         }
 
         public override async Task InitializeAsync(object navigationData)

@@ -31,7 +31,6 @@ namespace AppCRM.Behaviors
 
             if (list != null && list.IsEnabled && !list.IsRefreshing)
             {
-                list.SelectedItem = null;
                 var command = GetItemTappedCommand(list);
                 if (command != null && command.CanExecute(e.Item))
                 {

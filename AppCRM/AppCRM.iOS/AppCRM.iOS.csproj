@@ -108,6 +108,7 @@
     <Compile Include="Renderer\BorderlessEntryRenderer.cs" />
     <Compile Include="Renderer\BorderlessPickerRenderer.cs" />
     <Compile Include="Renderer\CheckboxRenderer.cs" />
+    <Compile Include="Renderer\SJTabbedPageRenderer.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,13 +180,13 @@
       <Version>1.4.3</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete">
-      <Version>16.2.0.42</Version>
+      <Version>16.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfListView">
-      <Version>16.2.0.42</Version>
+      <Version>16.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfTabView">
-      <Version>16.1.0.37</Version>
+      <Version>16.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>4.5.0</Version>
@@ -336,5 +337,20 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\icon_apply.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_tab_explore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_tab_job.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_tab_message.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_tab_notify.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\icon_tab_profile.png" />
   </ItemGroup>
 </Project>

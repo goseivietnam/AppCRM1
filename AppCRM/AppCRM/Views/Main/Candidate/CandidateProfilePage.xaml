@@ -47,8 +47,7 @@
                 </StackLayout>
                 <StackLayout HorizontalOptions="CenterAndExpand">
                     <ListView ItemsSource="{Binding Profile.ContactLinks}" RowHeight="27" HeightRequest="{Binding ContactLinksListViewHeightRequest}"
-                              behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}"
-                              SeparatorVisibility="None" HorizontalOptions="CenterAndExpand" WidthRequest="180" Margin="0, 30">
+                              SelectionMode="None" SeparatorVisibility="None" HorizontalOptions="CenterAndExpand" WidthRequest="180" Margin="0, 30">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -77,8 +76,7 @@
                             <Button Command="{Binding BtnAddEducationCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" >
-                            <ListView ItemsSource="{Binding Profile.Educations}" RowHeight="90" HeightRequest="{Binding EducationListViewHeightRequest}"
-                                       behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                            <ListView ItemsSource="{Binding Profile.Educations}" RowHeight="90" HeightRequest="{Binding EducationListViewHeightRequest}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -104,8 +102,7 @@
                             <Button Command="{Binding BtnAddWorkExperienceCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
-                            <ListView ItemsSource="{Binding Profile.WorkExpriences}" RowHeight="90" HeightRequest="{Binding WorkExperienceListViewHeightRequest}"
-                                      behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                            <ListView ItemsSource="{Binding Profile.WorkExpriences}" RowHeight="90" HeightRequest="{Binding WorkExperienceListViewHeightRequest}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -131,8 +128,7 @@
                             <Button Command="{Binding BtnAddSkillCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
-                            <ListView  ItemsSource="{Binding Profile.Skills}" RowHeight="30" HeightRequest="{Binding SkillListViewHeightRequest}"
-                                       behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                            <ListView  ItemsSource="{Binding Profile.Skills}" RowHeight="30" HeightRequest="{Binding SkillListViewHeightRequest}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -156,8 +152,7 @@
                             <Button Command="{Binding BtnAddQualificationCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
-                            <ListView   ItemsSource="{Binding Profile.Qualifications}" RowHeight="90" HeightRequest="{Binding QualificationListViewHeightRequest}"
-                                        behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                            <ListView   ItemsSource="{Binding Profile.Qualifications}" RowHeight="90" HeightRequest="{Binding QualificationListViewHeightRequest}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -183,8 +178,7 @@
                             <Button Command="{Binding BtnAddLicenceCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
-                            <ListView  ItemsSource="{Binding Profile.Licences}" RowHeight="60" HeightRequest="{Binding LicenceListViewHeightRequest}"
-                                       behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                            <ListView  ItemsSource="{Binding Profile.Licences}" RowHeight="60" HeightRequest="{Binding LicenceListViewHeightRequest}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -209,8 +203,7 @@
                             <Button Command="{Binding BtnAddDocumentCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical" VerticalOptions="FillAndExpand">
-                            <ListView ItemsSource="{Binding Profile.Documents}" RowHeight="30" HeightRequest="{Binding DocumentListViewHeightRequest}"
-                                      behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                            <ListView ItemsSource="{Binding Profile.Documents}" RowHeight="30" HeightRequest="{Binding DocumentListViewHeightRequest}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -234,8 +227,7 @@
                             <Button Command="{Binding BtnAddReferenceCommand}"  Style="{DynamicResource ButtonAdd}"/>
                         </StackLayout>
                         <StackLayout Orientation="Vertical">
-                            <ListView ItemsSource="{Binding Profile.References}" RowHeight="90" HeightRequest="{Binding ReferenceListViewHeightRequest}"
-                                      behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                            <ListView ItemsSource="{Binding Profile.References}" RowHeight="90" HeightRequest="{Binding ReferenceListViewHeightRequest}" SelectionMode="None">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>

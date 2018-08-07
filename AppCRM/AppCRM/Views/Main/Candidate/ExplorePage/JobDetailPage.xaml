@@ -13,7 +13,7 @@
             <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                 <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
                 <Label Text="{Binding Job.Title}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
+                <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55" HeightRequest="40"/>
             </StackLayout>
             <ScrollView VerticalOptions="FillAndExpand">
                 <StackLayout BackgroundColor="White" Spacing="20" VerticalOptions="FillAndExpand" Padding="20,10">
@@ -43,8 +43,7 @@
                     </StackLayout>
                     <StackLayout Spacing="10">
                         <Label Text="Required" FontAttributes="Bold" TextColor="Black"/>
-                        <ListView ItemsSource="{Binding Job.Requires}" RowHeight="40" SeparatorVisibility="None"
-                                  behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                        <ListView ItemsSource="{Binding Job.Requires}" RowHeight="40" SeparatorVisibility="None" SelectionMode="None" VerticalOptions="Start">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>

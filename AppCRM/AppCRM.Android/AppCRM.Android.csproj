@@ -62,13 +62,13 @@
       <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete">
-      <Version>16.2.0.42</Version>
+      <Version>16.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfListView">
-      <Version>16.2.0.42</Version>
+      <Version>16.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfTabView">
-      <Version>16.1.0.37</Version>
+      <Version>16.2.0.46</Version>
     </PackageReference>
     <PackageReference Include="System.ComponentModel.Annotations">
       <Version>4.5.0</Version>
@@ -87,6 +87,7 @@
     <Compile Include="Renderer\BorderlessPickerRenderer.cs" />
     <Compile Include="Renderer\CheckboxRenderer.cs" />
     <Compile Include="Renderer\FilePickerImplementation.cs" />
+    <Compile Include="Renderer\SJTabbedPageRenderer.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
