@@ -7,12 +7,14 @@
                  xmlns:material="clr-namespace:AppCRM.Controls.TemplateMaterial"
                  xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
                  xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
+                 xmlns:x1="http://xamarin.com/schemas/2014/forms"
                  x:Class="AppCRM.Views.Main.Candidate.ExplorePage.FiltersPage" BackgroundColor="Transparent">
     <pages:PopupPage.Animation>
         <animations:UserAnimation/>
     </pages:PopupPage.Animation>
     <ContentPage.Resources>
         <ResourceDictionary>
+            <OnPlatform x:TypeArguments="x1:Thickness" x:Key="thickness_100_0" iOS="10,0" Android="0"/>
             <helper:InverseBoolConverter x:Key="InverseBoolConverter"/>
             <Style x:Key="AutoComplete" TargetType="autocomplete:SfAutoComplete">
                 <Setter Property="DisplayMemberPath" Value="Name"/>
@@ -31,20 +33,20 @@
         <ScrollView>
             <Grid BackgroundColor="White">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="40" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="0,0,0,-6">
                     <Grid BackgroundColor="#2A76FD">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="80"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Image="icon_back.png" Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="Start"/>
+                        <Button Grid.Column="0" Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="Start" Margin="{StaticResource thickness_100_0}"/>
                         <Label Grid.Column="1" Text="Filters" TextColor="WhiteSmoke" VerticalOptions="Center" FontSize="16" HorizontalOptions="CenterAndExpand"/>
-                        <Button Grid.Column="2" Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveCommand}" BackgroundColor="#2A76FD" HorizontalOptions="End"/>
+                        <Button Grid.Column="2" Text="Save" TextColor="WhiteSmoke" Command="{Binding BtnSaveCommand}" BackgroundColor="#2A76FD" HorizontalOptions="End" Margin="{StaticResource thickness_100_0}"/>
                     </Grid>
                 </Grid>
                 <Grid Grid.Row="1">

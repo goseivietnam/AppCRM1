@@ -6,42 +6,55 @@
              xmlns:helper="clr-namespace:Syncfusion.ListView.XForms.Helpers;assembly=Syncfusion.SfListView.XForms"
              xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
              xmlns:sfListView="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             xmlns:x1="http://xamarin.com/schemas/2014/forms"
              x:Class="AppCRM.Views.Main.Candidate.CandidateExplorePage">
     <ContentView.Resources>
         <ResourceDictionary>
+            <OnPlatform x:TypeArguments="x1:Thickness" x:Key="thickness_01800_0" iOS="0,18,0,0" Android="0"/>
+            <OnPlatform x:TypeArguments="x1:Thickness" x:Key="thickness_81200_0" iOS="8,12,0,0" Android="0"/>
+            <OnPlatform x:TypeArguments="x1:Thickness" x:Key="thickness_100_0" iOS="10,0" Android="0"/>
+            <OnPlatform x:TypeArguments="x:Double" x:Key="double_15_40" iOS="15" Android="40"/>
+            <OnPlatform x:TypeArguments="x:Double" x:Key="double_15_30" iOS="15" Android="30"/>
             <helper:InverseBoolConverter x:Key="inverseBoolConverter"/>
         </ResourceDictionary>
     </ContentView.Resources>
     <ContentView.Content>
         <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
-            <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
-                <Button BackgroundColor="Transparent" Image="icon_back.png" WidthRequest="40" HeightRequest="40" HorizontalOptions="Start" VerticalOptions="Start" Command="{Binding BackBtnCommand}" IsVisible="{Binding IsBackButtonVisible}"/>
+            <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD" Padding="{StaticResource thickness_01800_0}">
+                <Button BackgroundColor="Transparent" Image="icon_back.png" WidthRequest="{StaticResource double_15_40}" HeightRequest="{StaticResource double_15_40}" HorizontalOptions="Start" VerticalOptions="Start" 
+                        Command="{Binding BackBtnCommand}" IsVisible="{Binding IsBackButtonVisible}" Margin="{StaticResource thickness_81200_0}"/>
                 <StackLayout Orientation="Vertical" HorizontalOptions="FillAndExpand" Spacing="0">
                     <Frame BackgroundColor="White" CornerRadius="4" Padding="0" Margin="10,0,0,0" IsClippedToBounds="True" IsVisible="{Binding IsTriggerFocusVisible}" VerticalOptions="CenterAndExpand">
                         <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
-                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
-                            <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Search" PlaceholderColor="#7F8890" HasFocus="{Binding IsSearchFocused, Mode=TwoWay}"
-                                                  BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Display}"
-                                                  behaviors:FocusChangedCommandBorderlessEntry.FocusChangedCommand="{Binding FocusSearchCommand}"/>
-                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearSearchCommand}"/>
+                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="{StaticResource double_15_40}" HeightRequest="{StaticResource double_15_40}" 
+                                    BackgroundColor="Transparent" Margin="{StaticResource thickness_100_0}"/>
+                            <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Search" PlaceholderColor="#7F8890" 
+                                                      HasFocus="{Binding IsSearchFocused, Mode=TwoWay}" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" 
+                                                      Text="{Binding CurrentExploreItem.Display}" behaviors:FocusChangedCommandBorderlessEntry.FocusChangedCommand="{Binding FocusSearchCommand}"/>
+                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="{StaticResource double_15_40}" HeightRequest="{StaticResource double_15_30}" 
+                                    Margin="{StaticResource thickness_100_0}" BackgroundColor="Transparent" Command="{Binding ClearSearchCommand}"/>
                         </StackLayout>
                     </Frame>
                     <Frame BackgroundColor="White" CornerRadius="4" Padding="0" Margin="10,5,0,0" IsClippedToBounds="True" IsVisible="{Binding IsSearchDetailVisible}" VerticalOptions="CenterAndExpand">
                         <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
-                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="{StaticResource double_15_40}" HeightRequest="{StaticResource double_15_30}" 
+                                    BackgroundColor="Transparent" Margin="{StaticResource thickness_100_0}"/>
                             <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="Job title, keyword or company" HasFocus="{Binding IsTitleSearchFocused, Mode=TwoWay}"
                                                       PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Title, Mode=TwoWay}" 
                                                       ReturnType="Search" ReturnCommand="{Binding SearchCompletedCommand}"/>
-                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearTitleSearchCommand}"/>
+                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="{StaticResource double_15_40}" HeightRequest="{StaticResource double_15_30}" 
+                                    BackgroundColor="Transparent" Command="{Binding ClearTitleSearchCommand}" Margin="{StaticResource thickness_100_0}"/>
                         </StackLayout>
                     </Frame>
                     <Frame BackgroundColor="White" CornerRadius="4" Padding="0" Margin="10,5,0,10" IsClippedToBounds="True" IsVisible="{Binding IsSearchDetailVisible}" VerticalOptions="CenterAndExpand">
                         <StackLayout Orientation="Horizontal" Margin="0" Padding="0" HeightRequest="30">
-                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent"/>
+                            <Button Image="icon_search.png" HorizontalOptions="Start" WidthRequest="{StaticResource double_15_40}" HeightRequest="{StaticResource double_15_30}" 
+                                    BackgroundColor="Transparent" Margin="{StaticResource thickness_100_0}"/>
                             <controls:BorderlessEntry HorizontalOptions="FillAndExpand" VerticalOptions="Center" Placeholder="City, state, suburb or country" HasFocus="{Binding IsLocationSearchFocused, Mode=TwoWay}"
                                                       PlaceholderColor="#7F8890" BackgroundColor="Transparent" TextColor="#343C4E" FontSize="12" Text="{Binding CurrentExploreItem.Location, Mode=TwoWay}"
                                                       ReturnType="Search" ReturnCommand="{Binding SearchCompletedCommand}"/>
-                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="40" HeightRequest="30" BackgroundColor="Transparent" Command="{Binding ClearLocationSearchCommand}"/>
+                            <Button Image="icon_remove.png" HorizontalOptions="End" WidthRequest="{StaticResource double_15_40}" HeightRequest="{StaticResource double_15_30}" 
+                                    BackgroundColor="Transparent" Command="{Binding ClearLocationSearchCommand}" Margin="{StaticResource thickness_100_0}"/>
                         </StackLayout>
                     </Frame>
                 </StackLayout>

@@ -4,7 +4,9 @@
                   xmlns:pages="clr-namespace:AppCRM.Views.Main.Candidate"
                   xmlns:local="clr-namespace:AppCRM.Views.Main"
                   xmlns:tabbedPage="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
+                  xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
                   xmlns:behaviors="clr-namespace:AppCRM.Behaviors"
+                  xmlns:controls="clr-namespace:AppCRM.Controls"
                   x:Class="AppCRM.Views.Main.Candidate.CandidateMainPage">
     <MasterDetailPage.Master>
         <ContentPage Padding="0,40,0,0" Title="Master" BackgroundColor="White">
@@ -53,7 +55,25 @@
         </ContentPage>
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
-        <ContentPage>
+        <controls:SJTabbedPage BarBackgroundColor="#FAFAFA" SelectedIndex="{Binding SelectedIndex}" behaviors:CurrentPageChangedCommandTabbedPage.CurrentPageChangedCommand="{Binding SelectionChangedCommand}">
+            <ContentPage Title="Profile" Icon="icon_tab_profile.png">
+                <pages:CandidateProfilePage BindingContext="{Binding ProfilePage}"/>
+            </ContentPage>
+            <ContentPage Title="Job" Icon="icon_tab_job.png">
+                <pages:CandidateJobPage BindingContext="{Binding JobPage}"/>
+            </ContentPage>
+            <ContentPage Title="Explore" Icon="icon_tab_explore.png">
+                <pages:CandidateExplorePage BindingContext="{Binding ExplorePage}"/>
+            </ContentPage>
+            <ContentPage Title="Notify" Icon="icon_tab_notify.png"/>
+            <ContentPage Title="Message" Icon="icon_tab_message.png"/>
+        </controls:SJTabbedPage>
+        <!--<ContentPage>
+            <ContentPage.Resources>
+                <ResourceDictionary>
+                    <OnPlatform x:TypeArguments="x:String" x:Key="fontFamily" iOS="sjTab" Android="sjTab.ttf" />
+                </ResourceDictionary>
+            </ContentPage.Resources>
             <ContentPage.Content>
                 <tabbedPage:SfTabView TabHeight="60" TabHeaderPosition="Bottom" DisplayMode="ImageWithText" VisibleHeaderCount="5" TabHeaderBackgroundColor="#FAFAFA" EnableSwiping="False"
                                       SelectedIndex="{Binding SelectedIndex}" behaviors:SelectionChangedCommandTabView.SelectionChangedCommand="{Binding SelectionChangedCommand}">
@@ -61,33 +81,33 @@
                         <tabbedPage:SelectionIndicatorSettings Color="#FAFAFA" Position="Top"  StrokeThickness="0"/>
                     </tabbedPage:SfTabView.SelectionIndicatorSettings>
 
-                    <tabbedPage:SfTabItem Title="Profile" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                    <tabbedPage:SfTabItem Title="Profile" IconFont="" FontIconFontFamily="{StaticResource fontFamily}" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
                         <tabbedPage:SfTabItem.Content>
                             <pages:CandidateProfilePage BindingContext="{Binding ProfilePage}"/>
                         </tabbedPage:SfTabItem.Content>
                     </tabbedPage:SfTabItem>
 
-                    <tabbedPage:SfTabItem Title="Job" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                    <tabbedPage:SfTabItem Title="Job" IconFont="" FontIconFontFamily="{StaticResource fontFamily}" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
                         <tabbedPage:SfTabItem.Content>
                             <pages:CandidateJobPage BindingContext="{Binding JobPage}"/>
                         </tabbedPage:SfTabItem.Content>
                     </tabbedPage:SfTabItem>
 
-                    <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+                    <tabbedPage:SfTabItem Title="Explore" IconFont="" FontIconFontFamily="{StaticResource fontFamily}" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
                         <tabbedPage:SfTabItem.Content>
                             <pages:CandidateExplorePage BindingContext="{Binding ExplorePage}"/>
                         </tabbedPage:SfTabItem.Content>
                     </tabbedPage:SfTabItem>
-                    
-                    <tabbedPage:SfTabItem Title="Notify" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+
+                    <tabbedPage:SfTabItem Title="Notify" IconFont="" FontIconFontFamily="{StaticResource fontFamily}" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
                         
                     </tabbedPage:SfTabItem>
-                    
-                    <tabbedPage:SfTabItem Title="Message" IconFont="" FontIconFontFamily="sjTab.ttf" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
+
+                    <tabbedPage:SfTabItem Title="Message" IconFont="" FontIconFontFamily="{StaticResource fontFamily}" TitleFontColor="LightGray" FontIconFontSize="24" TitleFontSize="10">
                         
                     </tabbedPage:SfTabItem>
                 </tabbedPage:SfTabView>
             </ContentPage.Content>
-        </ContentPage>
+        </ContentPage>-->
     </MasterDetailPage.Detail>
 </MasterDetailPage>
