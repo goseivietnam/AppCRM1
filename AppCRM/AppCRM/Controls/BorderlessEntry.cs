@@ -16,8 +16,6 @@ namespace AppCRM.Controls
                 borderlessEntry.Unfocus();
         });
 
-        public static readonly BindableProperty ReturnTypeProperty = BindableProperty.Create(nameof(ReturnType), typeof(ReturnType), typeof(BorderlessEntry), ReturnType.Done, BindingMode.OneWay);
-
         public bool HasFocus
         {
             get
@@ -28,11 +26,6 @@ namespace AppCRM.Controls
                 return IsFocused;
             }
             set { SetValue(HasFocusProperty, value); }
-        }
-        public ReturnType ReturnType
-        {
-            get { return (ReturnType)GetValue(ReturnTypeProperty); }
-            set { SetValue(ReturnTypeProperty, value); }
         }
 
         public BorderlessEntry()
@@ -45,20 +38,5 @@ namespace AppCRM.Controls
         {
             SetValue(HasFocusProperty, e.IsFocused);
         }
-
-        public void InvokeCompleted()
-        {
-            if (this.Completed != null)
-                this.Completed.Invoke(this, null);
-        }
-    }
-
-    public enum ReturnType
-    {
-        Go,
-        Next,
-        Done,
-        Send,
-        Search
     }
 }

@@ -11,13 +11,13 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout VerticalOptions="FillAndExpand" Spacing="0" BackgroundColor="White">
+                <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
+                    <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="Transparent" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
+                    <Button BackgroundColor="Transparent" Image="three_dots.png" HorizontalOptions="EndAndExpand" WidthRequest="40" HeightRequest="40"/>
+                </StackLayout>
                 <AbsoluteLayout>
                     <Image Source="{Binding Company.CoverImageSource}" AbsoluteLayout.LayoutBounds="0,0,1,150" AbsoluteLayout.LayoutFlags="WidthProportional"
                        Aspect="AspectFill" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"/>
-                    <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,40" AbsoluteLayout.LayoutFlags="WidthProportional">
-                        <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="Transparent" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
-                        <Button BackgroundColor="Transparent" Image="three_dots.png" HorizontalOptions="EndAndExpand" WidthRequest="40"/>
-                    </StackLayout>
                     <Frame CornerRadius="40" Margin="0" Padding="0" IsClippedToBounds="True" BackgroundColor="#C2C4C3" AbsoluteLayout.LayoutBounds="20,110,80,80">
                         <Image Aspect="AspectFill" Source="{Binding Company.ImageSource}"/>
                     </Frame>

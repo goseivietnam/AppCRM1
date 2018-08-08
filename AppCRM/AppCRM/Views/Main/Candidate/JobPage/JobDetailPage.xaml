@@ -15,7 +15,7 @@
             <StackLayout Orientation="Horizontal" BackgroundColor="#2A76FD">
                 <Button Text="Back" TextColor="WhiteSmoke" Command="{Binding BtnBackCommand}" BackgroundColor="#2A76FD" HorizontalOptions="StartAndExpand" WidthRequest="60"/>
                 <Label Text="{Binding Job.Title}" TextColor="White" VerticalOptions="Center" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"/>
-                <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55"/>
+                <Button Image="three_dots.png" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" WidthRequest="55" HeightRequest="40"/>
             </StackLayout>
             <tabbedPage:SfTabView TabHeaderBackgroundColor="#FFFFFF" TabHeaderPosition="Top" DisplayMode="Text" VisibleHeaderCount="3" VerticalOptions="{Binding TabViewVerticalOption}">
                 <tabbedPage:SfTabView.SelectionIndicatorSettings>
@@ -52,8 +52,7 @@
                                 </StackLayout>
                                 <StackLayout Spacing="10">
                                     <Label Text="Required" FontAttributes="Bold" TextColor="Black"/>
-                                    <ListView ItemsSource="{Binding Job.Requires}" RowHeight="40" SeparatorVisibility="None"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}">
+                                    <ListView ItemsSource="{Binding Job.Requires}" RowHeight="40" SeparatorVisibility="None" SelectionMode="None">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
                                                 <ViewCell>
@@ -89,8 +88,7 @@
                                     </StackLayout>
                                 </StackLayout>
                                 <Label Text="No Found Job" IsVisible="{Binding TaskNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>
-                                <ListView ItemsSource="{Binding ContactTasksTodo}" RowHeight="60" HeightRequest="{Binding TodoTaskListViewHeightRequest}"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                <ListView ItemsSource="{Binding ContactTasksTodo}" RowHeight="60" HeightRequest="{Binding TodoTaskListViewHeightRequest}" SelectionMode="None" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
                                             <Label TextColor="#7F8890" Text="{Binding ContactTasksTodo.Count, StringFormat='TO DO ({0})'}" FontSize="12"/>
@@ -121,8 +119,7 @@
                                     </ListView.ItemTemplate>
                                 </ListView>
 
-                                <ListView ItemsSource="{Binding ContactTasksComplete}" RowHeight="60" HeightRequest="{Binding CompleteTaskListViewHeightRequest}"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                <ListView ItemsSource="{Binding ContactTasksComplete}" RowHeight="60" HeightRequest="{Binding CompleteTaskListViewHeightRequest}" SelectionMode="None" VerticalOptions="Start">
                                     <ListView.Header>
                                         <Frame BackgroundColor="#F9F9F9" HasShadow="False" Padding="15,10" BorderColor="#DEE2E6">
                                             <Label TextColor="#7F8890" Text="{Binding ContactTasksComplete.Count, StringFormat='COMPLETE ({0})'}" FontSize="12"/>
@@ -169,8 +166,7 @@
                                     </StackLayout>
                                 </StackLayout>
                                 <Label Text="No Found Job" IsVisible="{Binding DocumentNoFoundIsVisible}" HorizontalOptions="CenterAndExpand" FontSize="15"></Label>
-                                <ListView ItemsSource="{Binding ContactDocument}" RowHeight="60" HeightRequest="{Binding AttachmentListViewHeightRequest}"
-                                          behaviors:ItemTappedCommandListView.ItemTappedCommand="{Binding ListViewCommand}" VerticalOptions="Start">
+                                <ListView ItemsSource="{Binding ContactDocument}" RowHeight="60" HeightRequest="{Binding AttachmentListViewHeightRequest}" SelectionMode="None" VerticalOptions="Start">
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
                                             <ViewCell>
