@@ -1,11 +1,13 @@
 ﻿using AppCRM.Controls;
 using AppCRM.Models;
+using AppCRM.Services.CandidateDetail;
 using AppCRM.Services.Dialog;
 using AppCRM.Services.Employer;
 using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using Rg.Plugins.Popup.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -16,6 +18,7 @@ namespace AppCRM.ViewModels.Account
     {
         private readonly IDialogService _dialogService;
         private readonly IEmployerDetailService _employerDetailService;
+        private readonly ICandidateDetailsService _candidateDetailService;
 
         private string _fieldFirstName;
         private string _fieldLastName;
@@ -28,10 +31,11 @@ namespace AppCRM.ViewModels.Account
 
         private SJFileStream _avatarStream = null;
 
-        public EmployerRegisterViewModel(IDialogService dialogService, IEmployerDetailService EmployerDetailService)
+        public EmployerRegisterViewModel(IDialogService dialogService, IEmployerDetailService EmployerDetailService,ICandidateDetailsService CandidateDetailService)
         {
             _dialogService = dialogService;
             _employerDetailService = EmployerDetailService;
+            _candidateDetailService = CandidateDetailService;
         }
 
         public string FieldFirstName
@@ -150,25 +154,55 @@ namespace AppCRM.ViewModels.Account
                 Industry = _fieldIndustry
             };
 
-            var obj = await _employerDetailService.EmployerRegister(reg);
+            Dictionary<string, object> obj = await _employerDetailService.EmployerRegister(reg);
 
             if (obj != null)
             {
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                        App.ContactID = obj["ContactID"];
-                        App.UserName = obj["UserName"];
+                        App.ContactID = obj["ContactID"].ToString();
+                        App.UserName = obj["UserName"].ToString();
                         App.PassWord = FieldPassword;
-                        RequestService.ACCESS_TOKEN = obj["access_token"];
+                        RequestService.ACCESS_TOKEN = obj["access_token"].ToString();
+                        if (_avatarStream != null)
+                        {
+                            Dictionary<string, object> objUpload = await _candidateDetailService.AddEditContactAvatarImage(_avatarStream);
+                            try
+                            {
+                                if (objUpload["Success"].ToString() == "true") //success
+                                {
+                                    await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
+                                }
+                                else if (objUpload["Success"].ToString() == "false")
+                                {
+                                    await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
+                                }
+                            }
+                            catch
+                            {
+                                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                await _dialogService.CloseLoadingPopup(pop);
+                            }
+                            finally
+                            {
+                                await PopupNavigation.Instance.PopAllAsync();
+                                await NavigationService.NavigateToAsync<LoginViewModel>();
+                            }
+                        }
+                        else
+                        {
+                            await PopupNavigation.Instance.PopAllAsync();
+                            await NavigationService.NavigateToAsync<LoginViewModel>();
+                        }
                     }
-                    else if (obj["Message"] == "IsExists") //is exists
+                    else if (obj["Message"].ToString() == "IsExists") //is exists
                     {
                         await _dialogService.PopupMessage("This account is exists!", "#CF6069", "#FFFFFF");
                     }
-                    else if (obj["Message"] == "TryAgaint") //fail
+                    else if (obj["Message"].ToString() == "TryAgaint") //fail
                     {
                         await _dialogService.PopupMessage("An error has occurred, please try again!", "#CF6069", "#FFFFFF");
                     }

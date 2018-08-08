@@ -317,7 +317,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 DateOfBirth = _birthDay,
                 AboutMe = _aboutMe,
             };
-            var obj = await _candidateDetailsService.EditCandidateDetails(profile);
+            Dictionary<string, object> obj = await _candidateDetailsService.EditCandidateDetails(profile);
 
             if (obj != null)
             {
@@ -326,23 +326,23 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     await _dialogService.PopupMessage("Edit Profile Successefully", "#52CD9F", "#FFFFFF");
                     if (stream != null)
                     {
-                        var objupload = await _candidateDetailsService.UploadResume(stream);
+                        Dictionary<string, object> objupload = await _candidateDetailsService.UploadResume(stream);
 
                         if (objupload != null)
                         {
                             try
                             {
-                                if (objupload["Success"] == "true") //success
+                                if (objupload["Success"].ToString() == "true") //success
                                 {
                                     await _dialogService.PopupMessage("Upload Resume Successefully", "#52CD9F", "#FFFFFF");
                                 }
-                                else if (objupload["Success"] == "false")
+                                else if (objupload["Success"].ToString() == "false")
                                 {
-                                    if (objupload["Message"] == "Fail")
+                                    if (objupload["Message"].ToString() == "Fail")
                                     {
                                         await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                                     }
-                                    else if (objupload["Message"] == "NodocumentFile")
+                                    else if (objupload["Message"].ToString() == "NodocumentFile")
                                     {
                                         await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
                                     }
@@ -448,7 +448,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         {
             var pop = await _dialogService.OpenLoadingPopup();
             //load profile data from DataService
-            var obj = await _candidateDetailsService.GetEmployerCandidateProfile();
+            dynamic obj = await _candidateDetailsService.GetEmployerCandidateProfile();
             DateTime? datebirth;
             try
             {

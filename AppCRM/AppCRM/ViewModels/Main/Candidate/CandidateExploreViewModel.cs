@@ -464,25 +464,25 @@ namespace AppCRM.ViewModels.Main.Candidate
                 var pop = await _dialogService.OpenLoadingPopup();
                 bool shortlisted;
                 if (SwipedJobItem.Status == "Interested") { shortlisted = true; } else { shortlisted = false; }
-                var obj = await _candidateJobService.ShortListJob(shortlisted, SwipedJobItem.VacancyID);
+                Dictionary<string, object> obj = await _candidateJobService.ShortListJob(shortlisted, SwipedJobItem.VacancyID);
 
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         ContactJobs oldValue = Vacancies.Where(x => x.VacancyID == SwipedJobItem.VacancyID).FirstOrDefault();
-                        if (obj["Message"] == "UnShortlist")
+                        if (obj["Message"].ToString() == "UnShortlist")
                         {
                             oldValue.Status = null;
                             await _dialogService.PopupMessage("Remove Shortlist Job Successefully", "#52CD9F", "#FFFFFF");
                         }
-                        else if (obj["Message"] == "Shortlist")
+                        else if (obj["Message"].ToString() == "Shortlist")
                         {
                             oldValue.Status = "Interested";
                             await _dialogService.PopupMessage("Shortlist Job Successefully", "#52CD9F", "#FFFFFF");
                         }
                     }
-                    else if (obj["Success"] == "false")
+                    else if (obj["Success"].ToString() == "false")
                     {
                         await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                     }
@@ -501,16 +501,16 @@ namespace AppCRM.ViewModels.Main.Candidate
             {
                 var pop = await _dialogService.OpenLoadingPopup();
 
-                var obj = await _candidateJobService.ApplyVacancy(SwipedJobItem.VacancyID);
+                Dictionary<string, object> obj = await _candidateJobService.ApplyVacancy(SwipedJobItem.VacancyID);
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("Apply Job Successefully", "#52CD9F", "#FFFFFF");
 
                         Vacancies.FirstOrDefault(x => x.VacancyID == SwipedJobItem.VacancyID).Status = "Applied";
                     }
-                    else if (obj["Success"] == "false")
+                    else if (obj["Success"].ToString() == "false")
                     {
                         await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                     }
@@ -531,16 +531,16 @@ namespace AppCRM.ViewModels.Main.Candidate
                 if (result)
                 {
                     var pop = await _dialogService.OpenLoadingPopup();
-                    var obj = await _candidateJobService.WithDrawVacancy(SwipedJobItem.VacancyID);
+                    Dictionary<string, object> obj = await _candidateJobService.WithDrawVacancy(SwipedJobItem.VacancyID);
                     try
                     {
-                        if (obj["Success"] == "true") //success
+                        if (obj["Success"].ToString() == "true") //success
                         {
                             await _dialogService.PopupMessage("WithDraw Successefully", "#52CD9F", "#FFFFFF");
 
                             Vacancies.FirstOrDefault(x => x.VacancyID == SwipedJobItem.VacancyID).Status = null;
                         }
-                        else if (obj["Success"] == "false")
+                        else if (obj["Success"].ToString() == "false")
                         {
                             await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                         }
@@ -559,7 +559,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             IsBusy = true;
             LoadMoreIsVisible = false;
             FilterParameters.CurrentPage += 1;
-            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
+            Dictionary<string, object> obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
             if (obj["Jobs"] != null)
             {
                 List<ContactJobs> listMore = JsonConvert.DeserializeObject<List<ContactJobs>>(obj["Jobs"].ToString());
@@ -590,7 +590,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             //FilterEmployer.KeySearch1 = CurrentExploreItem.Title;
             //FilterEmployer.KeySearch2 = CurrentExploreItem.Location;
             FilterEmployer.CurrentPage += 1;
-            dynamic objEmployerlist = await _employerJobService.GetEmployerList(FilterEmployer);
+            Dictionary<string, object> objEmployerlist = await _employerJobService.GetEmployerList(FilterEmployer);
             if (objEmployerlist["employers"] != null)
             {
                 List<Models.Account> listMore = JsonConvert.DeserializeObject<List<Models.Account>>(objEmployerlist["employers"].ToString());
@@ -647,7 +647,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             await _dialogService.CloseLoadingPopup(pop);
         }
 
-        private async Task SearchAndPopulate()
+        public async Task SearchAndPopulate()
         {
             var pop = await _dialogService.OpenLoadingPopup();
 
@@ -666,7 +666,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             //Get Vacancies          
             FilterParameters.Keyword = CurrentExploreItem.Title;
             FilterParameters.Location = CurrentExploreItem.Location;
-            dynamic obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
+            Dictionary<string, object> obj = await _candidateExploreService.GetCandidateJobsSearch(FilterParameters);
             if (obj["Jobs"] != null)
             {
                 Vacancies = JsonConvert.DeserializeObject<ObservableCollection<ContactJobs>>(obj["Jobs"].ToString());
@@ -689,7 +689,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             FilterEmployer.KeySearch1 = CurrentExploreItem.Title;
             FilterEmployer.KeySearch2 = CurrentExploreItem.Location;
 
-            dynamic objEmployerlist = await _employerJobService.GetEmployerList(FilterEmployer);
+            Dictionary<string, object> objEmployerlist = await _employerJobService.GetEmployerList(FilterEmployer);
             if (objEmployerlist["employers"] != null)
             {
                 Companies = JsonConvert.DeserializeObject<ObservableCollection<Models.Account>>(objEmployerlist["employers"].ToString());

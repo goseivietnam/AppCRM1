@@ -7,6 +7,7 @@ using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -184,47 +185,54 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 To = dateTo,
                 DateToString = dateTo.HasValue ? dateTo.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : "",
             };
-            var obj = await _candidateDetailsService.AddQualification(qualification);
+            Dictionary<string, object> obj = await _candidateDetailsService.AddQualification(qualification);
 
             if (obj != null)
             {
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("Add new Qualification Successefully", "#52CD9F", "#FFFFFF");
-                        var objupload = await _candidateDetailsService.SaveContactQualificationAttachment(obj["Result"], stream);
-
-                        if (objupload != null)
+                        if (stream != null)
                         {
-                            try
+                            Dictionary<string, object> objupload = await _candidateDetailsService.SaveContactQualificationAttachment(obj["Result"].ToString(), stream);
+
+                            if (objupload != null)
                             {
-                                if (objupload["Success"] == "true") //success
+                                try
                                 {
-                                    await _dialogService.PopupMessage("Attach file Successefully", "#52CD9F", "#FFFFFF");
-                                    await PopupNavigation.Instance.PopAllAsync();
-                                    await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                                    if (objupload["Success"].ToString() == "true") //success
+                                    {
+                                        await _dialogService.PopupMessage("Attach file Successefully", "#52CD9F", "#FFFFFF");
+                                        await PopupNavigation.Instance.PopAllAsync();
+                                        await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                                    }
+                                    else if (objupload["Success"].ToString() == "false")
+                                    {
+                                        if (objupload["Message"].ToString() == "Fail")
+                                        {
+                                            await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                        }
+                                        else if (objupload["Message"].ToString() == "NodocumentFile")
+                                        {
+                                            await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
+                                        }
+                                    }
                                 }
-                                else if (objupload["Success"] == "false")
+                                catch
                                 {
-                                    if (objupload["Message"] == "Fail")
-                                    {
-                                        await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                                    }
-                                    else if (objupload["Message"] == "NodocumentFile")
-                                    {
-                                        await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
-                                    }
+                                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                                    await _dialogService.CloseLoadingPopup(pop);
                                 }
-                            }
-                            catch
-                            {
-                                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                                await _dialogService.CloseLoadingPopup(pop);
                             }
                         }
+                        else
+                        {
+                            await PopupNavigation.Instance.PopAllAsync();
+                            await _navigationService.NavigateToAsync<CandidateMainViewModel>();
+                        }
                     }
-
                 }
                 catch
                 {

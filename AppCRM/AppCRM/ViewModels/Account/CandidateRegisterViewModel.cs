@@ -162,33 +162,34 @@ namespace AppCRM.ViewModels.Account
                 InterestedLocationIds = string.Join(",", SelectedLocations.Select(r => (r as LookupItem).Id))
             };
 
-            var obj = await _candidateDetailsService.CandidateRegister(reg);
+            Dictionary<string, object> obj = await _candidateDetailsService.CandidateRegister(reg);
 
             if (obj != null)
             {
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
-                        if (obj["Roles"] == "Employer")
+                        if (obj["Roles"].ToString() == "Employer")
                         {
                         }
-                        else if (obj["Roles"] == "Candidate")
+                        else if (obj["Roles"].ToString() == "Candidate")
                         {
                             await _dialogService.PopupMessage("Register Successefully", "#52CD9F", "#FFFFFF");
-                            App.ContactID = obj["ContactID"];
-                            App.UserName = obj["UserName"];
+                            App.ContactID = obj["ContactID"].ToString();
+                            App.UserName = obj["UserName"].ToString();
                             App.PassWord = FieldPassword;
-                            RequestService.ACCESS_TOKEN = obj["access_token"];
+                            RequestService.ACCESS_TOKEN = obj["access_token"].ToString();
 
-                            var objUpload = await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
+                            if (_avatarStream != null) { 
+                                Dictionary<string, object> objUpload = await _candidateDetailsService.AddEditContactAvatarImage(_avatarStream);
                             try
                             {
-                                if (objUpload["Success"] == "true") //success
+                                    if (objUpload["Success"].ToString() == "true") //success
                                 {
                                     await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
                                 }
-                                else if (objUpload["Success"] == "false")
+                                    else if (objUpload["Success"].ToString() == "false")
                                 {
                                     await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
                                 }
@@ -203,13 +204,17 @@ namespace AppCRM.ViewModels.Account
                                 await PopupNavigation.Instance.PopAllAsync();
                                 await NavigationService.NavigateToAsync<LoginViewModel>();
                             }
+                        } else {
+                                await PopupNavigation.Instance.PopAllAsync();
+                                await NavigationService.NavigateToAsync<LoginViewModel>();
+                        }
                         }
                     }
-                    else if (obj["Message"] == "IsExists") //is exists
+                    else if (obj["Message"].ToString() == "IsExists") //is exists
                     {
                         await _dialogService.PopupMessage("This account is exists!", "#CF6069", "#FFFFFF");
                     }
-                    else if (obj["Message"] == "TryAgaint") //fail
+                    else if (obj["Message"].ToString() == "TryAgaint") //fail
                     {
                         await _dialogService.PopupMessage("An error has occurred, please try again!", "#CF6069", "#FFFFFF");
                     }

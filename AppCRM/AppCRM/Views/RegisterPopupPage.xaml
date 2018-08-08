@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                  x:Class="AppCRM.Views.RegisterPopupPage"
@@ -10,37 +10,12 @@
         <effect:UserAnimation/>
     </pages:PopupPage.Animation>
     <StackLayout VerticalOptions="End" HorizontalOptions="Fill" Margin="20" HeightRequest="370" BackgroundColor="#FAFAFA">
-        <controls:CarouselViewControl Orientation="Horizontal" InterPageSpacing="0" 
+        <controls:CarouselViewControl x:Name="carousel" Orientation="Horizontal" InterPageSpacing="0" 
                                       VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" 
                                       ShowArrows="True" ShowIndicators="True"
                                       ArrowsBackgroundColor="Transparent" ArrowsTintColor="Gray"
                                       CurrentPageIndicatorTintColor="#2A76FD" BackgroundColor="#FAFAFA">
-            <controls:CarouselViewControl.ItemsSource>
-                <x:Array Type="{x:Type View}">
-                    <Frame BackgroundColor="#FAFAFA">
-                        <StackLayout Spacing="5">
-                            <Label HorizontalOptions="Center" FontSize="12" TextColor="#7F8890">Hi, please select your role to join with us</Label>
-                            <Image HorizontalOptions="Center" x:Name="candidateImage" Source="candidate_vectorized.png" Margin="0, 25" />
-                            <Label HorizontalOptions="Center" FontSize="14" TextColor="#231F20" Text="I'm looking for work" />
-                            <Label HorizontalOptions="Center" FontSize="12" TextColor="#7F8890" Text="Candidate" />
-                            <Button Command="{Binding CandidateRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD" 
-                                    BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" Margin="0, 20" 
-                                    />
-                        </StackLayout>
-                    </Frame>
-                    <Frame BackgroundColor="#FAFAFA">
-                        <StackLayout Spacing="5">
-                            <Label HorizontalOptions="Center" FontSize="12" TextColor="#7F8890">Hi, please select your role to join with us</Label>
-                            <Image HorizontalOptions="Center" x:Name="employerImage" Source="employer_vectorized.png" Margin="0, 25" />
-                            <Label HorizontalOptions="Center" FontSize="14" TextColor="#231F20" Text="I'm wanting to hire" />
-                            <Label HorizontalOptions="Center" FontSize="12" TextColor="#7F8890" Text="Employer" />
-                            <Button Command="{Binding EmployerRegisterCommand}" HorizontalOptions="Fill" BackgroundColor="#2A76FD" 
-                                    BorderColor="#266CE9" BorderWidth="1" TextColor="WhiteSmoke" Text="Register" Margin="0, 20" 
-                                    />
-                        </StackLayout>
-                    </Frame>
-                </x:Array>
-            </controls:CarouselViewControl.ItemsSource>
+            
         </controls:CarouselViewControl>
     </StackLayout>
 </pages:PopupPage>

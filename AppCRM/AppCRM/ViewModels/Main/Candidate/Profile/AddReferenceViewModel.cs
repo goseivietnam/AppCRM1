@@ -5,6 +5,7 @@ using AppCRM.Services.Navigation;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using Rg.Plugins.Popup.Services;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -132,25 +133,25 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 Phone = _phone,
                 Contacted = _isContacted,
             };
-            var obj = await _candidateDetailsService.AddReference(reference);
+            Dictionary<string, object> obj = await _candidateDetailsService.AddReference(reference);
 
             if (obj != null)
             {
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("Add new Reference Successefully", "#52CD9F", "#FFFFFF");
                         await PopupNavigation.Instance.PopAllAsync();
                         await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
-                    else if (obj["Success"] == "false")
+                    else if (obj["Success"].ToString() == "false")
                     {
-                        if (obj["Message"] == "Fail")
+                        if (obj["Message"].ToString() == "Fail")
                         {
                             await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                         }
-                        else if (obj["Message"] == "AttachFail")
+                        else if (obj["Message"].ToString() == "AttachFail")
                         {
                             await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
                         }

@@ -7,6 +7,7 @@ using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate;
 using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -116,26 +117,26 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
         {
             var pop = await _dialogService.OpenLoadingPopup();
             string fileName = _title + Path.GetExtension(stream.FileName);
-            var obj = await _candidateDetailsService.AddDocument(stream, fileName);
+            Dictionary<string, object> obj = await _candidateDetailsService.AddDocument(stream, fileName);
             await _dialogService.CloseLoadingPopup(pop);
 
             if (obj != null)
             {
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("Add new Document Successefully", "#52CD9F", "#FFFFFF");
                         await PopupNavigation.Instance.PopAllAsync();
                         await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
-                    else if (obj["Success"] == "false")
+                    else if (obj["Success"].ToString() == "false")
                     {
-                        if (obj["Message"] == "Fail")
+                        if (obj["Message"].ToString() == "Fail")
                         {
                             await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                         }
-                        else if (obj["Message"] == "AttachFail")
+                        else if (obj["Message"].ToString() == "AttachFail")
                         {
                             await _dialogService.PopupMessage("Attach file Fail, please try again!!", "#CF6069", "#FFFFFF");
                         }

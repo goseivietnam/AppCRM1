@@ -7,6 +7,7 @@ using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate.Profile;
 using Rg.Plugins.Popup.Services;
 using Syncfusion.XForms.TabView;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -223,12 +224,12 @@ namespace AppCRM.ViewModels.Main.Candidate
         private async void OpenSignoutPage()
         {
             var pop = await _dialogService.OpenLoadingPopup();
-            var obj = await _authenticationService.Logout();
+            Dictionary<string, object> obj = await _authenticationService.Logout();
             if (obj != null)
             {
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("Logout Successefully", "#52CD9F", "#FFFFFF");
                         await PopupNavigation.Instance.PopAllAsync();
@@ -237,9 +238,9 @@ namespace AppCRM.ViewModels.Main.Candidate
                         RequestService.ACCESS_TOKEN = "";
                         await _navigationService.NavigateToAsync<LoginViewModel>();
                     }
-                    else if (obj["Success"] == "false")
+                    else if (obj["Success"].ToString() == "false")
                     {
-                        if (obj["Message"] == "Fail")
+                        if (obj["Message"].ToString() == "Fail")
                         {
                             await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                         }
