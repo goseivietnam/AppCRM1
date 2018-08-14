@@ -11,6 +11,7 @@ using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate.Job;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xamarin.Forms;
 
 namespace AppCRM.ViewModels.Main.Candidate
@@ -203,7 +204,7 @@ namespace AppCRM.ViewModels.Main.Candidate
             JobNoFoundIsVisible = false;
             AssessmentNoFoundIsVisible = false;
 
-            dynamic objcontactVacancies = await _candidateJobService.GetCandidateJobApplied();
+            JObject objcontactVacancies = await _candidateJobService.GetCandidateJobApplied();
 
             ContactTemplateFilter filter = new ContactTemplateFilter
             {
@@ -211,7 +212,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 PageSize = 100,
                 IsOpen = true
             };
-            dynamic objAssessments = await _candidateJobService.GetAssessment(filter);
+            Dictionary<string, object> objAssessments = await _candidateJobService.GetAssessment(filter);
 
             if (objcontactVacancies["candidateJobsApplied"] != null)
             {

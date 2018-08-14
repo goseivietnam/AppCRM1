@@ -343,7 +343,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             QualificationCollection = InitDataFilter.QualificationDLL.Cast<object>().ToObservableCollection();
             LicenceCollection = InitDataFilter.TicketsDLL.Cast<object>().ToObservableCollection();
 
-            var objSearchDifinition = await _candidateExploreService.GetSavedSearchDefinition();
+            dynamic objSearchDifinition = await _candidateExploreService.GetSavedSearchDefinition();
             if (objSearchDifinition["parameter"] != null)
             {
                 string[] jobTypeIds = objSearchDifinition["parameter"]["JobTypeIds"].ToString().Split(',');
@@ -394,15 +394,16 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 QualificationsIds = string.Join(",", QualificationSelected.Cast<LookupItem>().Select(r => r.Id.ToString())),
                 TicketLicensesIds = string.Join(",", LicenceSelected.Cast<LookupItem>().Select(r => r.Id.ToString()))
             };
-            dynamic obj = await _candidateExploreService.SaveSearchDefinition(parameter);
+            Dictionary<string, object> obj = await _candidateExploreService.SaveSearchDefinition(parameter);
 
             try
             {
-                if (obj["Success"] == "true")
+                if (obj["Success"].ToString() == "true")
                 {
                     (CandidateMainViewModel.Current.ExplorePage as CandidateExploreViewModel).FilterParameters = parameter;
                     await _dialogService.PopupMessage("Save Search Difinition Successefully", "#52CD9F", "#FFFFFF");
                     await PopupNavigation.Instance.PopAllAsync();
+                    await (CandidateMainViewModel.Current.ExplorePage as CandidateExploreViewModel).SearchAndPopulate();
                 }
                 else
                 {

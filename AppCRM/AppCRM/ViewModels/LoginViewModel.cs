@@ -5,6 +5,7 @@ using AppCRM.Services.Request;
 using AppCRM.Utils;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -56,35 +57,35 @@ namespace AppCRM.ViewModels
         private async Task SignInAsync()
         {
             var pop = await _dialogService.OpenLoadingPopup();
-            var obj = await _authenticationService.LoginAsync(UserName, Password);
+            Dictionary<string, object> obj = await _authenticationService.LoginAsync(UserName, Password);
             if (obj != null)
             {
-                if (obj["Success"] == "true")
+                if (obj["Success"].ToString() == "true")
                 {
                     await _dialogService.CloseLoadingPopup(pop);
                     await _dialogService.PopupMessage("Login Successefully", "#52CD9F", "#FFFFFF");
 
-                    if (obj["Roles"] == "Employer")
+                    if (obj["Roles"].ToString() == "Employer")
                     {
                     }
-                    else if (obj["Roles"] == "Candidate")
+                    else if (obj["Roles"].ToString() == "Candidate")
                     {
-                        App.ContactID = obj["ContactID"];
-                        App.UserName = obj["UserName"];
+                        App.ContactID = obj["ContactID"].ToString();
+                        App.UserName = obj["UserName"].ToString();
                         App.PassWord = Password;
-                        RequestService.ACCESS_TOKEN = obj["access_token"];
+                        RequestService.ACCESS_TOKEN = obj["access_token"].ToString();
                         await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
                 }
-                else if (obj["Message"] == "IsActive") //success //fail
+                else if (obj["Message"].ToString() == "IsActive") //success //fail
                 {
                     await _dialogService.PopupMessage("This account yet active!", "#CF6069", "#FFFFFF");
                 }
-                else if (obj["Message"] == "IsRequireReset") //success //fail
+                else if (obj["Message"].ToString() == "IsRequireReset") //success //fail
                 {
                     await _dialogService.PopupMessage("This account need reset!", "#CF6069", "#FFFFFF");
                 }
-                else if (obj["Message"] == "LoginFail") //success //fail
+                else if (obj["Message"].ToString() == "LoginFail") //success //fail
                 {
                     await _dialogService.PopupMessage("Login fail, please try again!", "#CF6069", "#FFFFFF");
                 }

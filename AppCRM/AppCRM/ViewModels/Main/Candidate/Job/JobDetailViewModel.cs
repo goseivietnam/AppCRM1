@@ -347,7 +347,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 }
 
                 //Get contact Task
-                dynamic objContactTask = await _candidateJobService.GetContactTaskByContactIDAndVacancyID(_vacancyID);
+                Dictionary<string, object> objContactTask = await _candidateJobService.GetContactTaskByContactIDAndVacancyID(_vacancyID);
 
                 List<UserContactTask> contactTasksTodo = new List<UserContactTask>();
                 List<UserContactTask> contactTasksComplete = new List<UserContactTask>();
@@ -374,7 +374,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 ContactTasksTodo = contactTasksTodo;
 
                 //Get contact Document
-                dynamic objContactDocument = await _candidateJobService.GetDocumentsAssigneedByContactIDAndVacancyID(_vacancyID);
+                Dictionary<string, object> objContactDocument = await _candidateJobService.GetDocumentsAssigneedByContactIDAndVacancyID(_vacancyID);
                 List<ContactDocument> contactDocuments;
                 if (objContactDocument["contactDocuments"] != null)
                 {
@@ -484,16 +484,16 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             if (result)
             {
                 var pop = await _dialogService.OpenLoadingPopup();
-                var obj = await _candidateJobService.WithDrawVacancy(_vacancyID);
+                Dictionary<string, object> obj = await _candidateJobService.WithDrawVacancy(_vacancyID);
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("WithDraw Successefully", "#52CD9F", "#FFFFFF");
                         WithDrawIsVisible = false;
                         ApplyIsVisible = true;
                     }
-                    else if (obj["Success"] == "false")
+                    else if (obj["Success"].ToString() == "false")
                     {
                         await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                     }
@@ -510,16 +510,16 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
         public async Task ApplyComandAsync()
         {
             var pop = await _dialogService.OpenLoadingPopup();
-            var obj = await _candidateJobService.ApplyVacancy(_vacancyID);
+            Dictionary<string, object> obj = await _candidateJobService.ApplyVacancy(_vacancyID);
             try
             {
-                if (obj["Success"] == "true") //success
+                if (obj["Success"].ToString() == "true") //success
                 {
                     await _dialogService.PopupMessage("Apply Job Successefully", "#52CD9F", "#FFFFFF");
                     WithDrawIsVisible = true;
                     ApplyIsVisible = false;
                 }
-                else if (obj["Success"] == "false")
+                else if (obj["Success"].ToString() == "false")
                 {
                     await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                 }

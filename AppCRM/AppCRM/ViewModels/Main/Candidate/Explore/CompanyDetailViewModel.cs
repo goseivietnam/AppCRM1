@@ -122,14 +122,14 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 CurrentPage = _currentPageVacancies,
                 PageSize = PageSize
             };
-            dynamic objVacancies = await _employerJobService.GetRelatedJobs(AJ);
+            Dictionary<string, object> objVacancies = await _employerJobService.GetRelatedJobs(AJ);
             if (objVacancies["records"] != null)
             {
                 Vacancies = JsonConvert.DeserializeObject<ObservableCollection<AccountJobs>>(objVacancies["records"].ToString());
             }
             VacancisLoadMoreIsVisible = true;
 
-            if (objVacancies["hasMore"] == false)
+            if (objVacancies["hasMore"].ToString() == "false")
             {
                 VacancisLoadMoreIsVisible = false;
             }

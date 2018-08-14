@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{82EF412E-FD1F-44E1-A428-6E424A554CA6}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="AppCRM/AppCRM/ViewModels/Account/EmployerRegisterViewModel.cs">
+    <Files>
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/CandidateProfileViewModel.cs" Line="461" Column="1" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/CandidateJobViewModel.cs" Line="215" Column="39" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/Profile/EditProfileViewModel.cs" Line="320" Column="39" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/Job/JobDetailViewModel.cs" Line="513" Column="39" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/Explore/JobDetailViewModel.cs" Line="54" Column="23" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/Explore/CompanyDetailViewModel.cs" Line="125" Column="1" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/Explore/FiltersViewModel.cs" Line="350" Column="1" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Main/Candidate/CandidateExploreViewModel.cs" Line="650" Column="44" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Account/CandidateRegisterViewModel.cs" Line="205" Column="41" />
+      <File FileName="AppCRM/AppCRM/ViewModels/Account/EmployerRegisterViewModel.cs" Line="153" Column="19" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhone" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/apple/Documents/AppCRM1/AppCRM/AppCRM/ViewModels/Main/Candidate/Profile/EditProfileViewModel.cs" relfile="AppCRM/AppCRM/ViewModels/Main/Candidate/Profile/EditProfileViewModel.cs" line="307" column="1" />
+      <Breakpoint file="/Users/apple/Documents/AppCRM1/AppCRM/AppCRM/ViewModels/Main/Candidate/Explore/FiltersViewModel.cs" relfile="AppCRM/AppCRM/ViewModels/Main/Candidate/Explore/FiltersViewModel.cs" line="346" column="1" />
+      <Breakpoint file="/Users/apple/Documents/AppCRM1/AppCRM/AppCRM/ViewModels/Account/CandidateRegisterViewModel.cs" relfile="AppCRM/AppCRM/ViewModels/Account/CandidateRegisterViewModel.cs" line="165" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../../AppCRM/AppCRM/Services/Navigation/NavigationService.cs" line="164" offsetX="300" offsetY="2445" expression="ex.InnerException" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.AppCRM.iOS PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneDeviceTarget.ef91c8fb520ea9ec01c84ab6fe1a43402e8cd3dc" automaticSigning="False" />
+  <MultiItemStartupConfigurations />
+  <DisabledProjects>
+    <String>AppCRM/AppCRM.Android/AppCRM.Android.csproj</String>
+  </DisabledProjects>
+</Properties>

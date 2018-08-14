@@ -108,20 +108,20 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                 Password = _password,
             };
 
-            var obj = await _authenticationService.ChangePassword(profile);
+            Dictionary<string, object> obj = await _authenticationService.ChangePassword(profile);
             await _dialogService.CloseLoadingPopup(pop);
 
             if (obj != null)
             {
                 try
                 {
-                    if (obj["Success"] == "true") //success
+                    if (obj["Success"].ToString() == "true") //success
                     {
                         await _dialogService.PopupMessage("Change Password Successefully", "#52CD9F", "#FFFFFF");
                         await PopupNavigation.Instance.PopAllAsync();
                         await _navigationService.NavigateToAsync<CandidateMainViewModel>();
                     }
-                    else if (obj["Success"] == "false")
+                    else if (obj["Success"].ToString() == "false")
                     {
                         await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
                     }
