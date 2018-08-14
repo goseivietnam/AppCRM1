@@ -384,32 +384,35 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             SJFileStream stream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             BtnPickAvatarIsEnable = true;
 
-            var pop = await _dialogService.OpenLoadingPopup();
-            var obj = await _candidateDetailsService.AddEditContactAvatarImage(stream);
-
-            if (obj != null)
+            if (stream != null)
             {
-                try
-                {
-                    if (obj["Success"] == "true") //success
-                    {
-                        AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
-                        (CandidateMainViewModel.Current.ProfilePage as CandidateProfileViewModel).Profile.AvatarUrl = AvatarUrl;
+                var pop = await _dialogService.OpenLoadingPopup();
+                var obj = await _candidateDetailsService.AddEditContactAvatarImage(stream);
 
-                        await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
-                    }
-                    else if (obj["Success"] == "false")
-                    {
-                        await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
-                    }
-                }
-                catch
+                if (obj != null)
                 {
-                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                    await _dialogService.CloseLoadingPopup(pop);
+                    try
+                    {
+                        if (obj["Success"] == "true") //success
+                        {
+                            AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
+                            (CandidateMainViewModel.Current.ProfilePage as CandidateProfileViewModel).Profile.AvatarUrl = AvatarUrl;
+
+                            await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
+                        }
+                        else if (obj["Success"] == "false")
+                        {
+                            await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
+                        }
+                    }
+                    catch
+                    {
+                        await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                        await _dialogService.CloseLoadingPopup(pop);
+                    }
                 }
+                await _dialogService.CloseLoadingPopup(pop);
             }
-            await _dialogService.CloseLoadingPopup(pop);
         }
 
         private async Task BtnEditCoverCommandAsync()
@@ -417,31 +420,34 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             BtnEditCoverIsEnable = false;
             SJFileStream stream = await DependencyService.Get<IFilePicker>().GetImageStreamAsync();
             BtnEditCoverIsEnable = true;
-            var pop = await _dialogService.OpenLoadingPopup();
-            var obj = await _candidateDetailsService.AddEditContactCoverImage(stream);
-
-            if (obj != null)
+            if (stream != null)
             {
-                try
+                var pop = await _dialogService.OpenLoadingPopup();
+                var obj = await _candidateDetailsService.AddEditContactCoverImage(stream);
+
+                if (obj != null)
                 {
-                    if (obj["Success"] == "true")
+                    try
                     {
-                        CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
-                        (CandidateMainViewModel.Current.ProfilePage as CandidateProfileViewModel).Profile.CoverUrl = CoverUrl;
-                        await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
+                        if (obj["Success"] == "true")
+                        {
+                            CoverUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
+                            (CandidateMainViewModel.Current.ProfilePage as CandidateProfileViewModel).Profile.CoverUrl = CoverUrl;
+                            await _dialogService.PopupMessage("Update Cover image Successefully", "#52CD9F", "#FFFFFF");
+                        }
+                        else if (obj["Success"] == "false")
+                        {
+                            await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
+                        }
                     }
-                    else if (obj["Success"] == "false")
+                    catch
                     {
-                        await _dialogService.PopupMessage("Haven't image file, please try again!!", "#CF6069", "#FFFFFF");
+                        await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                        await _dialogService.CloseLoadingPopup(pop);
                     }
                 }
-                catch
-                {
-                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
-                    await _dialogService.CloseLoadingPopup(pop);
-                }
+                await _dialogService.CloseLoadingPopup(pop);
             }
-            await _dialogService.CloseLoadingPopup(pop);
         }
 
         public override async Task InitializeAsync(object navigationData)

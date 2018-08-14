@@ -55,7 +55,7 @@
         </ContentPage>
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
-        <controls:SJTabbedPage BarBackgroundColor="#FAFAFA" SelectedIndex="{Binding SelectedIndex}" behaviors:CurrentPageChangedCommandTabbedPage.CurrentPageChangedCommand="{Binding SelectionChangedCommand}">
+        <!--<controls:SJTabbedPage BarBackgroundColor="#FAFAFA" SelectedIndex="{Binding SelectedIndex}" behaviors:CurrentPageChangedCommandTabbedPage.CurrentPageChangedCommand="{Binding SelectionChangedCommand}">
             <ContentPage Title="Profile" Icon="icon_tab_profile.png">
                 <pages:CandidateProfilePage BindingContext="{Binding ProfilePage}"/>
             </ContentPage>
@@ -67,8 +67,8 @@
             </ContentPage>
             <ContentPage Title="Notify" Icon="icon_tab_notify.png"/>
             <ContentPage Title="Message" Icon="icon_tab_message.png"/>
-        </controls:SJTabbedPage>
-        <!--<ContentPage>
+        </controls:SJTabbedPage>-->
+        <ContentPage>
             <ContentPage.Resources>
                 <ResourceDictionary>
                     <OnPlatform x:TypeArguments="x:String" x:Key="fontFamily" iOS="sjTab" Android="sjTab.ttf" />
@@ -108,6 +108,6 @@
                     </tabbedPage:SfTabItem>
                 </tabbedPage:SfTabView>
             </ContentPage.Content>
-        </ContentPage>-->
+        </ContentPage>
     </MasterDetailPage.Detail>
 </MasterDetailPage>

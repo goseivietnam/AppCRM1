@@ -198,7 +198,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
             ContactWorkExprience work = new ContactWorkExprience
             {
                 Title = _title,
-                Company = _title,
+                Company = _company,
                 Location = _location,
                 IsWorkCurrent = _isWorkCurrent,
                 From = dateFrom,
