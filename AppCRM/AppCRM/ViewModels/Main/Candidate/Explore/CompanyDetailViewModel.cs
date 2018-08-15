@@ -11,6 +11,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -32,6 +33,8 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private ObservableCollection<AccountJobs> _vacancies;
 
         private bool _vacancisLoadMoreIsVisible;
+        private double _videoHeight;
+        private string _videoUrl;
 
         public CompanyDetailViewModel(IDialogService dialogService, IEmployerJobService employerJobService, ICandidateExploreService candidateExploreService, INavigationService navigationService)
         {
@@ -77,6 +80,17 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 OnPropertyChanged();
             }
         }
+        public double VideoHeight
+        {
+            get { return _videoHeight; }
+            set { _videoHeight = value; OnPropertyChanged(); }
+        }
+        public string VideoUrl
+        {
+            get { return _videoUrl; }
+            set { _videoUrl = value; OnPropertyChanged(); }
+        }
+
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
         public ICommand ListViewCommand => new Command(ListViewTapped);
         public ICommand LoadMoreVacanciesCommand => new AsyncCommand(LoadMoreVacancies);
@@ -133,6 +147,9 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             {
                 VacancisLoadMoreIsVisible = false;
             }
+
+            VideoHeight = Application.Current.MainPage.Width / 16 * 9;
+            VideoUrl = GetYoutubeEmbed("https://www.youtube.com/embed/aUVAZmYeWpg");
             await _dialogService.CloseLoadingPopup(pop);
         }
 
@@ -170,6 +187,12 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 }
             }
             IsBusy = false;
+        }
+
+        private string GetYoutubeEmbed(string url)
+        {
+            var youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(url);
+            return string.Format(@"https://www.youtube.com/embed/{0}", youtubeMatch.Success ? youtubeMatch.Groups[1].Value : string.Empty);
         }
     }
 }
