@@ -159,7 +159,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             }
 
             VideoHeight = Application.Current.MainPage.Width / 16 * 9;
-            VideoUrl = GetYoutubeEmbed("https://www.youtube.com/embed/aUVAZmYeWpg");
+            VideoUrl = GetYoutubeEmbed(Company.VideoLink);
             await _dialogService.CloseLoadingPopup(pop);
         }
 
