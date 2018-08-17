@@ -41,7 +41,8 @@ namespace AppCRM.ViewModels.Main.Candidate
         private ViewModelBase _notifyPage;
         private ViewModelBase _messagePage;
         private string _avatarUrl;
-        private string _userName;
+        private string _userName; 
+        private string _positionCity; 
         private TabDisplayMode _tabHeaderMode = TabDisplayMode.ImageWithText;
 
         public int SelectedIndex
@@ -137,6 +138,18 @@ namespace AppCRM.ViewModels.Main.Candidate
             set
             {
                 _userName = value;
+                OnPropertyChanged();
+            }
+        }
+        public string PositionCity
+        {
+            get
+            {
+                return _positionCity;
+            }
+            set
+            {
+                _positionCity = value;
                 OnPropertyChanged();
             }
         }
@@ -264,7 +277,7 @@ namespace AppCRM.ViewModels.Main.Candidate
         {
             await ProfilePage.InitializeAsync(null);
             AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactProfileImageByContactID?id=" + App.ContactID.ToString();
-            UserName = App.UserName;
+            //UserName = App.UserName;
         }
 
         public void SelectTab(CandidateTab tab)

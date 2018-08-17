@@ -471,6 +471,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                     if (obj["Success"].ToString() == "true") //success
                     {
                         ContactJobs oldValue = Vacancies.Where(x => x.VacancyID == SwipedJobItem.VacancyID).FirstOrDefault();
+                        CandidateMainViewModel.Current.IsJobPageRendered = false;
                         if (obj["Message"].ToString() == "UnShortlist")
                         {
                             oldValue.Status = null;
@@ -506,6 +507,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                 {
                     if (obj["Success"].ToString() == "true") //success
                     {
+                        CandidateMainViewModel.Current.IsJobPageRendered = false;
                         await _dialogService.PopupMessage("Apply Job Successefully", "#52CD9F", "#FFFFFF");
 
                         Vacancies.FirstOrDefault(x => x.VacancyID == SwipedJobItem.VacancyID).Status = "Applied";
@@ -536,6 +538,7 @@ namespace AppCRM.ViewModels.Main.Candidate
                     {
                         if (obj["Success"].ToString() == "true") //success
                         {
+                            CandidateMainViewModel.Current.IsJobPageRendered = false;
                             await _dialogService.PopupMessage("WithDraw Successefully", "#52CD9F", "#FFFFFF");
 
                             Vacancies.FirstOrDefault(x => x.VacancyID == SwipedJobItem.VacancyID).Status = null;

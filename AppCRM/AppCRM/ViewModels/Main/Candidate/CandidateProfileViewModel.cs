@@ -508,6 +508,9 @@ namespace AppCRM.ViewModels.Main.Candidate
                 //References = referenceList,
                 ContactLinks = contactLinks
             };
+            CandidateMainViewModel.Current.PositionCity = "Candidate" + " • " + obj["CandidateDetails"]["CityName"];
+            CandidateMainViewModel.Current.UserName = obj["CandidateDetails"]["FullName"];
+            ContactLinksListViewHeightRequest = Profile.ContactLinks.Count * 27;
 
             GetBindingDocument();
             GetBindingEducation();

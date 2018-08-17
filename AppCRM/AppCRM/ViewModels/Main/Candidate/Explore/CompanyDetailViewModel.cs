@@ -158,8 +158,11 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                 VacancisLoadMoreIsVisible = false;
             }
 
-            VideoHeight = Application.Current.MainPage.Width / 16 * 9;
-            VideoUrl = GetYoutubeEmbed(Company.VideoLink);
+            if (Company.VideoLink != null)
+            {
+                VideoHeight = Application.Current.MainPage.Width / 16 * 9;
+                VideoUrl = GetYoutubeEmbed(Company.VideoLink);
+            }
             await _dialogService.CloseLoadingPopup(pop);
         }
 
@@ -210,11 +213,12 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             {
                 if (obj["Success"].ToString() == "true") //success
                 {
+                    CandidateMainViewModel.Current.IsJobPageRendered = false;
                     if (obj["Message"].ToString() == "RemoveFavourite")
                     {
                         Company.FavouriteEmployerID = null;
                         ShorlistText = "♡ Shortlist";
-                         await _dialogService.PopupMessage("Remove Favourite Successefully", "#52CD9F", "#FFFFFF");
+                        await _dialogService.PopupMessage("Remove Favourite Successefully", "#52CD9F", "#FFFFFF");
                     }
                     else if (obj["Message"].ToString() == "Shortlist")
                     {
@@ -235,6 +239,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             }
             await _dialogService.CloseLoadingPopup(pop);
         }
+
         private string GetYoutubeEmbed(string url)
         {
             var youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(url);

@@ -19,9 +19,9 @@
                 <StackLayout BackgroundColor="White" Spacing="20" VerticalOptions="FillAndExpand" Padding="20,10">
                     <Label Text="{Binding Job.Title}" FontSize="30" FontAttributes="Bold" Margin="0,20,0,0"/>
                     <StackLayout Orientation="Horizontal">
-                        <Frame HeightRequest="30" CornerRadius="15" Margin="0" Padding="20,0" BackgroundColor="#E6F2FF" IsClippedToBounds="True" HorizontalOptions="StartAndExpand">
+                        <!--<Frame HeightRequest="30" CornerRadius="15" Margin="0" Padding="20,0" BackgroundColor="#E6F2FF" IsClippedToBounds="True" HorizontalOptions="StartAndExpand">
                             <Label Text="{Binding Job.Status}" TextColor="#2F7CFD" HorizontalOptions="Center" VerticalOptions="Center"/>
-                        </Frame>
+                        </Frame>-->
                         <Label Text="{Binding Job.OpenDateInt, StringFormat=' {0}d'}" TextColor="#9A9FA7" VerticalOptions="Center" HorizontalOptions="EndAndExpand"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">

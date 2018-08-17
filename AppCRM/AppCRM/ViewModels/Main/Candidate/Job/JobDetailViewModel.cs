@@ -489,6 +489,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
                 {
                     if (obj["Success"].ToString() == "true") //success
                     {
+                        CandidateMainViewModel.Current.IsJobPageRendered = false;
                         await _dialogService.PopupMessage("WithDraw Successefully", "#52CD9F", "#FFFFFF");
                         WithDrawIsVisible = false;
                         ApplyIsVisible = true;
@@ -515,6 +516,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Job
             {
                 if (obj["Success"].ToString() == "true") //success
                 {
+                    CandidateMainViewModel.Current.IsJobPageRendered = false;
                     await _dialogService.PopupMessage("Apply Job Successefully", "#52CD9F", "#FFFFFF");
                     WithDrawIsVisible = true;
                     ApplyIsVisible = false;
