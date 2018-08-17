@@ -27,13 +27,13 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        //public static readonly string HOST_NAME = "http://9b40e632.ngrok.io/";
+        //public static readonly string HOST_NAME = "http://c8039140.ngrok.io/";
         public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
         public static string ACCESS_TOKEN;
         public static readonly string APP_VERSION = "1.0.0";
         public static readonly string TENANT_NAME = "Go2Whoa";
         private readonly JsonSerializerSettings _serializerSettings;
-        private static HttpClient _client = new HttpClient { BaseAddress = new Uri(HOST_NAME), Timeout = TimeSpan.FromMilliseconds(10000) };
+        private static HttpClient _client = new HttpClient { BaseAddress = new Uri(HOST_NAME), Timeout = TimeSpan.FromMilliseconds(30000) };
 
         public RequestService()
         {

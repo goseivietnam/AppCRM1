@@ -62,7 +62,7 @@ namespace AppCRM.ViewModels.Account
                 OnPropertyChanged();
             }
         }
-        public string FileEmail
+        public string FieldEmail
         {
             get
             {

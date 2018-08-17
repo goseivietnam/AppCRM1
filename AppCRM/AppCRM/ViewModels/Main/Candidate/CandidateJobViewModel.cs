@@ -286,18 +286,21 @@ namespace AppCRM.ViewModels.Main.Candidate
                 JobNoFoundIsVisible = false;
             }
 
+            //Populate JobGroup
+            List<ContactVacancyGroup> groups = new List<ContactVacancyGroup>();
             foreach (var vacancy in ContactVacancies)
             {
                 var statusName = vacancy.StatusName;
-                if (JobGroups.Any(r => r.StatusName == statusName))
+                if (groups.Any(r => r.StatusName == statusName))
                 {
-                    JobGroups.Single(r => r.StatusName == statusName).Add(vacancy);
+                    groups.Single(r => r.StatusName == statusName).Add(vacancy);
                 }
                 else
                 {
-                    JobGroups.Add(new ContactVacancyGroup(statusName) { vacancy });
+                    groups.Add(new ContactVacancyGroup(statusName) { vacancy });
                 }
             }
+            JobGroups = groups;
 
             JobListViewHeightRequest = ContactVacancies.Count * 120 + JobGroups.Count * 38;
         }

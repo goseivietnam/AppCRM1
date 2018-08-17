@@ -395,6 +395,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Profile
                     {
                         if (obj["Success"] == "true") //success
                         {
+                            CandidateMainViewModel.Current.AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
                             AvatarUrl = RequestService.HOST_NAME + "api/Document/GetContactImage?id=" + obj["Result"];
                             (CandidateMainViewModel.Current.ProfilePage as CandidateProfileViewModel).Profile.AvatarUrl = AvatarUrl;
 
