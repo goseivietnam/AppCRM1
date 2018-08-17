@@ -8,12 +8,8 @@ using AppCRM.Validations;
 using AppCRM.ViewModels.Base;
 using AppCRM.ViewModels.Main.Candidate.Profile;
 using Newtonsoft.Json;
-using Syncfusion.ListView.XForms;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -28,16 +24,48 @@ namespace AppCRM.ViewModels.Main.Candidate
         private readonly IDialogService _dialogService;
 
         private Contact _profile;
+        private int educationCount = 0;
+        private int workExprienceCount = 0;
+        private int skillCount = 0;
+        private int qualificationCount = 0;
+        private int licenceCount = 0;
+        private int documentCount = 0;
+        private int referenceCount = 0;
 
-        private List<SfListView> ListViews { get; set; } = new List<SfListView>();
+        private List<ContactEducation> educationList;
+        private List<ContactWorkExprience> workExprienceList;
+        private List<ContactSkill> skillList;
+        private List<ContactQualification> qualificationList;
+        private List<ContactLicence> licenceList;
+        private List<Document> documentList;
+        private List<ContactReference> referenceList;
 
-        private CollapsableList<ContactEducation> _educationList;
-        private CollapsableList<ContactWorkExprience> _workExprienceList;
-        private CollapsableList<ContactSkill> _skillList;
-        private CollapsableList<ContactQualification> _qualificationList;
-        private CollapsableList<ContactLicence> _licenseList;
-        private CollapsableList<Document> _documentList;
-        private CollapsableList<ContactReference> _referenceList;
+        // height listview 
+        private int _contactLinksListViewHeightRequest;
+        private int _educationListViewHeightRequest;
+        private int _workExperienceListViewHeightRequest;
+        private int _skillListViewHeightRequest;
+        private int _qualificationListViewHeightRequest;
+        private int _licenceListViewHeightRequest;
+        private int _documentListViewHeightRequest;
+        private int _referenceListViewHeightRequest;
+
+        //View More Button Text
+        private string _educationViewMoreText;
+        private string _workExperienceViewMoreText;
+        private string _skillViewMoreText;
+        private string _qualificationViewMoreText;
+        private string _licenceViewMoreText;
+        private string _documentViewMoreText;
+        private string _referenceViewMoreText;
+
+        private bool _educationViewMoreIsVisible = true;
+        private bool _workExperienceViewMoreIsVisible = true;
+        private bool _skillViewMoreIsVisible = true;
+        private bool _qualificationViewMoreIsVisible = true;
+        private bool _licenceViewMoreIsVisible = true;
+        private bool _documentViewMoreIsVisible = true;
+        private bool _referenceViewMoreIsVisible = true;
 
         public CandidateProfileViewModel(ICandidateDetailsService candidateDetailService, INavigationService navigationService, IDialogService dialogService)
         {
@@ -58,88 +86,270 @@ namespace AppCRM.ViewModels.Main.Candidate
                 OnPropertyChanged();
             }
         }
-        
-        public CollapsableList<ContactEducation> EducationList
+
+        public int ContactLinksListViewHeightRequest
         {
             get
             {
-                return _educationList;
+                return _contactLinksListViewHeightRequest;
             }
             set
             {
-                _educationList = value;
+                _contactLinksListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public CollapsableList<ContactWorkExprience> WorkExperienceList
+        public int EducationListViewHeightRequest
         {
             get
             {
-                return _workExprienceList;
+                return _educationListViewHeightRequest;
             }
             set
             {
-                _workExprienceList = value;
+                _educationListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public CollapsableList<ContactSkill> SkillList
+        public int WorkExperienceListViewHeightRequest
         {
             get
             {
-                return _skillList;
+                return _workExperienceListViewHeightRequest;
             }
             set
             {
-                _skillList = value;
+                _workExperienceListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public CollapsableList<ContactQualification> QualificationList
+        public int SkillListViewHeightRequest
         {
             get
             {
-                return _qualificationList;
+                return _skillListViewHeightRequest;
             }
             set
             {
-                _qualificationList = value;
+                _skillListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public CollapsableList<ContactLicence> LicenseList
+        public int QualificationListViewHeightRequest
         {
             get
             {
-                return _licenseList;
+                return _qualificationListViewHeightRequest;
             }
             set
             {
-                _licenseList = value;
+                _qualificationListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public CollapsableList<Document> DocumentList
+        public int LicenceListViewHeightRequest
         {
             get
             {
-                return _documentList;
+                return _licenceListViewHeightRequest;
             }
             set
             {
-                _documentList = value;
+                _licenceListViewHeightRequest = value;
                 OnPropertyChanged();
             }
         }
-        public CollapsableList<ContactReference> ReferenceList
+        public int DocumentListViewHeightRequest
         {
             get
             {
-                return _referenceList;
+                return _documentListViewHeightRequest;
             }
             set
             {
-                _referenceList = value;
+                _documentListViewHeightRequest = value;
+                OnPropertyChanged();
+            }
+        }
+        public int ReferenceListViewHeightRequest
+        {
+            get
+            {
+                return _referenceListViewHeightRequest;
+            }
+            set
+            {
+                _referenceListViewHeightRequest = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string EducationViewMoreText
+        {
+            get
+            {
+                return _educationViewMoreText;
+            }
+            set
+            {
+                _educationViewMoreText = value;
+                OnPropertyChanged();
+            }
+        }
+        public string WorkExperienceViewMoreText
+        {
+            get
+            {
+                return _workExperienceViewMoreText;
+            }
+            set
+            {
+                _workExperienceViewMoreText = value;
+                OnPropertyChanged();
+            }
+        }
+        public string SkillViewMoreText
+        {
+            get
+            {
+                return _skillViewMoreText;
+            }
+            set
+            {
+                _skillViewMoreText = value;
+                OnPropertyChanged();
+            }
+        }
+        public string QualificationViewMoreText
+        {
+            get
+            {
+                return _qualificationViewMoreText;
+            }
+            set
+            {
+                _qualificationViewMoreText = value;
+                OnPropertyChanged();
+            }
+        }
+        public string LicenceViewMoreText
+        {
+            get
+            {
+                return _licenceViewMoreText;
+            }
+            set
+            {
+                _licenceViewMoreText = value;
+                OnPropertyChanged();
+            }
+        }
+        public string DocumentViewMoreText
+        {
+            get
+            {
+                return _documentViewMoreText;
+            }
+            set
+            {
+                _documentViewMoreText = value;
+                OnPropertyChanged();
+            }
+        }
+        public string ReferenceViewMoreText
+        {
+            get
+            {
+                return _referenceViewMoreText;
+            }
+            set
+            {
+                _referenceViewMoreText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool EducationViewMoreIsVisible
+        {
+            get
+            {
+                return _educationViewMoreIsVisible;
+            }
+            set
+            {
+                _educationViewMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool WorkExperienceViewMoreIsVisible
+        {
+            get
+            {
+                return _workExperienceViewMoreIsVisible;
+            }
+            set
+            {
+                _workExperienceViewMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool SkillViewMoreIsVisible
+        {
+            get
+            {
+                return _skillViewMoreIsVisible;
+            }
+            set
+            {
+                _skillViewMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool QualificationViewMoreIsVisible
+        {
+            get
+            {
+                return _qualificationViewMoreIsVisible;
+            }
+            set
+            {
+                _qualificationViewMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool LicenceViewMoreIsVisible
+        {
+            get
+            {
+                return _licenceViewMoreIsVisible;
+            }
+            set
+            {
+                _licenceViewMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool DocumentViewMoreIsVisible
+        {
+            get
+            {
+                return _documentViewMoreIsVisible;
+            }
+            set
+            {
+                _documentViewMoreIsVisible = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool ReferenceViewMoreIsVisible
+        {
+            get
+            {
+                return _referenceViewMoreIsVisible;
+            }
+            set
+            {
+                _referenceViewMoreIsVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -153,53 +363,13 @@ namespace AppCRM.ViewModels.Main.Candidate
         public ICommand BtnAddDocumentCommand => new AsyncCommand(BtnAddDocumentCommandAsync);
         public ICommand BtnAddReferenceCommand => new AsyncCommand(BtnAddReferenceCommandAsync);
         public ICommand BtnEditProfileCommand => new AsyncCommand(BtnEditProfileCommandAsync);
-        public ICommand ListViewLoadedCommand => new Command((obj) =>
-        {
-            this.ListViews.Add(obj as SfListView);
-        });
-        public ICommand EducationViewMoreCommand => new Command((obj) =>
-        {
-            EducationList.Expand();
-            RefreshHeightRequest(obj);
-        });
-        public ICommand WorkExperienceViewMoreCommand => new Command((obj) =>
-        {
-            WorkExperienceList.Expand();
-            RefreshHeightRequest(obj);
-        });
-        public ICommand SkillViewMoreCommand => new Command((obj) =>
-        {
-            SkillList.Expand();
-            RefreshHeightRequest(obj);
-        });
-        public ICommand QualificationViewMoreCommand => new Command((obj) =>
-        {
-            QualificationList.Expand();
-            RefreshHeightRequest(obj);
-        });
-        public ICommand LicenseViewMoreCommand => new Command((obj) =>
-        {
-            LicenseList.Expand();
-            RefreshHeightRequest(obj);
-        });
-        public ICommand DocumentViewMoreCommand => new Command((obj) =>
-        {
-            DocumentList.Expand();
-            RefreshHeightRequest(obj);
-        });
-        public ICommand ReferenceViewMoreCommand => new Command((obj) =>
-        {
-            ReferenceList.Expand();
-            RefreshHeightRequest(obj);
-        });
-
-        private void RefreshHeightRequest(object sender)
-        {
-            var listView = sender as SfListView;
-            //VisualContainer visualContainer = listView.GetType().GetRuntimeProperties().First(p => p.Name == "VisualContainer").GetValue(listView) as VisualContainer;
-            //var totalextent = (double)visualContainer.GetType().GetRuntimeProperties().FirstOrDefault(container => container.Name == "TotalExtent").GetValue(visualContainer);
-            listView.HeightRequest = listView.ItemSize * listView.DataSource.Items.Count() + 50;
-        }
+        public ICommand EducationViewMoreCommand => new Command(EducationViewMoreCommandAsync);
+        public ICommand WorkExperienceViewMoreCommand => new Command(WorkExperienceViewMoreCommandAsync);
+        public ICommand SkillViewMoreCommand => new Command(SkillViewMoreCommandAsync);
+        public ICommand QualificationViewMoreCommand => new Command(QualificationViewMoreCommandAsync);
+        public ICommand LicenceViewMoreCommand => new Command(LicenceViewMoreCommandAsync);
+        public ICommand DocumentViewMoreCommand => new Command(DocumentViewMoreCommandAsync);
+        public ICommand ReferenceViewMoreCommand => new Command(ReferenceViewMoreCommandAsync);
 
         private void masterPageBtnAsync()
         {
@@ -246,6 +416,41 @@ namespace AppCRM.ViewModels.Main.Candidate
             await _navigationService.NavigateToPopupAsync<EditProfileViewModel>(true);
         }
 
+        private void EducationViewMoreCommandAsync()
+        {
+            GetBindingEducation();
+        }
+
+        private void WorkExperienceViewMoreCommandAsync()
+        {
+            GetBindingWorkExprience();
+        }
+
+        private void SkillViewMoreCommandAsync()
+        {
+            GetBindingSkill();
+        }
+
+        private void QualificationViewMoreCommandAsync()
+        {
+            GetBindingQualification();
+        }
+
+        private void LicenceViewMoreCommandAsync()
+        {
+            GetBindinLicence();
+        }
+
+        private void DocumentViewMoreCommandAsync()
+        {
+            GetBindingDocument();
+        }
+
+        private void ReferenceViewMoreCommandAsync()
+        {
+            GetBindingReference();
+        }
+
         #region Initdata
         public override async Task InitializeAsync(object navigationData)
         {
@@ -253,14 +458,13 @@ namespace AppCRM.ViewModels.Main.Candidate
             var contactID = App.ContactID;
             dynamic obj = await _candidateDetailService.GetEmployerCandidateDetail();
             //Get all list
-            EducationList = new CollapsableList<ContactEducation>(JsonConvert.DeserializeObject<List<ContactEducation>>(obj["Educations"].ToString()), 3);
-            WorkExperienceList = new CollapsableList<ContactWorkExprience>(JsonConvert.DeserializeObject<List<ContactWorkExprience>>(obj["WorkExperiences"].ToString()), 3);
-            SkillList = new CollapsableList<ContactSkill>(JsonConvert.DeserializeObject<List<ContactSkill>>(obj["Skills"].ToString()), 3);
-            QualificationList = new CollapsableList<ContactQualification>(JsonConvert.DeserializeObject<List<ContactQualification>>(obj["Qualifications"].ToString()), 3);
-            LicenseList = new CollapsableList<ContactLicence>(JsonConvert.DeserializeObject<List<ContactLicence>>(obj["Licences"].ToString()), 3);
-            DocumentList = new CollapsableList<Document>(JsonConvert.DeserializeObject<List<Document>>(obj["Documents"].ToString()), 3);
-            ReferenceList = new CollapsableList<ContactReference>(JsonConvert.DeserializeObject<List<ContactReference>>(obj["References"].ToString()), 3);
-
+            educationList = JsonConvert.DeserializeObject<List<ContactEducation>>(obj["Educations"].ToString());
+            workExprienceList = JsonConvert.DeserializeObject<List<ContactWorkExprience>>(obj["WorkExperiences"].ToString());
+            skillList = JsonConvert.DeserializeObject<List<ContactSkill>>(obj["Skills"].ToString());
+            qualificationList = JsonConvert.DeserializeObject<List<ContactQualification>>(obj["Qualifications"].ToString());
+            licenceList = JsonConvert.DeserializeObject<List<ContactLicence>>(obj["Licences"].ToString());
+            documentList = JsonConvert.DeserializeObject<List<Document>>(obj["Documents"].ToString());
+            referenceList = JsonConvert.DeserializeObject<List<ContactReference>>(obj["References"].ToString());
             List<InterestedRole> roles = JsonConvert.DeserializeObject<List<InterestedRole>>(obj["Role"].ToString());
             List<ContactLink> contactLinks = new List<ContactLink>();
             contactLinks.Add(new ContactLink
@@ -295,82 +499,155 @@ namespace AppCRM.ViewModels.Main.Candidate
                 RoleAndAddress = interestedRoles + " - " + obj["CandidateDetails"]["CityName"],
                 Greeting = "Hi, I am " + obj["CandidateDetails"]["FullName"],
                 Introduction = Utilities.HtmlToPlainText(obj["CandidateDetails"]["AboutMe"].ToString()),
+                //Educations = educationList,
+                //WorkExpriences = workExprienceList,
+                //Skills = skillList,
+                //Qualifications = qualificationList,
+                //Licences = licenceList,
+                //Documents = documentList,
+                //References = referenceList,
                 ContactLinks = contactLinks
             };
 
+            GetBindingDocument();
+            GetBindingEducation();
+            GetBindingQualification();
+            GetBindingReference();
+            GetBindingSkill();
+            GetBindingWorkExprience();
+            GetBindinLicence();
+
             CandidateMainViewModel.Current.IsProfilePageRendered = true;
             await _dialogService.CloseLoadingPopup(pop);
-            foreach (var listView in this.ListViews)
-            {
-                this.RefreshHeightRequest(listView);
-            }
         }
         #endregion
-    }
 
-    public class CollapsableList<T> : INotifyPropertyChanged
-    {
-        public ObservableCollection<T> Items { get; set; } = new ObservableCollection<T>();
-        public IEnumerable<T> AllItems { get; set; }
-        public int CollapsedSize { get; set; }
-        private CollapseMode CurrentMode { get; set; } = CollapseMode.Init;
-
-        public CollapsableList(IEnumerable<T> collection, int collapsedSize = 10)
+        #region Method
+        private void GetBindingEducation()
         {
-            this.AllItems = collection ?? new List<T>();
-            this.CollapsedSize = collapsedSize;
-            if (this.AllItems.Count() <= this.CollapsedSize)
+            if (educationList.Count > educationCount + 3)
             {
-                this.Expand();
+                educationCount = educationList.Count > educationCount + 3 ? educationCount + 3 : educationList.Count;
+                EducationViewMoreText = "View More(" + educationCount.ToString() + ")";
             }
             else
             {
-                this.Collapse();
+                educationCount = educationList.Count;
+                EducationViewMoreIsVisible = false;
             }
+            Profile.Educations = educationList.Take(educationCount).ToList();
+            Profile = Profile;
+            EducationListViewHeightRequest = (educationCount * 91 - 1 * (educationCount > 1 ? 1 : 0));
         }
 
-        public bool IsCollapsed { get { return this.CurrentMode == CollapseMode.Collapsed; } }
-        public int RemainCount { get { return this.AllItems.Count() - this.Items.Count; } }
-
-        public void Expand()
+        private void GetBindingWorkExprience()
         {
-            if (this.CurrentMode == CollapseMode.Init || this.CurrentMode == CollapseMode.Collapsed)
+            if (workExprienceList.Count > workExprienceCount + 3)
             {
-                this.Items.Clear();
-                foreach (T item in this.AllItems)
-                {
-                    this.Items.Add(item);
-                }
-                this.CurrentMode = CollapseMode.Expanded;
-                OnPropertyChanged("IsCollapsed");
+                workExprienceCount = workExprienceList.Count > workExprienceCount + 3 ? workExprienceCount + 3 : workExprienceList.Count;
+                WorkExperienceViewMoreText = "View More(" + workExprienceCount.ToString() + ")";
             }
-        }
-
-        public void Collapse()
-        {
-            if (this.CurrentMode == CollapseMode.Init || this.CurrentMode == CollapseMode.Expanded)
+            else
             {
-                this.Items.Clear();
-                foreach (T item in this.AllItems.Take(this.CollapsedSize))
-                {
-                    this.Items.Add(item);
-                }
-                this.CurrentMode = CollapseMode.Collapsed;
-                OnPropertyChanged("IsCollapsed");
+                workExprienceCount = workExprienceList.Count;
+                WorkExperienceViewMoreIsVisible = false;
             }
+
+            Profile.WorkExpriences = workExprienceList.Take(workExprienceCount).ToList();
+            Profile = Profile;
+            WorkExperienceListViewHeightRequest = (workExprienceCount * 91 - 1 * (workExprienceCount > 1 ? 1 : 0));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string prop)
+        private void GetBindingSkill()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            if (skillList.Count > skillCount + 3)
+            {
+                skillCount = skillList.Count > skillCount + 3 ? skillCount + 3 : skillList.Count;
+                SkillViewMoreText = "View More(" + skillCount.ToString() + ")";
+            }
+            else
+            {
+                skillCount = skillList.Count;
+                SkillViewMoreIsVisible = false;
+            }
+
+            Profile.Skills = skillList.Take(skillCount).ToList();
+            Profile = Profile;
+            SkillListViewHeightRequest = (skillCount * 31 - 1 * (skillCount > 1 ? 1 : 0));
         }
 
-        private enum CollapseMode
+        private void GetBindingQualification()
         {
-            Init,
-            Collapsed,
-            Expanded
+            if (qualificationList.Count > qualificationCount + 3)
+            {
+                qualificationCount = qualificationList.Count > qualificationCount + 3 ? qualificationCount + 3 : qualificationList.Count;
+                QualificationViewMoreText = "View More(" + qualificationCount.ToString() + ")";
+            }
+            else
+            {
+                qualificationCount = qualificationList.Count;
+                QualificationViewMoreIsVisible = false;
+            }
+
+            Profile.Qualifications = qualificationList.Take(qualificationCount).ToList();
+            Profile = Profile;
+            QualificationListViewHeightRequest = (qualificationCount * 91 - 1 * (qualificationCount > 1 ? 1 : 0));
         }
+
+        private void GetBindinLicence()
+        {
+            if (licenceList.Count > licenceCount + 3)
+            {
+                licenceCount = licenceList.Count > licenceCount + 3 ? licenceCount + 3 : licenceList.Count;
+                LicenceViewMoreText = "View More(" + licenceCount.ToString() + ")";
+            }
+            else
+            {
+                licenceCount = licenceList.Count;
+                LicenceViewMoreIsVisible = false;
+            }
+
+            Profile.Licences = licenceList.Take(licenceCount).ToList();
+            Profile = Profile;
+            LicenceListViewHeightRequest = (licenceCount * 61 - 1 * (licenceCount > 1 ? 1 : 0));
+        }
+
+        private void GetBindingDocument()
+        {
+            if (documentList.Count > documentCount + 3)
+            {
+                documentCount = documentList.Count > documentCount + 3 ? documentCount + 3 : documentList.Count;
+                DocumentViewMoreText = "View More(" + documentCount.ToString() + ")";
+            }
+            else
+            {
+                documentCount = documentList.Count;
+                DocumentViewMoreIsVisible = false;
+            }
+
+            Profile.Documents = documentList.Take(documentCount).ToList();
+            Profile = Profile;
+            DocumentListViewHeightRequest = (documentCount * 31 - 1 * (documentCount > 1 ? 1 : 0));
+        }
+
+        private void GetBindingReference()
+        {
+            if (referenceList.Count > referenceCount + 3)
+            {
+                referenceCount = referenceList.Count > referenceCount + 3 ? referenceCount + 3 : referenceList.Count;
+                ReferenceViewMoreText = "View More(" + referenceCount.ToString() + ")";
+            }
+            else
+            {
+                referenceCount = referenceList.Count;
+                ReferenceViewMoreIsVisible = false;
+            }
+
+            Profile.References = referenceList.Take(referenceCount).ToList();
+            Profile = Profile;
+            ReferenceListViewHeightRequest = (referenceCount * 91 - 1 * (referenceCount > 1 ? 1 : 0));
+        }
+
+        #endregion
     }
 }
