@@ -25,7 +25,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        //public static readonly string HOST_NAME = "https://2a445b93.ngrok.io/";
+        //public static readonly string HOST_NAME = "http://3176a94b.ngrok.io/";
         public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
         public static string ACCESS_TOKEN;
         public static readonly string APP_VERSION = "1.0.0";

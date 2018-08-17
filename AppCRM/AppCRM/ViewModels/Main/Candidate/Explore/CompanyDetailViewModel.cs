@@ -11,6 +11,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -33,6 +34,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
         private ObservableCollection<AccountJobs> _vacancies;
 
         private bool _vacancisLoadMoreIsVisible;
+        private string _shorlistText;
         private double _videoHeight;
         private string _videoUrl;
 
@@ -90,10 +92,15 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             get { return _videoUrl; }
             set { _videoUrl = value; OnPropertyChanged(); }
         }
-
+        public string ShorlistText
+        {
+            get { return _shorlistText; }
+            set { _shorlistText = value; OnPropertyChanged(); }
+        }
         public ICommand BtnBackCommand => new AsyncCommand(BtnBackAsync);
         public ICommand ListViewCommand => new Command(ListViewTapped);
         public ICommand LoadMoreVacanciesCommand => new AsyncCommand(LoadMoreVacancies);
+        public ICommand ShortlistCommand => new AsyncCommand(ShortlistCommandAsync);
 
         private async Task BtnBackAsync()
         {
@@ -126,8 +133,11 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                     AccountName = obj["EmployerDetails"]["AccountName"],
                     WebSite = obj["EmployerDetails"]["WebSite"],
                     Address = obj["EmployerDetails"]["Address"],
-                    VideoLink = obj["EmployerDetails"]["VideoLink"]
+                    VideoLink = obj["EmployerDetails"]["VideoLink"],
+                    FavouriteEmployerID = obj["EmployerDetails"]["FavouriteEmployerID"]
                 };
+
+                ShorlistText = obj["EmployerDetails"]["FavouriteEmployerID"] == null ? "♡ Shortlist" : "♡ Remove Shortlist";
             }
 
             AccountJobs AJ = new AccountJobs
@@ -149,7 +159,7 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             }
 
             VideoHeight = Application.Current.MainPage.Width / 16 * 9;
-            VideoUrl = GetYoutubeEmbed("https://www.youtube.com/embed/aUVAZmYeWpg");
+            VideoUrl = GetYoutubeEmbed(Company.VideoLink);
             await _dialogService.CloseLoadingPopup(pop);
         }
 
@@ -189,6 +199,42 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
             IsBusy = false;
         }
 
+        private async Task ShortlistCommandAsync()
+        {
+            var pop = await _dialogService.OpenLoadingPopup();
+            bool IsFavourited;
+            if (Company.FavouriteEmployerID != null) { IsFavourited = true; } else { IsFavourited = false; }
+            Dictionary<string, object> obj = await _candidateExploreService.AddRemoveFavouriteEmployer(IsFavourited, Company.AccountID);
+
+            try
+            {
+                if (obj["Success"].ToString() == "true") //success
+                {
+                    if (obj["Message"].ToString() == "RemoveFavourite")
+                    {
+                        Company.FavouriteEmployerID = null;
+                        ShorlistText = "♡ Shortlist";
+                         await _dialogService.PopupMessage("Remove Favourite Successefully", "#52CD9F", "#FFFFFF");
+                    }
+                    else if (obj["Message"].ToString() == "Shortlist")
+                    {
+                        Company.FavouriteEmployerID = Company.AccountID;
+                        ShorlistText = "♡ Shortlist";
+                        await _dialogService.PopupMessage("Add Favourite Successefully", "#52CD9F", "#FFFFFF");
+                    }
+                }
+                else if (obj["Success"].ToString() == "false")
+                {
+                    await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                }
+            }
+            catch
+            {
+                await _dialogService.PopupMessage("An error has occurred, please try again!!", "#CF6069", "#FFFFFF");
+                await _dialogService.CloseLoadingPopup(pop);
+            }
+            await _dialogService.CloseLoadingPopup(pop);
+        }
         private string GetYoutubeEmbed(string url)
         {
             var youtubeMatch = new Regex(@"youtu(?:\.be|be\.com)/(?:.*v(?:/|=)|(?:.*/)?)([a-zA-Z0-9-_]+)").Match(url);

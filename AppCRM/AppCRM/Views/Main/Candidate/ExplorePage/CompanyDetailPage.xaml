@@ -36,7 +36,7 @@
                             <ColumnDefinition Width="50*" />
                             <ColumnDefinition Width="50*" />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Text="♡ Shortlist" TextColor="#E66424" BackgroundColor="White" BorderWidth="1" BorderColor="#E66424" Margin="5" Command="{Binding ShortlistCommand}"/>
+                        <Button Grid.Column="0" Text="{Binding ShorlistText}" TextColor="#E66424" BackgroundColor="White" BorderWidth="1" BorderColor="#E66424" Margin="5" Command="{Binding ShortlistCommand}"/>
                         <Button Grid.Column="1" Text="Vacancy" TextColor="White" BackgroundColor="#2A76FD" BorderWidth="1" BorderColor="#266CE9" Margin="5"/>
                     </Grid>
                     <StackLayout Spacing="10" Padding="20,0">

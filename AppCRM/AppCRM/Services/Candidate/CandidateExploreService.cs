@@ -1,5 +1,7 @@
 ﻿using AppCRM.Models;
 using AppCRM.Services.Request;
+using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace AppCRM.Services.Candidate
@@ -9,6 +11,7 @@ namespace AppCRM.Services.Candidate
         Task<dynamic> GetCandidateJobsSearch(SearchParameters parameters);
         Task<dynamic> SaveSearchDefinition(SearchParameters parameters);
         Task<dynamic> GetSavedSearchDefinition();
+        Task<dynamic> AddRemoveFavouriteEmployer(bool IsFavourited, Guid? AccountID);
     }
 
     class CandidateExploreService : ICandidateExploreService
@@ -36,5 +39,12 @@ namespace AppCRM.Services.Candidate
             var result = await _requestService.getDataFromServiceAuthority("api/CandidateJob/GetSavedSearchDefinition");
             return result;
         }
+
+        public async Task<dynamic> AddRemoveFavouriteEmployer(bool IsFavourited, Guid? AccountID)
+        {
+            object item = new Hashtable { { "IsFavourited", IsFavourited }, { "AccountID", AccountID } };
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/GetSavedSearchDefinition", item);
+            return result;
+        }        
     }
 }
