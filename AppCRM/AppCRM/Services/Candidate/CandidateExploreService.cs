@@ -43,7 +43,7 @@ namespace AppCRM.Services.Candidate
         public async Task<dynamic> AddRemoveFavouriteEmployer(bool IsFavourited, Guid? AccountID)
         {
             object item = new Hashtable { { "IsFavourited", IsFavourited }, { "AccountID", AccountID } };
-            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/GetSavedSearchDefinition", item);
+            var result = await _requestService.postDataFromServiceAuthority("api/CandidateJob/AddRemoveFavouriteEmployer", item);
             return result;
         }        
     }

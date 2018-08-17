@@ -6,6 +6,8 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Extensions.Compression.Client;
+using System.Net.Http.Extensions.Compression.Core.Compressors;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +27,7 @@ namespace AppCRM.Services.Request
     }
     public class RequestService : IRequestService
     {
-        //public static readonly string HOST_NAME = "http://3176a94b.ngrok.io/";
+        //public static readonly string HOST_NAME = "http://9b40e632.ngrok.io/";
         public static readonly string HOST_NAME = "http://50.62.135.124:8033/";
         public static string ACCESS_TOKEN;
         public static readonly string APP_VERSION = "1.0.0";
@@ -160,14 +162,14 @@ namespace AppCRM.Services.Request
             {
                 var response = await _client.GetAsync(HOST_NAME + queryString);
                 string json = response.Content.ReadAsStringAsync().Result;
-                TResult data = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(json,_serializerSettings));
+                TResult data = await Task.Run(() => JsonConvert.DeserializeObject<TResult>(json, _serializerSettings));
                 return data;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
-           
+
         }
 
         public async Task<TResult> GetDDLAsyncAuthority<TResult>(string queryString)

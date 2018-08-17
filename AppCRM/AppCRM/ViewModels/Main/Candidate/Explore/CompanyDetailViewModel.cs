@@ -220,10 +220,10 @@ namespace AppCRM.ViewModels.Main.Candidate.Explore
                         ShorlistText = "♡ Shortlist";
                         await _dialogService.PopupMessage("Remove Favourite Successefully", "#52CD9F", "#FFFFFF");
                     }
-                    else if (obj["Message"].ToString() == "Shortlist")
+                    else if (obj["Message"].ToString() == "AddFavourite")
                     {
                         Company.FavouriteEmployerID = Company.AccountID;
-                        ShorlistText = "♡ Shortlist";
+                        ShorlistText = "♡ Remove Shortlist";
                         await _dialogService.PopupMessage("Add Favourite Successefully", "#52CD9F", "#FFFFFF");
                     }
                 }
